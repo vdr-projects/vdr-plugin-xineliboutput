@@ -97,7 +97,7 @@ class cXinelibThread : public cThread, public cListObject
     virtual uchar *GrabImage(int &Size, bool Jpeg, int Quality, 
 			     int SizeX, int SizeY) { return NULL; }
 
-    static void KeypressHandler(char *keymap, char *key, 
+    static void KeypressHandler(const char *keymap, const char *key, 
 				bool repeat, bool release);
 
   //

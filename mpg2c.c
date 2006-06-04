@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     printf("Error opening files\n");
     return -1;
   }
-  fprintf(fo, "unsigned char v_mpg_%s[] = \n   \"", argv[1]);
+  fprintf(fo, "const unsigned char v_mpg_%s[] = \n   \"", argv[1]);
   while(EOF != (ch = fgetc(fi))) {
     fprintf(fo, "\\x%02x", ch);
     if(pos++ > LINELEN) {
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
       pos=1;
     }
   }
-  fprintf(fo, "\";\n\nint v_mpg_%s_length = sizeof(v_mpg_%s);\n\n", 
+  fprintf(fo, "\";\n\nconst int v_mpg_%s_length = sizeof(v_mpg_%s);\n\n", 
 	  argv[1], argv[1]);
 
   fclose(fi);

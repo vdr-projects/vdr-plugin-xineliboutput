@@ -203,7 +203,7 @@ int cXinelibLocal::Xine_Control(const char *cmd)
 //
 
 extern "C" {
-  static void keypress_handler(char *keymap, char *key)
+  static void keypress_handler(const char *keymap, const char *key)
   {
     if(!xc.use_x_keyboard || !key) {
       /* Only X11 key events came this way in local mode.

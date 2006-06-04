@@ -19,12 +19,12 @@
 // cDummyPlayerControl
 //
 
-extern unsigned char v_mpg_vdrlogo[]; // vdrlogo_720x576.mpg.c
-extern int v_mpg_vdrlogo_length;      // vdrlogo_720x576.mpg.c
-//extern unsigned char v_mpg_nosignal[];// nosignal_720x576.mpg.c
-//extern int v_mpg_nosignal_length;     // nosignal_720x576.mpg.c
-//extern unsigned char v_mpg_black[];   // black_720x576.mpg.c
-//extern int v_mpg_black_length;        // black_720x576.mpg.c
+extern const unsigned char v_mpg_vdrlogo[]; // vdrlogo_720x576.mpg.c
+extern const int v_mpg_vdrlogo_length;      // vdrlogo_720x576.mpg.c
+//extern const unsigned char v_mpg_nosignal[];// nosignal_720x576.mpg.c
+//extern const int v_mpg_nosignal_length;     // nosignal_720x576.mpg.c
+//extern const unsigned char v_mpg_black[];   // black_720x576.mpg.c
+//extern const int v_mpg_black_length;        // black_720x576.mpg.c
 
 class cDummyPlayer : public cPlayer {
   protected:
