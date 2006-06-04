@@ -75,7 +75,7 @@ void *kbd_receiver_thread(void *fe)
 	  break;
 	} //else {
 	
-	snprintf(str, sizeof(str), "%016LX", code);
+	snprintf(str, sizeof(str), "%016" PRIX64, code);
 	if(find_input((fe_t*)fe))
 	  process_xine_keypress(((fe_t*)fe)->input, "KBD", str, 0, 0);
       }

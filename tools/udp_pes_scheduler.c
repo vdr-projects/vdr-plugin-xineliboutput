@@ -8,6 +8,9 @@
  *
  */
 
+#define __STDC_FORMAT_MACROS
+#include <inttypes.h>
+
 #include <stdint.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -587,7 +590,7 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
 	   ((stream_udp_header_t *)udp_ctrl)->seq);
 #endif
     sprintf((udp_ctrl+sizeof(stream_udp_header_t)),
-	    "UDP MISSING %d-%d %lld",
+	    "UDP MISSING %d-%d %" PRIu64,
 	    Seq1, Seq1, Pos);
     
     send(fd, udp_ctrl, 64, 0);

@@ -118,8 +118,8 @@ void cXinelibLocal::OsdCmd(void *cmd)
 }
 
 uchar *cXinelibLocal::GrabImage(int &Size, bool Jpeg, 
-				 int Quality, int SizeX, 
-				 int SizeY)
+				int Quality, int SizeX, 
+				int SizeY)
 {
   uchar *data;
   LOCK_FE;
@@ -151,7 +151,7 @@ int64_t cXinelibLocal::GetSTC()
 //
 
 void cXinelibLocal::ConfigureWindow(int fullscreen, int width, int height, 
-				    int modeswitch, char *modeline, 
+				    int modeswitch, const char *modeline, 
 				    int aspect, int scale_video, 
 				    int field_order) 
 {

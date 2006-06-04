@@ -52,13 +52,13 @@ struct frontend_config_s {
 struct frontend_s {
   /* Display */
   int (*fe_display_open)(frontend_t*, int winwidth, int winheight, 
-			 int fullscreen,
-			 int modeswitch, char *modeline, int aspect,
-			 fe_keypress_f keypresshandler, char *video_port,
+			 int fullscreen, int modeswitch, const char *modeline, 
+			 int aspect, fe_keypress_f keypresshandler, 
+			 const char *video_port,
 			 int scale_video, int field_order);
   int  (*fe_display_config)(frontend_t *, int width, int height, 
 			    int fullscreen,
-                            int modeswitch, char *modeline, 
+                            int modeswitch, const char *modeline, 
 			    int aspect, int scale_video, int field_order);
   void (*fe_display_close)(frontend_t*);
 

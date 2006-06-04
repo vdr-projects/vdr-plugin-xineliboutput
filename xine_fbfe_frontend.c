@@ -118,9 +118,9 @@ static void fbfe_update_display_size(frontend_t *this_gen)
  * fbfe_display_open
  */
 static int fbfe_display_open(frontend_t *this_gen, int width, int height, int fullscreen,
-                     int modeswitch, char *modeline, int aspect,
-                     fe_keypress_f keyfunc, char *video_port,
-                     int scale_video, int field_order) 
+			     int modeswitch, const char *modeline, int aspect,
+			     fe_keypress_f keyfunc, const char *video_port,
+			     int scale_video, int field_order) 
 {
   fe_t *this = (fe_t*)this_gen;
 
@@ -165,7 +165,7 @@ static int fbfe_display_open(frontend_t *this_gen, int width, int height, int fu
  * configure windows
  */
 static int fbfe_display_config(frontend_t *this_gen, int width, int height, int fullscreen, 
-			       int modeswitch, char *modeline, int aspect, 
+			       int modeswitch, const char *modeline, int aspect, 
 			       int scale_video, int field_order) 
 {
   fe_t *this = (fe_t*)this_gen;

@@ -136,7 +136,7 @@ static inline int write_osd_command(int fd, osd_command_t *cmd)
   }
   if(cmd->palette && cmd->colors &&
      (ssize_t)(sizeof(xine_clut_t)*ntohl(cmd->colors)) != 
-     timed_write(fd, cmd->palette, (int)(sizeof(xine_clut_t)*ntohl(cmd->colors)), 200)) {
+     timed_write(fd, cmd->palette, sizeof(xine_clut_t)*ntohl(cmd->colors), 200)) {
     LOGDBG("write_osd_command: write (palette) failed");
     return 0;
   }

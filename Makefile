@@ -291,14 +291,12 @@ xine_sxfe_frontend_standalone.o: xine_sxfe_frontend.c xine_frontend.c \
 		xine_frontend.h xine_input_vdr.h xine_osd_command.h \
 		xine/post.h logdefs.h xine_frontend_main.c xine_frontend_lirc.c \
 		xine_frontend_lirc.c xineliboutput.c
-	$(CC) $(CFLAGS) -c $(DEFINES) -DFE_STANDALONE $(INCLUDES) $(OPTFLAGS) \
-		xine_sxfe_frontend.c -o $@
+	$(CC) $(CFLAGS) -c $(DEFINES) -DFE_STANDALONE $(INCLUDES) $(OPTFLAGS) xine_sxfe_frontend.c -o $@
 xine_fbfe_frontend_standalone.o: xine_fbfe_frontend.c xine_frontend.c \
 		xine_frontend.h xine_input_vdr.h xine_osd_command.h \
 		xine/post.h logdefs.h xine_frontend_main.c xine_frontend_lirc.c \
 		xine_frontend_lirc.c xineliboutput.c
-	$(CC) $(CFLAGS) -c $(DEFINES) -DFE_STANDALONE $(INCLUDES) $(OPTFLAGS) \
-		xine_fbfe_frontend.c -o $@
+	$(CC) $(CFLAGS) -c $(DEFINES) -DFE_STANDALONE $(INCLUDES) $(OPTFLAGS) xine_fbfe_frontend.c -o $@
 
 #
 # targets

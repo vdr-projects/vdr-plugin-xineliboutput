@@ -57,7 +57,7 @@ class cXinelibThread : public cThread, public cListObject
     void SpuStreamChanged(int StreamId);
 
   protected:
-    int  Xine_Control(const char *cmd, char *p1);
+    int  Xine_Control(const char *cmd, const char *p1);
     int  Xine_Control(const char *cmd, int p1);
     int  Xine_Control(const char *cmd, int64_t p1);
 
@@ -106,17 +106,17 @@ class cXinelibThread : public cThread, public cListObject
 
   public:
     virtual int ConfigureOSD(bool prescale_osd=false, bool unscaled_osd=false);
-    virtual int ConfigurePostprocessing(char *deinterlace_method, 
+    virtual int ConfigurePostprocessing(const char *deinterlace_method, 
 					int audio_delay, 
 					int audio_compression, 
-					int *audio_equalizer,
+					const int *audio_equalizer,
 					int audio_surround);
-    virtual int ConfigurePostprocessing(char *name, bool on, char *args);
+    virtual int ConfigurePostprocessing(const char *name, bool on, const char *args);
     virtual int ConfigureVideo(int hue, int saturation, 
 			       int brightness, int contrast);
     // Local frontend:
     virtual void ConfigureWindow(int fullscreen, int width, int height, 
-				 int modeswitch, char *modeline, 
+				 int modeswitch, const char *modeline, 
 				 int aspect, int scale_video, 
 				 int field_order) {};
     virtual void ConfigureDecoder(int pes_buffers, int priority) {};
