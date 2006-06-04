@@ -231,7 +231,7 @@ static int sxfe_display_open(frontend_t *this_gen, int width, int height, int fu
   }
   if (!this->display) {
     LOGERR("sxfe_display_open: failed to connect to X server");
-    free(this);
+    /*free(this);*/
     return 0;
   }
 
