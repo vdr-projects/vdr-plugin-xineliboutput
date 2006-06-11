@@ -29,6 +29,8 @@ class cBackgroundWriter : public cThread {
     uint64_t m_DiscardStart;
     uint64_t m_DiscardEnd;
 
+    int m_BufferOverflows;
+
   protected:
     virtual void Action(void);
 
