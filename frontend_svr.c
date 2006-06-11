@@ -414,6 +414,7 @@ bool cXinelibServer::Flush(int TimeoutMs)
     sprintf(tmp, "FLUSH %d %" PRIu64, TimeoutMs, m_StreamPos);
     result = (PlayFileCtrl(tmp)) <= 0 && result;
   }
+
   return result;
 }
 
