@@ -139,7 +139,7 @@ static void *kbd_receiver_thread(void *fe)
 
   } while(!terminate_key_pressed && code != 0xffff);
   
-  LOGMSG("Keyboard thread terminated");
+  LOGDBG("Keyboard thread terminated");
   tcsetattr(STDIN_FILENO, TCSANOW, &saved_tm);
   pthread_exit(NULL);
   return NULL; /* never reached */

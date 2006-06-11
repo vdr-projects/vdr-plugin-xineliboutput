@@ -109,7 +109,7 @@ static void fbfe_update_display_size(frontend_t *this_gen)
 						  VO_PROP_WINDOW_WIDTH);
     this->height = this->video_port->get_property(this->video_port, 
 						  VO_PROP_WINDOW_HEIGHT);
-    LOGMSG("Framebuffer size after initialization: %dx%d",
+    LOGDBG("Framebuffer size after initialization: %dx%d",
 	   this->width, this->height);
   }
 }

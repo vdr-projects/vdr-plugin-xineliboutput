@@ -1165,12 +1165,12 @@ void cXinelibServer::Action(void)
 
   /* request real-time scheduling */
   if (!pthread_setschedparam(pthread_self(), SCHED_RR, &temp)) {
-    LOGMSG("cXinelibServer priority set successful SCHED_RR %d [%d,%d]",
+    LOGDBG("cXinelibServer priority set successful SCHED_RR %d [%d,%d]",
 	   temp.sched_priority,
 	   sched_get_priority_min(SCHED_RR),
 	   sched_get_priority_max(SCHED_RR));
   } else {
-    LOGMSG("cXinelibServer: Can't set priority to SCHED_RR %d [%d,%d]",
+    LOGDBG("cXinelibServer: Can't set priority to SCHED_RR %d [%d,%d]",
 	   temp.sched_priority,
 	   sched_get_priority_min(SCHED_RR),
 	   sched_get_priority_max(SCHED_RR));

@@ -516,7 +516,7 @@ void cUdpScheduler::Action(void)
 #endif
 	    {
 	      if(m_QueuePending > (MAX_QUEUE_SIZE-5))
-		LOGMSG("cUdpScheduler: kernel transmit queue > ~30kb ! (master=%d ; Queue=%d)", 
+		LOGDBG("cUdpScheduler: kernel transmit queue > ~30kb ! (master=%d ; Queue=%d)", 
 		       m_Master, m_QueuePending);
 	      CondWait.Wait(2);
 	    }
