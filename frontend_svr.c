@@ -305,7 +305,7 @@ int cXinelibServer::Play_PES(const uchar *data, int len)
 	    LOGMSG("cXinelibServer::Play_PES Write/Queue error (TCP/PIPE)");
 	    CloseConnection(i);
 	  } else if(result<0) {
-	    LOGMSG("cXinelibServer::Play_PES Buffer overflow (TCP/PIPE)");	  
+	    LOGMSG("cXinelibServer::Play_PES Buffer overflow (TCP/PIPE)");
 	  }
 	  
 	  TcpClients++;	
@@ -314,7 +314,7 @@ int cXinelibServer::Play_PES(const uchar *data, int len)
     }
   }
 
-  RtpClients = (m_iMulticastMask && fd_multicast >= 0);
+  RtpClients = ((m_iMulticastMask || xc.remote_rtp_always_on) && fd_multicast >= 0);
 
   if(UdpClients || RtpClients)
     if(! m_Scheduler->Queue(m_StreamPos, data, len)) {
