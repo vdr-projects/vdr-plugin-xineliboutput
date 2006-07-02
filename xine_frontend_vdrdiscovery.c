@@ -34,6 +34,9 @@ static int search_vdr_server(int *port, char *address)
     if(setsockopt(fd_broadcast, SOL_SOCKET, SO_BROADCAST, 
 		  &dummy, sizeof(int)) < 0)
       LOGERR("setsockopt(SO_BROADCAST) failed");
+    if(setsockopt(fd_broadcast, SOL_SOCKET, SO_REUSEADDR, 
+		  &dummy, sizeof(int)) < 0)
+      LOGERR("setsockopt(SO_REUSEADDR) failed");
 
     sin.sin_family = AF_INET;
     sin.sin_port   = htons(DISCOVERY_PORT);
