@@ -238,7 +238,7 @@ void cXinelibThread::Clear(void)
   Xine_Control("DISCARD", tmp);
 #else
   char buf[128];
-  sprintf(buf, "DISCARD %" PRId64 " %d", cmd, tmp1, tmp2);
+  sprintf(buf, "DISCARD %" PRId64 " %d", tmp1, tmp2);
   Xine_Control(buf);
 #endif
 }
