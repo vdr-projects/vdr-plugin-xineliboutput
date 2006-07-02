@@ -325,9 +325,10 @@ int main(int argc, char *argv[])
       } else
 	asprintf(&mrl, "xvdr://%s:%d", address, port);
     } else {
-      printf("WARNING:\n"
-	     "   MRL not given and server not found from local network.\n"
-	     "   Trying to connect to default port on local host.\n");
+      printf("---------------------------------------------------------------\n"
+	     "WARNING: MRL not given and server not found from local network.\n"
+	     "         Trying to connect to default port on local host.\n"
+	     "---------------------------------------------------------------\n");
       mrl = strdup("xvdr://127.0.0.1");
     }
   }
