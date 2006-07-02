@@ -438,6 +438,12 @@ void cXinelibLocal::Action(void)
     }
 
     LOGMSG("cXinelibLocal::Action: Xine closed");
+
+    if(!m_bReconfigRequest && xc.exit_on_close) {
+      LOGMSG("Shutting down VDR");
+      cThread::EmergencyExit(true);
+      break;
+    }
   }
 
   if(curr_fe) {
