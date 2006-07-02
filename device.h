@@ -61,7 +61,8 @@ class cXinelibDevice : public cDevice
 
     // Audio facilities
   private:
-    int m_AudioChannel;
+    eTrackType m_LastTrack;
+    int        m_AudioChannel;
   protected:
     virtual int  GetAudioChannelDevice(void) {return m_AudioChannel;}
     virtual void SetAudioChannelDevice(int AudioChannel);
