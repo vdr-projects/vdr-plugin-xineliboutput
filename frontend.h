@@ -137,6 +137,7 @@ class cXinelibThread : public cThread, public cListObject
     bool m_bPlayingFile;
     char *m_FileName;
     uint64_t m_StreamPos;
+    uint32_t m_Frames;
 };
 
 
