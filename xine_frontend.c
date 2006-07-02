@@ -252,10 +252,12 @@ static void xine_event_cb (void *user_data, const xine_event_t *event)
     /* in local mode: vdr stream / slave stream ; in remote mode: vdr stream only */
     case XINE_EVENT_UI_PLAYBACK_FINISHED:
       LOGMSG("xine_event_cb: XINE_EVENT_UI_PLAYBACK_FINISHED");
-      if(this)
-	this->playback_finished = 1;
-      else
+      if(this) {
+	if(event->stream == this->stream)
+	  this->playback_finished = 1;
+      } else {
 	LOGMSG("xine_event_cb: NO USER DATA !");
+      }
       break;
   }
 }
