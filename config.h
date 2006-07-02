@@ -175,6 +175,7 @@ class config_t {
     int  scale_video;
     int  field_order;
     int  autocrop;
+    int  exit_on_close;
     
     int  remote_mode;
     int  listen_port;

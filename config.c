@@ -191,6 +191,7 @@ bool config_t::ProcessArgs(int argc, char *argv[])
       { "audio",      required_argument, NULL, 'A' },
       { "post",       required_argument, NULL, 'P' },
       { "primary",    no_argument,       NULL, 'p' },
+      { "exit-on-close",no_argument,     NULL, 'c' },
       { NULL }
     };
 
@@ -227,6 +228,8 @@ bool config_t::ProcessArgs(int argc, char *argv[])
               post_plugins = strcatrealloc(post_plugins, optarg);
               break;
     case 'p': ProcessArg("ForcePrimaryDevice", "1");
+              break;
+    case 'c': exit_on_close = 1;
               break;
     default:  return false;
     }
