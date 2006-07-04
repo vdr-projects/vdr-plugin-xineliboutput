@@ -36,6 +36,8 @@ class cXinelibServer : public cXinelibThread
   protected:
     virtual void Action(void);
 
+    void Handle_RTCP(void);
+
   public:
     // Data transfer
     virtual bool Poll(cPoller &Poller, int TimeoutMs);
@@ -88,6 +90,7 @@ protected:
 
     int  fd_listen;
     int  fd_multicast;
+    int  fd_rtcp;
     int  fd_discovery;
     int  fd_control[MAXCLIENTS];
     int  fd_data[MAXCLIENTS];
