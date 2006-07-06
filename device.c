@@ -938,14 +938,6 @@ void cXinelibDevice::StillPicture(const uchar *Data, int Length)
 	  Data, 0, VIDEO_STREAM,
 	  &mand<bool>, true);
 
-#if 0
-  if(m_server)
-    for(i=0; i<5; i++)
-      if(m_server->Flush(50))
-	break;
-      else
-	LOGMSG("cXinelibDevice::StillPicture: retry server flush (%d)", i+1);
-#endif
   m_TrickSpeed = 0;
   m_SkipAudio = 0;
 }
