@@ -43,7 +43,7 @@
 
 //---------------------------------plugin-------------------------------------
 
-static const char *VERSION        = "0.99rc6";
+static const char *VERSION        = "0.99";
 static const char *DESCRIPTION    = "X11/xine-lib output plugin";
 static const char *MAINMENUENTRY  = "Xine-lib";
 
