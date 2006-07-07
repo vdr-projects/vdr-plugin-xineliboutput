@@ -104,9 +104,9 @@ static void SetupLogLevel(void)
     int *pSysLogLevel = (int*)dlsym(lib, "SysLogLevel");
     bLogToSysLog = pLogToSyslog && *pLogToSyslog;
     iSysLogLevel = pSysLogLevel ? (*pSysLogLevel) : 2;
-    LOGDBG("Symbol SysLogLevel %s : %d", 
+    LOGDBG("Symbol SysLogLevel %s : value %d", 
 	   pSysLogLevel ? "found" : "not found", iSysLogLevel);
-    LOGDBG("Symbol LogToSysLog %s : %s", 
+    LOGDBG("Symbol LogToSysLog %s : value %s", 
 	   pLogToSyslog ? "found" : "not found", bLogToSysLog ? "yes" : "no");
     bSymbolsFound = pSysLogLevel && pLogToSyslog;
     dlclose(lib);
