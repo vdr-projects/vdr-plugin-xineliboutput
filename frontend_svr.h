@@ -36,9 +36,10 @@ class cXinelibServer : public cXinelibThread
   protected:
     virtual void Action(void);
 
-    void Handle_RTCP(void);
-
   public:
+    // Playback control
+    virtual void TrickSpeed(int Speed);
+
     // Data transfer
     virtual bool Poll(cPoller &Poller, int TimeoutMs);
     virtual bool Flush(int TimeoutMs);

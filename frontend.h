@@ -48,7 +48,7 @@ class cXinelibThread : public cThread, public cListObject
   public:
     void PauseOutput(void)  { TrickSpeed(0); }
     void ResumeOutput(void) { TrickSpeed(1); }
-    void TrickSpeed(int Speed);
+    virtual void TrickSpeed(int Speed);
     void SetVolume(int NewVolume);
     void SetLiveMode(bool);
     void SetStillMode(bool);
