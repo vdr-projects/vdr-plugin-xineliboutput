@@ -213,6 +213,8 @@ static inline int udp_discovery_broadcast(int fd_discovery, int m_Port)
   asprintf(&test, 
 	   "VDR xineliboutput DISCOVERY 1.0\r\n"
 	   "Server port: %d\r\n"
+	   "Server version: vdr-" VDRVERSION "\r\n"
+	   "\txineliboutput-" XINELIBOUTPUT_VERSION "\r\n"
 	   "\r\n",
 	   m_Port);
   int testlen = strlen(test);
