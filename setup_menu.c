@@ -168,7 +168,7 @@ void cMenuSetupAudio::Set(void)
 			    &newconfig.audio_upmix));
   Add(audio_ctrl_surround =
       new cMenuEditBoolItem(tr("Downmix AC3 to surround"), 
-			    &newconfig.audio_upmix));
+			    &newconfig.audio_surround));
 #ifdef ENABLE_TEST_POSTPLUGINS
   Add(audio_ctrl_headphone =
       new cMenuEditBoolItem(tr("Mix to headphones"), 
