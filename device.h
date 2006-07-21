@@ -138,12 +138,26 @@ class cXinelibDevice : public cDevice
 #endif
     virtual int  PlaySpu(const uchar *Data, int Length, uchar Id);
 
-#if 0
+#if 1
     // override cDevice to get DVD SPUs
-    virtual int PlayPesPacket(const uchar *Data, int Length, 
+    virtual int PlayPesPacket(const uchar *Data, int Length,
 			      bool VideoOnly = false);
+
+    // -> cDevice
+    int  m_DvdSpuTracks;
+    int  m_CurrentDvdSpuTrack;
+    bool m_DvdSpuTrack[64];
+    void ClrAvailableDvdSpuTracks(void);
+    bool SetAvailableDvdSpuTrack(int Type);
+
+  public:
+    int  NumDvdSpuTracks(void) const { return m_DvdSpuTracks; }
+    int  GetCurrentDvdSpuTrack(void) { return m_CurrentDvdSpuTrack; }
+    bool SetCurrentDvdSpuTrack(int Type);
+    bool HasDvdSpuTrack(int Type) const;
 #endif
 
+  protected:
     ePlayMode playMode;
     virtual bool SetPlayMode(ePlayMode PlayMode);
 
