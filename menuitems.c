@@ -60,21 +60,25 @@ cFileListItem::cFileListItem(const char *name, bool isDir)
 {
   m_Name = strdup(name);
   m_IsDir = isDir;
+  m_IsDvd = false;
   m_HasResume = false;
   m_HasSubs   = false;
   m_ShowFlags = false;
-  m_Up = m_IsDir && !strcmp(m_Name,"..");
+  m_Up = m_IsDir && !strcmp(m_Name, "..");
   Set();
 }
 
-cFileListItem::cFileListItem(const char *name, bool isDir, bool HasResume, bool HasSubs)
+cFileListItem::cFileListItem(const char *name, bool IsDir, 
+			     bool HasResume, bool HasSubs,
+			     bool IsDvd)
 {
   m_Name = strdup(name);
-  m_IsDir = isDir;
+  m_IsDir = IsDir;
+  m_IsDvd = IsDvd;
   m_HasResume = HasResume;
   m_HasSubs   = HasSubs;
   m_ShowFlags = true;
-  m_Up = m_IsDir && !strcmp(m_Name,"..");
+  m_Up = m_IsDir && !strcmp(m_Name, "..");
   Set();
 }
 
@@ -88,7 +92,10 @@ void cFileListItem::Set(void)
   char *txt = NULL,*pt;
   if(m_ShowFlags) {
     if(m_IsDir) {
-      asprintf(&txt, "\t\t[%s] ", m_Name); // text2skin requires space at end of string to display item correctly ...
+      if(m_IsDvd) 
+	asprintf(&txt, "\tD\t[%s] ", m_Name); // text2skin requires space at end of string to display item correctly ...
+      else
+	asprintf(&txt, "\t\t[%s] ", m_Name); // text2skin requires space at end of string to display item correctly ...
     } else {
       asprintf(&txt, "%c\t%c\t%s", m_HasResume?' ':'*', m_HasSubs ? 'S' : ' ', m_Name);
       if(NULL != (pt = strrchr(txt,'.')))

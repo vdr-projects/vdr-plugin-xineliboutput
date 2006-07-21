@@ -51,17 +51,21 @@ class cFileListItem : public cOsdItem
   private:
     char *m_Name;
     bool  m_IsDir, m_HasResume, m_HasSubs, m_ShowFlags, m_Up;
+    bool  m_IsDvd;
 
   protected:
     virtual void Set(void);
 
   public:
-    cFileListItem(const char *name, bool isDir, bool HasResume, bool HasSubs);
+    cFileListItem(const char *name, bool isDir, 
+		  bool HasResume, bool HasSubs,
+		  bool IsDvd = false);
     cFileListItem(const char *name, bool isDir);
     ~cFileListItem();
 
-    const char *Name() { return m_Name; }
-    bool IsDir()       { return m_IsDir; }
+    const char *Name(void) { return m_Name; }
+    bool IsDir(void)       { return m_IsDir; }
+    bool IsDvd(void)       { return m_IsDvd; }
 
     virtual bool operator< (const cListObject &ListObject);
     virtual int Compare(const cListObject &ListObject) const;
