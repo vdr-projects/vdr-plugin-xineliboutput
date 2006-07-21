@@ -502,7 +502,10 @@ bool cXinelibThread::PlayFile(const char *FileName, int Position,
     m_bPlayingFile = false;
     if(m_FileName)
       free(m_FileName);
+    m_FileName = NULL;
   } else { 
+    if(m_FileName)
+      free(m_FileName);
     m_FileName = strdup(FileName);
     m_bPlayingFile = true; 
   }
