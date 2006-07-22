@@ -668,11 +668,11 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
   ((stream_udp_header_t *)udp_ctrl)->seq = (uint16_t)(-1);
   ((stream_udp_header_t *)udp_ctrl)->pos = (uint64_t)(-1);
 
-  cMutexLock ml(&m_Lock); // keeps also scheduler thread suspended ...
-
   // Handle buffer wrap
   if(Seq1 > Seq2)
     Seq2 += UDP_BUFFER_SIZE;
+
+  cMutexLock ml(&m_Lock); // keeps also scheduler thread suspended ...
 
   if(Seq2-Seq1 > 64) {
     LOGDBG("cUdpScheduler::ReSend: requested range too large (%d-%d)",
@@ -680,7 +680,7 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
 
     sprintf((udp_ctrl+sizeof(stream_udp_header_t)),
 	    "UDP MISSING %d-%d %" PRIu64,
-	    Seq1, Seq2, Pos);
+	    Seq1, (Seq2 & UDP_BUFFER_MASK), Pos);
     send(fd, udp_ctrl, 64, 0);
     return;
   }
