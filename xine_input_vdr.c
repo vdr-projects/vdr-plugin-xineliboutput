@@ -3368,7 +3368,7 @@ static int vdr_plugin_read_net_udp(vdr_input_plugin_t *this)
 	  seq2 &= UDP_SEQ_MASK;
 	  pkt->seq = seq2;
 	  udp->next_seq = seq2;
-	  LOGDP("  accepted: now currseq %d", udp->next_seq);
+	  LOGUDP("  accepted: now currseq %d", udp->next_seq);
 	  /* -> drop frame thru as empty ; it will trigger queue to continue */
 	} else {
 	  LOGUDP("  rejected: not expected seq ???");
