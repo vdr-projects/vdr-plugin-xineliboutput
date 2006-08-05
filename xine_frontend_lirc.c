@@ -65,6 +65,8 @@ void *lirc_receiver_thread(void *fe)
     goto out;
   }
 
+  LOGMSG("lirc forwarding started");
+
   while(lirc_device_name && fd_lirc >= 0) {
     fd_set set;
     int ready, ret = -1;
@@ -84,9 +86,13 @@ void *lirc_receiver_thread(void *fe)
       ready = select(FD_SETSIZE, &set, NULL, NULL, NULL) > 0 && FD_ISSET(fd_lirc, &set);
     }
 
-    if(ready) {
+    if(ready < 0) {
+      LOGMSG("LIRC connection lost ?");
+      goto out;
+    } else if(ready) {
 
       do { 
+	errno = 0;
 	ret = read(fd_lirc, buf, sizeof(buf));
       } while(ret < 0 && errno == EINTR);
 
