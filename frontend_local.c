@@ -393,8 +393,8 @@ void cXinelibLocal::Action(void)
 			    xc.audio_surround);
     ConfigureVideo(xc.hue, xc.saturation, xc.brightness, xc.contrast);
     ConfigurePostprocessing("upmix",     xc.audio_upmix ? true : false, NULL);
-#ifdef ENABLE_TEST_POSTPLUGINS
     ConfigurePostprocessing("autocrop",  xc.autocrop  ? true : false, NULL);
+#ifdef ENABLE_TEST_POSTPLUGINS
     ConfigurePostprocessing("headphone", xc.headphone ? true : false, NULL);
 #endif
     LOGDBG("cXinelibLocal::Action - fe config OK");

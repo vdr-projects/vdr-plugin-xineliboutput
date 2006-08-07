@@ -665,19 +665,15 @@ cMenuXinelib::cMenuXinelib()
   Add(new cOsdItem(tr("Play file >>"), osUser1));
   Add(new cOsdItem(tr("View images >>"), osUser2));
   Add(new cOsdItem(tr("Play remote DVD >>"), osUser4));
-#if 1
   if(cXinelibDevice::Instance().NumDvdSpuTracks() > 0)
-    Add(new cOsdItem(tr("Select DVD SPU Track >>"), osUser5));
-#endif
+    Add(new cOsdItem(tr("  Select DVD SPU Track >>"), osUser5));
+  Add(ctrl_autocrop = new cMenuEditBoolItem(tr("Crop letterbox 4:3 to 16:9"), 
+					    &autocrop));
 #ifdef ENABLE_TEST_POSTPLUGINS
-#warning Experimental post plugins enabled !
   Add(ctrl_headphone = new cMenuEditBoolItem(tr("Headphone audio mode"), 
 					     &headphone));
-  Add(ctrl_autocrop = new cMenuEditBoolItem(tr("Remove letterbox (4:3 -> 16:9)"), 
-					     &autocrop));
 #else
   ctrl_headphone = NULL;
-  ctrl_autocrop = NULL;
 #endif
 
 #ifdef HAVE_XV_FIELD_ORDER
