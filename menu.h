@@ -22,10 +22,6 @@ class cMenuXinelib : public cMenuSetupPage
     int headphone;
     int autocrop;
     
-#ifdef ENABLE_SUSPEND
-    int suspend;
-    cOsdItem *decoder_ctrl_suspend;
-#endif
 #ifdef HAVE_XV_FIELD_ORDER
     cOsdItem *video_ctrl_interlace_order;
 #endif

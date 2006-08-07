@@ -218,26 +218,6 @@ const tI18nPhrase Phrases[] = {
     "", // Croatian
   },
   {
-    "Stop after inactivity", // English
-    "", // Deutsch
-    "", // Slovenski
-    "", // Italiano
-    "", // Nederlands
-    "", // Português
-    "", // Français
-    "", // Norsk
-    "Pysäytä käytön jälkeen", // Suomi
-    "", // Polski
-    "", // Español
-    "", // Ellinika
-    "", // Svenska
-    "", // Romaneste
-    "", // Magyar
-    "", // Catala
-    "¾áâĞİŞÒØâì ßŞáÛÕ İÕĞÚâØÒİŞáâØ", // Russian
-    "", // Croatian
-  },
-  {
     "Brightness", // English
     "", // Deutsch
     "", // Slovenski

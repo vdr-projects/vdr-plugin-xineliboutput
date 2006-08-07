@@ -116,15 +116,6 @@ class cXinelibDevice : public cDevice
     int  PlayFileCtrl(const char *Cmd);
     bool EndOfStreamReached(void);
 
-#ifdef ENABLE_SUSPEND
-    // Suspend decoder
-    //void Housekeeping(void);
-    bool IsSuspended() {return m_suspended;};
-    void Suspend(bool onoff);
-    bool SuspendedAction(void);
-    void CheckInactivityTimer(void);
-#endif
-
   private:
 
     int PlayAny(const uchar *Data, int Length);
@@ -169,10 +160,7 @@ class cXinelibDevice : public cDevice
 
     bool m_ac3Present;
     bool m_spuPresent;
-#ifdef ENABLE_SUSPEND
-    bool m_suspended;
-    int  m_inactivityTimer;
-#endif
+
     bool m_liveMode;
     int  m_TrickSpeed;
     int64_t m_TrickSpeedPts;

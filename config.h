@@ -149,7 +149,6 @@ class config_t {
     int  headphone;
     int  audio_upmix;
     
-    int  inactivity_timer;
     int  decoder_priority;
     int  pes_buffers;
     char deinterlace_method[32];
