@@ -105,6 +105,8 @@ protected:
     int  m_iMulticastMask; // bit [cli] is 1 or 0. 1 == multicast in use.
     int  m_iUdpFlowMask;   // bit [cli] is 1 or 0. 1 == buffer full.
 
+    cString m_PipesDir;
+
     cBackgroundWriter *m_Writer[MAXCLIENTS];
     cUdpScheduler     *m_Scheduler;
     bool              m_Master;
