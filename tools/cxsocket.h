@@ -221,14 +221,17 @@ static inline int udp_discovery_broadcast(int fd_discovery, int m_Port)
 	   "\r\n",
 	   m_Port);
   int testlen = strlen(test);
+  int result;
   if(testlen != sendto(fd_discovery, test, testlen, 0,
 		       (struct sockaddr *)&sin, sizeof(sin))) {
     LOGERR("UDP broadcast send failed (discovery)");
-    return -1;
+    result = -1;
   } else {
     LOGDBG("UDP broadcast send succeed (discovery)");
+    result = 1;
   }
-  return 1;
+  free(test);
+  return result;
 }
 
 
