@@ -409,7 +409,7 @@ bool cXinelibThread::Play_Mpeg2_ES(const uchar *data, int len, int streamID)
     Play_PES(seqend, 13);
   }
 
-  delete frame;
+  delete[] frame;
   return true;
 }
 
