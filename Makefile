@@ -386,7 +386,7 @@ dist: clean
 
 
 clean:
-	@-rm -f $(DEPFILE) *.so *.o *.tgz core* *~ *.flc *.bak \
+	@-rm -f $(DEPFILE) *.so* *.o *.tgz core* *~ *.flc *.bak \
 		tools/*.o tools/*~ tools/*.flc xine/*.o xine/*~ \
 		xine/*.flc $(VDR_FBFE) $(VDR_SXFE) mpg2c black_720x576.c \
 		nosignal_720x576.c vdrlogo_720x576.c vdr-sxfe vdr-fbfe
