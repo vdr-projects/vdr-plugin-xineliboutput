@@ -386,7 +386,8 @@ static void configure_audio_out(fe_t *this, const char *audio_driver, const char
     this->xine->config->update_string(this->xine->config,
 				      "audio.device.alsa_surround51_device",
 				      audio_port);
-    if(strstr(audio_port, "iec")) {
+    if(strstr(audio_port, "iec") ||
+       strstr(audio_port, "spdif")) {
       this->xine->config->update_string(this->xine->config,
 					"audio.device.alsa_passthrough_device",
 					audio_port);
