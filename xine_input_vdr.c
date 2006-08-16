@@ -66,16 +66,15 @@
 
 #define LOG_MODULENAME "[input_vdr] "
 #define SysLogLevel iSysLogLevel
+
 #include "logdefs.h"
+
+#undef  x_syslog
+#define x_syslog syslog_with_tid
 
 int iSysLogLevel  = 1;
 int bLogToSysLog  = 0;
 int bSymbolsFound = 0;
-
-#if !defined(XINELIBOUTPUT_DEBUG_STDOUT) && \
-    !defined(XINELIBOUTPUT_DEBUG_STDERR)
-#undef  x_syslog
-#define x_syslog syslog_with_tid
 
 _syscall0(pid_t, gettid)
 
@@ -92,7 +91,6 @@ static void syslog_with_tid(int level, const char *fmt, ...)
   }
   va_end(argp);
 }
-#endif
 
 static void SetupLogLevel(void)
 {
