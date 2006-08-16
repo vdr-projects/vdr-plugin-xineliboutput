@@ -10,6 +10,7 @@
 
 #include <termios.h>
 #include <unistd.h>
+#include <syslog.h>
 
 #if 0
 static void xine_log_cb(void *data, int section)
