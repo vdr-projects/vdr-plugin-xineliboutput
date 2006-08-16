@@ -21,6 +21,7 @@ class cMenuXinelib : public cMenuSetupPage
     int compression;
     int headphone;
     int autocrop;
+    int novideo;
     
 #ifdef HAVE_XV_FIELD_ORDER
     cOsdItem *video_ctrl_interlace_order;
@@ -29,7 +30,8 @@ class cMenuXinelib : public cMenuSetupPage
 
     cOsdItem *ctrl_autocrop;
     cOsdItem *ctrl_headphone;
-
+    cOsdItem *ctrl_novideo;
+ 
   protected:
     virtual void Store(void);
 
