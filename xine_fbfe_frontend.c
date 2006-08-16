@@ -82,6 +82,7 @@ typedef struct fbfe_t {
 
   /* frontend */
   int                      playback_finished;
+  int                      slave_playback_finished;
 
   /* vdr */
   fe_keypress_f            keypress;

@@ -431,7 +431,7 @@ int main(int argc, char *argv[])
   fflush(stdout);
   fflush(stderr);
 
-  while(fe->fe_run(fe) && !fe->xine_is_finished(fe) && !terminate_key_pressed) 
+  while(fe->fe_run(fe) && !fe->xine_is_finished(fe,0) && !terminate_key_pressed) 
     pthread_yield();
 
   /* Clean up */

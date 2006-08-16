@@ -81,7 +81,7 @@ struct frontend_s {
   void (*fe_free)(frontend_t*);
 
   /* Data transfer */
-  int  (*xine_is_finished)(frontend_t*);
+  int  (*xine_is_finished)(frontend_t*, int slave_stream);
   int  (*xine_osd_command)(frontend_t*, struct osd_command_s *cmd);
   int  (*xine_control)(frontend_t*, const char *cmd);
   int  (*xine_queue_pes_packet)(frontend_t*, const char *data, int len);

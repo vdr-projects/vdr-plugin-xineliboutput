@@ -41,6 +41,9 @@ class cXinelibLocal : public cXinelibThread
     virtual void OsdCmd(void *cmd);
     virtual int64_t GetSTC();
 
+    // Playback files
+    virtual bool EndOfStreamReached(void);
+
     // Image grabbing
     virtual uchar *GrabImage(int &Size, bool Jpeg, int Quality, 
 			     int SizeX, int SizeY);

@@ -112,6 +112,7 @@ typedef struct sxfe_s {
 
   /* frontend */
   int                      playback_finished;
+  int                      slave_playback_finished;
 
   /* vdr */
   fe_keypress_f          keypress;

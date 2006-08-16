@@ -3116,19 +3116,22 @@ static void vdr_event_cb (void *user_data, const xine_event_t *event)
 	if(this->fd_control >= 0) {
 	  write_control(this, "ENDOFSTREAM\r\n");
 	} else {
+	  if(this->funcs.fe_control) 
+	    this->funcs.fe_control(this->funcs.fe_handle, "ENDOFSTREAM\r\n");
+#if 0
 	  if(!this->loop_play) {
 	    /* forward to vdr-fe (listening only VDR stream events) */
 	    xine_event_t event;
 	    event.data_length = 0;
 	    event.type        = XINE_EVENT_UI_PLAYBACK_FINISHED;
 	    xine_event_send (this->stream, &event);
-LOGMSG("No loop play, playback of slave stream finished");
 	  } else {
-#if 0
+# if 0
 	    xine_usec_sleep(500*1000);
 	    xine_play(this->slave_stream, 0, 0);
-#endif
+# endif
 	  }
+#endif
 	}
       }
       break;
