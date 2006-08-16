@@ -113,7 +113,7 @@ void cXinelibStatusMonitor::Replaying(const cControl *Control,
   TRACEF("cXinelibStatusMonitor::Replaying");
   
   if (On /*&& Name != NULL*/) {
-    TRACE("cXinelibStatusMonitor: Replaying " << Name << "("<<FileName")");
+    TRACE("cXinelibStatusMonitor: Replaying " << Name << "(" << FileName << ")");
     m_Device.SetReplayMode();
   }
 }
