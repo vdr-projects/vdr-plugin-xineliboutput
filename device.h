@@ -148,9 +148,11 @@ class cXinelibDevice : public cDevice
     bool HasDvdSpuTrack(int Type) const;
 #endif
 
+    virtual bool SetPlayMode(ePlayMode PlayMode);
+    ePlayMode GetPlayMode(void) const { return playMode; };
+
   protected:
     ePlayMode playMode;
-    virtual bool SetPlayMode(ePlayMode PlayMode);
 
     cList<cXinelibThread> m_clients;
     cXinelibThread        *m_server;

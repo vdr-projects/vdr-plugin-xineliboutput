@@ -615,8 +615,17 @@ int cXinelibDevice::PlayFileCtrl(const char *Cmd)
 
 bool cXinelibDevice::EndOfStreamReached(void)
 {
+#if 1
+  if(m_local && !m_local->EndOfStreamReached())
+    return false;
+  if(m_server && !m_server->EndOfStreamReached())
+    return false;
+  return true;
+#else
+  // problem when local frontend and remote server with no clients 
   return (((!m_server) || m_server->EndOfStreamReached()) &&
 	  ((!m_local)  || m_local->EndOfStreamReached()));
+#endif
 }
 
 bool cXinelibDevice::PlayFile(const char *FileName, int Position, bool LoopPlay)
@@ -720,6 +729,9 @@ int cXinelibDevice::PlayAny(const uchar *buf, int length)
 int cXinelibDevice::PlayVideo(const uchar *buf, int length) 
 {
   TRACEF("cXinelibDevice::PlayVideo");
+
+  if(playMode == pmAudioOnlyBlack)
+    return length;
 
   if(m_RadioStream) {
     m_RadioStream = false;
