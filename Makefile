@@ -262,7 +262,7 @@ nosignal_720x576.c: mpg2c nosignal_720x576.mpg
 vdrlogo_720x576.c: mpg2c vdrlogo_720x576.mpg
 	@./mpg2c vdrlogo vdrlogo_720x576.mpg vdrlogo_720x576.c
 
-xine_input_vdr.o: xine_input_vdr.c xine_input_vdr.h xine_osd_command.h nosignal_720x576.c
+xine_input_vdr.o: xine_input_vdr.c xine_input_vdr.h xine_osd_command.h nosignal_720x576.c logdefs.h
 	$(CC) $(CFLAGS) -c $(DEFINES) $(INCLUDES) $(OPTFLAGS) xine_input_vdr.c
 xine/post.o: xine/post.c xine/post.h
 	$(CC) $(CFLAGS) -c $(DEFINES) $(INCLUDES) $(OPTFLAGS) xine/post.c -o $@
