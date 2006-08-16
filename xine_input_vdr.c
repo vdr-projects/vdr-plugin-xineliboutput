@@ -33,6 +33,7 @@
 #include <dlfcn.h>
 #include <linux/unistd.h> /* gettid() */
 #include <sys/resource.h> /* setpriority() */
+#include <syslog.h>
 
 #include <xine/xine_internal.h>
 #include <xine/xineutils.h>
