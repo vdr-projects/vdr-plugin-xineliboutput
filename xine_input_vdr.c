@@ -69,8 +69,11 @@
 
 #include "logdefs.h"
 
-#undef  x_syslog
-#define x_syslog syslog_with_tid
+#if !defined(XINELIBOUTPUT_DEBUG_STDOUT) && \
+    !defined(XINELIBOUTPUT_DEBUG_STDERR)
+# undef  x_syslog
+# define x_syslog syslog_with_tid
+#endif
 
 int iSysLogLevel  = 1;
 int bLogToSysLog  = 0;

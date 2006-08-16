@@ -42,6 +42,9 @@ typedef struct {
  * logging 
  */
 
+#if !defined(XINELIBOUTPUT_DEBUG_STDOUT) && \
+    !defined(XINELIBOUTPUT_DEBUG_STDERR)
+
 #undef x_syslog
 
 _syscall0(pid_t, gettid)
@@ -59,6 +62,8 @@ static void x_syslog(int level, const char *fmt, ...)
   }
   va_end(argp);
 }
+
+#endif
 
 /*
  * detect input plugin 
