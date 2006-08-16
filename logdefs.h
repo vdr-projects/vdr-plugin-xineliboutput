@@ -58,6 +58,7 @@
 
 
 #ifdef XINELIBOUTPUT_DEBUG
+# ifdef __cplusplus
 #
 #  include <fstream>
 #  include <iostream>
@@ -82,6 +83,7 @@
        ~cTraceFunctionCall()
          { TRACE(m_name << " - Leave "); }
    };
+# endif
 #else
 #  define TRACE(x)
 #  define TRACEF(x)
