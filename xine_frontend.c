@@ -1045,7 +1045,7 @@ static void *fe_control(void *fe_handle, const char *cmd)
   /*LOGDBG("fe_control(\"%s\")", cmd);*/
 
   if(!cmd || !this) {
-    LOGMSG("fe_control(0x%x,0x%x) : invalid argument", 
+    LOGMSG("fe_control(0x%lx,0x%lx) : invalid argument", 
 	   (unsigned long int)fe_handle, (unsigned long int)cmd);
     return NULL;
   }
