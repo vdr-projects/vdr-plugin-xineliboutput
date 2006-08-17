@@ -107,9 +107,10 @@ typedef enum {
   ShowMenu   = 0,
   ShowEq     = 1,
   ShowFiles  = 2,
-  ShowImages = 3,
-  CloseOsd   = 4
-} eMainMenuMode; 
+  ShowMusic  = 3,
+  ShowImages = 4,
+  CloseOsd   = 5
+} eMainMenuMode;
 
 class config_t {
   public:
@@ -195,6 +196,7 @@ class config_t {
     int  brightness;          // 0...0xffff, -1 == off
     
     char browse_files_dir[4096];
+    char browse_music_dir[4096];
     char browse_images_dir[4096];
     
     eMainMenuMode main_menu_mode;
@@ -203,6 +205,9 @@ class config_t {
     config_t();
     bool SetupParse(const char *Name, const char *Value);
     bool ProcessArgs(int argc, char *argv[]);
+
+    bool IsImageFile(const char *);
+    bool IsVideoFile(const char *);
 
   protected:
     bool ProcessArg(const char *Name, const char *Value);
