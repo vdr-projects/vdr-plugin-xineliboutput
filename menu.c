@@ -201,7 +201,11 @@ eOSState cMenuBrowseFiles::Open(bool ForceOpen, bool Parent)
     if(!ForceOpen && GetCurrent()->IsDvd()) {
       /* play dvd */
       char *f = NULL;
+#if 0
       asprintf(&f, "dvd://%s/%s", m_CurrentDir, GetCurrent()->Name());
+#else
+      asprintf(&f, "dvd:%s/%s", m_CurrentDir, GetCurrent()->Name());
+#endif
       cControl::Launch(new cXinelibDvdPlayerControl(f));
       free(f);
       return osEnd;
@@ -756,7 +760,11 @@ eOSState cMenuXinelib::ProcessKey(eKeys Key)
       }
       state = osContinue;
     case osUser4:
+#if 0
       cControl::Launch(new cXinelibDvdPlayerControl("dvd://"));
+#else
+      cControl::Launch(new cXinelibDvdPlayerControl("dvd:/"));
+#endif
       return osEnd;
     case osUser5:
       AddSubMenu(new cDvdSpuTrackSelect());
