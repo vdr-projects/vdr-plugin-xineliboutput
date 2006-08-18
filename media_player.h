@@ -26,8 +26,6 @@ class cXinelibPlayerControl : public cControl
 
     static cXinelibPlayer *OpenPlayer(const char *file);
 
-    char *m_File;
-
  protected:
     cSkinDisplayReplay *m_DisplayReplay;
 
