@@ -93,13 +93,6 @@ class cUdpScheduler : public cThread
     uint32_t  m_Frames;
     uint32_t  m_Octets;
 
-#if 0
-    int data_sent;   /* in current time interval, bytes */
-    int frames_sent; /* in current time interval */
-    int frame_rate;  /* pes frames / second */
-    int prev_frames;
-#endif
-
     int64_t last_delay_time;
 
     bool m_Master;   /* if true, we are master metronom for playback */
