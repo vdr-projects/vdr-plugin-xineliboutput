@@ -1538,6 +1538,26 @@ const tI18nPhrase Phrases[] = {
     "", // Croatian
   },
   {
+    "Play music >>", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Toista musiikkia >>", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "Проиграть файл >>", // Russian
+    "", // Croatian
+  },
+  {
     "View images >>", // English
     "", // Deutsch
     "", // Slovenski
