@@ -252,7 +252,7 @@ bool cXinelibPlayer::NextFile(int step)
     asprintf(&m_ResumeFile, "%s.resume", m_File);
 
     Activate(true);
-    if(!m_bReplaying)
+    if(!m_Replaying)
       return false;
 
     return true;
