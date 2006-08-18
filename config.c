@@ -99,6 +99,9 @@ bool config_t::IsVideoFile(const char *fname)
 	 !strcasecmp(pos, ".mp4") || 
 	 !strcasecmp(pos, ".asf") || 
 	 !strcasecmp(pos, ".flac") || 
+	 !strcasecmp(pos, ".ts") || 
+	 !strcasecmp(pos, ".xvid") || 
+	 !strcasecmp(pos, ".divx") || 
 	 !strcasecmp(pos, ".m3u") || 
 	 !strcasecmp(pos, ".ram"))
 	return true;
