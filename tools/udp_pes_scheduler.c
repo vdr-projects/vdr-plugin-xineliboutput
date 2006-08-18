@@ -110,6 +110,13 @@ typedef enum {
   eScrFromVideo
 } ScrSource_t;
 
+#ifdef LOG_SCR
+    int data_sent;   /* in current time interval, bytes */
+    int frames_sent; /* in current time interval */
+    int frame_rate;  /* pes frames / second */
+    int prev_frames;
+#endif
+
 cUdpScheduler::cUdpScheduler()
 {
 
