@@ -1066,7 +1066,7 @@ static void *fe_control(void *fe_handle, const char *cmd)
 	posts->slave_stream = slave_stream;
 	fe_post_rewire(this);
       }
-      this->slave_playback_finished = 0;
+      this->slave_playback_finished = (slave_stream==NULL);
     }
 
   } else if(!strncmp(cmd, "ENDOFSTREAM", 11)) {
