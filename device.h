@@ -149,10 +149,10 @@ class cXinelibDevice : public cDevice
 #endif
 
     virtual bool SetPlayMode(ePlayMode PlayMode);
-    ePlayMode GetPlayMode(void) const { return playMode; };
+    ePlayMode GetPlayMode(void) const { return m_PlayMode; };
 
   protected:
-    ePlayMode playMode;
+    ePlayMode m_PlayMode;
 
     cList<cXinelibThread> m_clients;
     cXinelibThread        *m_server;
