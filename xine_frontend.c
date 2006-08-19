@@ -133,7 +133,7 @@ static double fe_dest_pixel_aspect(fe_t *this, double video_pixel_aspect,
     /* 16:10 */
     case 4:  result = (16.0/10.0 * (double)this->height/(double)this->width); break;
     /* Pan&Scan */
-    case 4: {
+    case 5: {
       double aspect_diff /*= video_pixel_aspect - 1.0*/;
 	      /* TODO */
 	      /* does not work (?) */
@@ -149,7 +149,7 @@ aspect_diff=(video_pixel_aspect*(double)video_width/(double)video_height) - 4.0 
 	      break;
             }
     /* center cut-out */
-    case 5: {
+    case 6: {
 /*#warning center cut-out mode not implemented*/
       break;
     }
