@@ -148,6 +148,8 @@ typedef struct sxfe_s {
   Atom    atom_state_add, atom_state_del;
   Atom    atom_state_above, atom_state_fullscreen, atom_state_on_top;
 
+  int     video_width, video_height;
+
 } fe_t, sxfe_t;
 
 
