@@ -13,6 +13,8 @@
 
 #include <vdr/player.h>
 
+#include "config.h"
+
 // --- Media player ---------------------------------------------------------
 
 class cXinelibPlayer;
@@ -31,11 +33,12 @@ class cXinelibPlayerControl : public cControl
 
     int   m_Speed;
     bool  m_ShowModeOnly;
+    eMainMenuMode m_Mode;
 
     static int m_SubtitlePos;
 
   public:
-    cXinelibPlayerControl(const char *file);
+    cXinelibPlayerControl(eMainMenuMode Mode, const char *file);
     virtual ~cXinelibPlayerControl();
 
     virtual void Show(void);
@@ -57,7 +60,7 @@ class cXinelibDvdPlayerControl : public cXinelibPlayerControl
 
   public:
     cXinelibDvdPlayerControl(const char *file) : 
-      cXinelibPlayerControl(file), Menu(NULL)
+      cXinelibPlayerControl(ShowFiles, file), Menu(NULL)
       {}
     virtual ~cXinelibDvdPlayerControl();
  
