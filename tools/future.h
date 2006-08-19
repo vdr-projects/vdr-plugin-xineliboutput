@@ -56,13 +56,16 @@ class cFuture {
     {
       cMutexLock l(&mutex);
 
+      if(Timeout==0 || m_Ready)
+	return m_Ready;
+
       if(Timeout >= 0)
-	return cond.TimedWait(mutex, Timeout);
+	return cond.TimedWait(mutex, Timeout) && m_Ready;
 
       while(!m_Ready)
 	cond.Wait(mutex);
 
-      return true;
+      return m_Ready;
     }
 
     bool IsReady(void)
