@@ -35,8 +35,6 @@
 #include <sys/types.h>
 #include <linux/unistd.h>
 #include <errno.h>
-_syscall0(pid_t, gettid)
-
 
 //----------------------- cTimePts ------------------------------------------
 
@@ -134,7 +132,7 @@ cUdpScheduler::cUdpScheduler()
 
   last_delay_time = 0;
 
-  srandom(time(NULL) ^ gettid());
+  srandom(time(NULL) ^ getpid());
   m_ssrc = random();
   LOGDBG("RTP SSRC: 0x%08x", m_ssrc);
   m_LastRtcpTime = 0;
