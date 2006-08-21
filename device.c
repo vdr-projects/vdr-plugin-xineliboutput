@@ -260,6 +260,8 @@ void cXinelibDevice::ForcePrimaryDevice(bool On)
 
   TRACEF("cXinelibDevice::ForcePrimaryDevice");
 
+  /* TODO: All this stuff should really be done in VDR main thread context... */
+
   if(On) {
     Counter++;
     if(xc.force_primary_device) {
@@ -290,11 +292,13 @@ void cXinelibDevice::ForcePrimaryDevice(bool On)
 	if(cOsd::IsOpen()) {
 	  LOGMSG("Restoring primary device, xineliboutput OSD still open !");
 #if VDRVERSNUM >= 10400
-	  xc.main_menu_mode = CloseOsd;
+	  xc.main_menu_mode = CloseOsd; /* will be executed in future by vdr main thread */
 	  cRemote::CallPlugin("xineliboutput");
 #endif
 	}
+	cChannel *channel = Channels.GetByNumber(CurrentChannel());
 	cDevice::SetPrimaryDevice(Original);
+	PrimaryDevice()->SwitchChannel(channel, true);
 	Original = 0;
       }
     }
