@@ -1190,7 +1190,7 @@ uchar *cXinelibDevice::GrabImage(int &Size, bool Jpeg,
   if(m_local)
     return m_local->GrabImage(Size, Jpeg, Quality, SizeX, SizeY);
   if(m_server)
-    return m_local->GrabImage(Size, Jpeg, Quality, SizeX, SizeY);
+    return m_server->GrabImage(Size, Jpeg, Quality, SizeX, SizeY);
 
   return NULL;
 }
