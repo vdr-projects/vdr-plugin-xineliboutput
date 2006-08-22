@@ -110,7 +110,8 @@ class cXinelibThread : public cThread, public cListObject
 					int audio_delay, 
 					int audio_compression, 
 					const int *audio_equalizer,
-					int audio_surround);
+					int audio_surround,
+					int speaker_type);
     virtual int ConfigurePostprocessing(const char *name, bool on, const char *args);
     virtual int ConfigureVideo(int hue, int saturation, 
 			       int brightness, int contrast);

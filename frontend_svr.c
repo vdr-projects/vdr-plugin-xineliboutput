@@ -956,10 +956,11 @@ void cXinelibServer::Handle_Control_CONFIG(int cli)
   ConfigureOSD(xc.prescale_osd, xc.unscaled_osd);
   ConfigurePostprocessing(xc.deinterlace_method, xc.audio_delay,
 			  xc.audio_compression, xc.audio_equalizer,
-                          xc.audio_surround);
+                          xc.audio_surround, xc.speaker_type);
   ConfigureVideo(xc.hue, xc.saturation, xc.brightness, xc.contrast);
   ConfigurePostprocessing("upmix",     xc.audio_upmix ? true : false, NULL);
-  ConfigurePostprocessing("autocrop",  xc.autocrop    ? true : false, NULL);
+  ConfigurePostprocessing("autocrop",  xc.autocrop    ? true : false, 
+			  xc.AutocropOptions());
 #ifdef ENABLE_TEST_POSTPLUGINS
   ConfigurePostprocessing("headphone", xc.headphone   ? true : false, NULL);
 #endif

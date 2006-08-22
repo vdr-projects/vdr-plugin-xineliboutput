@@ -324,18 +324,19 @@ void cXinelibDevice::ConfigurePostprocessing(const char *deinterlace_method,
 					     int audio_delay, 
 					     int audio_compression, 
 					     const int *audio_equalizer, 
-					     int audio_surround)
+					     int audio_surround,
+					     int speaker_type)
 {
   TRACEF("cXinelibDevice::ConfigurePostprocessing");
 
   if(m_local)
     m_local->ConfigurePostprocessing(deinterlace_method, audio_delay, 
 				     audio_compression, audio_equalizer,
-				     audio_surround);
+				     audio_surround, speaker_type);
   if(m_server)
     m_server->ConfigurePostprocessing(deinterlace_method, audio_delay, 
 				      audio_compression, audio_equalizer,
-				      audio_surround);
+				      audio_surround, speaker_type);
 }
 
 void cXinelibDevice::ConfigurePostprocessing(const char *name, bool on, 
