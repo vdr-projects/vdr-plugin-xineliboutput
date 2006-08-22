@@ -494,8 +494,8 @@ bool cXinelibThread::PlayFile(const char *FileName, int Position,
   TRACEF("cXinelibThread::PlayFile");
   char buf[2048];
   m_bEndOfStreamReached = false;
-  sprintf(buf, "PLAYFILE %s %d %s\r\n",
-	  LoopPlay ? "Loop" : "", Position, FileName ? FileName : "");
+  sprintf(buf, "PLAYFILE %s %d %s %s\r\n",
+	  LoopPlay ? "Loop" : "", Position, xc.audio_visualization, FileName ? FileName : "");
   int result = PlayFileCtrl(buf);
 
   if(!FileName || result != 0) {
