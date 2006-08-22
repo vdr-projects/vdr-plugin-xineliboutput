@@ -2420,7 +2420,7 @@ const tI18nPhrase Phrases[] = {
     "", // Croatian
   },
   {
-    "  Cropping size", // English
+    "  Crop to", // English
     "", // Deutsch
     "", // Slovenski
     "", // Italiano
@@ -2428,7 +2428,7 @@ const tI18nPhrase Phrases[] = {
     "", // Portugu<EA>s
     "", // Fran<E7>ais
     "", // Norsk
-    "  Leikkauksen koko", // Suomi
+    "  Leikkaa kokoon", // Suomi
     "", // Polski
     "", // Espa<F1>ol
     "", // Ellinika
@@ -2453,7 +2453,7 @@ const tI18nPhrase Phrases[] = {
     "", // Espa<F1>ol
     "", // Ellinika
     "", // Svenska
-    "", // Romaneste
+   "", // Romaneste
     "", // Magyar
     "", // Catala
     "", // Russian
