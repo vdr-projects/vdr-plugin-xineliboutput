@@ -875,8 +875,8 @@ static frontend_t *sxfe_get_frontend(void)
   this->fe.fe_interrupt = sxfe_interrupt;
   this->fe.fe_free = fe_free;
 
-#ifndef FE_STANDALONE
   this->fe.grab                  = fe_grab;
+#ifndef FE_STANDALONE
   this->fe.xine_osd_command      = xine_osd_command;
   this->fe.xine_control          = xine_control;
 
