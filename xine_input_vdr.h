@@ -37,6 +37,11 @@ typedef struct vdr_input_plugin_funcs_s {
 #define CONTROL_PARAM_ERROR  -2 
 #define CONTROL_DISCONNECTED -3
 
+typedef struct grab_data_s {
+  int size;
+  char *data;
+} grab_data_t;
+
 #if defined __cplusplus
 }
 #endif
