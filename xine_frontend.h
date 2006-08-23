@@ -15,8 +15,7 @@
 extern "C" {
 #endif
 
-#define FE_VERSION_STR  "0.9.9"
-#define FE_VERSION      0x99 /*(((0)<<16) | ((9)<<8) | ((9)))*/
+#define FE_VERSION_STR  XINELIBOUTPUT_VERSION /*"1.0.0pre1"*/
 
 typedef void (*fe_keypress_f)(const char *keymap, const char *name);
 
