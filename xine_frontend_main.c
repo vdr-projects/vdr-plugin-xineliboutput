@@ -293,6 +293,7 @@ int main(int argc, char *argv[])
       if(argc > ++i) video_port = strdup(argv[i]);
     } else if(!strncmp(argv[i], "--width", 7)) {
       if(argc > ++i) width = atoi(argv[i]);
+      printf("Width:  %d\n", width);
     } else if(!strncmp(argv[i], "--lirc", 6)) {
       if(argc > i+1 && argv[i+1][0] == '/') 
 	lirc_device_name = strdup(argv[++i]);
