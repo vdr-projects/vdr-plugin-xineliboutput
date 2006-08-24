@@ -621,7 +621,7 @@ bool cXinelibServer::Listen(int listen_port)
       setsockopt(fd_discovery, SOL_SOCKET, SO_REUSEADDR, &iReuse, sizeof(int));
       sin.sin_family = AF_INET;
       sin.sin_port   = htons(DISCOVERY_PORT);
-      sin.sin_addr.s_addr = INADDR_ANY;//BROADCAST;
+      sin.sin_addr.s_addr = INADDR_BROADCAST;  //INADDR_ANY grabs rtp too ...
 
       if (bind(fd_discovery, (struct sockaddr *)&sin, sizeof(sin)) < 0) {
 	LOGERR("bind() failed (UDP discovery)");
