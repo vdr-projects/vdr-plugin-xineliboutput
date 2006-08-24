@@ -112,6 +112,10 @@ protected:
     bool              m_Master;
     cStcFuture        *m_StcFuture;
     cCmdFutures       *m_Futures;
+
+    int  m_Token;
+    int  AllocToken(void);
+    int  ClientCount(void);
 };
 
 #endif // __XINELIB_FRONTEND_SVR_H
