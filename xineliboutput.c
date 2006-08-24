@@ -65,6 +65,7 @@ class cPluginXinelibOutput : public cPlugin
     virtual bool Start(void);
     virtual void Stop(void);
     //virtual void Housekeeping(void);
+    virtual void MainThreadHook();
     virtual const char *MainMenuEntry(void) { return xc.hide_main_menu ? NULL : tr(MAINMENUENTRY); }
     virtual cOsdObject *MainMenuAction(void);
     virtual cMenuSetupPage *SetupMenu(void);
@@ -149,6 +150,12 @@ bool cPluginXinelibOutput::Start(void)
   // Start any background activities the plugin shall perform.
   TRACEF("cPluginXinelibOutput::Start");
   return cXinelibDevice::Instance().StartDevice();
+}
+
+void cPluginXinelibOutput::MainThreadHook(void)
+{
+  TRACEF("cPluginXinelibOutput::MainThreadHook");
+  return cXinelibDevice::Instance().MainThreadHook();
 }
 
 void cPluginXinelibOutput::Stop(void)
