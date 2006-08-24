@@ -18,6 +18,7 @@
 class cXinelibStatusMonitor;
 class cXinelibThread;
 class cChannel;
+class cFunctor;
 
 class cXinelibDevice : public cDevice 
 {
@@ -30,7 +31,11 @@ class cXinelibDevice : public cDevice
     cXinelibDevice();                   //
     cXinelibDevice(cXinelibDevice&);    // no copy constructor
 
-    //cList<cFunctorBase> *m_MainThreadFunctors; // function calls waiting to be executed in VDR main thread context
+    // function calls waiting to be executed in VDR main thread context
+    cList<cFunctor> m_MainThreadFunctors; 
+    cMutex m_MainThreadLock;
+
+    void ForcePrimaryDeviceImpl(bool On);
 
   public:
     virtual ~cXinelibDevice();
@@ -40,6 +45,7 @@ class cXinelibDevice : public cDevice
 
     virtual void MakePrimaryDevice(bool On);
     void ForcePrimaryDevice(bool On);
+    void MainThreadHook(void);
 
     virtual void Clear(void);
     virtual void Play(void);
