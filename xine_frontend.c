@@ -225,6 +225,15 @@ static void fe_frame_output_cb (void *data,
   }
 #endif
 
+  if(this->overscan) {
+    int crop_x = this->overscan * this->width  / 100 / 2;
+    int crop_y = this->overscan * this->height / 100 / 2;
+    *dest_x -= crop_x;
+    *dest_y -= crop_y;
+    *dest_width  += crop_x;
+    *dest_height += crop_y;
+  }
+
 #if 0
   static int n=0,t=25/**10*/; n++;
   static char *s_aspect[] = {"Auto","Default","4:3","16:9","16:10","Pan&Scan"};
@@ -1171,8 +1180,14 @@ static void *fe_control(void *fe_handle, const char *cmd)
       free(result->data);
       free(result);
     }
+
+  } else if(!strncmp(cmd, "OVERSCAN ", 9)) {
+    int overscan;
+    if(1 == sscanf(cmd+9, "%d", &overscan)) 
+      this->overscan = overscan;
   }
   
+
   return NULL;
 }
 

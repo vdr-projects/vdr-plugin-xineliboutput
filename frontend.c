@@ -592,9 +592,11 @@ int cXinelibThread::ConfigurePostprocessing(const char *name, bool on, const cha
 }
 
 int cXinelibThread::ConfigureVideo(int hue, int saturation, 
-				   int brightness, int contrast)
+				   int brightness, int contrast,
+				   int overscan)
 {
   char cmd[128];
+  Xine_Control("OVERSCAN", overscan);
   sprintf(cmd, "VIDEO_PROPERTIES %d %d %d %d", 
 	  hue, saturation, brightness, contrast);
   return Xine_Control(cmd);

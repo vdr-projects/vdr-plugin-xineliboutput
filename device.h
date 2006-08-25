@@ -111,7 +111,8 @@ class cXinelibDevice : public cDevice
 				 int speaker_type);
     void ConfigurePostprocessing(const char *name, bool on=true, 
 				 const char *args=NULL);
-    void ConfigureVideo(int hue, int saturation, int brightness, int contrast);
+    void ConfigureVideo(int hue, int saturation, int brightness, int contrast,
+			int overscan);
     // local mode:
     void ConfigureWindow(int fullscreen, int width, int height, 
 			 int modeswitch, const char *modeline, 

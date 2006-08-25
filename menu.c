@@ -484,7 +484,7 @@ eOSState cTestGrayscale::ProcessKey(eKeys key)
 	br -= 0xffff/1024;
 	sprintf(s, "b %d", br);
 	m_Osd->DrawText(400, 100, s, 0xff000000, 0xffffffff, cFont::GetFont(fontSml));
-	cXinelibDevice::Instance().ConfigureVideo(xc.hue, xc.saturation, br, co);
+	cXinelibDevice::Instance().ConfigureVideo(xc.hue, xc.saturation, br, co, xc.overscan);
 	m_Osd->Flush();
 	return osContinue;	
       case kUp:
@@ -493,7 +493,7 @@ eOSState cTestGrayscale::ProcessKey(eKeys key)
 	co -= 0xffff/1024;
 	sprintf(s, "c %d", co);
 	m_Osd->DrawText(400, 130, s, 0xff000000, 0xffffffff, cFont::GetFont(fontSml));
-	cXinelibDevice::Instance().ConfigureVideo(xc.hue, xc.saturation, br, co);
+	cXinelibDevice::Instance().ConfigureVideo(xc.hue, xc.saturation, br, co, xc.overscan);
 	m_Osd->Flush();
 	return osContinue;
     }
