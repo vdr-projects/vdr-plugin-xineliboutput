@@ -585,6 +585,8 @@ bool cXinelibDevice::SetPlayMode(ePlayMode PlayMode)
     TRACE("pmAudioOnlyBlack --> BlankDisplay, NoVideo");
     ForEach(m_clients, &cXinelibThread::BlankDisplay);
     ForEach(m_clients, &cXinelibThread::SetNoVideo, true);
+  } else {
+    ForEach(m_clients, &cXinelibThread::SetNoVideo, m_RadioStream);
   }
   
   return true;
