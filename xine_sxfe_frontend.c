@@ -354,8 +354,10 @@ static int sxfe_display_open(frontend_t *this_gen, int width, int height, int fu
   if(this->display)
     this->fe.fe_display_close(this_gen);
 
-  if(keyfunc)
+  if(keyfunc) {
     this->keypress = keyfunc;
+    this->keypress("XKeySym", ""); /* triggers learning mode */
+  }
 
   LOGDBG("sxfe_display_open(width=%d, height=%d, fullscreen=%d, display=%s)",
 	 width, height, fullscreen, video_port);

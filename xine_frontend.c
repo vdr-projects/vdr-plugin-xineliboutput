@@ -861,10 +861,10 @@ static int fe_xine_play(frontend_t *this_gen)
   input_vdr->f.xine_input_event = this->keypress;
   input_vdr->f.fe_control = fe_control;
   input_vdr->f.fe_handle  = (void*)this;
-
+#if 0
   if(!this->playback_finished && this->keypress)
     this->keypress("XKeySym", "");
-
+#endif
   if(this->playback_finished)
     LOGMSG("Error playing xvdr:// !");
 

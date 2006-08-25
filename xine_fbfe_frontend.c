@@ -135,8 +135,10 @@ static int fbfe_display_open(frontend_t *this_gen, int width, int height, int fu
     this->fe.fe_display_close(this_gen);
 
   this->display = 1;
-  if(keyfunc)
+  if(keyfunc) {
     this->keypress = keyfunc;
+    this->keypress("KBD", "");
+  }
 
   LOGDBG("fbfe_display_open(width=%d, height=%d, fullscreen=%d, display=%s)",
 	 width, height, fullscreen, video_port);
