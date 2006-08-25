@@ -73,6 +73,7 @@ typedef struct fbfe_t {
   fb_visual_t         vis;
 
   double              display_ratio;
+  int                 overscan;
 
   int                 pes_buffers;
   int                 aspect;
@@ -150,6 +151,7 @@ static int fbfe_display_open(frontend_t *this_gen, int width, int height, int fu
   this->cropping        = 0;
   this->field_order     = 0/*field_order ? 1 : 0*/;
   this->scale_video     = scale_video;
+  this->overscan        = 0;
   strcpy(this->modeline, modeline);
   this->display_ratio   = 1.0;
 

@@ -217,7 +217,8 @@ class config_t {
     int  saturation;          // 0...0xffff, -1 == off
     int  contrast;            // 0...0xffff, -1 == off
     int  brightness;          // 0...0xffff, -1 == off
-    
+    int  overscan;            // %
+
     char browse_files_dir[4096];
     char browse_music_dir[4096];
     char browse_images_dir[4096];

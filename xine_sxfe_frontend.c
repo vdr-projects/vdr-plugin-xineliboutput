@@ -109,6 +109,7 @@ typedef struct sxfe_s {
 
 
   double                   display_ratio;
+  int                      overscan;
 
   /* frontend */
   int                      playback_finished;
@@ -372,6 +373,7 @@ static int sxfe_display_open(frontend_t *this_gen, int width, int height, int fu
   this->cropping        = 0;
   this->field_order     = field_order ? 1 : 0;
   this->scale_video     = scale_video;
+  this->overscan        = 0;
   strcpy(this->modeline, modeline);
 
   /*
