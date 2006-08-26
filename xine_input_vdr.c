@@ -4203,10 +4203,10 @@ static void vdr_plugin_dispose (input_plugin_t *this_gen)
   if(!local && this->threads_initialized) {
     void *p;
     LOGDBG("Cancel control thread ...");
-    pthread_cancel(this->control_thread);
+    /*pthread_cancel(this->control_thread);*/
     pthread_join (this->control_thread, &p);
     LOGDBG("Cancel data thread ...");
-    pthread_cancel(this->data_thread);
+    /*pthread_cancel(this->data_thread);*/
     pthread_join (this->data_thread, &p);   
     LOGDBG("Threads joined");
   }
