@@ -566,6 +566,9 @@ eOSState cXinelibDvdPlayerControl::ProcessKey(eKeys Key)
     case kRed:    Hide();
                   Menu = new cDvdMenu();
 		  break;
+    // SPU channel
+    case k2:      r = cXinelibDevice::Instance().PlayFileCtrl("SPUSTREAM NEXT");  break;
+    case k5:      r = cXinelibDevice::Instance().PlayFileCtrl("SPUSTREAM PREV");  break;
     // Playback control
     case kGreen:  r = cXinelibDevice::Instance().PlayFileCtrl("SEEK -60");  break;
     case kYellow: r = cXinelibDevice::Instance().PlayFileCtrl("SEEK +60");  break;
