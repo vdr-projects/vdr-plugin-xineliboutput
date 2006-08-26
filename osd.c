@@ -325,7 +325,7 @@ cXinelibOsdProvider::~cXinelibOsdProvider()
 
     // Detach all OSD instances from device
     cXinelibOsd *osd;
-    while(osd = cXinelibOsd::m_OsdStack.First()) {
+    while(NULL != (osd = cXinelibOsd::m_OsdStack.First())) {
       osd->Detach();
       cXinelibOsd::m_OsdStack.Del(osd, false);
     }
