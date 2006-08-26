@@ -3703,9 +3703,9 @@ static void *vdr_data_thread(void *this_gen)
   pthread_exit(NULL);
 }
 
+#if 0
 static int write_slave_stream(vdr_input_plugin_t *this, const char *data, int len)
 {
-#if 0
   fifo_input_plugin_t *slave;
   buf_element_t *buf;
 
@@ -3744,9 +3744,9 @@ static int write_slave_stream(vdr_input_plugin_t *this, const char *data, int le
   buf->type = BUF_DEMUX_BLOCK;
   xine_fast_memcpy(buf->content, data, len);
   slave->buffer->put(slave->buffer, buf);
-#endif
   return len;
 }
+#endif
 
 static int vdr_plugin_write(input_plugin_t *this_gen, const char *data, int len)
 {
@@ -3757,9 +3757,13 @@ static int vdr_plugin_write(input_plugin_t *this_gen, const char *data, int len)
   if(this->slave_stream)
     return len;
 
+#if 0
+  /* some (older?) VDR recordings have video PID != 0xE0 ... */
+
   /* slave */
   if(((uint8_t*)data)[3] > 0xe0 && ((uint8_t*)data)[3] <= 0xef) 
     return write_slave_stream(this, data, len);
+#endif
 
   TRACE("vdr_plugin_write (%d bytes)", len); 
 
