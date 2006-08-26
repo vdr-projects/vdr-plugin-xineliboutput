@@ -456,9 +456,9 @@ int main(int argc, char *argv[])
   if(!nokbd) {
     pthread_cancel (kbd_thread);
     pthread_join (kbd_thread, &p);
-  }
 
-  tcsetattr(STDIN_FILENO, TCSANOW, &saved_tm);
+    tcsetattr(STDIN_FILENO, TCSANOW, &saved_tm);
+  }
 
   fe->fe_free(fe); 
   return 0;
