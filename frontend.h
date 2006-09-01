@@ -62,6 +62,7 @@ class cXinelibThread : public cThread, public cListObject
     int  Xine_Control(const char *cmd, int64_t p1);
 
     virtual int  Xine_Control(const char *cmd) = 0;
+    virtual int  Xine_Control_Sync(const char *cmd) { return Xine_Control(cmd); }
 
     virtual void Xine_Sync(void) {};
 
