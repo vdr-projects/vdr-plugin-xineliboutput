@@ -302,15 +302,24 @@ XINELIBOUTPUT_INSTALL_MSG =  \
 	    $(warning  $(shell echo `pwd`)) \
 	    $(warning *****************************************************************) \
 
+XINELIBOUTPUT_ARGS_WARNING =  \
+	    $(warning *********************** xineliboutput ***************************) \
+	    $(warning WARNING: )\
+	    $(warning Command-line arguments have been changed from previous version.) \
+	    $(warning Check your vdr and xineliboutput startup scripts !) \
+	    $(warning *****************************************************************) \
+
 install : XINELIBOUTPUT_INSTALL_MSG =
 
 all: $(VDRPLUGIN_SO) $(VDRPLUGIN_SXFE_SO) $(VDRPLUGIN_FBFE_SO) \
 	    $(VDRSXFE_EXEC) $(VDRFBFE_EXEC) $(XINEINPUTVDR_SO) \
 	    $(XINEPOSTAUTOCROP_SO) $(XINEPOSTHEADPHONE_SO)
 	$(XINELIBOUTPUT_INSTALL_MSG)
+	$(XINELIBOUTPUT_ARGS_WARNING)
 
 frontends: $(VDRSXFE_EXEC) $(VDRFBFE_EXEC) $(XINEINPUTVDR_SO) \
 	$(XINEPOSTAUTOCROP_SO) $(XINEPOSTHEADPHONE_SO)
+	$(XINELIBOUTPUT_ARGS_WARNING)
 
 .PHONY: all
 
