@@ -62,6 +62,7 @@ protected:
     // Playback control
     virtual void Xine_Sync(void);
     virtual int  Xine_Control(const char *cmd);  
+    virtual int  Xine_Control_Sync(const char *cmd);  
 
 protected:
 
@@ -80,6 +81,7 @@ protected:
     void Handle_Control_KEY(int cli, const char *arg);
     void Handle_Control_UDP_RESEND(int cli, const char *arg);
     void Handle_Control_CONFIG(int cli);
+    void Handle_Control_GRAB(int cli, const char *arg);
 
     void CloseConnection(int cli);
 
@@ -115,7 +117,7 @@ protected:
 
     int  m_Token;
     int  AllocToken(void);
-    int  ClientCount(void);
+    bool HasClients(void);
 };
 
 #endif // __XINELIB_FRONTEND_SVR_H
