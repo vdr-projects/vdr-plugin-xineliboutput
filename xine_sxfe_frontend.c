@@ -92,6 +92,7 @@ typedef struct sxfe_s {
   input_plugin_t          *input;
   xine_video_port_t       *video_port;
   xine_audio_port_t       *audio_port;
+  xine_audio_port_t       *audio_port_none;
   xine_event_queue_t      *event_queue;
 
   post_plugins_t          *postplugins;
@@ -395,7 +396,7 @@ static int sxfe_display_open(frontend_t *this_gen, int width, int height, int fu
     return 0;
   }
 
-  if(video_port && strlen(video_port)>3) {
+  if(video_port && strlen(video_port)>2) {
     if(!(this->display = XOpenDisplay(video_port)))
       LOGERR("sxfe_display_open: failed to connect to X server (%s)",
 	     video_port);
