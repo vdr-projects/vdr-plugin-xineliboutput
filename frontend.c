@@ -415,13 +415,14 @@ bool cXinelibThread::Play_Mpeg2_ES(const uchar *data, int len, int streamID)
 bool cXinelibThread::QueueBlankDisplay(void)
 {
   TRACEF("cXinelibThread::BlankDisplay");
-
+#if 0
   extern const unsigned char v_mpg_black[];     // black_720x576.c
   extern const int v_mpg_black_length;
 
-  int r = Play_Mpeg2_ES(v_mpg_black, v_mpg_black_length, VIDEO_STREAM);
+  Play_Mpeg2_ES(v_mpg_black, v_mpg_black_length, VIDEO_STREAM);
+#endif
   Xine_Control_Sync("BLANK");
-  return r;
+  return true;
 }
 
 bool cXinelibThread::BlankDisplay(void)
