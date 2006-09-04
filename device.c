@@ -928,7 +928,7 @@ void cXinelibDevice::SetAudioTrackDevice(eTrackType Type)
 {
   TRACEF("cXinelibDevice::SetAudioTrackDevice");
 
-  LOGDBG("SetAudioTrackDevice(%d)", (int)Type);
+  /*LOGDBG("SetAudioTrackDevice(%d)", (int)Type);*/
 #if 0
   if(IS_DOLBY_TRACK(Type))
     ForEach(m_clients, &cXinelibThread::AudioStreamChanged, 
@@ -943,7 +943,7 @@ void cXinelibDevice::SetAudioChannelDevice(int AudioChannel)
 {
   TRACEF("cXinelibDevice::SetAudioChannelDevice");
 
-  LOGDBG("SetAudioChannelDevice(%d)", (int)AudioChannel);
+  /*LOGDBG("SetAudioChannelDevice(%d)", (int)AudioChannel);*/
   m_AudioChannel = AudioChannel;
   //
   // TODO
@@ -955,7 +955,7 @@ void cXinelibDevice::SetAudioChannelDevice(int AudioChannel)
 void cXinelibDevice::SetDigitalAudioDevice(bool On)
 {
   TRACEF("cXinelibDevice::SetDigitalAudioDevice");
-  LOGDBG("SeDigitalAudioDevice(%s)", On ? "on" : "off");
+  /*LOGDBG("SeDigitalAudioDevice(%s)", On ? "on" : "off");*/
 
   eTrackType CurrTrack = GetCurrentAudioTrack();
   if(m_LastTrack != CurrTrack) {
@@ -979,7 +979,7 @@ void cXinelibDevice::SetDigitalAudioDevice(bool On)
 void cXinelibDevice::SetVideoFormat(bool VideoFormat16_9) 
 {
   TRACEF("cXinelibDevice::SetVideoFormat");
-  LOGDBG("SetVideoFormat(%s)", VideoFormat16_9 ? "16:9" : "4:3");
+  /*LOGDBG("SetVideoFormat(%s)", VideoFormat16_9 ? "16:9" : "4:3");*/
 
   cDevice::SetVideoFormat(VideoFormat16_9);
 
@@ -1002,7 +1002,7 @@ void cXinelibDevice::SetVideoDisplayFormat(eVideoDisplayFormat VideoDisplayForma
 {
   TRACEF("cXinelibDevice::SetVideoDisplayFormat");
 
-  LOGDBG("SetVideoDisplayFormat(%d)", VideoDisplayFormat);
+  /*LOGDBG("SetVideoDisplayFormat(%d)", VideoDisplayFormat);*/
   cDevice::SetVideoDisplayFormat(VideoDisplayFormat);
   //
   // TODO
