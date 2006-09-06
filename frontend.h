@@ -77,6 +77,7 @@ class cXinelibThread : public cThread, public cListObject
     virtual int  Play_PES(const uchar *buf, int len);
     virtual void OsdCmd(void *cmd) = 0;
     virtual int64_t GetSTC(void) { return -1; }
+    virtual void SetHDMode(bool On) { (void)Xine_Control("HDMODE",On?1:0); };
 
     // Stream type conversions
     int  Play_Mpeg1_PES(const uchar *data, int len);
