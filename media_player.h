@@ -37,6 +37,7 @@ class cXinelibPlayerControl : public cControl
     int   m_Speed;
     bool  m_ShowModeOnly;
     eMainMenuMode m_Mode;
+    bool m_RandomPlay;
 
     static int m_SubtitlePos;
 
