@@ -20,6 +20,8 @@
 class cXinelibPlayer;
 class cSkinDisplayReplay;
 
+class cPlaylistMenu;
+
 class cXinelibPlayerControl : public cControl 
 {
   private:
@@ -30,6 +32,7 @@ class cXinelibPlayerControl : public cControl
 
  protected:
     cSkinDisplayReplay *m_DisplayReplay;
+    cPlaylistMenu *m_PlaylistMenu;
 
     int   m_Speed;
     bool  m_ShowModeOnly;
