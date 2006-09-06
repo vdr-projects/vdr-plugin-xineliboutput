@@ -89,5 +89,36 @@
 #  define TRACEF(x)
 #endif
 
+#ifdef __cplusplus
+#  ifdef TRACK_EXEC_TIME
+     class cTimeTracker 
+     {
+       private:
+         const char    *m_Message;
+	 const char    *m_Where;
+	 uint64_t m_Start;
+	 uint64_t m_Trigger;
+       public:
+	 cTimeTracker(const char *Message, int TriggerMs, const char *Where) {
+	   m_Message = Message;
+	   m_Where   = Where;
+	   m_Trigger = TriggerMs;
+	   m_Start   = cTimeMs::Now();      
+	 }
+	 ~cTimeTracker() {
+	   if(cTimeMs::Now() - m_Start > m_Trigger)
+	     LOGMSG("********** TimeTracker hit in %s: %d ms %s", 
+		    m_Where, (int)(cTimeMs::Now() - m_Start),
+		    m_Message?m_Message:"");
+	 }
+     };
+#    define TRACK_TIME(limit) cTimeTracker _timetracker(NULL,limit,__PRETTY_FUNCTION__)
+#    define TRACK_TIME_EXT(limit,msg) cTrimeTracker __timetracker(msg,limit,__PRETTY_FUNCTION__)
+#  else
+#    define TRACK_TIME(limit)
+#    define TRACK_TIME_EXT(limit,msg)
+#  endif
+# endif
+
 
 #endif /* _LOGDEFS_H_ */
