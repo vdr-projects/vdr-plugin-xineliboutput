@@ -539,7 +539,6 @@ void cXinelibDevice::SetTvMode(cChannel *Channel)
   Clear();
   ForEach(m_clients, &cXinelibThread::SetNoVideo, m_RadioStream);
   ForEach(m_clients, &cXinelibThread::SetLiveMode, true);
-  ForEach(m_clients, &cXinelibThread::QueueBlankDisplay);
   ForEach(m_clients, &cXinelibThread::ResumeOutput);
 }
 
