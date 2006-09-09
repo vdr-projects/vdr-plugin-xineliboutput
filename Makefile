@@ -45,7 +45,8 @@ endif
 #XINELIBOUTPUT_XINEPLUGIN = 1
 #XINELIBOUTPUT_VDRPLUGIN  = 1
 #ENABLE_TEST_POSTPLUGINS  = 1
-
+#DEFINES += -DNOSIGNAL_IMAGE_FILE='"/usr/share/vdr/xineliboutput/nosignal.mpv"'
+#DEFINES += -DSTARTUP_IMAGE_FILE='"/usr/share/vdr/xineliboutput/logodisplay.mpv"'
 
 ###
 ### The version number of this plugin (taken from the main source file):
