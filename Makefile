@@ -45,8 +45,9 @@ endif
 #XINELIBOUTPUT_XINEPLUGIN = 1
 #XINELIBOUTPUT_VDRPLUGIN  = 1
 #ENABLE_TEST_POSTPLUGINS  = 1
-#DEFINES += -DNOSIGNAL_IMAGE_FILE='"/usr/share/vdr/xineliboutput/nosignal.mpv"'
-#DEFINES += -DSTARTUP_IMAGE_FILE='"/usr/share/vdr/xineliboutput/logodisplay.mpv"'
+#NOSIGNAL_IMAGE_FILE=/usr/share/vdr/xineliboutput/nosignal.mpv
+#STARTUP_IMAGE_FILE=/usr/share/vdr/xineliboutput/logodisplay.mpv
+
 
 ###
 ### The version number of this plugin (taken from the main source file):
@@ -187,6 +188,13 @@ endif
 
 ifeq ($(ENABLE_TEST_POSTPLUGINS), 1)
     DEFINES += -DENABLE_TEST_POSTPLUGINS
+endif
+
+ifdef NOSIGNAL_IMAGE_FILE
+  DEFINES += -DNOSIGNAL_IMAGE_FILE='"$(NOSIGNAL_IMAGE_FILE)"'
+endif
+ifdef STARTUP_IMAGE_FILE
+  DEFINES += -DSTARTUP_IMAGE_FILE='"$(STARTUP_IMAGE_FILE)"'
 endif
 
 
