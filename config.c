@@ -300,7 +300,15 @@ bool config_t::ProcessArgs(int argc, char *argv[])
     //          break;
     case 'V': ProcessArg("Video.Driver", optarg);
               break;
-    case 'A': ProcessArg("Audio.Driver", optarg);
+    case 'A': if(strchr(optarg,':')) {
+                char *tmp = strdup(optarg);
+		char *pt = strchr(tmp,':');
+		*pt = 0;
+                ProcessArg("Audio.Driver", tmp);
+                ProcessArg("Audio.Port", pt+1);
+		free(tmp);
+              } else
+                ProcessArg("Audio.Driver", optarg);
               break;
     case 'P': if(post_plugins)
                 post_plugins = strcatrealloc(post_plugins, ";");
