@@ -1338,7 +1338,7 @@ const tI18nPhrase Phrases[] = {
     "", // Croatian
   },
   {
-    "Audio Equalizer >>", // English
+    "Audio equalizer >>", // English
     "", // Deutsch
     "", // Slovenski
     "", // Italiano
@@ -1638,7 +1638,7 @@ const tI18nPhrase Phrases[] = {
     "", // Croatian
   },
   {
-    "Test Images", // English
+    "Test images", // English
     "", // Deutsch
     "", // Slovenski
     "", // Italiano
@@ -2454,6 +2454,88 @@ const tI18nPhrase Phrases[] = {
     "", // Ellinika
     "", // Svenska
    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+
+  // 1.0.0pre4:
+  {
+    "Media", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Media", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  {
+    "Video settings", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Videoasetukset", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  {
+    "Audio settings", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Ääniasetukset", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  {
+    "Overscan (crop image borders)", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Overscan (leikkaa kuvasta reunat)", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
     "", // Magyar
     "", // Catala
     "", // Russian
