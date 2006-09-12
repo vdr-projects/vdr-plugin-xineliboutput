@@ -21,14 +21,16 @@ class cMenuXinelib : public cMenuSetupPage
     int compression;
     int headphone;
     int autocrop;
+    int overscan;
     int novideo;
-    
+
 #ifdef HAVE_XV_FIELD_ORDER
     cOsdItem *video_ctrl_interlace_order;
 #endif
     cOsdItem *audio_ctrl_compress;
 
     cOsdItem *ctrl_autocrop;
+    cOsdItem *ctrl_overscan;
     cOsdItem *ctrl_headphone;
     cOsdItem *ctrl_novideo;
  
