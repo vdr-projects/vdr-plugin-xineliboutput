@@ -4138,12 +4138,14 @@ static buf_element_t *vdr_plugin_read_block (input_plugin_t *this_gen,
 
     /* internal control bufs */
     if(buf->type == CONTROL_BUF_BLANK) {
-      if(!this->stream_start)
-	LOGMSG("BLANK in middle of stream!");
       buf->free_buffer(buf);
       buf = NULL;
-      _x_demux_control_newpts(this->stream, 0, 0);
-      queue_blank_yv12(this);
+      if(!this->stream_start)
+	LOGMSG("BLANK in middle of stream!");
+      else {
+	_x_demux_control_newpts(this->stream, 0, 0);
+	queue_blank_yv12(this);
+      }
       continue;
     }
 
