@@ -2941,8 +2941,21 @@ static int vdr_plugin_parse_control(input_plugin_t *this_gen, const char *cmd)
 	i++;
       }
 
+  } else if(!strncasecmp(cmd, "VERSION ", 7)) {
+    if(!strncmp(XINELIBOUTPUT_VERSION " ", cmd+8, 
+		strlen(XINELIBOUTPUT_VERSION)+1)) {
+      if(this->fd_control < 0) {
+      /* Check should use protocol version.
+       * In remote mode check is done in connect */
+	LOGMSG("WARNING! xineplug_inp_xvdr.so and libvdr-xineliboutput.so "
+	       "are from different version");
+	LOGMSG("Re-install plugin !");
+	/*abort();*/
+      }
+    }
+
   } else if(!strncasecmp(cmd, "HDMODE ", 7)) {
-    if(1 == sscanf(cmd, "NOVIDEO %d", &tmp32)) {
+    if(1 == sscanf(cmd, "HDMODE %d", &tmp32)) {
       pthread_mutex_lock(&this->lock);
       this->hd_stream = tmp32 ? 1 : 0;
       pthread_mutex_unlock(&this->lock);
