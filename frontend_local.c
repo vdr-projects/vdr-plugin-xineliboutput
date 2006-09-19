@@ -397,6 +397,7 @@ void cXinelibLocal::Action(void)
 
       m_StreamPos = 0;
       Xine_Control("STREAMPOS 0"); 
+      Xine_Control("VERSION " XINELIBOUTPUT_VERSION " " "\r\n");
     }
 
     // configure frontend and xine
@@ -409,6 +410,9 @@ void cXinelibLocal::Action(void)
     ConfigurePostprocessing("upmix",     xc.audio_upmix ? true : false, NULL);
     ConfigurePostprocessing("autocrop",  xc.autocrop  ? true : false, 
 			    xc.AutocropOptions());
+    ConfigurePostprocessing("pp", xc.ffmpeg_pp ? true : false, 
+			    xc.FfmpegPpOptions());
+
 #ifdef ENABLE_TEST_POSTPLUGINS
     ConfigurePostprocessing("headphone", xc.headphone ? true : false, NULL);
 #endif
