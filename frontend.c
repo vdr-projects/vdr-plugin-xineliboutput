@@ -442,7 +442,9 @@ bool cXinelibThread::LogoDisplay(void)
 
   extern const unsigned char v_mpg_vdrlogo[];     // vdrlogo_720x576.c
   extern const int v_mpg_vdrlogo_length;
-
+#ifdef STARTUP_IMAGE_FILE
+  // load or mmap ?
+#endif
   bool r = Play_Mpeg2_ES(v_mpg_vdrlogo, v_mpg_vdrlogo_length, VIDEO_STREAM);
   for(int i=0; i<5 && !Flush(100); i++)
     ;
@@ -482,7 +484,7 @@ int cXinelibThread::Xine_Control(const char *cmd, int64_t p1)
 
 int cXinelibThread::Xine_Control(const char *cmd, const char *p1)
 {
-  char buf[128];
+  char buf[1024];
   sprintf(buf, "%s %s", cmd, p1);
   return Xine_Control(buf);
 }
@@ -540,7 +542,7 @@ int cXinelibThread::ConfigurePostprocessing(const char *deinterlace_method,
 					    int audio_surround,
 					    int speaker_type) 
 {
-  char tmp[255];
+  char tmp[1024];
   int r = true;
 
   if(strcmp(deinterlace_method, "tvtime")) 
