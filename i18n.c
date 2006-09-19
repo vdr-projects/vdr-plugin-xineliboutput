@@ -1888,7 +1888,7 @@ const tI18nPhrase Phrases[] = {
     "", // Portugu<EA>s
     "", // Fran<E7>ais
     "", // Norsk
-    "Pois", // Suomi
+    "ei käytössä", // Suomi
     "", // Polski
     "", // Espa<F1>ol
     "", // Ellinika
