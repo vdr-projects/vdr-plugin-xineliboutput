@@ -137,7 +137,7 @@ static inline ssize_t timed_write(int fd, const void *buffer, size_t size,
   cPoller poller(fd, true);
 
   while (size > 0) {
-
+    errno = 0;
     if(!poller.Poll(timeout_ms)) {
       LOGERR("timed_write: poll() failed");
       return written-size;
