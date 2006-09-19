@@ -508,7 +508,8 @@ cMenuXinelib::cMenuXinelib()
   ctrl_headphone = NULL;
 #endif
 
-  Add(audio_ctrl_compress = new cMenuEditTypedIntItem(tr("Audio Compression"),"%", &compression, 100, 500, tr("Off")));
+  Add(audio_ctrl_compress = new cMenuEditTypedIntItem(tr("Audio Compression"),"%", 
+						      &compression, 100, 500, NULL, tr("Off")));
 
   Add(new cOsdItem(tr("Audio equalizer >>"), osUser7));
 
