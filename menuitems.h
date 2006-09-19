@@ -19,13 +19,14 @@ class cMenuEditTypedIntItem : public cMenuEditIntItem
 {
   protected:
     char *type;
-    char *zeroText;
+    char *zeroString;
 
     virtual void Set(void);
 
   public:
     cMenuEditTypedIntItem(const char *Name, const char *Type, int *Value, 
-			  int Min = 0, int Max = INT_MAX, const char *ZeroText = NULL);
+			  int Min = 0, int Max = INT_MAX, const char *ZeroString = NULL,
+			  const char *MinString = NULL, const char *MaxString = NULL);
     ~cMenuEditTypedIntItem();
 };
 
