@@ -104,6 +104,9 @@ typedef struct fbfe_t {
 
 } fe_t;
 
+#define IS_FBFE
+static char *fbdev = NULL;
+
 /* Common (non-X11/FB) frontend functions */
 #include "xine_frontend.c"
 
@@ -164,6 +167,10 @@ static int fbfe_display_open(frontend_t *this_gen, int width, int height, int fu
   this->vis.user_data = this;
 
   this->update_display_size = fbfe_update_display_size;
+
+  if(video_port && *video_port && !strncmp(video_port, "/dev/", 5)) {
+    fbdev = strdup(video_port);
+  }
 
   return 1;
 }
