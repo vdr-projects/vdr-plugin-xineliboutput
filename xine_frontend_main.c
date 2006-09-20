@@ -275,6 +275,12 @@ int main(int argc, char *argv[])
 		printf("Audio device: %s\n",adev);
 	      break;
     case 'V': gdrv = strdup(optarg);
+              if(strchr(gdrv, ':')) {
+		video_port = strchr(gdrv, ':');
+		*video_port = 0;
+		video_port++;
+		printf("Video port: %s\n",video_port);
+	      }
               printf("Video driver: %s\n",gdrv);
               break;
     case 'd': video_port = strdup(optarg);
