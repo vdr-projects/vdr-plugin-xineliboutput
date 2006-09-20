@@ -222,14 +222,14 @@ static inline int write_osd_command(int fd, osd_command_t *cmd)
   return 1;
 }
 
-static inline ssize_t write_str(int fd, const char *str, int timeout_ms=-1)
+static inline ssize_t write_str(int fd, const char *str, int timeout_ms=-1, int len=0)
 {
-  return timed_write(fd, str, strlen(str), timeout_ms);
+  return timed_write(fd, str, len ? : strlen(str), timeout_ms);
 }
 
-static inline ssize_t write_cmd(int fd, const char *str)
+static inline ssize_t write_cmd(int fd, const char *str, int len=0)
 {
-  return write_str(fd, str, 10);
+  return write_str(fd, str, 10, len);
 }
 
 static inline int udp_discovery_broadcast(int fd_discovery, int m_Port)
