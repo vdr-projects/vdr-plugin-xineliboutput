@@ -203,8 +203,9 @@ int cXinelibLocal::Xine_Control(const char *cmd)
 {
   TRACEF("cXinelibLocal::Xine_Control");
   if(cmd && *cmd) {
-    char buf[2048];
-    sprintf(buf, "%s\r\n", cmd);
+    char buf[4096];
+    snprintf(buf, sizeof(buf), "%s\r\n", cmd);
+    buf[sizeof(buf)-1] = 0;
     LOCK_FE;
     if(fe)
       return fe->xine_control(fe, (char*)buf);
