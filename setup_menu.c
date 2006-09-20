@@ -629,8 +629,8 @@ void cMenuSetupVideo::Store(void)
   xc.brightness = INDEX_TO_CONTROL(xc.brightness);
 #endif
 
-  //strcpy(xc.deinterlace_method, xc.s_deinterlaceMethods[deinterlace]);
-  strcpy(xc.deinterlace_method, tvtime.ToString());
+  strcpy(xc.deinterlace_method, xc.s_deinterlaceMethods[deinterlace]);
+  strcpy(xc.deinterlace_opts, tvtime.ToString());
   SetupStore("Video.Deinterlace", xc.deinterlace_method);
   SetupStore("Video.DeinterlaceOptions", xc.deinterlace_opts);
 
