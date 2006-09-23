@@ -54,7 +54,7 @@ static void x_syslog(int level, const char *fmt, ...)
   va_start(argp, fmt);
   vsnprintf(buf, sizeof(buf), fmt, argp);
   if(!LogToSysLog) {
-    printf(LOG_MODULENAME "%s\n", buf);
+    printf("[%ld] " LOG_MODULENAME "%s\n", syscall(__NR_gettid), buf);
   } else {
     syslog(level, "[%ld] " LOG_MODULENAME "%s", syscall(__NR_gettid), buf);
   }
