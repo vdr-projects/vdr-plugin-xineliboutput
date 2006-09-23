@@ -1888,7 +1888,7 @@ static int exec_osd_command(vdr_input_plugin_t *this, osd_command_t *cmd)
 	  if(unscaled_supported && this->unscaled_osd_lowresvideo)
 	    use_unscaled = 1;
 
-	if(this->rescale_osd) {
+	if(!use_unscaled && this->rescale_osd) {
 
 	  if(!this->rescale_osd_downscale) {
 	    if(width_diff<0) {
@@ -1931,6 +1931,7 @@ static int exec_osd_command(vdr_input_plugin_t *this, osd_command_t *cmd)
 	
 	if(win_width > 240 && win_height > 196) {
 	  if(this->rescale_osd) {
+	    /*LOGMSG("Scaling unscaled OSD to %dx%d", win_width, win_height);*/
 	    if(win_width != this->vdr_osd_width || win_height != this->vdr_osd_height) {
 	      int new_w = (0x100*cmd->w * win_width 
 			   / this->vdr_osd_width)>>8;
