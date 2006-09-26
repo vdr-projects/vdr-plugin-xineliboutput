@@ -474,7 +474,7 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
 			    20, NULL, NULL);
   xine_config_register_bool(this->xine,
 			    "gui.osd_use_unscaled",
-			    1,
+			    0,
 			    _("Use unscaled OSD"),
 			    _("Use unscaled (full screen resolution) OSD if possible"),
 			    10, NULL, NULL);
