@@ -39,7 +39,7 @@ const tI18nPhrase Phrases[] = {
     "", // Croatian
   },
   {
-    "Xine-lib", // English
+    "Media Player (xine-lib)", // English
     "Xine-lib", // Deutsch
     "", // Slovenski
     "", // Italiano
@@ -47,7 +47,7 @@ const tI18nPhrase Phrases[] = {
     "", // Português
     "", // Français
     "", // Norsk
-    "Xine-lib", // Suomi
+    "Mediasoitin (xine-lib)", // Suomi
     "", // Polski
     "", // Español
     "", // Ellinika
@@ -2837,6 +2837,46 @@ const tI18nPhrase Phrases[] = {
     "", // Fran<E7>ais
     "", // Norsk
     "  Valitse tekstityskieli (DVD) >>", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  {
+    "DVD SPU Track", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "DVD-tekstityskieli", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  {
+    "Aspect ratio", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Kuvasuhde", // Suomi
     "", // Polski
     "", // Espa<F1>ol
     "", // Ellinika
