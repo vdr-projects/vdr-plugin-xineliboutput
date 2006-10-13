@@ -24,6 +24,12 @@ class cMenuXinelib : public cMenuSetupPage
     int overscan;
     int novideo;
 
+    // Hotkeys
+    enum {hkInit, hkSeen, hkNone} hotkey_state;
+    static time_t g_LastHotkeyTime;
+    static eKeys  g_LastHotkey;
+    virtual eOSState ProcessHotkey(eKeys Key);
+
 #ifdef HAVE_XV_FIELD_ORDER
     cOsdItem *video_ctrl_interlace_order;
 #endif
