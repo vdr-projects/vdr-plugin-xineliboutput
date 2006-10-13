@@ -1488,16 +1488,16 @@ eOSState cMenuTestImages::ProcessKey(eKeys Key)
 
   switch (state) {
     case osUser1:
-      g_PendingMenuAction = new cTestGrayscale();
-      cRemote::CallPlugin("xineliboutput");
+      if(cRemote::CallPlugin("xineliboutput"))
+	g_PendingMenuAction = new cTestGrayscale();
       return osEnd;
     case osUser2:
-      g_PendingMenuAction = new cTestBitmap(1);
-      cRemote::CallPlugin("xineliboutput");
+      if(cRemote::CallPlugin("xineliboutput"))
+	g_PendingMenuAction = new cTestBitmap(1);
       return osEnd;
     case osUser3:
-      g_PendingMenuAction = new cTestBitmap(4);
-      cRemote::CallPlugin("xineliboutput");
+      if(cRemote::CallPlugin("xineliboutput"))
+	g_PendingMenuAction = new cTestBitmap(4);
       return osEnd;
     default: ;
   }
