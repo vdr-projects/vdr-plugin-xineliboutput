@@ -148,10 +148,12 @@ class cXinelibDevice : public cDevice
     int  m_DvdSpuTracks;
     int  m_CurrentDvdSpuTrack;
     bool m_DvdSpuTrack[64];
-    void ClrAvailableDvdSpuTracks(void);
-    bool SetAvailableDvdSpuTrack(int Type);
+    char m_DvdSpuLang[64][64];
 
   public:
+    void ClrAvailableDvdSpuTracks(void);
+    bool SetAvailableDvdSpuTrack(int Type, const char *lang = NULL);
+    const char *GetDvdSpuLang(int Type);
     int  NumDvdSpuTracks(void) const { return m_DvdSpuTracks; }
     int  GetCurrentDvdSpuTrack(void) { return m_CurrentDvdSpuTrack; }
     bool SetCurrentDvdSpuTrack(int Type);
