@@ -1224,7 +1224,8 @@ void cXinelibServer::Handle_Control(int cli, const char *cmd)
     }
 
   } else if(!strncmp(cmd, "TRACKMAP ", 9)) {
-    cXinelibThread::InfoHandler(cmd);
+    if(!*xc.local_frontend || strncmp(xc.local_frontend, "none", 4))
+      cXinelibThread::InfoHandler(cmd);
 
   } else if(!strncasecmp(cmd, "GRAB ", 5)) {
     Handle_Control_GRAB(cli, cmd+5);
