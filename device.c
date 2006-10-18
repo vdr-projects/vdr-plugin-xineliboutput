@@ -1326,7 +1326,7 @@ const char *cXinelibDevice::GetDvdSpuLang(int Type)
   return NULL;
 }
 
-bool cXinelibDevice::SetAvailableDvdSpuTrack(int Type, const char *lang)
+bool cXinelibDevice::SetAvailableDvdSpuTrack(int Type, const char *lang, bool Current)
 {
   if(Type >= 0 && Type < 64 &&
      ! m_DvdSpuTrack[Type]) {
@@ -1335,6 +1335,7 @@ bool cXinelibDevice::SetAvailableDvdSpuTrack(int Type, const char *lang)
     if(lang) 
       strn0cpy(m_DvdSpuLang[Type], lang, 32);
     m_DvdSpuTracks++;
+    m_CurrentDvdSpuTrack = Type;
     return true;
   }
   return false;
