@@ -210,6 +210,17 @@ class cXinelibPlayer : public cPlayer {
     cXinelibPlayer(const char *file);
     virtual ~cXinelibPlayer();
 
+    virtual void SetAudioTrack(eTrackType Type, const tTrackId *TrackId)
+      {
+	LOGMSG("cXinelibPlayer::SetAudioTrack(%d)",(int)Type);
+	char tmp[64];
+	if(IS_DOLBY_TRACK(Type))
+	  sprintf(tmp, "AUDIOSTREAM AC3 %d", (int)(Type - ttDolbyFirst));
+	if(IS_AUDIO_TRACK(Type))
+	  sprintf(tmp, "AUDIOSTREAM AC3 %d", (int)(Type - ttAudioFirst));
+	cXinelibDevice::Instance().PlayFileCtrl(tmp);
+      };
+
     const char *Title(void);    
     const char *File(void);
     const char **Playlist(void) { return (const char**)m_Playlist; }
