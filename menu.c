@@ -697,9 +697,7 @@ eOSState cMenuXinelib::ProcessHotkey(eKeys Key)
       break;
 
     case HOTKEY_DVD_SPU:
-      /* case 1: DVD SPUs in vdr recordings */
-      /* * TODO: DVD spu/audio map when playing DVD ... */
-      /* use audio track window ... ? */
+      /* use audio track display menu ? */
       {
 	int count = cXinelibDevice::Instance().NumDvdSpuTracks();
 	int current = cXinelibDevice::Instance().GetCurrentDvdSpuTrack();
