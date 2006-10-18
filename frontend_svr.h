@@ -99,7 +99,7 @@ protected:
     int  fd_control[MAXCLIENTS];
     int  fd_data[MAXCLIENTS];
 
-    char m_CtrlBuf[MAXCLIENTS][90+1];
+    char m_CtrlBuf[MAXCLIENTS][1024+1];
     int  m_CtrlBufPos[MAXCLIENTS];
 
     bool m_bUdp[MAXCLIENTS];

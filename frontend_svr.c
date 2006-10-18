@@ -1243,7 +1243,7 @@ void cXinelibServer::Read_Control(int cli)
 
     ++m_CtrlBufPos[cli];
 
-    if( m_CtrlBufPos[cli] > 79) {
+    if( m_CtrlBufPos[cli] > 256) {
       LOGMSG("Received too long control message from client %d (%d bytes)", 
 	     cli, m_CtrlBufPos[cli]);
       LOGMSG("%81s",m_CtrlBuf[cli]);
