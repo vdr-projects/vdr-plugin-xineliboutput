@@ -102,7 +102,7 @@ class cXinelibThread : public cThread, public cListObject
     // Control from frontend
     static void KeypressHandler(const char *keymap, const char *key, 
 				bool repeat, bool release);
-    void InfoHandler(const char *info);
+    static void InfoHandler(const char *info);
 
   //
   // Configuration
