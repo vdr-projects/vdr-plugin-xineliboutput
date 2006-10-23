@@ -439,10 +439,11 @@ cDvdSpuTrackSelect::cDvdSpuTrackSelect(void) :
   int current = cXinelibDevice::Instance().GetCurrentDvdSpuTrack();
   Add(new cOsdItem("None", osUser1));
   while(count && id < 64) {
-    if(cXinelibDevice::Instance().HasDvdSpuTrack(id)) {
+    const tTrackId *track = cXinelibDevice::Instance().GetDvdSpuTrack(id);
+    if(track) {
       char name[64];
-      if(cXinelibDevice::Instance().GetDvdSpuLang(id))
-	sprintf(name, "Track %d: %s", id, cXinelibDevice::Instance().GetDvdSpuLang(id));
+      if(track->language[0])
+	sprintf(name, "Track %d: %s", id, track->language);
       else
 	sprintf(name, "Track %d", id);
       Add(new cOsdItem(name, osUser1));
