@@ -57,6 +57,21 @@
 #define LOGDBG(x...) do{ if(SysLogLevel > 2) x_syslog(LOG_DEBUG, x); } while(0)
 
 
+#ifdef NDEBUG
+#  define ASSERT(expr)
+#else
+#  define ASSERT(expr,fatal) \
+      do { \
+        if(!(expr)) { \
+          LOGERR("Asseretion failed: %s at %s:%d (%s)", \
+                 #expr, __FILE__, __LINE__, __FUNCTION__); \
+          if(fatal) \
+            abort(); \
+        } \
+      } while(0)
+#endif
+
+
 #ifdef XINELIBOUTPUT_DEBUG
 # ifdef __cplusplus
 #
