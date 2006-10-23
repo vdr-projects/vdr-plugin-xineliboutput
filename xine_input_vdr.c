@@ -2478,7 +2478,6 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
     this->loop_play = 0;
     if(this->slave_stream) {
 
-      _x_set_fine_speed (this->slave_stream, speed);
       xine_stop(this->slave_stream);
 
       if (this->slave_event_queue) {
