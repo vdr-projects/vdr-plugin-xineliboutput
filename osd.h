@@ -49,7 +49,6 @@ class cXinelibOsd : public cOsd, public cListObject
     virtual ~cXinelibOsd();
 };
 
-class cMutex;
 
 class cXinelibOsdProvider : public cOsdProvider 
 {
