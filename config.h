@@ -169,7 +169,7 @@ class config_t {
     int  audio_compression;  // 100%(=off)...500%
     int  audio_equalizer[AUDIO_EQ_count];
     char audio_visualization[64];
-    //char audio_vis_goom_opts[256];
+    char audio_vis_goom_opts[256];
     int  audio_surround;
     int  headphone;
     int  audio_upmix;
