@@ -175,12 +175,14 @@ INCLUDES  += -I$(VDRDIR)/include
 LIBS_XINE += $(shell xine-config --libs)
 LIBS_X11  += -L/usr/X11R6/lib -lX11 -lXv -lXext
 
+LIBS      += -lrt
+
 DEFINES   += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' \
              -D_REENTRANT -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 \
 	     -DXINELIBOUTPUT_VERSION='"$(VERSION)"'
 
 # check for yaegp patch
-DEFINES += $(shell grep 'vidWin' \$(VDRDIR)/osd.h > /dev/null && echo "-DYAEGP_PATCH")
+DEFINES += $(shell grep 'vidWin' \$(VDRDIR)/osd.h >& /dev/null && echo "-DYAEGP_PATCH")
 
 ifeq ($(XINELIBOUTPUT_XINEPLUGIN), 1)
     CFLAGS += $(shell xine-config --cflags) 
