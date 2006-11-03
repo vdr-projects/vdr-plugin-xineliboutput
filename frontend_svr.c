@@ -539,11 +539,13 @@ int cXinelibServer::Xine_Control_Sync(const char *cmd)
 
 void cXinelibServer::TrickSpeed(int Speed)
 {
-  if(Speed == 0)
+  if(Speed == 0) {
     m_Scheduler->Pause(true);
-  else
+  } else {
     m_Scheduler->Pause(false);
-
+    m_Scheduler->TrickSpeed(Speed == -1 ? 1 : Speed);
+  }
+  
   cXinelibThread::TrickSpeed(Speed);
 }
 
