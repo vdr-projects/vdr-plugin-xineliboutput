@@ -103,7 +103,7 @@ void cFileListItem::Set(void)
       else
 	asprintf(&txt, "\t\t[%s] ", m_Name); // text2skin requires space at end of string to display item correctly ...
     } else {
-      asprintf(&txt, "%c\t%c\t%s", m_HasResume?' ':'*', m_HasSubs ? 'S' : ' ', m_Name);
+      asprintf(&txt, "%c\t%c\t%s", m_HasResume ? ' ' : '*', m_HasSubs ? 'S' : m_IsDvd ? 'D' : ' ', m_Name);
       if(NULL != (pt = strrchr(txt,'.')))
 	*pt = 0;
     }
