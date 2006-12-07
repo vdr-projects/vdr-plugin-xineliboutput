@@ -1242,7 +1242,8 @@ void cXinelibServer::Handle_Control(int cli, const char *cmd)
 
 void cXinelibServer::Read_Control(int cli)
 {
-  while(read(fd_control[cli], &m_CtrlBuf[ cli ][ m_CtrlBufPos[cli] ], 1) == 1) {
+  int n;
+  while((n = read(fd_control[cli], &m_CtrlBuf[ cli ][ m_CtrlBufPos[cli] ], 1)) == 1) {
 
     ++m_CtrlBufPos[cli];
 
@@ -1265,6 +1266,10 @@ void cXinelibServer::Read_Control(int cli)
 
       m_CtrlBufPos[cli] = 0;
     }
+  }
+  if (n == 0) {
+    LOGMSG("Client connection %d closed", cli);
+    CloseConnection(cli);
   }
 }
 
