@@ -93,8 +93,6 @@ protected:
     int  m_Port;
 
     int  fd_listen;
-    int  fd_multicast;
-    int  fd_rtcp;
     int  fd_discovery;
     int  fd_control[MAXCLIENTS];
     int  fd_data[MAXCLIENTS];
@@ -103,6 +101,7 @@ protected:
     int  m_CtrlBufPos[MAXCLIENTS];
 
     bool m_bUdp[MAXCLIENTS];
+    bool m_bRtcp[MAXCLIENTS];
     bool m_bMulticast[MAXCLIENTS];
     bool m_bConfigOk[MAXCLIENTS];
     int  m_iMulticastMask; // bit [cli] is 1 or 0. 1 == multicast in use.
