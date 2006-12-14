@@ -11,6 +11,12 @@
 #ifndef __XINE_INPUT_VDR_NET_H_
 #define __XINE_INPUT_VDR_NET_H_
 
+#ifndef PACKED
+#  define PACKED  __attribute__((packed))
+#else
+#  warning PACKED already defined
+#endif
+
 #include <arpa/inet.h>
 #include <endian.h>
 
@@ -69,8 +75,6 @@
 #if defined __cplusplus
 extern "C" {
 #endif
-
-#define PACKED  __attribute__((packed))
 
 
 /*
