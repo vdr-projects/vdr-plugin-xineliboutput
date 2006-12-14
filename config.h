@@ -218,6 +218,7 @@ class config_t {
     int  remote_rtp_port;
     int  remote_rtp_ttl;
     int  remote_rtp_always_on;
+    int  remote_rtp_sap;
 
     int  use_x_keyboard;
 
