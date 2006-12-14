@@ -1228,6 +1228,8 @@ void cMenuSetupRemote::Set(void)
 				&newconfig.remote_rtp_ttl, 1, 10));
       Add(new cMenuEditBoolItem(tr("    Transmit always on"), 
 				&newconfig.remote_rtp_always_on));
+      Add(new cMenuEditBoolItem(tr("    SAP announcements"), 
+				&newconfig.remote_rtp_sap));
     }
     Add(new cMenuEditBoolItem(tr("  PIPE transport"), 
 			      &newconfig.remote_usepipe));
@@ -1287,6 +1289,7 @@ void cMenuSetupRemote::Store(void)
   SetupStore("Remote.Rtp.Port",     xc.remote_rtp_port);
   SetupStore("Remote.Rtp.TTL",      xc.remote_rtp_ttl);
   SetupStore("Remote.Rtp.AlwaysOn", xc.remote_rtp_always_on);
+  SetupStore("Remote.Rtp.SapAnnouncements", xc.remote_rtp_sap);
 
   cXinelibDevice::Instance().Listen(xc.remote_mode, xc.listen_port);
 }
