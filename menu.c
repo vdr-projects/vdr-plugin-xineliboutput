@@ -257,6 +257,8 @@ eOSState cMenuBrowseFiles::Open(bool ForceOpen, bool Parent)
     const char *d = GetCurrent()->Name();
     char *buffer = NULL;
     asprintf(&buffer, "%s/%s", m_CurrentDir, d);
+    while(buffer[0] == '/' && buffer[1] == '/')
+      strcpy(buffer, buffer+1);
     free(m_CurrentDir);
     m_CurrentDir = buffer;
     Set();
