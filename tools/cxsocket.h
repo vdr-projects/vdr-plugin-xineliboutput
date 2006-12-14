@@ -195,7 +195,7 @@ static inline ssize_t timed_read(int fd, void *buffer, size_t size,
   return size;
 }
 
-//#include "xine_osd_command.h"
+#include "../xine_osd_command.h"
 
 static inline int write_osd_command(int fd, osd_command_t *cmd)
 {
