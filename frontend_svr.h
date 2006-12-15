@@ -83,6 +83,9 @@ protected:
     void Handle_Control_UDP_RESEND(int cli, const char *arg);
     void Handle_Control_CONFIG(int cli);
     void Handle_Control_GRAB(int cli, const char *arg);
+    void Handle_Control_CONTROL(int cli, const char *arg);
+    void Handle_Control_HTTP(int cli, const char *arg);
+    void Handle_Control_RTSP(int cli, const char *arg);
 
     void CloseConnection(int cli);
 
@@ -101,7 +104,7 @@ protected:
     int  m_CtrlBufPos[MAXCLIENTS];
 
     bool m_bUdp[MAXCLIENTS];
-    bool m_bRtcp[MAXCLIENTS];
+    int  m_ConnType[MAXCLIENTS];
     bool m_bMulticast[MAXCLIENTS];
     bool m_bConfigOk[MAXCLIENTS];
     int  m_iMulticastMask; // bit [cli] is 1 or 0. 1 == multicast in use.
