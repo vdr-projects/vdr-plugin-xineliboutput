@@ -68,14 +68,16 @@
 #define X11_DRIVER_XV            2
 #define X11_DRIVER_XVMC          3
 #define X11_DRIVER_XXMC          4
-#define X11_DRIVER_NONE          5
-#define X11_DRIVER_count         6
+#define X11_DRIVER_VIDIX         5
+#define X11_DRIVER_NONE          6
+#define X11_DRIVER_count         7
 
 #define FB_DRIVER_AUTO           0
 #define FB_DRIVER_FB             1
 #define FB_DRIVER_DIRECTFB       2
-#define FB_DRIVER_NONE           3
-#define FB_DRIVER_count          4
+#define FB_DRIVER_VIDIXFB        3
+#define FB_DRIVER_NONE           4
+#define FB_DRIVER_count          5
 
 // Local frontend
 #define FRONTEND_X11             0
