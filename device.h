@@ -229,6 +229,7 @@ class cXinelibDevice : public cDevice
     int  m_AudioCount;
     bool m_SkipAudio;
     bool m_StreamStart;
+    bool m_Polled;
 
     int PlayAny(const uchar *Data, int Length);
 
