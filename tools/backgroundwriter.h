@@ -23,7 +23,8 @@ class cBackgroundWriter : public cThread {
     cRingBufferLinear m_RingBuffer;
 
     volatile bool m_Active;
-    int m_fd;
+    bool m_Raw; /* stream without stream_tcp_header_t */
+    int  m_fd;
 
     uint64_t m_PutPos;
     uint64_t m_DiscardStart;
@@ -38,7 +39,7 @@ class cBackgroundWriter : public cThread {
 	    const uchar *Data,   int DataCount);
 
   public:
-    cBackgroundWriter(int fd, int Size = KILOBYTE(512));
+    cBackgroundWriter(int fd, int Size = KILOBYTE(512), bool Raw = false);
     virtual ~cBackgroundWriter() ;
 
     // Return largest possible Put size
@@ -56,7 +57,6 @@ class cBackgroundWriter : public cThread {
     // Drop all data (only complete frames) from buffer
     void Clear(void);
 
-    //bool Poll(int TimeoutMs);
     bool Flush(int TimeoutMs);
 };
 
