@@ -463,7 +463,7 @@ bool cUdpScheduler::Poll(int TimeoutMs, bool Master)
     return true;
   }
   
-  const int limit = m_Master ? MAX_QUEUE_SIZE : MAX_LIVE_QUEUE_SIZE;
+  int limit = m_Master ? MAX_QUEUE_SIZE : MAX_LIVE_QUEUE_SIZE;
   if(m_QueuePending >= limit) {
     uint64_t WaitEnd = cTimeMs::Now();
     if(TimeoutMs >= 0)
@@ -541,7 +541,8 @@ bool cUdpScheduler::Queue(uint64_t StreamPos, const uchar *Data, int Length)
   if(m_Handles[0] < 0) 
     return true;
 
-  if(m_QueuePending >= MAX_QUEUE_SIZE)
+  int limit = m_Master ? MAX_QUEUE_SIZE : MAX_LIVE_QUEUE_SIZE;
+  if(m_QueuePending >= limit)
     return false;
 
   m_BackLog->MakeFrame(StreamPos, Data, Length); 
