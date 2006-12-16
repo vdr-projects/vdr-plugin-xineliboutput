@@ -243,7 +243,9 @@ class config_t {
     bool ProcessArgs(int argc, char *argv[]);
 
     bool IsImageFile(const char *);
+    bool IsAudioFile(const char *);
     bool IsVideoFile(const char *);
+    bool IsPlaylistFile(const char *);
 
     const char *AutocropOptions(void);
     const char *FfmpegPpOptions(void);
