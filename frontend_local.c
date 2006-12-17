@@ -220,8 +220,9 @@ int cXinelibLocal::Xine_Control(const char *cmd)
 extern "C" {
   static void keypress_handler(const char *keymap, const char *key)
   {
-    if(!strncmp("TRACKMAP", keymap, 8)) {
-
+    if(!strncmp("TRACKMAP", keymap, 8) ||
+       !strncmp("METAINFO", keymap, 8)) {
+      
       cXinelibThread::InfoHandler(keymap);
 
     } else if(!xc.use_x_keyboard || !key) {
