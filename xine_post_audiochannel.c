@@ -1,4 +1,14 @@
 /*
+ * xine_post_audiochannel.c: xine post plugin
+ *
+ * See the main source file 'xineliboutput.c' for copyright information and
+ * how to reach the author.
+ *
+ * $Id$
+ *
+ */
+
+/*
  * Copyright (C) 2006 the xine project
  * 
  * This file is part of xine, a free video player.
