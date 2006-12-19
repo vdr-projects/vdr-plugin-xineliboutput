@@ -94,6 +94,7 @@ protected:
     // Data
 
     int  m_Port;
+    int  m_ServerId;
 
     int  fd_listen;
     int  fd_discovery;
