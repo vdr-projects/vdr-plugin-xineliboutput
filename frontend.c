@@ -704,20 +704,17 @@ int cXinelibThread::ConfigurePostprocessing(const char *deinterlace_method,
 int cXinelibThread::ConfigurePostprocessing(const char *name, bool on, const char *args)
 {
   char buf[1024];  
-  if(on) {
+  if(on) 
     snprintf(buf, sizeof(buf), "POST %s On %s", (name&&*name)?name:"0", args?args:"");
-    buf[sizeof(buf)-1] = 0;
-    return Xine_Control(buf);
-  } else {
+  else 
     // 0 - audio vis.
     // 1 - audio post
     // 2 - video post
     //return fe->post_close(fe, name, -1);
     snprintf(buf, sizeof(buf), "POST %s Off", (name&&*name)?name:"0");
-    buf[sizeof(buf)-1] = 0;
-    return Xine_Control(buf);
-  }
-  return -1;
+
+  buf[sizeof(buf)-1] = 0;
+  return Xine_Control(buf);
 }
 
 int cXinelibThread::ConfigureVideo(int hue, int saturation, 
