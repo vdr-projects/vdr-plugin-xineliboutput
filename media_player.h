@@ -38,6 +38,7 @@ class cXinelibPlayerControl : public cControl
     bool  m_ShowModeOnly;
     eMainMenuMode m_Mode;
     bool m_RandomPlay;
+    time_t m_AutoShowStart;
 
     static int m_SubtitlePos;
 
