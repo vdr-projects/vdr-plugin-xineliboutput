@@ -155,6 +155,12 @@ void cXinelibThread::InfoHandler(const char *info)
       map = end+1;
     }
   }
+   
+  else if(!strncmp(info, "TITLE ", 6)) {
+    map += 6;
+    while(*map == ' ') map++;
+    cXinelibDevice::Instance().SetMetaInfo(miTitle, map);
+  }
 
   free(pmap);
 }

@@ -21,10 +21,11 @@ class cChannel;
 class cFunctor;
 
 typedef enum {
-  miTrack  = 0,
-  miArtist = 1,
-  miAlbum  = 2,
-  mi_Count = 3
+  miTitle  = 0,
+  miTrack  = 1,
+  miArtist = 2,
+  miAlbum  = 3,
+  mi_Count = 4
 } eMetainfoType;
 
 #define MAX_METAINFO_LEN 63
