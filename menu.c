@@ -267,7 +267,7 @@ eOSState cMenuBrowseFiles::Open(bool ForceOpen, bool Parent)
   /* regular file */
   } else {
     char *f = NULL;
-    asprintf(&f, "%s/%s/%s", 
+    asprintf(&f, "%s%s/%s", 
 	     GetCurrent()->IsDvd() ? "dvd:" : "",
 	     m_CurrentDir, GetCurrent()->Name());
     strcpy(m_ConfigLastDir, f);
@@ -518,7 +518,6 @@ static cOsdItem *NewTitle(const char *s)
 }
 
 
-const char *decoderState[] = {"running", "paused", NULL};
 extern cOsdObject *g_PendingMenuAction;
 
 time_t cMenuXinelib::g_LastHotkeyTime = 0;
