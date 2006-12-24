@@ -22,6 +22,7 @@ class cBackgroundWriter;
 class cUdpScheduler;
 class cStcFuture;
 class cCmdFutures;
+class cConnState;
 
 class cXinelibServer : public cXinelibThread 
 {
@@ -113,9 +114,10 @@ protected:
 
     cString m_PipesDir;
 
-    cBackgroundWriter *m_Writer[MAXCLIENTS];
+    cBackgroundWriter *m_Writer[MAXCLIENTS]; // buffered output (pipe/tcp/http)
+    cConnState        *m_State[MAXCLIENTS];  // connection state (http/rtsp)
     cUdpScheduler     *m_Scheduler;
-    bool              m_Master;
+    bool               m_Master;
     cStcFuture        *m_StcFuture;
     cCmdFutures       *m_Futures;
 
