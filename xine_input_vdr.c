@@ -173,6 +173,10 @@ static void SetupLogLevel(void)
 #endif
 
 
+#ifdef DEBUG_LOCKING
+# include "tools/debug_mutex.h"
+#endif
+
 /******************************* DATA ***********************************/
 
 #define KILOBYTE(x)   (1024 * (x))
@@ -2377,7 +2381,8 @@ static void send_meta_info(vdr_input_plugin_t *this)
     char *artist = (char *)xine_get_meta_info(this->slave_stream, XINE_META_INFO_ARTIST);
     char *album  = (char *)xine_get_meta_info(this->slave_stream, XINE_META_INFO_ALBUM);
 
-    asprintf(&meta, "INFO METAINFO title=\'%s\' artist=\'%s\' album=\'%s\'\r\n",
+    asprintf(&meta, 
+	     "INFO METAINFO title=\'%s\' artist=\'%s\' album=\'%s\'\r\n",
 	     title?:"", artist?:"", album?:"");
 
     if(this->fd_control < 0)
@@ -2529,8 +2534,12 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
 	  this->funcs.fe_control(this->funcs.fe_handle, 
 				 has_video ? "NOVIDEO 1\r\n" : "NOVIDEO 0\r\n");
 	  if(!has_video && *av && strcmp(av, "none")) {
-	    char str[128];
-	    snprintf(str, sizeof(str), "POST %s On\r\n", av);
+	    char str[128], *avopts;
+	    if(NULL != (avopts = strchr(av, ':')))
+	      *avopts++ = 0;
+	    else
+	      avopts = "";
+	    snprintf(str, sizeof(str), "POST %s On %s\r\n", av, avopts);
 	    str[sizeof(str)-1] = 0;
 	    this->funcs.fe_control(this->funcs.fe_handle, str);
 	  } else {
@@ -2599,7 +2608,8 @@ static int handle_control_grab(vdr_input_plugin_t *this, const char *cmd)
 	pthread_mutex_lock (&this->fd_control_lock);
 	write_control_data(this, s, strlen(s));
 	write_control_data(this, data->data, data->size);
-	pthread_mutex_unlock (&this->fd_control_lock);
+	if(pthread_mutex_unlock (&this->fd_control_lock))
+	  LOGERR("pthread_mutex_unlock failed");
       } else {
 	/* failed */
 	printf_control(this, "GRAB %d 0\r\n", this->token);
@@ -3554,6 +3564,22 @@ static void vdr_event_cb (void *user_data, const xine_event_t *event)
   }
 
   switch (event->type) {
+    case XINE_EVENT_UI_SET_TITLE:
+      if(event->stream==this->slave_stream) {
+	int tt;
+	char msg[256];
+	xine_ui_data_t *data = (xine_ui_data_t *)event->data;
+	LOGMSG("XINE_EVENT_UI_SET_TITLE: %s", data->str);
+
+	tt = _x_stream_info_get(this->stream,XINE_STREAM_INFO_DVD_TITLE_NUMBER);
+	sprintf(msg, "INFO TITLE %s\r\nINFO DVDTITLE %d\r\n", data->str, tt);
+	if(this->funcs.xine_input_event) 
+	  this->funcs.xine_input_event(msg, NULL);
+	else
+	  write_control(this, msg);
+	break;
+      }
+
     case XINE_EVENT_UI_CHANNELS_CHANGED:
       if(event->stream==this->slave_stream) 
 	slave_track_maps_changed(this);
