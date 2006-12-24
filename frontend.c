@@ -163,6 +163,12 @@ void cXinelibThread::InfoHandler(const char *info)
     cXinelibDevice::Instance().SetMetaInfo(miTitle, map);
   }
 
+  else if(!strncmp(info, "DVDTITLE ", 9)) {
+    map += 9;
+    while(*map == ' ') map++;
+    cXinelibDevice::Instance().SetMetaInfo(miDvdTitleNo, map);
+  }
+
   free(pmap);
 }
 
