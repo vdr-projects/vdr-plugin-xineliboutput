@@ -651,7 +651,7 @@ eOSState cMenuXinelib::ProcessKey(eKeys Key)
       return osEnd;
     case osUser6:
       cControl::Shutdown();
-      cControl::Launch(new cXinelibPlayerControl("cdda:/"));
+      cControl::Launch(new cXinelibPlayerControl(ShowMusic, "cdda:/"));
       return osEnd;
     case osUser5:
       AddSubMenu(new cDvdSpuTrackSelect());
