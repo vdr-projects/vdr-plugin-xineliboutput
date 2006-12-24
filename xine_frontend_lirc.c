@@ -1,14 +1,28 @@
 /*
- * xine_frontend_lirc.c
+ * xine_frontend_lirc.c: Forward (local) lirc keys to VDR (server)
  *
- * Forward (local) lirc keys to VDR (server)
- *
- *
- * Almost directly copied from vdr-1.4.3-2 (lirc.c : cLircRemote) 
+ * See the main source file 'xineliboutput.c' for copyright information and
+ * how to reach the author.
  *
  * $Id$
  *
  */
+/*
+ *
+ * Almost directly copied from vdr-1.4.3-2 (lirc.c : cLircRemote) 
+ *
+ */
+/*
+ * lirc.c: LIRC remote control
+ *
+ * See the main source file 'vdr.c' for copyright information and
+ * how to reach the author.
+ *
+ * LIRC support added by Carsten Koch <Carsten.Koch@icem.de>  2000-06-16.
+ *
+ * $Id$
+ */
+
 
 #include <stdint.h>
 #include <netinet/in.h>
