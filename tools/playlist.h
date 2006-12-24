@@ -90,7 +90,9 @@ class cPlaylist : protected cList<cPlaylistItem>
 		 bool (config_t::*Filter)(const char *) = &config_t::IsAudioFile);
 
   friend class cID3Scanner;
+  friend class cPlaylistReader;
   void PlaylistChanged(const cPlaylistItem *Item);
+  cPlaylistItem *Last(void) { return cList<cPlaylistItem>::Last(); }
 
  public:
 
@@ -104,6 +106,7 @@ class cPlaylist : protected cList<cPlaylistItem>
 
   // read playlist from file or create playlist from directory tree 
   bool Read(const char *PlaylistFile, bool Recursive = false);
+  void StartScanner(void);
   void Sort(void);
   int  Count(void) const;
 
