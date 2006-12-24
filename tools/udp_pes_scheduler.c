@@ -691,7 +691,7 @@ static uint32_t get_local_address(int fd, char *ip_address)
   socklen_t len = sizeof(sin);
 
   if(!getsockname(fd, (struct sockaddr *)&sin, &len)) {
-    local_addr = sin->sin_addr.s_addr;
+    local_addr = sin.sin_addr.s_addr;
 
   } else {
     //LOGERR("getsockname failed");
