@@ -102,11 +102,12 @@ class cUdpScheduler : public cThread
     uint32_t  m_Frames;
     uint32_t  m_Octets;
 
+    // Scheduling 
+
     int64_t last_delay_time;
+    bool    m_TrickSpeed;
 
     bool m_Master;   /* if true, we are master metronom for playback */
-
-    // Scheduling 
   
     int  calc_elapsed_vtime(int64_t pts, bool Audio);
     void Schedule(const uchar *Data, int Length);
