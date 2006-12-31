@@ -105,6 +105,7 @@ protected:
     char m_CtrlBuf[MAXCLIENTS][1024+1];
     int  m_CtrlBufPos[MAXCLIENTS];
 
+    int  m_MasterCli;
     bool m_bUdp[MAXCLIENTS];
     int  m_ConnType[MAXCLIENTS];
     bool m_bMulticast[MAXCLIENTS];
