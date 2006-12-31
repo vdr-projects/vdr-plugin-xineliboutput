@@ -223,7 +223,7 @@ ifeq ($(XINELIBOUTPUT_VDRPLUGIN), 1)
          i18n.o menuitems.o media_player.o equalizer.o \
          frontend_local.o frontend_svr.o \
          tools/cxsocket.o tools/udp_pes_scheduler.o \
-         tools/backgroundwriter.o tools/playlist.o
+         tools/backgroundwriter.o tools/playlist.o tools/http.o
   OBJS_MPG  = black_720x576.o nosignal_720x576.o vdrlogo_720x576.o
 else
   OBJS = 
