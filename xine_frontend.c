@@ -47,6 +47,7 @@ typedef struct {
 
 #undef x_syslog
 
+static void x_syslog(int level, const char *fmt, ...) __attribute__ ((format (printf, 2, 3)));
 static void x_syslog(int level, const char *fmt, ...)
 {
   va_list argp;
