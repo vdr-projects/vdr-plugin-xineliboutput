@@ -46,8 +46,10 @@ class cHeader : public cListObject
 
     const cString& Name(void)        { return m_Name; }
     const cString& Value(void)       { return m_Value; }
+    int  IntValue(void)              { return *m_Value?atoi(m_Value):-1; }
     void SetValue(const char *Value) { m_Value = Value; }
 };
+
 
 //
 // cHttpReq
@@ -79,11 +81,16 @@ class cHttpReq
     void           Reset(void);
 };
 
+
 //
 // cConnState
 //
 
-class cConnState : public cHttpReq {};
+class cConnState : public cHttpReq 
+{
+   public:
+};
+
 
 //
 // cHttpStreamer
