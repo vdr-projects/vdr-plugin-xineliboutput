@@ -11,6 +11,13 @@
 #ifndef __XINE_OSD_COMMAND_H_
 #define __XINE_OSD_COMMAND_H_
 
+#ifndef PACKED
+#  define PACKED  __attribute__((packed))
+#else
+#  warning PACKED already defined
+#endif
+
+
 #define MAX_OSD_OBJECT 50
 
 #if defined __cplusplus
@@ -32,12 +39,12 @@ typedef struct xine_clut_s {
   uint8_t cr    : 8;
   uint8_t y     : 8;
   uint8_t alpha : 8;
-} __attribute__((packed)) xine_clut_t; /* from xine, alphablend.h */
+} PACKED xine_clut_t; /* from xine, alphablend.h */
 
 typedef struct xine_rle_elem_s {
   uint16_t len;
   uint16_t color;
-} __attribute__((packed)) xine_rle_elem_t; /* from xine */
+} PACKED xine_rle_elem_t; /* from xine */
 
 typedef struct osd_command_s {
   uint32_t cmd;      /* osd_command_id_t */
@@ -65,7 +72,7 @@ typedef struct osd_command_s {
     uint64_t         dummy02;
   };
 
-} __attribute__((packed)) osd_command_t;
+} PACKED osd_command_t;
 
 
 #if defined __cplusplus
