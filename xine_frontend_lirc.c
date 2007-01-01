@@ -87,7 +87,7 @@ static void lircd_connect(void)
   }
 }
 
-void *lirc_receiver_thread(void *fe)
+static void *lirc_receiver_thread(void *fe)
 {
   int timeout = -1;
   uint64_t FirstTime = time_ms();
@@ -214,4 +214,33 @@ void *lirc_receiver_thread(void *fe)
   fd_lirc = -1;
   pthread_exit(NULL);
   return NULL; /* never reached */
+}
+
+void lirc_start(fe_t *fe, char *lirc_dev, int repeat_emu)
+{
+  if(lirc_dev) {
+    int err;
+    lirc_device_name = lirc_dev;
+    lirc_repeat_emu = repeat_emu;
+    if ((err = pthread_create (&lirc_thread,
+			       NULL, lirc_receiver_thread, 
+			       (void*)fe)) != 0) {
+      fprintf(stderr, "can't create new thread for lirc (%s)\n", 
+	      strerror(err));
+    }
+  }
+}
+
+void lirc_stop(void)
+{
+  if(lirc_device_name) {
+    void *p;
+    /*free(lirc_device_name);*/    
+    lirc_device_name = NULL;
+    if(fd_lirc >= 0)
+      close(fd_lirc);
+    fd_lirc = -1;
+    pthread_cancel (lirc_thread);
+    pthread_join (lirc_thread, &p);
+  }
 }
