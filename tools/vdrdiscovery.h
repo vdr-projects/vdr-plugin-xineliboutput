@@ -16,14 +16,22 @@
 
 #define DISCOVERY_MSG_MAXSIZE  1024
 
-#ifdef VDRVERSION
-int udp_discovery_init(/*int port*/);
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef FE_STANDALONE
+int udp_discovery_find_server(int *port, char *address);
+#else
+int udp_discovery_init(void);
 int udp_discovery_broadcast(int fd_discovery, int server_port);
 int udp_discovery_recv(int fd_discovery, char *buf, int timeout,
 		       struct sockaddr_in *source);
 int udp_discovery_is_valid_search(const char *buf);
-#else
-int udp_discovery_find_server(int *port, char *address);
+#endif
+
+#ifdef __cplusplus
+};
 #endif
 
 
