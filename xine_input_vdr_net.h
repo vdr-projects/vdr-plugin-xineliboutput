@@ -20,7 +20,7 @@
 #include <arpa/inet.h>
 #include <endian.h>
 
-#include "tools/rtp.h"
+#include "tools/rtp.h" /* generic RTP headers */
 
 
 /*
@@ -30,16 +30,6 @@
 #ifndef DEFAULT_VDR_PORT
 #  define DEFAULT_VDR_PORT 37890
 #endif
-#ifndef DISCOVERY_PORT
-#  define DISCOVERY_PORT 37890
-#endif
-
-/* discovery protocol strings (v1.0) */
-#define DISCOVERY_1_0_HDR     "VDR xineliboutput DISCOVERY 1.0" "\r\n"
-#define DISCOVERY_1_0_CLI     "Client: %s:%d" "\r\n"
-#define DISCOVERY_1_0_SVR     "Server port: %d" "\r\n"
-#define DISCOVERY_1_0_VERSION "Server version: vdr-" VDRVERSION "\r\n" \
-                              "\txineliboutput-" XINELIBOUTPUT_VERSION "\r\n"
 
 /*
  * Byte-order conversions
