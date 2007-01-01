@@ -11,6 +11,12 @@
 #ifndef XINELIBOUTPUT_SAP_H_
 #define XINELIBOUTPUT_SAP_H_
 
+#ifndef PACKED
+#  define PACKED  __attribute__((packed))
+#else
+#  warning PACKED already defined
+#endif
+
 #include <arpa/inet.h>
 #include <endian.h>
 
@@ -48,8 +54,8 @@ typedef struct {
       uint8_t addr_type  : 1;
       uint8_t version    : 3;
 #endif
-    } __attribute__((packed));
-  } __attribute__((packed));
+    } PACKED;
+  } PACKED;
   
   uint8_t  auth_len;
   uint16_t msgid_hash;
@@ -57,11 +63,11 @@ typedef struct {
   union {
     uint8_t  u8[4];
     uint32_t u32;
-  } __attribute__((packed)) ip4_source;
+  } PACKED ip4_source;
   
   char payload[0];
 
-} __attribute__((packed)) sap_pdu_t;
+} PACKED sap_pdu_t;
 
 
 static inline sap_pdu_t *sap_create_pdu(uint32_t src_ip, 
