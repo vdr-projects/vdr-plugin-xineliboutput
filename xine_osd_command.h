@@ -13,8 +13,6 @@
 
 #ifndef PACKED
 #  define PACKED  __attribute__((packed))
-#else
-#  warning PACKED already defined
 #endif
 
 
