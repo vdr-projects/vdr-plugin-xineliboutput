@@ -11,14 +11,12 @@
 #ifndef XINELIBOUTPUT_SAP_H_
 #define XINELIBOUTPUT_SAP_H_
 
-#ifndef PACKED
-#  define PACKED  __attribute__((packed))
-#else
-#  warning PACKED already defined
-#endif
-
 #include <arpa/inet.h>
 #include <endian.h>
+
+#ifndef PACKED
+#  define PACKED  __attribute__((packed))
+#endif
 
 /*#define LOG_SAP*/
 
