@@ -45,7 +45,7 @@
 
 static const char *VERSION        = "1.0.0pre7";
 static const char *DESCRIPTION    = "X11/xine-lib output plugin";
-static const char *MAINMENUENTRY  = "Media Player (xine-lib)";
+static const char *MAINMENUENTRY  = "Media Player";
 
 cOsdObject *g_PendingMenuAction = NULL;
 
