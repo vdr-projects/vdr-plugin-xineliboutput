@@ -107,6 +107,8 @@ class cPlaylist : protected cList<cPlaylistItem>
   // read playlist from file or create playlist from directory tree 
   bool Read(const char *PlaylistFile, bool Recursive = false);
   void StartScanner(void);
+  void Del(cPlaylistItem *it);
+
   void Sort(void);
   int  Count(void) const;
 

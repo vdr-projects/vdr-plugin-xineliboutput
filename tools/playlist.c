@@ -348,6 +348,20 @@ cPlaylistItem *cPlaylist::Current(void)
   return m_Current ?: First(); 
 }
 
+void cPlaylist::Del(cPlaylistItem *it)
+{
+  cMutexLock ml(&m_Lock);
+
+  if(!it || Count() < 2)
+    return;
+
+  if(m_Current == it)
+    m_Current = cList<cPlaylistItem>::Next(Current()) ?:
+		cList<cPlaylistItem>::Prev(Current());
+
+  cListBase::Del(it);
+}
+
 void cPlaylist::SetCurrent(cPlaylistItem *current) 
 {
   cMutexLock ml(&m_Lock);
@@ -676,6 +690,12 @@ int cPlaylist::ReadPlaylist(const char *file)
     cReadLine r;
     while(NULL != (pt = r.Read(f)) && n < MAX_PLAYLIST_FILES) {
       if(NULL != (pt = parser->Parse(pt))) {
+
+	if(depth && n==0) {
+	  // TODO
+	  //  - add "separator" item
+	  // Add(new cPlaylistItem(NULL, Base, "---");
+	}
 
 	if(xc.IsPlaylistFile(pt)) {
 	  parser->ResetCache();
