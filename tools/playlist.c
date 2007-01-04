@@ -704,7 +704,12 @@ int cPlaylist::ReadPlaylist(const char *file)
 	    LOGMSG("cPlaylist: recursion too deep, skipped %s", pt);
 	  else {
 	    depth++;
-	    n += ReadPlaylist(pt);
+	    if(*pt == '/' || 
+	       (strstr(pt,"://")+1 == strchr(pt,'/') && 
+		strchr(pt,'/') - pt < 8))
+	      n += ReadPlaylist(pt);
+	    else
+	      n += ReadPlaylist(cString::sprintf("%s%s", *Base, pt));
 	    depth--;
 	  }
 
