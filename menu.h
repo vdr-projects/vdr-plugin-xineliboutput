@@ -13,7 +13,6 @@
 
 #include <vdr/menuitems.h>
 
-
 class cMenuXinelib : public cMenuSetupPage 
 {
   private:
@@ -47,6 +46,8 @@ class cMenuXinelib : public cMenuSetupPage
     cMenuXinelib(void);
     virtual ~cMenuXinelib();
     virtual eOSState ProcessKey(eKeys Key);
+
+    static cOsdMenu *CreateMenuBrowseFiles(eMainMenuMode mode, bool Queue=true);
 };
 
 #endif //__XINELIB_SETUP_MENU_H
