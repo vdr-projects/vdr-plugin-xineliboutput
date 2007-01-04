@@ -26,7 +26,7 @@ class cXinelibPlayerControl : public cControl
   private:
     static cMutex m_Lock;
 
-    static cXinelibPlayer *OpenPlayer(const char *file);
+    static cXinelibPlayer *OpenPlayer(const char *file, bool Queue=false);
 
  protected:
     static cXinelibPlayer *m_Player;
@@ -55,6 +55,7 @@ class cXinelibPlayerControl : public cControl
 
     static void Close(void);
     static bool IsOpen(void) {return m_Player != NULL;};
+    static void Queue(const char *file);
 };
 
 
