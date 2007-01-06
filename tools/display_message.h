@@ -51,7 +51,6 @@ class cDisplayMessage : public cOsdObject
       return osEnd;
 
     if(Key != kNone) {
-LOGMSG("PutBack: %d , %s", (int)Key, cKey::ToString(Key));
       // put back and close
       cRemote::Put(Key, true);
       return osEnd;
@@ -62,7 +61,6 @@ LOGMSG("PutBack: %d , %s", (int)Key, cKey::ToString(Key));
 
   virtual void Show(void)
   {
-if(cRemote::HasKeys()) LOGMSG("Show, HasKeys");
     if(!displayMessage)
       displayMessage = Skins.Current()->DisplayMessage();
 
