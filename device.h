@@ -93,6 +93,7 @@ class cXinelibDevice : public cDevice
     int       m_TrickSpeed;
     int64_t   m_TrickSpeedPts;
     int       m_TrickSpeedMode;
+    int       m_TrickSpeedDelay;
 
   public:
     virtual bool SetPlayMode(ePlayMode PlayMode);
@@ -246,8 +247,10 @@ class cXinelibDevice : public cDevice
     bool m_SkipAudio;
     bool m_StreamStart;
     bool m_Polled;
+    bool m_Cleared;
 
     int PlayAny(const uchar *Data, int Length);
+    int PlayTrickSpeed(const uchar *buf, int length);
 
   protected:
 
