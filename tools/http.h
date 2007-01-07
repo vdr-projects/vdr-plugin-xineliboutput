@@ -19,6 +19,16 @@
         "Connection: Close\r\n" \
 	"\r\n"
 
+#define HTTP_REPLY_404 \
+	"HTTP/1.1 404 Not Found\r\n" \
+        "Connection: Close\r\n" \
+	"\r\n"
+
+#define HTTP_REPLY_416 \
+	"HTTP/1.1 416 Requested Range Not Satisfiable\r\n" \
+        "Connection: Close\r\n" \
+	"\r\n"
+
 #define HTTP_REPLY_200_PRIMARY \
 	"HTTP/1.1 200 OK\r\n" \
 	"Content-Type: video/mpeg\r\n" \
@@ -104,7 +114,7 @@ class cConnState : public cHttpReq
 class cHttpStreamer : protected cListObject, cThread 
 {
   public:
-    cHttpStreamer(int fd_http, const char *filename, const char *Range=NULL);
+    cHttpStreamer(int fd_http, const char *filename, cConnState *Request);
     virtual ~cHttpStreamer();
 
     static void CloseAll(bool OnlyFinished = false);
@@ -127,6 +137,7 @@ class cHttpStreamer : protected cListObject, cThread
 
     virtual void Action(void);
 
+    bool ParseRequest(void);
     void ParseRange(const char *Range);
     bool ReadPipelined(void);
     bool Seek(void);
