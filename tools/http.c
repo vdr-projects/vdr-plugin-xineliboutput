@@ -136,8 +136,6 @@ static const char *mimetype(const char *ext)
 // cHttpStreamer
 //
 
-#include "backgroundwriter.h"
-
 cList<cHttpStreamer> cHttpStreamer::m_Streamers;
 
 void cHttpStreamer::CloseAll(bool OnlyFinished)
@@ -176,7 +174,6 @@ cHttpStreamer::cHttpStreamer(int fd_http, const char *filename, const char *Rang
 
   CloseAll(true);
 
-  m_Writer = new cBackgroundWriter(fd_http, KILOBYTE(128), true);
   m_Streamers.Add(this);
 
   if(m_Streamers.Count() > 5) {
@@ -197,8 +194,6 @@ cHttpStreamer::cHttpStreamer(int fd_http, const char *filename, const char *Rang
 cHttpStreamer::~cHttpStreamer()
 {
   Cancel(3);
-  if(m_Writer)
-    delete m_Writer;
   if(m_ConnState)
     delete m_ConnState;
   if(m_fdf >= 0) 

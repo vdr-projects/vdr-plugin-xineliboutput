@@ -96,8 +96,6 @@ class cConnState : public cHttpReq
 // cHttpStreamer
 //
 
-class cBackgroundWriter;
-
 #include <vdr/tools.h>
 #include <vdr/thread.h>
 
@@ -122,7 +120,6 @@ class cHttpStreamer : protected cListObject, cThread
     int64_t m_Start;
     int64_t m_End;
 
-    cBackgroundWriter *m_Writer;
     cConnState        *m_ConnState;
 
     bool m_Finished;
