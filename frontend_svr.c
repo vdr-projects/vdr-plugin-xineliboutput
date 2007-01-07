@@ -1223,14 +1223,15 @@ void cXinelibServer::Handle_Control_HTTP(int cli, const char *arg)
       if( m_FileName && m_bPlayingFile) {
 	LOGMSG("HTTP streaming media file");
 
-	new cHttpStreamer(fd_control[cli], m_FileName, 
-			  m_State[cli]->Header("Range")->Value());
+	new cHttpStreamer(fd_control[cli], m_FileName, m_State[cli]);
+
 	// detach socket
+	m_State[cli] = NULL;
 	fd_control[cli] = -1;
 	CloseConnection(cli);	    
 	return;
       }
-      else
+      else 
 	LOGDBG("No currently playing file");
     }
 
@@ -1238,8 +1239,8 @@ void cXinelibServer::Handle_Control_HTTP(int cli, const char *arg)
     // nothing else will be served ...
     //
     LOGMSG("Rejected HTTP request for \'%s\'", *m_State[cli]->Uri());
-    write_cmd(fd_control[cli], HTTP_REPLY_401);
-    LOGDBG("HTTP Reply: HTTP/1.1 401 Unauthorized");
+    write_cmd(fd_control[cli], HTTP_REPLY_404);
+    LOGDBG("HTTP Reply: HTTP/1.1 404 Not Found");
     CloseConnection(cli);
   }
 }
