@@ -119,6 +119,7 @@ class cHttpStreamer : protected cListObject, cThread
     int64_t m_FileSize;
     int64_t m_Start;
     int64_t m_End;
+    bool    m_KeepOpen;
 
     cConnState        *m_ConnState;
 
