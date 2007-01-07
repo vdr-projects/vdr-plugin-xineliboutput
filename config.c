@@ -120,11 +120,13 @@ bool config_t::IsAudioFile(const char *fname)
 	 !strcasecmp(pos, "flac") ||
 	 !strcasecmp(pos, "ac3") ||
 	 !strcasecmp(pos, "ogg") ||
+	 !strcasecmp(pos, "ogm") ||
 	 !strcasecmp(pos, "au") ||
 	 !strcasecmp(pos, "aud") ||
 	 !strcasecmp(pos, "wma") ||
 	 !strcasecmp(pos, "asf") ||
 	 !strcasecmp(pos, "wav") ||
+	 !strcasecmp(pos, "spx") ||
 	 !strcasecmp(pos, "ra"))
 	return true;
       return IsPlaylistFile(fname);
@@ -155,6 +157,8 @@ bool config_t::IsVideoFile(const char *fname)
 	 !strcasecmp(pos, "divx") ||
 	 !strcasecmp(pos, "fli") ||
 	 !strcasecmp(pos, "dv") ||
+	 !strcasecmp(pos, "dat") ||
+	 !strcasecmp(pos, "mkv") ||
 	 !strcasecmp(pos, "rm") ||
 	 !strcasecmp(pos, "iso"))  /* maybe dvd */
 	return true;
