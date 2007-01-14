@@ -256,9 +256,9 @@ void cXinelibPlayer::Activate(bool On)
       if(m_Playlist.Count() == 1 && !strcmp("cdda:/", m_Playlist.First()->Filename)) {
 	int count = cXinelibDevice::Instance().PlayFileCtrl("GETAUTOPLAYSIZE");
 	if(count>1) {
-	  m_Playlist.Del(m_Playlist.First());
 	  for(int i=0; i<count; i++)
 	    m_Playlist.Read(cString::sprintf("cdda:/%d", i+1));
+	  m_Playlist.Del(m_Playlist.First());
 	}
       }
     }
