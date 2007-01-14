@@ -498,11 +498,16 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
   this->playback_finished = 0;
 
   /* create video port */
-  
-  this->video_port = xine_open_video_driver(this->xine,
-					    video_driver,
-					    this->xine_visual_type,
-					    (void *) &(this->vis));
+  if(video_driver && !strcmp(video_driver, "none")) 
+    this->video_port = xine_open_video_driver(this->xine,
+					      video_driver,
+					      XINE_VISUAL_TYPE_NONE, 
+					      NULL);
+  else
+    this->video_port = xine_open_video_driver(this->xine,
+					      video_driver,
+					      this->xine_visual_type,
+					      (void *) &(this->vis));
   if(!this->video_port) {
     LOGMSG("fe_xine_init: xine_open_video_driver(\"%s\") failed",
 	   video_driver?video_driver:"(NULL)"); 
@@ -1480,9 +1485,9 @@ static char *fe_grab(frontend_t *this_gen, int *size, int jpeg,
 	     frame->format);
       break;
   }
+
   jpeg_finish_compress(&cinfo);
   jpeg_destroy_compress(&cinfo);
-  
   frame->free(frame);
 
   *size = jcd.size;
