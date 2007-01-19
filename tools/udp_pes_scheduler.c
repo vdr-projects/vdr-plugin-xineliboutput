@@ -517,8 +517,10 @@ void cUdpScheduler::Send_SAP(bool Announce)
       if(m_fd_sap < 0) {
 	cString fname = cString::sprintf("/video/xineliboutput@%s.sdp", ip);
 	FILE *fp = fopen(fname, "w");
-	fprintf(fp, "%s", sdp_descr);
-	fclose(fp);
+	if(fp) {
+	  fprintf(fp, "%s", sdp_descr);
+	  fclose(fp);
+	}
       }
 #endif
       sap_pdu_t *pdu = sap_create_pdu(local_addr,
