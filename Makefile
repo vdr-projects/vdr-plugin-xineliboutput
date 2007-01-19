@@ -84,6 +84,7 @@ DESTDIR ?= /
 
 INSTALL ?= install
 
+VDRINCDIR ?= $(VDRDIR)/include
 
 ###
 ### Allow user defined options to overwrite defaults:
@@ -179,7 +180,7 @@ endif
 ### Includes and Defines (add further entries here):
 ###
 
-INCLUDES  += -I$(VDRDIR)/include
+INCLUDES  += -I$(VDRINCDIR)
 LIBS_XINE += $(shell xine-config --libs)
 LIBS_X11  += -L/usr/X11R6/lib -lX11 -lXv -lXext
 
@@ -190,7 +191,7 @@ DEFINES   += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' \
 	     -DXINELIBOUTPUT_VERSION='"$(VERSION)"'
 
 # check for yaegp patch
-DEFINES += $(shell grep 'vidWin' \$(VDRDIR)/osd.h >& /dev/null && echo "-DYAEGP_PATCH")
+DEFINES += $(shell grep 'vidWin' \$(VDRINCDIR)/vdr/osd.h >& /dev/null && echo "-DYAEGP_PATCH")
 
 ifeq ($(XINELIBOUTPUT_XINEPLUGIN), 1)
     CFLAGS += $(shell xine-config --cflags) 
@@ -427,7 +428,7 @@ dist: clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
-	@tar czf $(PACKAGE).tgz -C $(TMPDIR) $(ARCHIVE)
+	@tar czf $(PACKAGE).tgz --exclude=CVS -C $(TMPDIR) $(ARCHIVE)
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@echo Distribution package created as $(PACKAGE).tgz
 
