@@ -1118,7 +1118,7 @@ eOSState cMenuSetupLocal::ProcessKey(eKeys Key)
       else if(audio_driver == AUDIO_DRIVER_ALSA)
         strcpy(newconfig.audio_port, "default");
       else if(audio_driver == AUDIO_DRIVER_OSS)
-        strcpy(newconfig.audio_port, "/dev/dsp0");
+        strcpy(newconfig.audio_port, "/dev/dsp");
       else
         strcpy(newconfig.audio_port, "");
       Set();
