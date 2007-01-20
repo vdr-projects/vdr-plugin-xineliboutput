@@ -24,6 +24,8 @@ class cStcFuture;
 class cCmdFutures;
 class cConnState;
 
+#include "tools/cxsocket.h"
+
 class cXinelibServer : public cXinelibThread 
 {
 
@@ -98,9 +100,11 @@ protected:
 
     int  fd_listen;
     int  fd_discovery;
-    int fd_control[MAXCLIENTS];
-    int  fd_data[MAXCLIENTS];
 
+    cxSocket fd_control[MAXCLIENTS];
+    int      fd_data[MAXCLIENTS];
+
+    int  m_OsdTimeouts[MAXCLIENTS];
     char m_CtrlBuf[MAXCLIENTS][1024+1];
     int  m_CtrlBufPos[MAXCLIENTS];
 
