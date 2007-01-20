@@ -445,7 +445,7 @@ struct tvtime_s {
   const char *ToString(void)
   {
     static char buf[256];
-    sprintf(buf, "method=%s,cheap_mode=%d,pulldown=%s,framerate=%s,"
+    sprintf(buf, "method=%s,cheap_mode=%d,pulldown=%s,framerate_mode=%s,"
 	    "judder_correction=%d,use_progressive_frame_flag=%d,"
 	    "chroma_filter=%d",
 	    tvtime_method[method], cheap_mode, tvtime_pulldown[pulldown],
