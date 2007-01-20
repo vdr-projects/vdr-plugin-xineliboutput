@@ -22,6 +22,7 @@
 
 #include <vdr/config.h>
 #include <vdr/tools.h>
+#include <vdr/videodir.h>
 
 #include "../logdefs.h"            // logging
 #include "../config.h"             // configuration data
@@ -515,7 +516,9 @@ void cUdpScheduler::Send_SAP(bool Announce)
 #if 1
       /* store copy of SDP data */
       if(m_fd_sap < 0) {
-	cString fname = cString::sprintf("/video/xineliboutput@%s.sdp", ip);
+	cString fname = AddDirectory(VideoDirectory,
+				     cString::sprintf("xineliboutput@%s.sdp",
+						      ip));
 	FILE *fp = fopen(fname, "w");
 	if(fp) {
 	  fprintf(fp, "%s", sdp_descr);
