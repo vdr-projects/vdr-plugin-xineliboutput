@@ -58,7 +58,9 @@ void cXinelibThread::KeypressHandler(const char *keymap, const char *key,
 {
 #ifdef XINELIBOUTPUT_LOG_KEYS
   static FILE *flog = fopen("/video/keys.log","w");
-  fprintf(flog,"KEY %s %s %d %d\n",keymap,key,repeat,release);fflush(flog);
+  if (flog) {
+    fprintf(flog,"KEY %s %s %d %d\n",keymap,key,repeat,release); fflush(flog);
+  }
 #endif
 
   TRACE("keypress_handler: " << (keymap?keymap:"") << " " << key);
