@@ -829,9 +829,10 @@ static int sxfe_run(frontend_t *this_gen)
 	  else
 #endif
 #ifdef FE_STANDALONE
-	  if(/*ks == XK_q || ks == XK_Q ||*/ ks == XK_Escape)
+	  if(/*ks == XK_q || ks == XK_Q ||*/ ks == XK_Escape) {
+	    terminate_key_pressed = 1;
 	    keep_going = 0;
-	  else if(this->input || find_input(this))
+	  } else if(this->input || find_input(this))
 	    process_xine_keypress(this->input, "XKeySym",ksname, 0, 0);
 #else
 	  if(this->keypress) 
