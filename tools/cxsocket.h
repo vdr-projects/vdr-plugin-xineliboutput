@@ -80,6 +80,9 @@ class cxSocket {
   bool set_nodelay(bool state);
   ssize_t tx_buffer_size(void);
   ssize_t tx_buffer_free(void);
+  int getsockname(struct sockaddr *name, socklen_t *namelen);
+  int getpeername(struct sockaddr *name, socklen_t *namelen);
+
 
   bool connect(struct sockaddr *addr, socklen_t len);
   bool connect(const char *ip, int port);
