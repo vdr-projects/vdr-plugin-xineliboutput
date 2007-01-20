@@ -15,6 +15,7 @@
 #include <vdr/interface.h>
 #include <vdr/menu.h>
 #include <vdr/plugin.h>
+#include <vdr/videodir.h>
 
 #include "logdefs.h"
 #include "config.h"
@@ -132,7 +133,7 @@ void cMenuBrowseFiles::Set(void)
 
   if(m_CurrentDir[0] != '/') {
     free(m_CurrentDir);
-    m_CurrentDir = strdup("/video");
+    m_CurrentDir = strdup(VideoDirectory);
   }
 
   // find deepest accessible directory from path
