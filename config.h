@@ -133,6 +133,8 @@
 #define READONLY_OPTION(opt) \
   (xc.IsOptionReadOnly(xc.opt))
 
+#define DEFAULT_POLL_SIZE     16
+
 typedef enum {
   ShowMenu   = 0,
   ShowEq     = 1,
