@@ -353,7 +353,7 @@ int cXinelibThread::Poll(cPoller& Poller, int TimeoutMs)
 
   int n = Xine_Control("POLL", TimeoutMs);
 
-  return min(n, 0);
+  return max(n, 0);
 }
 
 //
