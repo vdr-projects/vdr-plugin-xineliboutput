@@ -277,7 +277,7 @@ void cUdpScheduler::RemoveHandle(int fd)
   }
 }
 
-bool cUdpScheduler::Poll(int TimeoutMs, bool Master)
+int cUdpScheduler::Poll(int TimeoutMs, bool Master)
 {
   cMutexLock ml(&m_Lock);
 
@@ -565,8 +565,6 @@ void cUdpScheduler::Schedule(const uchar *Data, int Length)
 	MasterClock.Set(current_audio_vtime + INITIAL_BURST_TIME);
       }
     }
-#warning yle audio pts once in 8 pes ... -> 220ms?
-#warning how to detect audio pes time ?
 
     else if(Video && m_TrickSpeed) {
       if(now > current_video_vtime && (now - current_video_vtime)>JUMP_LIMIT_TIME) {
