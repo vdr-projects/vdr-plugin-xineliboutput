@@ -93,8 +93,8 @@ int cXinelibLocal::Play_PES(const uchar *data, int len)
 {
   TRACEF("cXinelibLocal::Play_PES");
   LOCK_FE;
-  if(fe && m_bReady) {
-    int done = fe->xine_queue_pes_packet(fe, (char*)data, len);
+  if(fe) {
+    int done = m_bReady ? fe->xine_queue_pes_packet(fe, (char*)data, len) : 0;
     if(done>0) {
       Lock();
       m_StreamPos += done;
