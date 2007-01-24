@@ -821,12 +821,15 @@ static int sxfe_run(frontend_t *this_gen)
 	  XLookupString(kevent, buffer, buf_len, &ks, &status);
 	  ksname = XKeysymToString(ks);
 #ifdef XINELIBOUTPUT_FE_TOGGLE_FULLSCREEN
-	  if(ks == XK_f || ks == XK_F)
+	  if(ks == XK_f || ks == XK_F) {
 	    sxfe_display_config(this_gen, this->origwidth, this->origheight, 
 				this->fullscreen ? 0 : 1, 
 				this->vmode_switch, this->modeline, 
 				this->aspect, this->scale_video, this->field_order);
-	  else
+	  } else if(ks == XK_d || ks == XK_D) {
+	    xine_set_param(this->stream, XINE_PARAM_VO_DEINTERLACE, 
+			   xine_get_param(this->stream, XINE_PARAM_VO_DEINTERLACE) ? 0 : 1);
+	  } else
 #endif
 #ifdef FE_STANDALONE
 	  if(/*ks == XK_q || ks == XK_Q ||*/ ks == XK_Escape) {
