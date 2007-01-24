@@ -300,7 +300,7 @@ bool cUdpScheduler::Poll(int TimeoutMs, bool Master)
       m_Cond.TimedWait(m_Lock, 5);
   }
 
-  return min(limit - m_QueuePending, 0);
+  return max(limit - m_QueuePending, 0);
 }
 
 bool cUdpScheduler::Flush(int TimeoutMs)
