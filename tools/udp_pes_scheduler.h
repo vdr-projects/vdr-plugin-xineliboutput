@@ -39,7 +39,7 @@ class cUdpScheduler : public cThread
     void RemoveHandle(cxSocket& s) { RemoveHandle(s.handle()); }
 
     bool Clients(void) { return m_Handles[0] >= 0; }
-    bool Poll(int TimeoutMs, bool Master);
+    int  Poll(int TimeoutMs, bool Master);
     bool Queue(uint64_t StreamPos, const uchar *Data, int Length);
     void ReSend(int fd, uint64_t Pos, int Seq1, int Seq2);
 
