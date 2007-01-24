@@ -347,16 +347,13 @@ bool cXinelibThread::Flush(int TimeoutMs)
   return Xine_Control("FLUSH", TimeoutMs) <= 0;
 }
 
-bool cXinelibThread::Poll(cPoller& Poller, int TimeoutMs) 
+int cXinelibThread::Poll(cPoller& Poller, int TimeoutMs) 
 {
   TRACEF("cXinelibThread::Poll");
 
   int n = Xine_Control("POLL", TimeoutMs);
 
-  if(n>0)
-    return true;
-
-  return false; // Poller.Poll(TimeoutMs);
+  return min(n, 0);
 }
 
 //

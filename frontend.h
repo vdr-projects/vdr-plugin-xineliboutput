@@ -68,7 +68,7 @@ class cXinelibThread : public cThread, public cListObject
   //
 
   public:
-    virtual bool Poll(cPoller &Poller, int TimeoutMs);
+    virtual int  Poll(cPoller &Poller, int TimeoutMs);
     virtual bool Flush(int TimeoutMs);
     virtual void Clear(void);
     virtual int  Play_PES(const uchar *buf, int len);
