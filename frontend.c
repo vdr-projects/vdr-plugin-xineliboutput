@@ -194,6 +194,7 @@ cXinelibThread::~cXinelibThread()
 {
   TRACEF("cXinelibThread::~cXinelibThread");
 
+  m_bStopThread = true;
   if(Active())
     Cancel();
   if(m_FileName)
@@ -350,6 +351,13 @@ bool cXinelibThread::Flush(int TimeoutMs)
 int cXinelibThread::Poll(cPoller& Poller, int TimeoutMs) 
 {
   TRACEF("cXinelibThread::Poll");
+
+  if(!m_bReady) {
+    if(TimeoutMs>0)
+      cCondWait::SleepMs(TimeoutMs);
+    if(!m_bReady)
+      return 0;
+  }
 
   int n = Xine_Control("POLL", TimeoutMs);
 
