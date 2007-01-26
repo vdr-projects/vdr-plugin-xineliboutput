@@ -285,11 +285,26 @@ void cXinelibDevice::StopDevice(void)
     m_spuDecoder = NULL;
   }
 
+  cXinelibThread *server = m_server;
+  cXinelibThread *local  = m_local;
+  m_local = m_server = NULL;
+
+  cControl::Shutdown();
   ForEach(m_clients, &cXinelibThread::SetLiveMode, false);
   TrickSpeed(-1);
-  ForEach(m_clients, &cXinelibThread::Stop);
+
+  if(local)  m_clients.Del(local,  false);
+  if(server) m_clients.Del(server, false);
+
+  if(server) {
+    server->Stop();
+    delete server;
+  }
+  if(local) {
+    local->Stop();
+    delete local;
+  }
  
-  m_local = m_server = NULL;
   m_clients.Clear();
 }
 
