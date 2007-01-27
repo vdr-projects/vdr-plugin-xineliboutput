@@ -95,7 +95,7 @@ int cXinelibLocal::Play_PES(const uchar *data, int len)
 
   {
     LOCK_FE;
-    if(fe && m_bReady) {
+    if(fe && !m_bStopThread) {
       int done = fe->xine_queue_pes_packet(fe, (char*)data, len);
       if(done>0) {
 	Lock();
