@@ -279,6 +279,7 @@ void cXinelibPlayer::Activate(bool On)
       } else {
 	unlink(m_ResumeFile);
       }
+      m_ResumeFile = NULL;
     }
     cXinelibDevice::Instance().PlayFile(NULL,0);
     m_Replaying = false;
