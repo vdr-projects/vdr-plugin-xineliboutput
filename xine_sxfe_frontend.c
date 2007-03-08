@@ -25,7 +25,6 @@
 #include <pthread.h>
 #include <sched.h>
 #include <poll.h>
-#include <linux/unistd.h> /* gettid() */
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
