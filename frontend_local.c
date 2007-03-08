@@ -191,10 +191,8 @@ void cXinelibLocal::ConfigureDecoder(int pes_buffers, int priority)
     fe->fe_interrupt(fe);    
   }
 
-  while(!m_bReady && !GetStopSignal()) {
+  while(!m_bReady && !GetStopSignal())
     cCondWait::SleepMs(100);
-    pthread_yield();
-  }
 
   cCondWait::SleepMs(100);
 }
