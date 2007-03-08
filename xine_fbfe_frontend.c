@@ -22,7 +22,6 @@
 #include <time.h>
 #include <pthread.h>
 #include <sched.h>
-#include <linux/unistd.h> /* gettid() */
 
 #ifdef boolean
 # define HAVE_BOOLEAN
@@ -210,7 +209,6 @@ static int fbfe_display_config(frontend_t *this_gen, int width, int height, int 
   this->aspect = aspect;
   this->scale_video = scale_video;
   this->field_order = field_order ? 1 : 0;
-
   return 1;
 }
 
