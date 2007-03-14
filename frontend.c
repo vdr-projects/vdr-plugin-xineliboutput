@@ -103,13 +103,15 @@ void cXinelibThread::InfoHandler(const char *info)
 	Current = true;
 	map++;
       }
-      int id = atoi(map);
-      while(*map && *map != ':') map++;
-      if(*map == ':') map++;
-      char *lang = map;
-      while(*map && *map != ' ') map++;
-      if(*map == ' ') { *map = 0; map++; };
-      cXinelibDevice::Instance().SetAvailableDvdSpuTrack(id, *lang ? lang : NULL, Current);
+      if(*map >= '0' && *map <= '9') {
+	int id = atoi(map);
+	while(*map && *map != ':') map++;
+	if(*map == ':') map++;
+	char *lang = map;
+	while(*map && *map != ' ') map++;
+	if(*map == ' ') { *map = 0; map++; };
+	cXinelibDevice::Instance().SetAvailableDvdSpuTrack(id, *lang ? lang : NULL, Current);
+      }
     }
   }
 
