@@ -206,7 +206,7 @@ int cXinelibLocal::Xine_Control(const char *cmd)
   TRACEF("cXinelibLocal::Xine_Control");
   if(cmd && *cmd && !GetStopSignal()) {
     char buf[4096];
-    if(snprintf(buf, sizeof(buf), "%s\r\n", cmd) >= sizeof(buf)) {
+    if(snprintf(buf, sizeof(buf), "%s\r\n", cmd) >= (int)sizeof(buf)) {
       buf[sizeof(buf)-1] = 0;
       LOGMSG("Xine_Control: message too long ! (%s)", buf);
       return 0;
