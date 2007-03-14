@@ -80,7 +80,8 @@ static inline sap_pdu_t *sap_create_pdu(uint32_t src_ip,
   if(payload_type)
     length += strlen(payload_type);
 
-  pdu = (sap_pdu_t*)malloc(length);
+  if(! (pdu = (sap_pdu_t*)malloc(length)))
+    return NULL;
 
   memset(pdu, 0, sizeof(sap_pdu_t));
   pdu->version    = 1;  /* SAP v1 / v2 */
