@@ -42,6 +42,7 @@ void cMenuEditTypedIntItem::Set(void)
     SetValue(maxString);
   else {
     snprintf(buf, sizeof(buf), "%d %s", *value, type);
+    buf[sizeof(buf)-1] = 0;
     SetValue(buf);
   }
 }
