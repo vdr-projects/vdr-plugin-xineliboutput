@@ -84,6 +84,10 @@ const char *config_t::s_speakerArrangements[] =
    "Surround 6.1", "Surround 7.1", "Pass Through", 
    NULL};
 
+const char *config_t::s_subExts[] = {".sub", ".srt", ".txt", ".ssa", 
+				     ".SUB", ".SRT", ".TXT", ".SSA", 
+				     NULL};
+
 static char *strcatrealloc(char *dest, const char *src)
 {
   if (!src || !*src) 

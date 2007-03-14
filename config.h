@@ -167,6 +167,8 @@ class config_t {
     static const char *s_audioVisualizationNames[];
     static const char *s_speakerArrangements[];
 
+    static const char *s_subExts[];
+
   public:
     char video_driver[32];
     char video_port[32];     // X11: DISPLAY=...
