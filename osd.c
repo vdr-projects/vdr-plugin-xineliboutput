@@ -15,7 +15,7 @@
 #include "osd.h"
 #include "config.h"
 
-#define LIMIT_OSD_REFRESH_RATE
+//#define LIMIT_OSD_REFRESH_RATE
 
 #include "xine_osd_command.h"
 
