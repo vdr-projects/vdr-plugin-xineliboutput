@@ -277,7 +277,7 @@ ssize_t cxSocket::read(void *buffer, size_t size, int timeout_ms)
 ssize_t cxSocket::printf(const char *fmt, ...)
 {
   va_list argp;
-  char buf[256];
+  char buf[1024];
   int r;
 
   va_start(argp, fmt);
