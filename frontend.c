@@ -113,6 +113,7 @@ void cXinelibThread::InfoHandler(const char *info)
 	cXinelibDevice::Instance().SetAvailableDvdSpuTrack(id, *lang ? lang : NULL, Current);
       }
     }
+    cXinelibDevice::Instance().EnsureDvdSpuTrack();
   }
 
   else if(!strncmp(info, "TRACKMAP AUDIO", 14)) {

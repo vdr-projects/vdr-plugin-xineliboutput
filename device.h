@@ -125,7 +125,7 @@ class cXinelibDevice : public cDevice
     // (DVD) SPU tracks, -> cDevice
     tTrackId m_DvdSpuTrack[64];
     int      m_CurrentDvdSpuTrack;
-
+    bool     m_ForcedDvdSpuTrack;
     char     m_MetaInfo[mi_Count][MAX_METAINFO_LEN+1];
 
   public:
@@ -137,7 +137,8 @@ class cXinelibDevice : public cDevice
     const char *GetDvdSpuLang(int Type) const;
 
     int   GetCurrentDvdSpuTrack(void) const { return m_CurrentDvdSpuTrack; }
-    bool  SetCurrentDvdSpuTrack(int Type);
+    bool  SetCurrentDvdSpuTrack(int Type, bool Force=false);
+    void  EnsureDvdSpuTrack(void);
 
     const char *GetMetaInfo(eMetainfoType Type);
     void  SetMetaInfo(eMetainfoType Type, const char *Value);

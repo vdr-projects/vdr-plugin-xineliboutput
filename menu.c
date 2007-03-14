@@ -642,7 +642,7 @@ eOSState cDisplaySpuTracks::ProcessKey(eKeys Key)
   if (track != oldTrack)
      Show();
   if (track != oldTrack) {
-     cXinelibDevice::Instance().SetCurrentDvdSpuTrack(types[track]);
+     cXinelibDevice::Instance().SetCurrentDvdSpuTrack(types[track], true);
      }
   return timeout.TimedOut() ? osEnd : osContinue;
 }
