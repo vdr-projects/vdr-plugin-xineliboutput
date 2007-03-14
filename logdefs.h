@@ -48,6 +48,7 @@
        char buf[512];
        va_start(argp, fmt);
        vsnprintf(buf, 512, fmt, argp);
+       buf[sizeof(buf)-1] = 0;
 #    ifndef __APPLE__
        if(!LogToSysLog) {
 	 fprintf(stderr,"[%ld] " LOG_MODULENAME "%s\n", syscall(__NR_gettid), buf);
