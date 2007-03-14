@@ -564,6 +564,10 @@ void cXinelibPlayerControl::Show()
 				 *m_Player->Playlist().Current()->Artist ?: "",
 				 *m_Player->Playlist().Current()->Artist ? ": " : "",
 				 *m_Player->Playlist().Current()->Album ?: "");
+      else if (cXinelibDevice::Instance().GetMetaInfo(miTitle)[0])
+	Title = cString::sprintf("%s (%s)", *Title, 
+				 cXinelibDevice::Instance().GetMetaInfo(miTitle));
+
       cIConv ic;
       m_DisplayReplay->SetTitle(ic.Translate(Title));
 
