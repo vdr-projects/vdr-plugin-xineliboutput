@@ -204,6 +204,9 @@ class config_t {
     int  alpha_correction;
     int  alpha_correction_abs;
 
+    int  spu_autoshow;
+    char spu_lang[4][4];
+
     char local_frontend[64];
     char modeline[64];
     int  fullscreen;
