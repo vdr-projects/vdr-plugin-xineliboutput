@@ -89,6 +89,7 @@ protected:
     void Handle_Control_HTTP(int cli, const char *arg);
     void Handle_Control_RTSP(int cli, const char *arg);
 
+    void CloseDataConnection(int cli);
     void CloseConnection(int cli);
 
 protected:
