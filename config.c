@@ -52,11 +52,11 @@ const char *config_t::s_audioDrivers[] =
 const char *config_t::s_videoDriverNamesX11[] =
   {"automatic", "XShm", "Xv", "XvMC", "XvMC+VLD", "Vidix", "XDirectFB", "OpenGL", "SDL", "no video",NULL};
 const char *config_t::s_videoDriversX11[] =
-  {"auto",      "X11",  "xv", "xvmc", "xxmc",     "vidix", "DirectFB",  "opengl", "sdl", "none",    NULL};
+  {"auto",      "xshm", "xv", "xvmc", "xxmc",     "vidix", "DirectFB",  "opengl", "sdl", "none",    NULL};
 const char *config_t::s_videoDriverNamesFB[] =
-  {"automatic", "Framebuffer", "DirectFB", "VidixFB", "DXR3",   "No Video", NULL};
+  {"automatic", "Framebuffer", "DirectFB", "SDL", "VidixFB", "DXR3",   "No Video", NULL};
 const char *config_t::s_videoDriversFB[] =
-  {"auto",      "fb",          "DirectFB", "vidixfb", "aadxr3", "none",     NULL};
+  {"auto",      "fb",          "DirectFB", "sdl", "vidixfb", "aadxr3", "none",     NULL};
 const char *config_t::s_frontendNames[] =
   {"X11 (sxfe)", "Framebuffer (fbfe)", "Off", NULL};
 const char *config_t::s_frontends[] =

@@ -80,10 +80,11 @@
 #define FB_DRIVER_AUTO           0
 #define FB_DRIVER_FB             1
 #define FB_DRIVER_DIRECTFB       2
-#define FB_DRIVER_VIDIXFB        3
-#define FB_DRIVER_DXR3           4
-#define FB_DRIVER_NONE           5
-#define FB_DRIVER_count          6
+#define FB_DRIVER_SDL            3
+#define FB_DRIVER_VIDIXFB        4
+#define FB_DRIVER_DXR3           5
+#define FB_DRIVER_NONE           6
+#define FB_DRIVER_count          7
 
 // Local frontend
 #define FRONTEND_X11             0
