@@ -186,6 +186,7 @@ class config_t {
     int  audio_surround;
     int  headphone;
     int  audio_upmix;
+    int  sw_volume_control; /* software (xine-lib) or hardware (alsa) volume control and muting */
     
     int  decoder_priority;
     int  pes_buffers;

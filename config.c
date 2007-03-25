@@ -250,6 +250,7 @@ config_t::config_t() {
   headphone = 0;
   audio_upmix = 0;
   audio_surround = 0;
+  sw_volume_control = 0;
 
   decoder_priority     = DECODER_PRIORITY_NORMAL;
   pes_buffers          = i_pesBufferSize[PES_BUFFERS_SMALL_250];
@@ -467,6 +468,7 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "Audio.Surround"))  audio_surround = atoi(Value);
   else if (!strcasecmp(Name, "Audio.Upmix"))     audio_upmix = atoi(Value);
   else if (!strcasecmp(Name, "Audio.Headphone")) headphone = atoi(Value);
+  else if (!strcasecmp(Name, "Audio.SoftwareVolumeControl")) sw_volume_control = atoi(Value);
 
   else if (!strcasecmp(Name, "OSD.HideMainMenu"))   hide_main_menu = atoi(Value);
   else if (!strcasecmp(Name, "OSD.Prescale"))       prescale_osd = atoi(Value);
