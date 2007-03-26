@@ -102,7 +102,7 @@ bool cxSocket::set_multicast(int ttl)
   }  
 
   if(setsockopt(m_fd, IPPROTO_IP, IP_MULTICAST_TTL, &iTtl, sizeof(int))) {
-    LOGERR("cxSocket: setsockopt(IP_MULTICAST_TTL) failed");
+    LOGERR("cxSocket: setsockopt(IP_MULTICAST_TTL, %d) failed", iTtl);
     return false;
   }
       
