@@ -153,12 +153,16 @@ ssize_t cxSocket::sendfile(int fd_file, off_t *offset, size_t count)
 
 bool cxSocket::set_cork(bool state)
 {
+#ifdef __APPLE__
+  return false;
+#else
   int iCork = state ? 1 : 0;
   if(setsockopt(m_fd, IPPROTO_TCP, TCP_CORK, &iCork, sizeof(int))) {
     LOGERR("cxSocket: setsockopt(TCP_CORK) failed");
     return false;
   }
   return true;
+#endif
 }
 
 bool cxSocket::set_nodelay(bool state)
