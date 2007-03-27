@@ -11,7 +11,16 @@
 #ifndef XINELIBOUTPUT_RTCP_H_
 #define XINELIBOUTPUT_RTCP_H_
 
-#include <endian.h>
+#ifdef __APPLE__
+# ifdef __i386__
+#  include <i386/endian.h>
+# else
+#  include <ppc/endian.h>
+# endif
+#else
+# include <endian.h>
+#endif
+
 
 #ifndef PACKED
 #  define PACKED __attribute__((packed))
