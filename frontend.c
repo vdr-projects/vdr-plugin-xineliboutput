@@ -259,7 +259,9 @@ bool cXinelibThread::IsFinished(void)
 
 void cXinelibThread::SetVolume(int NewVolume)
 {
-  Xine_Control("VOLUME", NewVolume * 100 / 255);
+  cString str = cString::sprintf("VOLUME %d%s", NewVolume * 100 / 255, 
+				 xc.sw_volume_control ? " SW" : "");
+  Xine_Control(str);
 }
 
 void cXinelibThread::TrickSpeed(int Speed)
