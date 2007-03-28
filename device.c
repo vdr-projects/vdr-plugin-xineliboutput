@@ -241,11 +241,16 @@ bool cXinelibDevice::StartDevice()
 
   // if(dynamic_cast<cXinelibLocal*>(it))
   if(m_local) {
+    int timer = 0;
     m_local->Start();
     while(!m_local->IsReady()) {
       cCondWait::SleepMs(100);
       if(m_local->IsFinished()) {
         LOGMSG("cXinelibDevice::Start(): Local frontend init failed");
+        return false;
+      }
+      if(++timer >= 7*10) {
+        LOGMSG("cXinelibDevice::Start(): Local frontend init timeout");
         return false;
       }
     }
@@ -254,11 +259,16 @@ bool cXinelibDevice::StartDevice()
   }
 
   if(m_server) {
+    int timer = 0;
     m_server->Start();
     while(!m_server->IsReady()) {
       cCondWait::SleepMs(100);
       if(m_server->IsFinished()) {
         LOGMSG("cXinelibDevice::Start(): Server init failed");
+        return false;
+      }
+      if(++timer >= 5*10) {
+        LOGMSG("cXinelibDevice::Start(): Server init timeout");
         return false;
       }
     }
