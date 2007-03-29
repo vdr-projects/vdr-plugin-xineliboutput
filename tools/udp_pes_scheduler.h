@@ -68,6 +68,7 @@ class cUdpScheduler : public cThread
     int m_QueueNextSeq;      /* next outgoing */
     int m_QueuePending;      /* outgoing queue size */
     cUdpBackLog *m_BackLog;  /* queue for incoming data (not yet send) and retransmissions */
+    cMutex m_BackLogDeleteMutex;
 
     // Data for scheduling algorithm
     cTimePts  MasterClock;   /* Current MPEG PTS (synchronized to current stream) */
