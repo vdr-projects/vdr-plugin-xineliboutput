@@ -12,11 +12,7 @@
 #define XINELIBOUTPUT_RTCP_H_
 
 #ifdef __APPLE__
-# ifdef __i386__
-#  include <i386/endian.h>
-# else
-#  include <ppc/endian.h>
-# endif
+# include <machine/endian.h>
 #else
 # include <endian.h>
 #endif
