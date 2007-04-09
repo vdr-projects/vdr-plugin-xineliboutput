@@ -1440,8 +1440,6 @@ static char *fe_grab(frontend_t *this_gen, int *size, int jpeg,
                                               frame->width, frame->height,
                                               frame->ratio, XINE_IMGFMT_YV12, 
                                               VO_BOTH_FIELDS);
-    if(img)
-      img->lock(img);
     this->stream->xine->port_ticket->release(this->stream->xine->port_ticket, 0);
 
     if(!img) {
