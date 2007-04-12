@@ -44,6 +44,10 @@ static volatile char *lirc_device_name = NULL;
 static volatile int fd_lirc = -1;
 static int lirc_repeat_emu = 0;
 
+#ifndef IS_FBFE
+static void sxfe_toggle_fullscreen(sxfe_t *this);
+#endif
+
 static uint64_t time_ms()
 {
   struct timeval t;
@@ -187,6 +191,19 @@ static void *lirc_receiver_thread(void *fe)
 	LastTime = time_ms();
 
 
+#ifdef XINELIBOUTPUT_FE_TOGGLE_FULLSCREEN
+# ifndef IS_FBFE
+        if(!strcmp(KeyName, "Fullscreen")) {
+          if(!repeat)
+            sxfe_toggle_fullscreen((sxfe_t*)fe);
+        } else 
+# endif
+        if(!strcmp(KeyName, "Deinterlace")) {
+          fe_t *this = (fe_t*)fe;
+          xine_set_param(this->stream, XINE_PARAM_VO_DEINTERLACE, 
+                         xine_get_param(this->stream, XINE_PARAM_VO_DEINTERLACE) ? 0 : 1);
+        } else 
+#endif
 	if(find_input((fe_t*)fe))
 	  process_xine_keypress(((fe_t*)fe)->input, "LIRC", KeyName, repeat, 0);
 
