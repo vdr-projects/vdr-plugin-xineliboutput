@@ -222,7 +222,7 @@ class cXinelibDevice : public cDevice
     void ConfigureWindow(int fullscreen, int width, int height, 
 			 int modeswitch, const char *modeline, 
 			 int aspect, int scale_video, int field_order);
-    void ConfigureDecoder(int pes_buffers, int priority);
+    void ConfigureDecoder(int pes_buffers);
     // remote mode:
     void Listen(bool activate, int port);
 

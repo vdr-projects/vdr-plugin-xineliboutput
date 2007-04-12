@@ -122,7 +122,7 @@ class cXinelibThread : public cThread, public cListObject
 				 int modeswitch, const char *modeline, 
 				 int aspect, int scale_video, 
 				 int field_order) {};
-    virtual void ConfigureDecoder(int pes_buffers, int priority) {};
+    virtual void ConfigureDecoder(int pes_buffers) {};
     // Remote frontend server:
     virtual bool Listen(int port) { return false; }
 

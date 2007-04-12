@@ -51,7 +51,7 @@ class cXinelibLocal : public cXinelibThread
     virtual void ConfigureWindow(int fullscreen, int width, int height, 
 				 int modeswitch, const char *modeline, 
 				 int aspect, int scale_video, int field_order);
-    virtual void ConfigureDecoder(int pes_buffers, int priority);
+    virtual void ConfigureDecoder(int pes_buffers);
 
   protected:
 

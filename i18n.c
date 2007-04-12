@@ -59,46 +59,6 @@ const tI18nPhrase Phrases[] = {
     "", // Croatian
   },
   {
-    "high", // English
-    "Hoch", // Deutsch
-    "", // Slovenski
-    "", // Italiano
-    "", // Nederlands
-    "", // Português
-    "", // Français
-    "", // Norsk
-    "korkea", // Suomi
-    "", // Polski
-    "", // Español
-    "", // Ellinika
-    "", // Svenska
-    "", // Romaneste
-    "", // Magyar
-    "", // Catala
-    "²ëáŞÚØÙ", // Russian
-    "", // Croatian
-  },
-  {
-    "low", // English
-    "Niedrig", // Deutsch
-    "", // Slovenski
-    "", // Italiano
-    "", // Nederlands
-    "", // Português
-    "", // Français
-    "", // Norsk
-    "matala", // Suomi
-    "", // Polski
-    "", // Español
-    "", // Ellinika
-    "", // Svenska
-    "", // Romaneste
-    "", // Magyar
-    "", // Catala
-    "½Ø×ÚØÙ", // Russian
-    "", // Croatian
-  },
-  {
     "normal", // English
     "Normal", // Deutsch
     "", // Slovenski
@@ -602,26 +562,6 @@ const tI18nPhrase Phrases[] = {
     "", // Magyar
     "", // Catala
     "  PES ßĞÚÕâŞÒ", // Russian
-    "", // Croatian
-  },
-  {
-    "Priority", // English
-    "Priorität", // Deutsch
-    "", // Slovenski
-    "", // Italiano
-    "", // Nederlands
-    "", // Português
-    "", // Français
-    "", // Norsk
-    "Prioriteetti", // Suomi
-    "", // Polski
-    "", // Español
-    "", // Ellinika
-    "", // Svenska
-    "", // Romaneste
-    "", // Magyar
-    "", // Catala
-    "¿àØŞàØâÕâ", // Russian
     "", // Croatian
   },
   {
