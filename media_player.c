@@ -971,7 +971,6 @@ eOSState cXinelibDvdPlayerControl::ProcessKey(eKeys Key)
       case kBack:  xc.main_menu_mode = m_Mode;
 	           Hide(); 
 		   Close(); 
-		   BackToMenu();
 		   return osEnd;
       default:     break;
     }
