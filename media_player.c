@@ -152,7 +152,6 @@ cXinelibPlayer::~cXinelibPlayer()
 
 void cXinelibPlayer::SetAudioTrack(eTrackType Type, const tTrackId *TrackId)
 {
-  /*LOGMSG("cXinelibPlayer::SetAudioTrack(%d)",(int)Type);*/
   if(IS_DOLBY_TRACK(Type))
     Control("AUDIOSTREAM AC3 %d", (int)(Type - ttDolbyFirst));
   if(IS_AUDIO_TRACK(Type))
