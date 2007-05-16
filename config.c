@@ -167,6 +167,7 @@ bool config_t::IsVideoFile(const char *fname)
 	 !strcasecmp(pos, "xvid") ||
 	 !strcasecmp(pos, "divx") ||
 	 !strcasecmp(pos, "fli") ||
+	 !strcasecmp(pos, "flv") ||
 	 !strcasecmp(pos, "dv") ||
 	 !strcasecmp(pos, "dat") ||
 	 !strcasecmp(pos, "mkv") ||
