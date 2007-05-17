@@ -43,7 +43,7 @@
 
 //---------------------------------plugin-------------------------------------
 
-static const char *VERSION        = "1.0.0rc1";
+static const char *VERSION        = "1.0.0rc2";
 static const char *DESCRIPTION    = "X11/xine-lib output plugin";
 static const char *MAINMENUENTRY  = "Media Player";
 
