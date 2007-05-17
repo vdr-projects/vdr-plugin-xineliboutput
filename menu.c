@@ -305,7 +305,7 @@ eOSState cMenuBrowseFiles::Open(bool ForceOpen, bool Parent, bool Queue)
     } else {
       /* image */
       char **files = new char*[Count()+1];
-      int i=0, index = 0;
+      int i = 0, index = 0;
       memset(files, 0, sizeof(char*)*(Count()+1));
       for(cFileListItem *it = (cFileListItem*)First(); it; it=(cFileListItem*)Next(it)) {
 	if(it==Get(Current()))
