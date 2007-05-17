@@ -30,6 +30,16 @@ class cMenuEditTypedIntItem : public cMenuEditIntItem
     ~cMenuEditTypedIntItem();
 };
 
+// --- cMenuEditOddIntItem -------------------------------------------------
+
+class cMenuEditOddIntItem : public cMenuEditIntItem
+{
+  public:
+    cMenuEditOddIntItem(const char *Name, int *Value, int Min = 1, int Max = INT_MAX, const char *MinString = NULL, const char *MaxString = NULL);
+    eOSState ProcessKey(eKeys Key);
+};
+
+
 // --- cMenuEditStraI18nItem -------------------------------------------------
 
 class cMenuEditStraI18nItem : public cMenuEditIntItem 
