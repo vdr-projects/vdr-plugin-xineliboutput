@@ -1153,6 +1153,11 @@ void cXinelibServer::Handle_Control_CONFIG(int cli)
 			  xc.AutocropOptions());
   ConfigurePostprocessing("pp", xc.ffmpeg_pp ? true : false, 
 			  xc.FfmpegPpOptions());
+  ConfigurePostprocessing("unsharp",xc.unsharp ? true : false,
+                            xc.UnsharpOptions());
+  ConfigurePostprocessing("denoise3d",xc.denoise3d ? true : false,
+                          xc.Denoise3dOptions());
+
   fd_control[cli].write_cmd("CLEAR\r\n");
 
 #ifdef ENABLE_TEST_POSTPLUGINS
@@ -1708,7 +1713,7 @@ void cXinelibServer::Handle_ClientConnected(int fd)
   cXinelibDevice::Instance().ForcePrimaryDevice(true);
 }
 
-void cXinelibServer::Handle_Discovery_Broadcast()
+void cXinelibServer::Handle_Discovery_Broadcast(void)
 {
   if(!xc.remote_usebcast) {
     LOGDBG("BROADCASTS disabled in configuration");

@@ -409,6 +409,11 @@ void cXinelibLocal::Action(void)
 			    xc.AutocropOptions());
     ConfigurePostprocessing("pp", xc.ffmpeg_pp ? true : false, 
 			    xc.FfmpegPpOptions());
+    ConfigurePostprocessing("unsharp",xc.unsharp ? true : false, 
+                            xc.UnsharpOptions());
+    ConfigurePostprocessing("denoise3d",xc.denoise3d ? true : false, 
+                            xc.Denoise3dOptions());
+
 
 #ifdef ENABLE_TEST_POSTPLUGINS
     ConfigurePostprocessing("headphone", xc.headphone ? true : false, NULL);
