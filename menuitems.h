@@ -40,6 +40,26 @@ class cMenuEditOddIntItem : public cMenuEditIntItem
 };
 
 
+// --- cMenuEditFpIntItem -------------------------------------------------
+
+// Fixed-point decimal number
+
+class cMenuEditFpIntItem : public cMenuEditIntItem
+{
+  protected:
+    int decimals;
+    char *zeroString;
+
+    virtual void Set(void);
+
+  public:
+    cMenuEditFpIntItem(const char *Name, int *Value, int Min = 1, int Max = INT_MAX,
+                       int Decimals = 1, const char *ZeroString = NULL,
+                       const char *MinString = NULL, const char *MaxString = NULL);
+    ~cMenuEditFpIntItem();
+};
+
+
 // --- cMenuEditStraI18nItem -------------------------------------------------
 
 class cMenuEditStraI18nItem : public cMenuEditIntItem 
