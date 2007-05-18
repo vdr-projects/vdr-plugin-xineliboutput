@@ -75,6 +75,7 @@ typedef struct fbfe_t {
 
   post_plugins_t     *postplugins;
   char               *fb_dev;
+  char               *aspect_controller;
 
   char                configfile[256];
 

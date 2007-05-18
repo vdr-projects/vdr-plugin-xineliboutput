@@ -125,6 +125,7 @@ typedef struct sxfe_s {
 
   /* frontend */
   double    display_ratio;
+  char     *aspect_controller;
   int       xpos, ypos;
   uint16_t  video_width, video_height;
   uint16_t  width, height;
