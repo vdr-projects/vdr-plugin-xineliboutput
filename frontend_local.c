@@ -365,7 +365,7 @@ void cXinelibLocal::Action(void)
       if(m_bReconfigRequest) {
 	if(!fe->xine_init(fe, xc.audio_driver, xc.audio_port,
 			  xc.video_driver,
-			  xc.pes_buffers, 0,
+			  xc.pes_buffers,
 			  xc.post_plugins)) {
 	  LOGMSG("cXinelibLocal: Error initializing frontend");
 	  break;

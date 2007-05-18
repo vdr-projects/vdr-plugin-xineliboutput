@@ -66,7 +66,7 @@ struct frontend_s {
 		    const char *audio_driver, 
 		    const char *audio_port, 
 		    const char *video_driver, 
-		    int pes_buffers, int priority, 
+		    int pes_buffers,
 		    const char *static_post);
   int  (*xine_open)(frontend_t*, const char *mrl);
   int  (*xine_play)(frontend_t*);

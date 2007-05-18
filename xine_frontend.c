@@ -421,7 +421,7 @@ static void configure_audio_out(fe_t *this, const char *audio_driver, const char
 static int fe_xine_init(frontend_t *this_gen, const char *audio_driver, 
 			const char *audio_port,
 			const char *video_driver, 
-			int pes_buffers, int priority, 
+			int pes_buffers,
 			const char *static_post_plugins)
 {
   fe_t *this = (fe_t*)this_gen;
@@ -607,7 +607,6 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
 
   /* misc. config */
 
-  this->priority = priority;
   this->pes_buffers = pes_buffers;
 
   posts = this->postplugins = malloc(sizeof(post_plugins_t));
