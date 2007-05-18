@@ -190,15 +190,16 @@ static void *lirc_receiver_thread(void *fe)
 	}
 	LastTime = time_ms();
 
-
-#ifdef XINELIBOUTPUT_FE_TOGGLE_FULLSCREEN
+#if defined(XINELIBOUTPUT_FE_TOGGLE_FULLSCREEN) || defined(INTERPRET_LIRC_KEYS)
+        if(!strcmp(KeyName, "Quit")) {
+          terminate_key_pressed = 1;
+          break;
 # ifndef IS_FBFE
-        if(!strcmp(KeyName, "Fullscreen")) {
+        } else if(!strcmp(KeyName, "Fullscreen")) {
           if(!repeat)
             sxfe_toggle_fullscreen((sxfe_t*)fe);
-        } else 
 # endif
-        if(!strcmp(KeyName, "Deinterlace")) {
+        } else if(!strcmp(KeyName, "Deinterlace")) {
           fe_t *this = (fe_t*)fe;
           xine_set_param(this->stream, XINE_PARAM_VO_DEINTERLACE, 
                          xine_get_param(this->stream, XINE_PARAM_VO_DEINTERLACE) ? 0 : 1);

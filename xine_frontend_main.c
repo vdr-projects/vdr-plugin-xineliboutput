@@ -16,9 +16,6 @@
 
 #include "tools/vdrdiscovery.h"
 
-/* include LIRC forwarding code */
-#include "xine_frontend_lirc.c"
-
 
 #if 0
 static void xine_log_cb(void *data, int section)
@@ -47,6 +44,9 @@ static void print_xine_log(xine_t *xine)
 pthread_t kbd_thread;
 struct termios tm, saved_tm;
 volatile int terminate_key_pressed = 0;
+
+/* include LIRC forwarding code */
+#include "xine_frontend_lirc.c"
 
 static int read_key(void)
 {
@@ -155,7 +155,7 @@ static void *kbd_receiver_thread(void *fe)
       terminate_key_pressed = 1;
       break;
     }
-#ifdef XINELIBOUTPUT_FE_TOGGLE_FULLSCREEN
+#if defined(XINELIBOUTPUT_FE_TOGGLE_FULLSCREEN) || defined(INTERPRET_LIRC_KEYS)
 # ifndef IS_FBFE
     if(code == 'f' || code == 'F') {
       sxfe_toggle_fullscreen((sxfe_t*)fe);
