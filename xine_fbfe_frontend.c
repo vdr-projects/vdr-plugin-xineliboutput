@@ -90,6 +90,7 @@ typedef struct fbfe_t {
 
   /* frontend */
   double      display_ratio;
+  double      video_aspect;
   uint16_t    xpos, ypos;
   uint16_t    width, height;
   uint16_t    video_width, video_height;
