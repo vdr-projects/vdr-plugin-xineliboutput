@@ -107,8 +107,8 @@ void cHttpReq::Reset(void)
 static const char *mimetype(const char *ext)
 {
   static const struct {
-    char *ext;
-    char *mime;
+    const char *ext;
+    const char *mime;
   } ext2mime[] = {
     {"avi",  "video/avi"},
     {"vob",  "video/mpeg"},
