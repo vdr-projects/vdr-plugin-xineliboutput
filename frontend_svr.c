@@ -1107,7 +1107,7 @@ void cXinelibServer::Handle_Control_KEY(int cli, const char *arg)
 {
   TRACE("cXinelibServer received KEY " << buf);
 
-  if(!xc.use_remote_keyboard) {
+  if(!xc.remote_keyboard) {
     LOGMSG("Handle_Control_KEY(%s): Remote keyboard disabled in config", arg);
     return;
   }

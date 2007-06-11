@@ -229,7 +229,7 @@ class config_t {
     
     int  remote_mode;
     int  listen_port;
-    int  use_remote_keyboard;
+    int  remote_keyboard;
     int  remote_usetcp, remote_useudp, remote_usertp, remote_usepipe;
     int  remote_http_files;    /* allow http streaming of media files to xineliboutput clients 
 				* (currently replayed media file from xineliboutput media player) 
