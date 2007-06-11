@@ -83,7 +83,7 @@ cString cIConv::Translate(const char *Text) const
     return cString(buf, true);
   }
 
-  LOGERR("cIConv: iconv(%s) failed", Text);
+  LOGERR("cIConv: iconv(%s) failed at %d", Text, (int)(in - Text));
   free(buf);
 #endif
 
