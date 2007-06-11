@@ -247,8 +247,8 @@ class config_t {
     int  remote_use_http;      /* allow generic http streaming (primary device output) */
     int  remote_use_http_ctrl; /* allow http to control primary device (play/pause/seek...) */
 
-    char remote_iface[32];   /* use only this interface */
-    char remote_address[32]; /* bind locally to this IP */
+    char remote_local_if[32];  /* use only this interface */
+    char remote_local_ip[32];  /* bind locally to this IP */
 
     int  use_x_keyboard;
 
