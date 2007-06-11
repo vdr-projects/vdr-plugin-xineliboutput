@@ -1364,8 +1364,8 @@ void cMenuSetupRemote::Set(void)
       Add(ctrl_rtp_addr =
 	  new cMenuEditStrItem( tr("    Address"), 
 			        &newconfig.remote_rtp_addr[0], 16, "0123456789."));
-      Add(new cMenuEditIntItem( tr("    Port"), 
-				&newconfig.remote_rtp_port, 1000, 0xffff));
+      Add(new cMenuEditOddIntItem( tr("    Port"), 
+				&newconfig.remote_rtp_port, 1000, 0xfffe));
       Add(new cMenuEditIntItem( tr("    TTL"), 
 				&newconfig.remote_rtp_ttl, 1, 10));
       Add(new cMenuEditBoolItem(tr("    Transmit always on"), 
