@@ -505,6 +505,26 @@ const tI18nPhrase Phrases[] = {
     "", // Croatian
   },
   {
+    "  Listen address", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Português
+    "", // Français
+    "", // Norsk
+    "  Kuuntele osoitteessa", // Suomi
+    "", // Polski
+    "", // Español
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  {
     "  Remote keyboard", // English
     "  Tastaturfernsteuerung", // Deutsch
     "", // Slovenski
