@@ -1348,6 +1348,8 @@ void cMenuSetupRemote::Set(void)
     Add(new cMenuEditIntItem( tr("  Listen port (TCP and broadcast)"), 
 			      &newconfig.listen_port,
 			      0, 0xffff));
+    Add(new cMenuEditStrItem( tr("  Listen address"), 
+			      &newconfig.remote_local_ip[0], 16, "0123456789."));
     Add(new cMenuEditBoolItem(tr("  Remote keyboard"), 
 			      &newconfig.remote_keyboard));
 
