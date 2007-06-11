@@ -95,6 +95,8 @@ const char cmdLineHelp[] =
 "  -r PORT   --remote=PORT  Listen PORT for remote clients\n"
 "                           (default "LISTEN_PORT_S")\n"
 "                           none or 0 disables remote mode\n"
+"                           Also local interface address can be specified:\n"
+"                           --remote=<ip>:<port>  (default is all interfaces)\n"
 "  -A NAME   --audio=NAME   Use audio driver NAME for local frontend\n"
 "                           Supported values:\n"
 "                           auto, alsa, oss, arts, esound, none\n"
