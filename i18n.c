@@ -685,6 +685,26 @@ const tI18nPhrase Phrases[] = {
     "", // Croatian
   },
   {
+    "very large", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Português
+    "", // Français
+    "", // Norsk
+    "erittäin suuri", // Suomi
+    "", // Polski
+    "", // Español
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  {
     "huge", // English
     "Riesig", // Deutsch
     "", // Slovenski
@@ -2819,6 +2839,26 @@ const tI18nPhrase Phrases[] = {
     "", // Fran<E7>ais
     "", // Norsk
     "Tekstitys", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  {
+    "External subtitle size", // English
+    "Untertitel größe", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Erillisen tekstityksen koko", // Suomi
     "", // Polski
     "", // Espa<F1>ol
     "", // Ellinika

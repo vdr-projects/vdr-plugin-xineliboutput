@@ -690,6 +690,9 @@ bool cXinelibThread::PlayFile(const char *FileName, int Position,
       free(m_FileName);
     m_FileName = NULL;
     Unlock();
+  } else {
+    if(xc.extsub_size >= 0)
+      Xine_Control("EXTSUBSIZE", xc.extsub_size);
   }
 
   return (!GetStopSignal()) && (result==0);
