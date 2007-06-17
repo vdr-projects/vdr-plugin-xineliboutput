@@ -1633,6 +1633,15 @@ void cXinelibDevice::EnsureDvdSpuTrack(void)
 		track = 64;
 		pref = 99;
 	      }
+      if(pref < 99) {
+	for(track = 0; track < 64; track++)
+	  if(m_DvdSpuTrack[track].id != 0xffff)
+	    if(m_CurrentDvdSpuTrack != track) {
+	      LOGMSG("Auto-selecting (non-matching) %d. SPU track \'%s\'",
+		     track, m_DvdSpuTrack[track].language);
+	      cXinelibDevice::SetCurrentDvdSpuTrack(track);
+	    }
+      }
     }
 
     if(!m_spuPresent) {
