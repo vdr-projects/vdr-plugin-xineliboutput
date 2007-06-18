@@ -291,6 +291,7 @@ config_t::config_t() {
   ffmpeg_pp            = 0;
   ffmpeg_pp_quality    = 3;
   strn0cpy(ffmpeg_pp_mode, "de", sizeof(ffmpeg_pp_mode));
+  subtitle_vpos = 0;
 
   unsharp = 0;
   unsharp_luma_matrix_width = 5;
@@ -365,11 +366,12 @@ config_t::config_t() {
 
   use_x_keyboard = 1;
 
+  // video settings
+  overscan       = 0;
   hue          = -1; 
   saturation   = -1; 
   contrast     = -1; 
   brightness   = -1; 
-  overscan = 0;
 
   strn0cpy(browse_files_dir,  VideoDirectory, sizeof(browse_files_dir));
   strn0cpy(browse_music_dir,  VideoDirectory, sizeof(browse_music_dir));

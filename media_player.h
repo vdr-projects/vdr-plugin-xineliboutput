@@ -41,7 +41,6 @@ class cXinelibPlayerControl : public cControl
     int    m_CurrentPos;
     int    m_CurrentLen;
     bool   m_BlinkState;
-    static int m_SubtitlePos;
 
     void MsgReplaying(const char *Title, const char *File);
 

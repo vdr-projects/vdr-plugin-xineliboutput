@@ -227,6 +227,7 @@ class config_t {
     char browse_images_dir[4096];
     int  cache_implicit_playlists; // used in playlist.c
     int  enable_id3_scanner;       // used in playlist.c
+    int  subtitle_vpos;            // used in media player. Not saved !
 
     // Audio visualization
     char audio_visualization[64];
@@ -262,6 +263,7 @@ class config_t {
     int  denoise3d_luma;   //  Actually a double between 0.0 and 10.0, but handled as a int between 0 and 100
     int  denoise3d_chroma; //  Actually a double between 0.0 and 10.0, but handled as a int between 0 and 100
     int  denoise3d_time;   //  Actually a double between 0.0 and 10.0, but handled as a int between 0 and 100
+
     int  volnorm;          // enable/disable volnorm post plugin (normalize audio volume)
     
     // Remote server settings
