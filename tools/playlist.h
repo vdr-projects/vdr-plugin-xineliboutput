@@ -121,6 +121,8 @@ class cPlaylist : protected cList<cPlaylistItem>
   void           SetCurrent(cPlaylistItem *current);
   cPlaylistItem *Next(void);
   cPlaylistItem *Prev(void);
+
+  static cString EscapeMrl(const char *name);
 };
 
 
