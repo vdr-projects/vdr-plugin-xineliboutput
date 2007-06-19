@@ -201,6 +201,7 @@ class config_t {
     int  sw_volume_control; // software (xine-lib) or hardware (alsa) volume control and muting
 
     // Video settings
+    int  ibp_trickspeed;
     int  overscan;            // %
     int  hue;                 // 0...0xffff, -1 == off
     int  saturation;          // 0...0xffff, -1 == off

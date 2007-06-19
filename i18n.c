@@ -2538,6 +2538,26 @@ const tI18nPhrase Phrases[] = {
     "", // Russian
     "", // Croatian
   },
+  {
+    "Smooth fast forward", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Tasainen kuvakelaus", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
   // Missing texts 2006-09-20
   {
     "Post processing (ffmpeg)", // English
