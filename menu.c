@@ -559,7 +559,7 @@ cDisplaySpuTracks::cDisplaySpuTracks(void) : cOsdObject(true)
 
   for (int i = 0; i <= 63; i++) {
       const tTrackId *TrackId = cXinelibDevice::Instance().GetDvdSpuTrack(i);
-      if (TrackId && TrackId->id >= 0) {
+      if (TrackId) {
          types[numTracks] = eTrackType(i);
          descriptions[numTracks] = strdup(*TrackId->description ? TrackId->description : *TrackId->language ? TrackId->language : *itoa(i));
          if (i == CurrentTrack)
