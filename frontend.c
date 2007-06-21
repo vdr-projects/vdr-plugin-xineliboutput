@@ -190,7 +190,6 @@ cXinelibThread::cXinelibThread(const char *Description) : cThread(Description)
   m_Frames = 0;
   m_bEndOfStreamReached = false;
   m_bPlayingFile = false;
-  m_FileName = NULL;
 }
 
 cXinelibThread::~cXinelibThread() 
@@ -200,8 +199,6 @@ cXinelibThread::~cXinelibThread()
   m_bStopThread = true;
   if(Active())
     Cancel();
-  if(m_FileName)
-    free(m_FileName);
 }
 
 //
@@ -674,9 +671,7 @@ bool cXinelibThread::PlayFile(const char *FileName, int Position,
 
   if(FileName) {
     Lock();
-    if(m_FileName)
-      free(m_FileName);
-    m_FileName = strdup(FileName);
+    m_FileName = FileName;
     m_bPlayingFile = true;
     Unlock();
   }
@@ -686,8 +681,6 @@ bool cXinelibThread::PlayFile(const char *FileName, int Position,
   if(!FileName || result != 0) {
     Lock();
     m_bPlayingFile = false;
-    if(m_FileName)
-      free(m_FileName);
     m_FileName = NULL;
     Unlock();
   } else {
