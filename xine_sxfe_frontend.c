@@ -64,6 +64,13 @@
 #include "xine_frontend.h"
 #include "xine/post.h"
 
+#ifndef WIN_LAYER_NORMAL
+  #define WIN_LAYER_NORMAL 4
+#endif
+#ifndef WIN_LAYER_ONTOP
+  #define WIN_LAYER_ONTOP  6
+#endif
+
 #define MWM_HINTS_DECORATIONS       (1L << 1)
 #define PROP_MWM_HINTS_ELEMENTS     5
 typedef struct _mwmhints {
@@ -303,7 +310,7 @@ static void set_above(sxfe_t *this, int stay_above)
   XUnlockDisplay(this->display);
 
   /* _WIN_LAYER */
-  propvalue[0] = stay_above ? 10 : 6;
+  propvalue[0] = stay_above ? WIN_LAYER_ONTOP : WIN_LAYER_NORMAL;
   XLockDisplay(this->display);
   XChangeProperty(this->display, this->window[0], XInternAtom(this->display, "_WIN_LAYER", False),
 		  XA_CARDINAL, 32, PropModeReplace, (unsigned char *)propvalue,
