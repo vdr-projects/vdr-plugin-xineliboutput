@@ -867,6 +867,14 @@ eOSState cXinelibDvdPlayerControl::ProcessKey(eKeys Key)
     Hide();
     return osEnd;
   }
+  else {
+    const char *ti = cXinelibDevice::Instance().GetMetaInfo(miTitle);
+    if (ti && ti[0] && (!m_CurrentDVDTitle || !strstr(m_CurrentDVDTitle, ti))) {
+      memset(m_CurrentDVDTitle, 0, 63);
+      strn0cpy(m_CurrentDVDTitle, ti, 63);
+      MsgReplaying(m_CurrentDVDTitle, NULL);
+    }
+  }
 
   if(Menu) {
     if(Key == kRed)

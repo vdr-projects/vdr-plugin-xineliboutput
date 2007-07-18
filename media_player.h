@@ -67,6 +67,7 @@ class cXinelibDvdPlayerControl : public cXinelibPlayerControl
 {
   private:
     cDvdMenu *Menu;
+    char m_CurrentDVDTitle[63];
 
   public:
     cXinelibDvdPlayerControl(const char *File) : 
