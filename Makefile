@@ -13,6 +13,7 @@
 
 PLUGIN = xineliboutput
 
+_default: all
 
 ###
 ### check for xine-lib and X11
@@ -102,6 +103,7 @@ VDRINCDIR ?= $(VDRDIR)/include
 ###
 
 -include $(VDRDIR)/Make.config
+-include Make.config
 
 
 ###
@@ -148,7 +150,6 @@ XINEINPUTVDR = xineplug_inp_xvdr.so
 XINEPOSTAUTOCROP  = xineplug_post_autocrop.so
 XINEPOSTAUDIOCHANNEL = xineplug_post_audiochannel.so
 XINEPOSTHEADPHONE = xineplug_post_headphone.so
-
 
 ###
 ### which programs and libs to build
