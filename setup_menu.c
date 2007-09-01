@@ -1537,7 +1537,11 @@ void cTestGrayscale::Show()
   int i;
 
   if(!m_Osd)
+#if VDRVERSNUM >= 10509
+    m_Osd = cOsdProvider::NewOsd(OSD_X, OSD_Y, 0);
+#else
     m_Osd = cOsdProvider::NewOsd(OSD_X, OSD_Y);
+#endif
 
   if(m_Osd) {
     if (m_Osd->CanHandleAreas(areas, sizeof(areas) / sizeof(tArea) ) == oeOk) {
@@ -1636,7 +1640,11 @@ void cTestBitmap::Show()
   int x, y, bit = 0;
 
   if(!m_Osd) {
+#if VDRVERSNUM >= 10509
+    m_Osd = cOsdProvider::NewOsd(OSD_X, OSD_Y, 0);
+#else
     m_Osd = cOsdProvider::NewOsd(OSD_X, OSD_Y);
+#endif
 
     if(m_Osd) {
       if (m_Osd->CanHandleAreas(areas, sizeof(areas) / sizeof(tArea) ) == oeOk) {

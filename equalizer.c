@@ -46,7 +46,11 @@ void cEqualizer::Show()
 {
   tArea areas [] = { {0, 0, OSD_W - 1, OSD_H - 1, 4} };
 
+#if VDRVERSNUM >= 10509
+  m_Osd = cOsdProvider::NewOsd(OSD_X, OSD_Y, 0);
+#else
   m_Osd = cOsdProvider::NewOsd(OSD_X, OSD_Y);
+#endif
 
   if(m_Osd) {
     if (m_Osd->CanHandleAreas(areas, sizeof(areas) / sizeof(tArea) ) == oeOk) {
