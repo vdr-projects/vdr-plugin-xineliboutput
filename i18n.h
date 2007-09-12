@@ -15,4 +15,12 @@
 
 extern const tI18nPhrase Phrases[];
 
+#ifndef trNOOP
+#  define trNOOP(s) (s)
+#endif
+
+#ifndef trVDR
+#  define trVDR(s) tr(s)
+#endif
+
 #endif //__XINELIBOUTPUT_I18N_H
