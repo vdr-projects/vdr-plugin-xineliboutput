@@ -87,7 +87,7 @@ const char *config_t::s_fieldOrder[ FIELD_ORDER_count+1 ] = {
 };
 
 const char *config_t::s_audioDrivers[ AUDIO_DRIVER_count+1 ] = { 
-  "auto", "alsa", "oss", "none", "arts", "esd", "jack",
+  "auto", "alsa", "oss", "none", "esd", "jack",
   NULL
 };
 
@@ -96,7 +96,6 @@ const char *config_t::s_audioDriverNames[ AUDIO_DRIVER_count+1 ] = {
   "Alsa",
   "OSS",
   trNOOP("no audio"),
-  "Arts",
   "ESD",
   "Jack",
   NULL
