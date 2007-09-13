@@ -4697,13 +4697,12 @@ static off_t vdr_plugin_read (input_plugin_t *this_gen, void *buf_gen, off_t len
 
 static int update_frames(vdr_input_plugin_t *this, uint8_t *data, int len)
 {
-  int Length = len;
   int i = 8;
 
-  if(!this->I_frames)
+  if (!this->I_frames)
     this->P_frames = this->B_frames = 0;
   i += data[i] + 1;   /* possible additional header bytes */
-  for (; i < Length-5; i++) {
+  for (; i < len-5; i++) {
     if (data[i] == 0 && data[i + 1] == 0 && data[i + 2] == 1 && data[i + 3] == 0) {
       uint8_t type = ((data[i + 5] >> 3) & 0x07);
       switch (type) {
