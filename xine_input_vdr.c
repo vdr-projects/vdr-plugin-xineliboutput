@@ -5379,7 +5379,7 @@ static int connect_control_stream(vdr_input_plugin_t *this, const char *host,
   }
   LOGMSG("Server greeting: %s", tmpbuf);
   if(!strncmp(tmpbuf, "Access denied", 13)) {
-    LOGMSG("Maybe host address is missing from server-side svdrp.conf ?");
+    LOGMSG("Maybe host address is missing from server-side svdrphosts.conf ?");
     close(fd_control);
     this->fd_control = saved_fd;
     return -1;
