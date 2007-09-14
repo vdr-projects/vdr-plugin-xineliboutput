@@ -2308,23 +2308,24 @@ static void vdr_x_demux_control_newpts( xine_stream_t *stream, int64_t pts,
 {
   buf_element_t *buf;
 
-  buf = stream->audio_fifo->buffer_pool_try_alloc (stream->audio_fifo);
+  buf = stream->video_fifo ? stream->video_fifo->buffer_pool_try_alloc (stream->video_fifo) : NULL;
   if(buf) {
     buf->type = BUF_CONTROL_NEWPTS;
     buf->decoder_flags = flags;
     buf->disc_off = pts;
     stream->video_fifo->put (stream->video_fifo, buf); 
- } else {
-    LOGMSG("vdr_x_demux_control_newpts BUFFER FULL!");
+  } else {
+    LOGMSG("vdr_x_demux_control_newpts: video fifo full !");
   }
-  if(buf) {
-    buf = stream->audio_fifo->buffer_pool_try_alloc (stream->audio_fifo);
+
+  buf = stream->audio_fifo ? stream->audio_fifo->buffer_pool_try_alloc (stream->audio_fifo) : NULL;
+  if (buf) {
     buf->type = BUF_CONTROL_NEWPTS;
     buf->decoder_flags = flags;
     buf->disc_off = pts;
     stream->audio_fifo->put (stream->audio_fifo, buf);
   } else {
-    LOGMSG("vdr_x_demux_control_newpts BUFFER FULL!");
+    LOGMSG("vdr_x_demux_control_newpts: audio fifo full !");
   }
 }
 
