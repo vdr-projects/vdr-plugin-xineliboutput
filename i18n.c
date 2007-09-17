@@ -2573,25 +2573,6 @@ const tI18nPhrase Phrases[] = {
     "", // Russian
     "", // Croatian
   },
-  { "Now playing", // English
-    "Zurzeit wiedergegeben", // Deutsch
-    "", // Slovenski
-    "", // Italiano
-    "", // Nederlands
-    "", // Portugu<EA>s
-    "", // Fran<E7>ais
-    "", // Norsk
-    "Nyt toistetaan", // Suomi
-    "", // Polski
-    "", // Espa<F1>ol
-    "", // Ellinika
-    "", // Svenska
-    "", // Romaneste
-    "", // Magyar
-    "", // Catala
-    "", // Russian
-    "", // Croatian
-  },
   { "Random play", // English
     "Zufallswiedergabe", // Deutsch
     "", // Slovenski
@@ -3355,7 +3336,44 @@ const tI18nPhrase Phrases[] = {
     "", // Russian
     "", // Croatian
   },
-
+  { "Headphones 2.0", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Kuulokkeet 2.0", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  { "Pass Through", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Läpivienti", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
   { NULL }
 };
 

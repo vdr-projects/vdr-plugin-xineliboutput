@@ -44,8 +44,8 @@
 //---------------------------------plugin-------------------------------------
 
 static const char *VERSION        = "1.0.0rc2";
-static const char *DESCRIPTION    = "X11/xine-lib output plugin";
-static const char *MAINMENUENTRY  = "Media Player";
+static const char *DESCRIPTION    = trNOOP("X11/xine-lib output plugin");
+static const char *MAINMENUENTRY  = trNOOP("Media Player");
 
 cOsdObject *g_PendingMenuAction = NULL;
 
