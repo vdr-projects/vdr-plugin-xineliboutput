@@ -735,10 +735,17 @@ eOSState cXinelibPlayerControl::ProcessKey(eKeys Key)
                   MsgReplaying(*m_Player->Playlist().Current()->Track, *m_Player->File());
                   break;
     case kPrev:
-    case kLeft:   m_Player->NextFile(-1);
-                  if(!m_DisplayReplay)
-                    m_AutoShowStart = time(NULL);
-                  MsgReplaying(*m_Player->Playlist().Current()->Track, *m_Player->File());
+    case kLeft:   if(cXinelibDevice::Instance().PlayFileCtrl("GETPOS") < 3000) {
+                    m_Player->NextFile(-1);
+                    if(!m_DisplayReplay)
+                      m_AutoShowStart = time(NULL);
+                    MsgReplaying(*m_Player->Playlist().Current()->Track, *m_Player->File());
+                  }
+                  else {
+                    m_Player->NextFile(0);
+                    if(!m_DisplayReplay)
+                      m_AutoShowStart = time(NULL);
+                  }
                   break;
     case kDown:
     case kPause:  if(m_Player->Speed()) {
