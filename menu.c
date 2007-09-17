@@ -197,7 +197,7 @@ void cMenuBrowseFiles::SetHelpButtons(void)
 	  (m_Mode == ShowMusic) ? tr("Button$Queue") : 
 	           strlen(m_CurrentDir)>1 ? "[..]" : NULL,
 	  (isDir && !isDvd) ? NULL : trVDR("Button$Delete"),
-	  isDir ? NULL : tr("Button$Info"));
+	  isDir ? NULL : trVDR("Button$Info"));
   Display();
 }
 
@@ -217,7 +217,7 @@ eOSState cMenuBrowseFiles::Delete(void)
 	SetHelpButtons();
         Display();
       } else {
-        Skins.Message(mtError, triVDR("Error while deleting recording!"));
+        Skins.Message(mtError, trVDR("Error while deleting recording!"));
         isyslog("Error deleting file %s", *name);
       }
     }
