@@ -1412,6 +1412,10 @@ static buf_element_t *get_buf_element(vdr_input_plugin_t *this, int size, int fo
     }
   }
 
+  /* final try from audio fifo */
+  if(!buf)
+    buf = this->stream->audio_fifo->buffer_pool_try_alloc(this->stream->audio_fifo);
+
   if(buf) {
     buf->content = buf->mem;
     buf->size = 0;
