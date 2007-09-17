@@ -79,12 +79,15 @@ class cXinelibDevice : public cDevice
 
 
   // Device capabilities
+  private:
+    bool      m_VDR_TrickSpeedIBP;
 
   public:
 
     virtual bool HasDecoder(void) const { return true; };
     virtual bool CanReplay(void) const { return true; };
 
+    virtual bool HasIBPTrickSpeed(void);
 
   // Playback control
 
@@ -107,6 +110,7 @@ class cXinelibDevice : public cDevice
     virtual bool    Flush(int TimeoutMs = 0);
     virtual int64_t GetSTC(void);
 
+    bool UseIBPTrickSpeed(void);
 
   // Video format facilities
 
@@ -114,7 +118,6 @@ class cXinelibDevice : public cDevice
     virtual void SetVideoDisplayFormat(eVideoDisplayFormat VideoDisplayFormat);
     virtual void SetVideoFormat(bool VideoFormat16_9);
     virtual eVideoSystem GetVideoSystem(void);
-
 
   // Track facilities
 
