@@ -24,6 +24,7 @@
 #include "device.h"
 #include "media_player.h"
 #include "equalizer.h"
+#include "i18n.h"          // trVDR for VDR-1.4.x
 
 #ifndef HOTKEY_START
 # define HOTKEY_START        kRed

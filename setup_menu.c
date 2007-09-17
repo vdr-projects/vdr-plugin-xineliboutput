@@ -17,6 +17,7 @@
 #include "device.h"
 #include "menuitems.h"
 #include "config.h"
+#include "i18n.h"      // trVDR for vdr-1.4.x
 
 namespace XinelibOutputSetupMenu {
 
