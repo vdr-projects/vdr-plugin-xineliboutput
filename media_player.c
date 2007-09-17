@@ -904,19 +904,9 @@ eOSState cXinelibDvdPlayerControl::ProcessKey(eKeys Key)
 
   bool MenuDomain = false;
   if(Key != kNone) {
-    const char *l0 = cXinelibDevice::Instance().GetDvdSpuLang(0);
-    const char *l1 = cXinelibDevice::Instance().GetDvdSpuLang(1);
-    //const char *t  = cXinelibDevice::Instance().GetMetaInfo(miTitle);
-    //const char *dt = cXinelibDevice::Instance().GetMetaInfo(miDvdTitleNo);
-
-    if(/*(dt && !strcmp("0", dt)) ||*/
-       (l0 && !strcmp("menu", l0)) ||
-       (l1 && !strcmp("menu", l1))) {
+    const char *dt = cXinelibDevice::Instance().GetMetaInfo(miDvdTitleNo);
+    if(dt && !strcmp("0", dt)) 
       MenuDomain = true;
-      //LOGMSG(" *** menu domain %s %s %s %s", l0, l1, t, dt);
-    } else {
-      //LOGMSG(" *** replay domain %s %s %s %s", l0, l1, t, dt);
-    }
   }
 
   if(MenuDomain) {

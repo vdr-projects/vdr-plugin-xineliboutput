@@ -169,9 +169,12 @@ void cXinelibThread::InfoHandler(const char *info)
   }
 
   else if(!strncmp(info, "DVDTITLE ", 9)) {
+    LOGMSG("DVDTITLE %s", info);
     map += 9;
     while(*map == ' ') map++;
     cXinelibDevice::Instance().SetMetaInfo(miDvdTitleNo, map);
+    if (*map == '0')  // DVD Menu, set spu track to 0
+      cXinelibDevice::Instance().SetCurrentDvdSpuTrack(0);
   }
 
   free(pmap);
