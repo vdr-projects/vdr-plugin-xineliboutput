@@ -3363,7 +3363,7 @@ const tI18nPhrase Phrases[] = {
     "", // Portugu<EA>s
     "", // Fran<E7>ais
     "", // Norsk
-    "LÃ¤pivienti", // Suomi
+    "Läpivienti", // Suomi
     "", // Polski
     "", // Espa<F1>ol
     "", // Ellinika
