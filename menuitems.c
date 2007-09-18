@@ -10,7 +10,7 @@
 
 #include <math.h>
 
-#include <vdr/i18n.h>
+#include "i18n.h"
 
 #include "menuitems.h"
 

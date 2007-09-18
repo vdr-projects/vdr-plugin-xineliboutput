@@ -11,7 +11,6 @@
 #include <dirent.h>
 
 #include <vdr/config.h>
-#include <vdr/i18n.h>
 #include <vdr/interface.h>
 #include <vdr/menu.h>
 #include <vdr/plugin.h>

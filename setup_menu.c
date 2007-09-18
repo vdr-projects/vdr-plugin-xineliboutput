@@ -9,7 +9,6 @@
  */
 
 #include <vdr/config.h>
-#include <vdr/i18n.h>
 #include <vdr/plugin.h>
 #include <vdr/remote.h>
 
