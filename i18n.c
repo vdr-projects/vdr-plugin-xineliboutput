@@ -17,6 +17,8 @@
 #include <vdr/config.h>
 #include "i18n.h"
 
+#if VDRVERSNUM < 10507
+
 const tI18nPhrase Phrases[] = {
   { "X11/xine-lib output plugin", // English
     "X11/xine-lib Ausgabe-Plugin", // Deutsch
@@ -3377,5 +3379,5 @@ const tI18nPhrase Phrases[] = {
   { NULL }
 };
 
-
+#endif // VDRVERSNUM < 10507
 

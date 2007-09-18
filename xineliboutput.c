@@ -144,7 +144,10 @@ bool cPluginXinelibOutput::Initialize(void)
   // Initialize any background activities the plugin shall perform.
   TRACEF("cPluginXinelibOutput::Initialize");
 
+#if VDRVERSNUM < 10507
   RegisterI18n(Phrases);
+#endif
+
   cXinelibDevice::Instance();
   return true;
 }

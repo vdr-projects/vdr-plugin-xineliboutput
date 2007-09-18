@@ -13,6 +13,8 @@
 
 #include <vdr/i18n.h>
 
+#if VDRVERSNUM < 10507
+
 extern const tI18nPhrase Phrases[];
 
 #ifndef trNOOP
@@ -22,5 +24,7 @@ extern const tI18nPhrase Phrases[];
 #ifndef trVDR
 #  define trVDR(s) tr(s)
 #endif
+
+#endif // VDRVERSNUM < 10507
 
 #endif //__XINELIBOUTPUT_I18N_H
