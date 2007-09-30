@@ -489,6 +489,7 @@ config_t::config_t() {
 #else
   ibp_trickspeed = 0;
 #endif
+  max_trickspeed = 12;
   overscan       = 0;
   hue          = -1; 
   saturation   = -1; 
@@ -712,6 +713,7 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "Video.Brightness"))  brightness = atoi(Value);
   else if (!strcasecmp(Name, "Video.Overscan"))    overscan = atoi(Value);
   else if (!strcasecmp(Name, "Video.IBPTrickSpeed"))  ibp_trickspeed = atoi(Value);
+  else if (!strcasecmp(Name, "Video.MaxTrickSpeed"))  max_trickspeed = atoi(Value);
 
   else if (!strcasecmp(Name, "Post.pp.Enable"))    ffmpeg_pp = atoi(Value);
   else if (!strcasecmp(Name, "Post.pp.Quality"))   ffmpeg_pp_quality = atoi(Value);

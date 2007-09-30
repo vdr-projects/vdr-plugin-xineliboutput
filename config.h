@@ -201,6 +201,7 @@ class config_t {
 
     // Video settings
     int  ibp_trickspeed;
+    int  max_trickspeed;
     int  overscan;            // %
     int  hue;                 // 0...0xffff, -1 == off
     int  saturation;          // 0...0xffff, -1 == off
