@@ -202,6 +202,15 @@ const char *config_t::s_subExts[] = {
   NULL
 };
 
+const char *config_t::s_osdMixers[] = {
+  trNOOP("no"),
+  trNOOP("grayscale"),              // item [1]
+  trNOOP("transparent"),            // item [2]
+  trNOOP("transparent greyscale"),  // item [3] ([1 | 2])
+  trNOOP("yes"),
+  NULL
+};
+
 static char *strcatrealloc(char *dest, const char *src)
 {
   if (!src || !*src) 
@@ -426,6 +435,8 @@ config_t::config_t() {
   display_aspect       = 0;     /* auto */
 
   hide_main_menu       = 0;
+  osd_mixer            = OSD_MIXER_FULL;
+
   prescale_osd         = 1;
   prescale_osd_downscale = 0;
   unscaled_osd         = 0;
@@ -654,6 +665,7 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "Audio.SoftwareVolumeControl")) sw_volume_control = atoi(Value);
 
   else if (!strcasecmp(Name, "OSD.HideMainMenu"))   hide_main_menu = atoi(Value);
+  else if (!strcasecmp(Name, "OSD.LayersVisible"))  osd_mixer = atoi(Value);
   else if (!strcasecmp(Name, "OSD.Prescale"))       prescale_osd = atoi(Value);
   else if (!strcasecmp(Name, "OSD.Downscale"))      prescale_osd_downscale = atoi(Value);
   else if (!strcasecmp(Name, "OSD.UnscaledAlways")) unscaled_osd = atoi(Value);
