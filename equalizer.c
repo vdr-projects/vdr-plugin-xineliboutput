@@ -10,10 +10,6 @@
 
 #include <vdr/config.h>
 
-#if VDRVERSNUM < 10307
-# error VDR < 1.3.7 not supported
-#endif
-
 #include "config.h"
 #include "device.h"
 #include "equalizer.h"

@@ -25,10 +25,6 @@
 #  define TRACEF(x)
 #endif
 
-#if VDRVERSNUM>10317
-  #define time_ms() cTimeMs::Now()
-#endif
-
 // ---------------------------- cTimerThreadEvent ----------------------------
 
 class cTimerThreadEvent : public cListObject {
@@ -39,7 +35,7 @@ class cTimerThreadEvent : public cListObject {
        m_DeleteOnCancel(DeleteOnCancel), 
        m_TimeoutMs(TimeoutMs)
     {
-      m_NextEventTime = time_ms();
+      m_NextEventTime = cTimeMs::Now();
       UpdateEventTime();
     }
 
@@ -56,7 +52,7 @@ class cTimerThreadEvent : public cListObject {
 
     int TimeToNextEvent(void)
     {
-      return m_NextEventTime - time_ms();
+      return m_NextEventTime - cTimeMs::Now();
     }
 
     virtual bool operator< (const cListObject &ListObject)

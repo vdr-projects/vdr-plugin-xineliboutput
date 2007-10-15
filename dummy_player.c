@@ -64,20 +64,12 @@ cMutex cDummyPlayerControl::m_Lock;
 cDummyPlayerControl::cDummyPlayerControl(void) :
   cControl(OpenPlayer())
 {
-#if VDRVERSNUM < 10338
-  cStatus::MsgReplaying(this, "none");
-#else
   cStatus::MsgReplaying(this, "none", NULL, true);
-#endif
 }
 
 cDummyPlayerControl::~cDummyPlayerControl()
 {
-#if VDRVERSNUM < 10338
-  cStatus::MsgReplaying(this, NULL);
-#else
   cStatus::MsgReplaying(this, NULL, NULL, false);
-#endif
   Close();
 }
 

@@ -34,11 +34,8 @@
 #include "setup_menu.h"
 #include "menu.h"
 
-#if VDRVERSNUM < 10342
-#  if VDRVERSNUM < 10331
-#    error VDR versions < 1.3.31 are not supported !
-#  endif
-#  warning This plugin is not tested with VDR versions < 1.3.42 !
+#if VDRVERSNUM < 10400
+# error VDR versions < 1.4.0 are not supported !
 #endif
 
 //---------------------------------plugin-------------------------------------

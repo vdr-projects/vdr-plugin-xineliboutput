@@ -162,15 +162,8 @@ class cXinelibDevice : public cDevice
   // Image grabbing
 
   public:
-
-#if VDRVERSNUM < 10338
-    virtual bool GrabImage(const char *FileName, bool Jpeg = true, 
-			   int Quality = -1, int SizeX = -1, int SizeY = -1);
-
-#else
     virtual uchar *GrabImage(int &Size, bool Jpeg = true, 
 			     int Quality = -1, int SizeX = -1, int SizeY = -1);
-#endif
 
 
   // SPU decoder
@@ -270,12 +263,6 @@ class cXinelibDevice : public cDevice
     // override cDevice to get DVD SPUs
     virtual int PlayPesPacket(const uchar *Data, int Length,
 			      bool VideoOnly = false);
-
-#if VDRVERSNUM < 10342
-    // API changed in VDR 1.3.42
-    virtual int  PlayAudio(const uchar *Data, int Length)
-    { return PlayAudio(Data, Length, 0); }
-#endif
 };
 
 #endif // __XINELIB_DEVICE_H
