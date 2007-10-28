@@ -47,6 +47,9 @@
 #include <jpeglib.h>
 #undef boolean
 
+/* framegrab ports */
+#define XINE_ENABLE_EXPERIMENTAL_FEATURES
+
 #include <xine.h>
 #ifndef XINE_ENGINE_INTERNAL
 #  define XINE_ENGINE_INTERNAL
