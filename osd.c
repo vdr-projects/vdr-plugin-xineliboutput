@@ -222,9 +222,11 @@ eOsdError cXinelibOsd::SetAreas(const tArea *Areas, int NumAreas)
   TRACEF("cXinelibOsd::SetAreas");
   cMutexLock ml(&m_Lock);
 
+  LOGOSD("cXinelibOsd::SetAreas, m_Shown = %s", m_Shown ? "true" : "false");
+
+  CloseWindows();
+
   eOsdError Result = cOsd::SetAreas(Areas, NumAreas);
-  if(Result == oeOk) 
-    m_Shown = false;
 
   if(Left() + Width() > 720 || Top() + Height() > 576) {
     LOGDBG("Detected HD OSD, size > %dx%d, using setup values %dx%d", 
@@ -242,7 +244,6 @@ eOsdError cXinelibOsd::CanHandleAreas(const tArea *Areas, int NumAreas)
 {
   TRACEF("cXinelibOsd::CanHandleAreas");
 
-  m_Shown = false;
   eOsdError Result = cOsd::CanHandleAreas(Areas, NumAreas);
   if (Result == oeOk) {
     if (NumAreas > MAX_OSD_OBJECT)
