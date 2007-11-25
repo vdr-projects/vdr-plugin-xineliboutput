@@ -652,9 +652,8 @@ eOSState cXinelibPlayerControl::ProcessKey(eKeys Key)
   switch(Key) {
     case kBack:   xc.main_menu_mode = m_Mode;
                   Hide(); 
-                  Close(); 
 		  BackToMenu();
-                  return osEnd;
+                  break;
     case kStop:
     case kBlue:   Hide();
                   Close();
