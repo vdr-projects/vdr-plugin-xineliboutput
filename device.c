@@ -28,6 +28,7 @@
 //#define LOG_TRICKSPEED
 #if VDRVERSNUM >= 10510
 # define SKIP_DVDSPU
+# define DEVICE_SUPPORTS_IBP_TRICKSPEED
 #endif
 
 #include "logdefs.h"
