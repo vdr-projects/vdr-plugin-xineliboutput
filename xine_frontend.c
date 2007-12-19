@@ -84,11 +84,15 @@ static int find_input(fe_t *this)
       usleep(100*1000);
       return 0;
     }
+#if XINE_VERSION_CODE < 10190
     if(strcmp(this->stream->input_plugin->input_class->get_identifier(
 	      this->stream->input_plugin->input_class),
               "xvdr")) {
+#else
+    if(strcmp(this->stream->input_plugin->input_class->identifier,
+              "xvdr")) {
+#endif
       LOGMSG("find_input: current xine input plugin is not xvdr !");
-      /*usleep(100*1000);*/
       return 0;
     }
     this->input = this->stream->input_plugin;
