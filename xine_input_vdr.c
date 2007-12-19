@@ -3906,13 +3906,12 @@ struct {
   {XINE_EVENT_VDR_VOLMINUS,     "Volume-"},
   {XINE_EVENT_VDR_MUTE,         "Mute"},
   {XINE_EVENT_VDR_AUDIO,        "Audio"},
-#else
-#  warning Xine VDR keys not defined
 #endif
 #if defined(XINE_EVENT_VDR_INFO)
   {XINE_EVENT_VDR_INFO,         "Info"},
-#else
-#  warning Xine VDR key "Info" not defined
+#endif
+#if defined(XINE_EVENT_VDR_SUBTITLES)
+  {XINE_EVENT_VDR_SUBTITLES,    "Subtitles"},
 #endif
   {-1, NULL}
 };
