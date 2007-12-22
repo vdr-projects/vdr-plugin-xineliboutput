@@ -1383,7 +1383,7 @@ static void signal_buffer_not_empty(vdr_input_plugin_t *this)
 }
 
 #if XINE_VERSION_CODE < 10190
-#  define fifo_buffer_new (stream, n, s) _x_fifo_buffer_new(n, s)
+#  define fifo_buffer_new(stream, n, s) _x_fifo_buffer_new(n, s)
 #else
 static fifo_buffer_t *fifo_buffer_new (xine_stream_t *stream, int num_buffers, uint32_t buf_size)
 {
