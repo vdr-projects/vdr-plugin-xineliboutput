@@ -41,6 +41,8 @@
 
 # define HOTKEY_PLAYLIST     k9    /* Start replaying playlist or file pointed by
 				      symlink $(CONFDIR)/plugins/xineliboutput/default_playlist */
+# define HOTKEY_ADELAY_UP    kUp   /* audio delay up */
+# define HOTKEY_ADELAY_DOWN  kDown /* audio delay down */
 #endif
 
 //#define OLD_SPU_MENU
@@ -1078,6 +1080,32 @@ eOSState cMenuXinelib::ProcessHotkey(eKeys Key)
 	  free(file);
 	}
 	break;
+
+    case HOTKEY_ADELAY_UP:
+      /* audio delay up */
+      if(!OnlyInfo) {
+	xc.audio_delay++;
+        cXinelibDevice::Instance().ConfigurePostprocessing(xc.deinterlace_method, xc.audio_delay,
+                                                           xc.audio_compression, xc.audio_equalizer,
+                                                           xc.audio_surround, xc.speaker_type);
+      }
+      asprintf(&Message, "%s %s %d %s", tr("Delay"),
+	       OnlyInfo ? ":" : "->",
+	       xc.audio_delay, tr("ms"));
+      break;
+
+    case HOTKEY_ADELAY_DOWN:
+      /* audio delay up */
+      if(!OnlyInfo) {
+	xc.audio_delay--;
+        cXinelibDevice::Instance().ConfigurePostprocessing(xc.deinterlace_method, xc.audio_delay,
+                                                           xc.audio_compression, xc.audio_equalizer,
+                                                           xc.audio_surround, xc.speaker_type);
+      }
+      asprintf(&Message, "%s %s %d %s", tr("Delay"),
+	       OnlyInfo ? ":" : "->",
+	       xc.audio_delay, tr("ms"));
+      break;
 
     default:
       asprintf(&Message, tr("xineliboutput: hotkey %s not binded"), cKey::ToString(Key));
