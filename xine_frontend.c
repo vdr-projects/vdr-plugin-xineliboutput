@@ -1330,7 +1330,7 @@ static void *fe_control(void *fe_handle, const char *cmd)
 					    this->video_port);
       LOGMSG("  PIP %d: %dx%d @ (%d,%d)", pid & 0x0f, w, h, x, y);
       LOGMSG("create pip stream done");
-      sprintf(mrl, "xvdr:slave://0x%lx#nocache;demux:mpeg_block",
+      sprintf(mrl, "xvdr+slave://0x%lx#nocache;demux:mpeg_block",
 	      (unsigned long int)this);
       if(!xine_open(posts->pip_stream, mrl) ||
 	 !xine_play(posts->pip_stream, 0, 0)) {
