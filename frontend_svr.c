@@ -1261,6 +1261,9 @@ void cXinelibServer::Handle_Control_CONTROL(int cli, const char *arg)
 
 static int strcmp_escaped(const char *s1, const char *s2)
 {
+  if(!strncmp(s1, "file:", 5))
+    s1 += 5;
+
   while(*s1 && *s2) {
     int c1 = *s1;
     int c2 = *s2;

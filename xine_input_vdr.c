@@ -2772,6 +2772,7 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
   strn0cpy(filename, pt, sizeof(filename));
 
   if(*filename) {
+    int is_file_mrl = !strncmp(filename, "file:/", 6) ? 5 : 0;
     this->loop_play = 0;
 
     if(this->slave_stream)
@@ -2781,11 +2782,11 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
 	   loop, pos, av, filename);
     
     /* check if it is really a file (not mrl) and try to access it */
-    if(filename[0] == '/') {
+    if(is_file_mrl || filename[0] == '/') {
       struct stat st;
       char *f = unescape_filename(filename);
       errno = 0;
-      if(stat(f, &st)) {
+      if(stat(f+is_file_mrl, &st)) {
 	if(errno == EACCES || errno == ELOOP)
 	  LOGERR("Can't access file !");
 	if(errno == ENOENT || errno == ENOTDIR) 
@@ -2800,7 +2801,7 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
 	  if(sub) *sub = 0;
 	  snprintf(mrlbase, sizeof(mrlbase), "http://%s:%d/PLAYFILE", 
 		   host?:"127.0.0.1", iport);
-	  sprintf(mrl, "%s%s", mrlbase, filename);
+	  sprintf(mrl, "%s%s", mrlbase, filename + is_file_mrl);
 	  if(sub) {
 	    sub += 10; /*strlen("#subtitle:");*/
 	    strcat(mrl, "#subtitle:");
