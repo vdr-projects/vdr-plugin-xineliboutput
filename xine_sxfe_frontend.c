@@ -119,6 +119,7 @@ typedef struct sxfe_s {
   /* xine stuff */
   xine_t              *xine;
   xine_stream_t       *stream;
+  xine_stream_t       *slave_stream;
   input_plugin_t      *input;
   xine_video_port_t   *video_port;
   xine_video_port_t   *video_port_none;
