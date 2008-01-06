@@ -226,10 +226,11 @@ class cXinelibDevice : public cDevice
   // File playback
 
   private:
-    bool m_PlayingFile;
+    ePlayMode m_PlayingFile;
 
   public:
-    bool PlayFile(const char *Filename, int Position=0, bool LoopPlay=false);
+    bool PlayFile(const char *Filename, int Position=0, 
+		  bool LoopPlay=false, ePlayMode PlayMode=pmAudioVideo);
     int  PlayFileCtrl(const char *Cmd);
     bool EndOfStreamReached(void);
 
