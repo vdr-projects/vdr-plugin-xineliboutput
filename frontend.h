@@ -13,6 +13,7 @@
 
 #include <vdr/tools.h>
 #include <vdr/thread.h>
+#include <vdr/device.h> // ePlayMode
 
 //----------------------------- cXinelibThread --------------------------------
 
@@ -88,7 +89,7 @@ class cXinelibThread : public cThread, public cListObject
 
     // Playback files
     virtual bool PlayFile(const char *FileName, int Position, 
-			  bool LoopPlay=false);
+			  bool LoopPlay = false, ePlayMode PlayMode = pmAudioVideo);
     virtual int  PlayFileCtrl(const char *Cmd) { return Xine_Control(Cmd); }
     virtual bool EndOfStreamReached(void);
 
