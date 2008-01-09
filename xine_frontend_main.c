@@ -98,7 +98,7 @@ static int read_key(void)
       LOGERR("read_key: read(stdin) failed: no stdin");
     return -2;
 
-  } else if(err < 0) {
+  } else if(err < 0 && errno != EINTR) {
     LOGERR("read_key: poll(stdin) failed");
     return -2;
   }
