@@ -1154,6 +1154,7 @@ void cXinelibServer::Handle_Control_CONFIG(int cli)
   fd_control[cli].printf("NOVIDEO %d\r\nLIVE %d\r\n", 
 			 m_bNoVideo?1:0, m_bLiveMode?1:0); 
 
+  SetVolume(m_Volume);
   ConfigureOSD(xc.prescale_osd, xc.unscaled_osd);
   ConfigurePostprocessing(xc.deinterlace_method, xc.audio_delay,
 			  xc.audio_compression, xc.audio_equalizer,

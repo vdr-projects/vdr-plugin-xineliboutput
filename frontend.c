@@ -184,6 +184,7 @@ cXinelibThread::cXinelibThread(const char *Description) : cThread(Description)
 {
   TRACEF("cXinelibThread::cXinelibThread");
 
+  m_Volume = 255;
   m_bStopThread = false;
   m_bReady = false;
   m_bIsFinished = false;
@@ -259,6 +260,7 @@ bool cXinelibThread::IsFinished(void)
 
 void cXinelibThread::SetVolume(int NewVolume)
 {
+  m_Volume = NewVolume;
   cString str = cString::sprintf("VOLUME %d%s", NewVolume * 100 / 255, 
 				 xc.sw_volume_control ? " SW" : "");
   Xine_Control(str);
