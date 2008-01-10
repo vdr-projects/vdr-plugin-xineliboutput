@@ -37,6 +37,7 @@ class cPlaylistItem : public cListObject
 
   // Metainfo (ID3 etc.)
   cString Title;
+  cString Tracknumber;
   cString Artist;
   cString Album;
     

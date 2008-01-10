@@ -22,7 +22,7 @@ class cFunctor;
 
 typedef enum {
   miTitle  = 0,
-  miTrack  = 1,
+  miTracknumber  = 1,
   miArtist = 2,
   miAlbum  = 3,
   miDvdTitleNo = 4,
