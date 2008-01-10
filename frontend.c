@@ -142,12 +142,12 @@ void cXinelibThread::InfoHandler(const char *info)
     map += 8;
     while(*map) {
       while(*map == ' ') map++;
-      char *next = strstr(map, "=\'");
+      char *next = strstr(map, "=@");
       if(!next)
 	break;
       *next = 0;
       next += 2;
-      char *end =  strstr(next, "\'");
+      char *end =  strstr(next, "@");
       if(!end)
 	break;
       *end = 0;
