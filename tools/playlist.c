@@ -477,7 +477,7 @@ static const char *strchrnext(const char *s, char c)
 
 bool cPlaylist::ReadCache(void) 
 {
-  if(m_Origin == eImplicit && *m_Folder) {
+  if(xc.cache_implicit_playlists && m_Origin == eImplicit && *m_Folder) {
 
     cString Name = cString::sprintf("%s%s", *m_Folder, PLAYLIST_CACHE);
     FILE *f = fopen(Name, "r");

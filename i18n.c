@@ -3376,6 +3376,120 @@ const tI18nPhrase Phrases[] = {
     "", // Russian
     "", // Croatian
   },
+  { "Show the track number", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Näytä raidan numero", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  { "Show the name of the artist", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Näytä esittäjän nimi", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  { "Show the name of the album", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Näytä levyn nimi", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  { "Cache metainfo", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Tallenna metatieto", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },  
+  { "Scan for metainfo", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Tutki kappaleiden metatiedot", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
+  { "Playlist settings", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "Soittolistan asetukset", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+  },
   { NULL }
 };
 

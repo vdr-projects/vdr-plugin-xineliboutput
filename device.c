@@ -1660,7 +1660,15 @@ void cXinelibDevice::EnsureDvdSpuTrack(void)
 const char *cXinelibDevice::GetMetaInfo(eMetainfoType Type)
 {
   if(Type >= 0 && Type < mi_Count)
-    return m_MetaInfo[Type];
+    if ( Type == 0 || Type > 3 ||
+        (Type == 1 && xc.playlist_tracknumber == 1) ||
+        (Type == 2 && xc.playlist_artist == 1) ||
+        (Type == 3 && xc.playlist_album == 1)) {
+       return m_MetaInfo[Type];
+    }
+    else {
+       return "";
+    }
 
   LOGMSG("cXinelibDevice::GetMetaInfo: unknown metainfo type");
   return "";

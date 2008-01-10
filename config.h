@@ -239,6 +239,9 @@ class config_t {
     int  cache_implicit_playlists; // used in playlist.c
     int  enable_id3_scanner;       // used in playlist.c
     int  subtitle_vpos;            // used in media player. Not saved !
+    int  playlist_tracknumber;
+    int  playlist_artist;
+    int  playlist_album;   
 
     // Audio visualization
     char audio_visualization[64];
