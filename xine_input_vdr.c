@@ -2649,6 +2649,7 @@ static void send_cd_info(vdr_input_plugin_t *this)
     for(i=0; i<count && list[i]; i++)
       LOGMSG("cdda: %d: %s", i, list[i]);
   }
+  this->autoplay_size = count;
 #endif
 }
 
