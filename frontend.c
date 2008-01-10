@@ -153,7 +153,7 @@ void cXinelibThread::InfoHandler(const char *info)
       *end = 0;
 
       if(!strcmp(map, "title"))
-	cXinelibDevice::Instance().SetMetaInfo(miTrack, next);
+	cXinelibDevice::Instance().SetMetaInfo(miTitle, next);
       if(!strcmp(map, "album"))
 	cXinelibDevice::Instance().SetMetaInfo(miAlbum, next);
       if(!strcmp(map, "artist"))

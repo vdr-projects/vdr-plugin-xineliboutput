@@ -35,8 +35,8 @@ class cPlaylistItem : public cListObject
   
   cString Filename; /* file name and full path */
 
-  // Metaingo (ID3 etc.)
-  cString Track;
+  // Metainfo (ID3 etc.)
+  cString Title;
   cString Artist;
   cString Album;
     
