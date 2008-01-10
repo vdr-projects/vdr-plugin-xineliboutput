@@ -42,6 +42,9 @@ class cXinelibPlayerControl : public cControl
     int    m_CurrentLen;
     bool   m_BlinkState;
 
+    cTimeMs lastTime;
+    int number;
+
     void MsgReplaying(const char *Title, const char *File);
 
   public:
