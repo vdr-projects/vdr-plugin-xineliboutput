@@ -2625,7 +2625,7 @@ static void send_meta_info(vdr_input_plugin_t *this)
     char *tracknumber  = (char *)xine_get_meta_info(this->slave_stream, XINE_META_INFO_TRACK_NUMBER);
 
     asprintf(&meta,
-             "INFO METAINFO title=\'%s\' artist=\'%s\' album=\'%s\' tracknumber=\'%s\'\r\n",
+             "INFO METAINFO title=@%s@ artist=@%s@ album=@%s@ tracknumber=@%s@\r\n",
              title?:"", artist?:"", album?:"", tracknumber?:"");
 
     if(this->fd_control < 0)
