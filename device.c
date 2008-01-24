@@ -1144,6 +1144,13 @@ int cXinelibDevice::PlayVideo(const uchar *buf, int length)
     }
 #endif
 
+    if(IsFrameH264(buf, length)) {
+      LOGMSG("cXinelibDevice::PlayVideo: Detected H.264 video");
+//#warning There are SDTV channels using H.264, so we should really check video size ...
+      ForEach(m_clients, &cXinelibThread::SetHDMode, true);
+      m_StreamStart = false;
+    }
+
     int Width, Height;
     if(GetVideoSize(buf, length, &Width, &Height)) {
       m_StreamStart = false;
