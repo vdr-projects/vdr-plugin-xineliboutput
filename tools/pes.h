@@ -251,6 +251,20 @@ static inline int GetVideoSize(const uchar *buf, int length, int *width, int *he
   return 0;
 }
 
+static inline bool IsFrameH264(const uchar *Data, int Count)
+{
+  if (Count < 9 || Count < 9 + Data[8])
+    return false;
+  if ( (Data[6] & 0xC0) != 0x80)  /* MPEG 2 */
+    return false;
+
+  Data += 9 + Data[8];
+
+  if (!Data[0] && !Data[1] && Data[2] == 0x01 && Data[3] == 0x09)
+    return true;
+  return false;
+}
+
 // from vdr/remux.c:
 static inline int ScanVideoPacket(const uchar *Data, int Count, /*int Offset,*/ 
 				  uchar &PictureType)
