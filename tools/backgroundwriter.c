@@ -8,6 +8,10 @@
  *
  */
 
+#define __STDC_FORMAT_MACROS
+#define __STDC_CONSTANT_MACROS
+#include <inttypes.h>
+
 #include <stdint.h>
 #include <unistd.h>
 #include <netinet/tcp.h> // CORK, NODELAY
@@ -329,8 +333,7 @@ void cRawWriter::Action(void)
 	if(GetPos == NextHeaderPos) {
 	  if(Count < 6)
 	    LOGMSG("cBackgroundWriter @NextHeaderPos: Count < header size !");
-	  bool dummy;
-	  int packlen = pes_packet_len(Data, Count, dummy);
+	  int packlen = pes_packet_len(Data, Count);
 	  if(Count < packlen)
 	    ;//LOGMSG("Count = %d < %d", Count, 
 	     //   header->len + sizeof(stream_tcp_header_t));
