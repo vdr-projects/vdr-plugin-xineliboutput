@@ -74,6 +74,7 @@ class cPlaylist : protected cList<cPlaylistItem>
   cString        m_Name;    // playlist (or folder) name
   cString        m_Folder;  // path to "root" of playlist
   cPlaylistItem *m_Current; // now playing
+  unsigned int   m_Version;
 
   enum { ePlaylist, eImplicit } m_Origin;
 
