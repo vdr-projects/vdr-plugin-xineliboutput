@@ -1163,6 +1163,8 @@ void cXinelibServer::Handle_Control_CONFIG(int cli)
   ConfigurePostprocessing("upmix",     xc.audio_upmix ? true : false, NULL);
   ConfigurePostprocessing("autocrop",  xc.autocrop    ? true : false, 
 			  xc.AutocropOptions());
+  ConfigurePostprocessing("swscale", xc.swscale ? true : false, 
+			  xc.SwScaleOptions());
   ConfigurePostprocessing("pp", xc.ffmpeg_pp ? true : false, 
 			  xc.FfmpegPpOptions());
   ConfigurePostprocessing("unsharp",xc.unsharp ? true : false,

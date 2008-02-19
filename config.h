@@ -273,6 +273,12 @@ class config_t {
     int  autocrop_fixedsize;
     int  autocrop_subs;
 
+    // (video) software scaling
+    int  swscale;             // enable/disable
+    int  swscale_downscale;   // allow downscaling
+    int  swscale_width;       // output video width
+    int  swscale_height;      // output video height
+
     // sharpen / soften post plugin
     int  unsharp;                      // enable / disable
     int  unsharp_luma_matrix_width;    //  3..11, should be an odd number
@@ -329,6 +335,7 @@ class config_t {
     bool IsPlaylistFile(const char *);
 
     const char *AutocropOptions(void);
+    const char *SwScaleOptions(void);
     const char *FfmpegPpOptions(void);
     const char *UnsharpOptions(void);
     const char *Denoise3dOptions(void);
