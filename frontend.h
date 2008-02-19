@@ -117,7 +117,7 @@ class cXinelibThread : public cThread, public cListObject
     virtual int ConfigurePostprocessing(const char *name, bool on, const char *args);
     virtual int ConfigureVideo(int hue, int saturation, 
 			       int brightness, int contrast,
-			       int overscan);
+			       int overscan, int vo_aspect_ratio);
     // Local frontend:
     virtual void ConfigureWindow(int fullscreen, int width, int height, 
 				 int modeswitch, const char *modeline, 

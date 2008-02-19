@@ -804,13 +804,13 @@ int cXinelibThread::ConfigurePostprocessing(const char *name, bool on, const cha
 
 int cXinelibThread::ConfigureVideo(int hue, int saturation, 
 				   int brightness, int contrast,
-				   int overscan)
+				   int overscan, int vo_aspect_ratio)
 {
   char cmd[128];
   Xine_Control("OVERSCAN", overscan);
   snprintf(cmd, sizeof(cmd),
-	   "VIDEO_PROPERTIES %d %d %d %d", 
-	  hue, saturation, brightness, contrast);
+	   "VIDEO_PROPERTIES %d %d %d %d %d", 
+	  hue, saturation, brightness, contrast, vo_aspect_ratio);
   return Xine_Control(cmd);
 }
 

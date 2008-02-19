@@ -400,7 +400,7 @@ void cXinelibLocal::Action(void)
     ConfigurePostprocessing(xc.deinterlace_method, xc.audio_delay, 
 			    xc.audio_compression, xc.audio_equalizer,
 			    xc.audio_surround, xc.speaker_type);
-    ConfigureVideo(xc.hue, xc.saturation, xc.brightness, xc.contrast, xc.overscan);
+    ConfigureVideo(xc.hue, xc.saturation, xc.brightness, xc.contrast, xc.overscan, xc.vo_aspect_ratio);
     ConfigurePostprocessing("upmix",     xc.audio_upmix ? true : false, NULL);
     ConfigurePostprocessing("autocrop",  xc.autocrop  ? true : false, 
 			    xc.AutocropOptions());

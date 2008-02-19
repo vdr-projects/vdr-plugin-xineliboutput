@@ -1414,6 +1414,11 @@ static void *fe_control(void *fe_handle, const char *cmd)
       /* trigger forced redraw to make changes effective */
       xine_set_param(this->stream, XINE_PARAM_VO_ZOOM_X, 100);      
     }
+  } else if(!strncmp(cmd, "VO_ASPECT ", 10)) {
+    int vo_aspect_ratio;
+    if(1 == sscanf(cmd+10, "%d", &vo_aspect_ratio)) {
+      xine_set_param(this->stream, XINE_PARAM_VO_ASPECT_RATIO, vo_aspect_ratio);
+    }
   }
   
 

@@ -213,7 +213,7 @@ class cXinelibDevice : public cDevice
     void ConfigurePostprocessing(const char *name, bool on=true, 
 				 const char *args=NULL);
     void ConfigureVideo(int hue, int saturation, int brightness, int contrast,
-			int overscan);
+			int overscan, int vo_aspect_ratio);
     // local mode:
     void ConfigureWindow(int fullscreen, int width, int height, 
 			 int modeswitch, const char *modeline, 
