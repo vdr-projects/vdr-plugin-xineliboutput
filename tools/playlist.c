@@ -943,7 +943,7 @@ cString cPlaylist::GetEntry(cPlaylistItem *i, bool isPlaylist, bool isCurrent)
 {
 
   cString Entry = "";
-  if (*i->Artist && xc.playlist_artist || *i->Album && xc.playlist_album) {
+  if ((*i->Artist && xc.playlist_artist) || (*i->Album && xc.playlist_album)) {
       Entry = cString::sprintf("%s%s%s%s%s%s(%s%s%s)",
                                isPlaylist ? (isCurrent ? "*" : " ") : "",
                                isPlaylist ? "\t" : " ",
