@@ -6050,9 +6050,11 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
   if((!strncasecmp(this->mrl, "xvdr+tcp://", 11) && (this->tcp=1)) ||
      (!strncasecmp(this->mrl, "xvdr+udp://", 11) && (this->udp=1)) ||
      (!strncasecmp(this->mrl, "xvdr+rtp://", 11) && (this->rtp=1)) ||
+     (!strncasecmp(this->mrl, "xvdr+pipe://", 12)) ||
      (!strncasecmp(this->mrl, "xvdr:tcp://", 11) && (this->tcp=1)) ||
      (!strncasecmp(this->mrl, "xvdr:udp://", 11) && (this->udp=1)) ||
      (!strncasecmp(this->mrl, "xvdr:rtp://", 11) && (this->rtp=1)) ||
+     (!strncasecmp(this->mrl, "xvdr:pipe://", 12)) ||
      (!strncasecmp(this->mrl, "xvdr://", 7))) {
 
     char *phost = strdup(strstr(this->mrl, "//") + 2);
