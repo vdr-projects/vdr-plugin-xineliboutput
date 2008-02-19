@@ -210,6 +210,7 @@ static void *kbd_receiver_thread(void *fe)
 
   } while(!terminate_key_pressed && code != 0xffff);
   
+  alarm(0);
   LOGDBG("Keyboard thread terminated");
   tcsetattr(STDIN_FILENO, TCSANOW, &saved_tm);
   system("setterm -cursor on");
