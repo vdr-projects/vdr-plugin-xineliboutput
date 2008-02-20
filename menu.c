@@ -648,9 +648,6 @@ cMenuXinelib::cMenuXinelib()
 #if VDRVERSNUM < 10515
   if(cXinelibDevice::Instance().NumDvdSpuTracks() > 0)
     Add(new cOsdItem(tr("Select subtitle track >>"), osUser5));
-#else
-  if(cXinelibDevice::Instance().NumSubtitleTracks() > 0)
-    Add(new cOsdItem(tr("Select subtitle track >>"), osUser5));
 #endif
   Add(NewTitle(tr("Video settings")));
   Add(ctrl_novideo = new cMenuEditBoolItem(tr("Play only audio"), 
@@ -771,9 +768,6 @@ eOSState cMenuXinelib::ProcessKey(eKeys Key)
 	return osPlugin;
       }
       return osContinue;
-#else
-      cRemote::Put(kSubtitles);
-      return osEnd;
 #endif
     case osUser7:
       if(!g_PendingMenuAction) {
