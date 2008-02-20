@@ -14,6 +14,8 @@
 #include <string.h>
 #include <stdint.h>
 
+#include <vdr/config.h>
+
 // Decoder buffer size
 #define PES_BUFFERS_CUSTOM      0
 #define PES_BUFFERS_TINY_50     1
@@ -241,8 +243,10 @@ class config_t {
     int  extsub_size; /* size of separate subtitles ( -1 = xine default ; 0...6 = { tiny  small  normal  large  very large  huge } */
 
     // Media player
+#if VDRVERSNUM < 10515
     int  spu_autoshow;    // Preferred SPU language(s) for media player
     char spu_lang[4][4];
+#endif
     char browse_files_dir[4096];
     char browse_music_dir[4096];
     char browse_images_dir[4096];
