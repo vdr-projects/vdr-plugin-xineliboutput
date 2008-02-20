@@ -55,7 +55,7 @@
 class cMenuBrowseFiles : public cOsdMenu 
 {
   protected:
-    eMainMenuMode m_Mode;
+    const eMainMenuMode m_Mode;
     bool          m_OnlyQueue;
     char         *m_CurrentDir;
     char         *m_ConfigLastDir;
@@ -101,10 +101,10 @@ cMenuBrowseFiles::cMenuBrowseFiles(eMainMenuMode mode, bool OnlyQueue) :
     cOsdMenu( ( mode==ShowImages ? tr("Images") :
 		mode==ShowMusic ? (!OnlyQueue ? tr("Play music") : tr("Add to playlist")) :
 		/*mode==ShowFiles ?*/ tr("Play file")),
-	      2, 4)
+	      2, 4),
+    m_Mode(mode)
 {
   m_CurrentDir = NULL;
-  m_Mode       = mode;
   m_OnlyQueue  = OnlyQueue;
 
   m_ConfigLastDir = GetLastDir();
