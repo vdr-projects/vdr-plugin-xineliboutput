@@ -36,6 +36,7 @@
 
 #include "tools/pes.h"
 #include "tools/general_remote.h"
+#include "tools/iso639.h"
 
 //#define LOG_CONTROL_MESSAGES
 //#define XINELIBOUTPUT_LOG_KEYS
@@ -114,9 +115,9 @@ void cXinelibThread::InfoHandler(const char *info)
 	while(*map && *map != ' ') map++;
 	if(*map == ' ') { *map = 0; map++; };
 #if VDRVERSNUM < 10515 && !defined(VDRSPUPATCH)
-	cXinelibDevice::Instance().SetAvailableDvdSpuTrack(id, *lang ? lang : NULL, Current);
+	cXinelibDevice::Instance().SetAvailableDvdSpuTrack(id, iso639_2_to_iso639_1(lang), Current);
 #else
-	cXinelibDevice::Instance().SetAvailableTrack(ttSubtitle, id, id, *lang ? lang : NULL);
+	cXinelibDevice::Instance().SetAvailableTrack(ttSubtitle, id, id, iso639_2_to_iso639_1(lang));
 #endif
       }
     }
@@ -143,7 +144,7 @@ void cXinelibThread::InfoHandler(const char *info)
       char *lang = map;
       while(*map && *map != ' ') map++;
       if(*map == ' ') { *map = 0; map++; };
-      cXinelibDevice::Instance().SetAvailableTrack(ttDolby, id, ttDolby+id, *lang ? lang : NULL);
+      cXinelibDevice::Instance().SetAvailableTrack(ttDolby, id, ttDolby+id, iso639_2_to_iso639_1(lang));
       if(Current) 
 	cXinelibDevice::Instance().SetCurrentAudioTrack((eTrackType)(ttDolby+id));
     }
