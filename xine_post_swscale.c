@@ -483,9 +483,9 @@ static int do_warp_yuy2(uint8_t *dst, const uint8_t *src,
 			int dst_start)
 {
 #if defined(__i386__) || defined(__x86_64__)
-  const sse2_t YMask    = {uq:{UINT64_C(0x00ff00ff00ff00ff),UINT64_C(0x00ff00ff00ff00ff)}}; /* keeps only luma */
-  const sse2_t FPround1 = {uq:{UINT64_C(0x0080008000800080),UINT64_C(0x0080008000800080)}}; /* round words      */
-  const sse2_t FPround2 = {uq:{UINT64_C(0x0000008000000080),UINT64_C(0x0000008000000080)}}; /* round dwords     */
+  sse2_t YMask    = {uq:{UINT64_C(0x00ff00ff00ff00ff),UINT64_C(0x00ff00ff00ff00ff)}}; /* keeps only luma */
+  sse2_t FPround1 = {uq:{UINT64_C(0x0080008000800080),UINT64_C(0x0080008000800080)}}; /* round words      */
+  sse2_t FPround2 = {uq:{UINT64_C(0x0000008000000080),UINT64_C(0x0000008000000080)}}; /* round dwords     */
   sse2_t vWeight1;
   sse2_t vWeight2;
 
@@ -823,8 +823,8 @@ static int do_warp_yv12(uint8_t *dst, const uint8_t * const src,
 			uint32_t *vWorkY, int dst_start)
 {
 #if defined(__i386__) || defined(__x86_64__)
-  const sse2_t FPround1 = {uq:{UINT64_C(0x0080008000800080),UINT64_C(0x0080008000800080)}}; /* round words     */
-  const sse2_t FPround2 = {uq:{UINT64_C(0x0000008000000080),UINT64_C(0x0000008000000080)}}; /* round dwords    */
+  sse2_t FPround1 = {uq:{UINT64_C(0x0080008000800080),UINT64_C(0x0080008000800080)}}; /* round words     */
+  sse2_t FPround2 = {uq:{UINT64_C(0x0000008000000080),UINT64_C(0x0000008000000080)}}; /* round dwords    */
   sse2_t vWeight1;
   sse2_t vWeight2;
 
@@ -1582,6 +1582,7 @@ static vo_frame_t *got_frame(vo_frame_t *frame)
     /* calculate warp function factors */
     calculate_factors(this);
 
+    adiff = this->input_aspect - this->output_aspect;
     if(this->output_width  == frame->width &&
        this->output_height == frame->height &&
        adiff < 0.1  && 
