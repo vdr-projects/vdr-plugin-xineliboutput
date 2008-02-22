@@ -903,6 +903,7 @@ eOSState cXinelibDvdPlayerControl::ProcessKey(eKeys Key)
     if (ti && ti[0] && (!m_CurrentDVDTitle || !strstr(m_CurrentDVDTitle, ti))) {
       memset(m_CurrentDVDTitle, 0, 63);
       strn0cpy(m_CurrentDVDTitle, ti, 63);
+      m_Player->Playlist().Current()->Title = cString::sprintf("%s", m_CurrentDVDTitle);
       MsgReplaying(m_CurrentDVDTitle, NULL);
     }
   }
