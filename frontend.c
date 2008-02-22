@@ -117,7 +117,7 @@ void cXinelibThread::InfoHandler(const char *info)
 #if VDRVERSNUM < 10515 && !defined(VDRSPUPATCH)
 	cXinelibDevice::Instance().SetAvailableDvdSpuTrack(id, iso639_2_to_iso639_1(lang), Current);
 #else
-	cXinelibDevice::Instance().SetAvailableTrack(ttSubtitle, id, id, iso639_2_to_iso639_1(lang));
+	cXinelibDevice::Instance().SetAvailableTrack(ttSubtitle, id, id+1, iso639_2_to_iso639_1(lang));
 #endif
       }
     }
