@@ -33,9 +33,18 @@ typedef enum  {
 } osd_command_id_t;
 
 typedef struct xine_clut_s {
-  uint8_t cb    /*: 8*/;
-  uint8_t cr    /*: 8*/;
-  uint8_t y     /*: 8*/;
+  union {
+    uint8_t cb  /*: 8*/;
+    uint8_t g;
+  };
+  union {
+    uint8_t cr  /*: 8*/;
+    uint8_t b;
+  };
+  union {
+    uint8_t y   /*: 8*/;
+    uint8_t r;
+  };
   uint8_t alpha /*: 8*/;
 } PACKED xine_clut_t; /* from xine, alphablend.h */
 
