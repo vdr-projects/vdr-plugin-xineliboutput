@@ -2312,6 +2312,11 @@ static int vdr_plugin_exec_osd_command(input_plugin_t *this_gen,
   int result = CONTROL_DISCONNECTED;
   int video_changed = 0;
 
+  if (this->fd_control >= 0 &&  /* remote mode */
+      this->funcs.intercept_osd /* frontend handles OSD */ ) {
+    return this->funcs.intercept_osd(this->funcs.fe_handle, cmd) ? CONTROL_OK : CONTROL_DISCONNECTED;
+  }
+
   if(!pthread_mutex_lock (&this->osd_lock)) {
     palette_rgb_to_yuy(cmd->palette, cmd->colors);
     video_changed = update_video_size(this);
