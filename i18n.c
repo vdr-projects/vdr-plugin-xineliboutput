@@ -4125,6 +4125,50 @@ const tI18nPhrase Phrases[] = {
     "", // Dansk
     "", // Czech
   },
+  { "  Change aspect ratio", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "  Muuta kuvasuhdetta", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+    "", // Eesti
+    "", // Dansk
+    "", // Czech
+  },
+  { "  Change video size", // English
+    "", // Deutsch
+    "", // Slovenski
+    "", // Italiano
+    "", // Nederlands
+    "", // Portugu<EA>s
+    "", // Fran<E7>ais
+    "", // Norsk
+    "  Muuta videokuvan kokoa", // Suomi
+    "", // Polski
+    "", // Espa<F1>ol
+    "", // Ellinika
+    "", // Svenska
+    "", // Romaneste
+    "", // Magyar
+    "", // Catala
+    "", // Russian
+    "", // Croatian
+    "", // Eesti
+    "", // Dansk
+    "", // Czech
+  },
 
   { NULL }
 };
