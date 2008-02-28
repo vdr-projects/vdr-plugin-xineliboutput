@@ -24,7 +24,7 @@ static void *init_plugin(xine_t *xine, void *data);
 static char *get_identifier(post_class_t *class_gen);
 static char *get_description(post_class_t *class_gen);
 static void  class_dispose(post_class_t *class_gen);
-#endid
+#endif
 
 /* required from plugin: */
 static post_plugin_t *open_plugin(post_class_t *class_gen, int inputs,
