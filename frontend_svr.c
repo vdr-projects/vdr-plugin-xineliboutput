@@ -352,6 +352,10 @@ void cXinelibServer::OsdCmd(void *cmd_gen)
     cmdnet.datalen = htonl(cmd->datalen);
     cmdnet.num_rle = htonl(cmd->num_rle);
     cmdnet.colors  = htonl(cmd->colors);
+    cmdnet.dirty_area.x1 = htons(cmd->dirty_area.x1);
+    cmdnet.dirty_area.y1 = htons(cmd->dirty_area.y1);
+    cmdnet.dirty_area.x2 = htons(cmd->dirty_area.x2);
+    cmdnet.dirty_area.y2 = htons(cmd->dirty_area.y2);
     if(cmd->data) {
       cmdnet.raw_data = (uint8_t*)malloc(cmd->datalen);
       cmdnet.datalen = htonl( recompress_osd_net(cmdnet.raw_data, cmd->data, cmd->num_rle));
