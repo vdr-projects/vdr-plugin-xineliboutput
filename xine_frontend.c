@@ -975,7 +975,6 @@ static void fe_post_open(const fe_t *this, const char *name, const char *args)
       char tmp[16];
       double r = 0.0;
       pt += 14;
-      LOGMSG("AUTOINIT");
       switch(this->aspect) {
       case 0:
       case 1: /*       */ r = this->display_ratio * (double)this->width / (double)this->height; break;
