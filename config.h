@@ -353,7 +353,7 @@ class config_t {
 
   protected:
     bool ProcessArg(const char *Name, const char *Value);
-    char *m_ProcessedArgs;
+    static cString m_ProcessedArgs;
 
     static uint8_t *hidden_options;
     static uint8_t *readonly_options;
