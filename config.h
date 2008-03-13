@@ -340,11 +340,11 @@ class config_t {
     bool IsVideoFile(const char *);
     bool IsPlaylistFile(const char *);
 
-    const char *AutocropOptions(void);
-    const char *SwScaleOptions(void);
-    const char *FfmpegPpOptions(void);
-    const char *UnsharpOptions(void);
-    const char *Denoise3dOptions(void);
+    cString AutocropOptions(void);
+    cString SwScaleOptions(void);
+    cString FfmpegPpOptions(void);
+    cString UnsharpOptions(void);
+    cString Denoise3dOptions(void);
 
     template<typename T> bool IsOptionHidden(T & option)
       { return hidden_options[(int)((long int)&option - (long int)this)];};
