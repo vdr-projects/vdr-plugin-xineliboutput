@@ -1675,6 +1675,9 @@ static int warp_set_parameters(xine_post_t *this_gen, void *param_gen)
   memcpy(&this->config, params, sizeof(warp_parameters_t));  
   this->input_width = this->input_height = 0;
 
+  if(this->config.output_aspect > 999)
+    this->config.output_aspect /= 1000.0;
+
   DBG("warp_set_parameters: "
       "output_width=%d, output_height=%d, output_aspect=%4.3lf, no_downscaling=%d\n",
       this->config.output_width, this->config.output_height, this->config.output_aspect,
