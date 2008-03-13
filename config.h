@@ -278,10 +278,12 @@ class config_t {
     int  autocrop_subs;
 
     // (video) software scaling
-    int  swscale;             // enable/disable
-    int  swscale_downscale;   // allow downscaling
-    int  swscale_width;       // output video width
-    int  swscale_height;      // output video height
+    int  swscale;               // enable/disable
+    int  swscale_change_aspect; // change video aspect ratio
+    int  swscale_resize;        // change video size
+    int  swscale_width;         //   output video width
+    int  swscale_height;        //   output video height
+    int  swscale_downscale;     //   allow downscaling
 
     // sharpen / soften post plugin
     int  unsharp;                      // enable / disable
