@@ -508,7 +508,7 @@ cDisplaySpuTracks::cDisplaySpuTracks(void) : cOsdObject(true)
   int CurrentTrack = cXinelibDevice::Instance().GetCurrentDvdSpuTrack();
 
   track = numTracks;
-  types[numTracks] = eTrackType(-1);
+  types[numTracks] = eTrackType(ttXSubtitleNone);
   descriptions[numTracks] = strdup("(none)");
   numTracks++;
 
