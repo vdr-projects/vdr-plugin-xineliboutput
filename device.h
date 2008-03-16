@@ -29,6 +29,9 @@ typedef enum {
   mi_Count = 5
 } eMetainfoType;
 
+# define ttXSubtitleNone  (-2)
+# define ttXSubtitleAuto  (-1)
+
 #define MAX_METAINFO_LEN 63
 
 class cXinelibDevice : public cDevice 
@@ -145,6 +148,8 @@ class cXinelibDevice : public cDevice
     int   GetCurrentDvdSpuTrack(void) const { return m_CurrentDvdSpuTrack; }
     bool  SetCurrentDvdSpuTrack(int Type, bool Force=false);
     void  EnsureDvdSpuTrack(void);
+#else
+    virtual void SetSubtitleTrackDevice(eTrackType Type);
 #endif
 
     const char *GetMetaInfo(eMetainfoType Type);
