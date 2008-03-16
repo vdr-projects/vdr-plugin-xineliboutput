@@ -130,10 +130,7 @@ void cXinelibPlayer::SetSubtitleTrack(eTrackType Type, const tTrackId *TrackId)
 {
   LOGMSG("cXinelibPlayer::SetSubtitleTrack(%d %s)", (int)Type, TrackId ? TrackId->language : "?");
 #if VDRVERSNUM >= 10515
-  if(Type == ttNone)
-    Control("SPUSTREAM -1");
-  else
-    Control("SPUSTREAM %d", (int)(Type - ttSubtitleFirst));
+  cXinelibDevice::Instance().SetSubtitleTrackDevice(Type);
 #endif
 }
 
