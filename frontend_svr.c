@@ -50,6 +50,9 @@
 #define MAX_OSD_TIMEOUTS  (25*5)      /* max. rate 25 updates/s -> at least 5 seconds */
 #define LOG_OSD_BANDWIDTH (128*1024)  /* log messages if OSD bandwidth > 1 Mbit/s */
 
+#define PLAYFILE_CTRL_TIMEOUT   300   /* ms */
+#define PLAYFILE_TIMEOUT       5000   /* ms */
+
 typedef struct {
   int    Size;
   uchar *Data;
@@ -745,9 +748,7 @@ int cXinelibServer::PlayFileCtrl(const char *Cmd)
     int64_t t = cTimeMs::Now();
 #endif
 
-    int timeout = 300;
-    if(bPlayfile)
-      timeout = 5000;
+    int timeout = bPlayfile ? PLAYFILE_TIMEOUT : PLAYFILE_CTRL_TIMEOUT;
 
     future.Wait(timeout);
 
