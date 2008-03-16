@@ -16,18 +16,12 @@
 extern "C" {
 #endif
 
-
-#ifndef VIDEO_SIZE_T
-#define VIDEO_SIZE_T
-typedef struct {
-  int width;
-  int height;
-} video_size_t;
-#endif
+#include "mpeg.h"
 
 typedef struct {
   int width;
   int height;
+  double pixel_aspect;
   /* ... */
 } h264_sps_data_t;
 

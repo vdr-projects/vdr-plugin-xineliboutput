@@ -27,13 +27,12 @@ extern "C" {
 #define B_FRAME     3
 
 
-#ifndef VIDEO_SIZE_T
-#define VIDEO_SIZE_T
 typedef struct {
   int width;
   int height;
+  double pixel_aspect;
 } video_size_t;
-#endif
+
 
 extern const char * const picture_type_str[];
 
