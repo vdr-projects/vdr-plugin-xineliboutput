@@ -95,6 +95,55 @@ typedef struct osd_command_s {
 } PACKED osd_command_t;
 
 
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+# define hton_osdcmd(cmdP) \
+  do { \
+    cmdP.cmd      = htonl (cmdP.cmd);                \
+    cmdP.wnd      = htonl (cmdP.wnd);                \
+    cmdP.pts      = htonll(cmdP.pts);                \
+    cmdP.delay_ms = htonl (cmdP.delay_ms);           \
+    cmdP.x        = htons (cmdP.x);                  \
+    cmdP.y        = htons (cmdP.y);                  \
+    cmdP.w        = htons (cmdP.w);                  \
+    cmdP.h        = htons (cmdP.h);                  \
+    cmdP.datalen  = htonl (cmdP.datalen);            \
+    cmdP.num_rle  = htonl (cmdP.num_rle);            \
+    cmdP.colors   = htonl (cmdP.colors);             \
+    cmdP.dirty_area.x1 = htons(cmdP.dirty_area.x1);  \
+    cmdP.dirty_area.y1 = htons(cmdP.dirty_area.y1);  \
+    cmdP.dirty_area.x2 = htons(cmdP.dirty_area.x2);  \
+    cmdP.dirty_area.y2 = htons(cmdP.dirty_area.y2);  \
+  } while(0)
+
+# define ntoh_osdcmd(cmdP) \
+  do { \
+    cmdP.cmd      = ntohl (cmdP.cmd);                \
+    cmdP.wnd      = ntohl (cmdP.wnd);                \
+    cmdP.pts      = ntohll(cmdP.pts);                \
+    cmdP.delay_ms = ntohl (cmdP.delay_ms);           \
+    cmdP.x        = ntohs (cmdP.x);                  \
+    cmdP.y        = ntohs (cmdP.y);                  \
+    cmdP.w        = ntohs (cmdP.w);                  \
+    cmdP.h        = ntohs (cmdP.h);                  \
+    cmdP.datalen  = ntohl (cmdP.datalen);            \
+    cmdP.num_rle  = ntohl (cmdP.num_rle);            \
+    cmdP.colors   = ntohl (cmdP.colors);             \
+    cmdP.dirty_area.x1 = ntohs(cmdP.dirty_area.x1);  \
+    cmdP.dirty_area.y1 = ntohs(cmdP.dirty_area.y1);  \
+    cmdP.dirty_area.x2 = ntohs(cmdP.dirty_area.x2);  \
+    cmdP.dirty_area.y2 = ntohs(cmdP.dirty_area.y2);  \
+  } while(0)
+
+#elif __BYTE_ORDER == __BIG_ENDIAN
+
+# define hton_osdcmd(cmd) do {} while(0)
+# define ntoh_osdcmd(cmd) do {} while(0)
+
+#else
+#  error __BYTE_ORDER undefined !
+#endif
+
+
 #if defined __cplusplus
 }
 #endif
