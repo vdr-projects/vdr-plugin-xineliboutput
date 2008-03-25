@@ -3894,6 +3894,10 @@ static void *vdr_control_thread(void *this_gen)
   if(this->control_running)
     write_control(this, "CLOSE\r\n");
   this->control_running = 0;
+
+  if(this->slave_stream)
+    xine_stop(this->slave_stream);
+
   LOGDBG("Control thread terminated");
   pthread_exit(NULL);
 }
