@@ -376,7 +376,7 @@ static void set_above(sxfe_t *this, int stay_above)
  * connect to X server, create windows
  */
 
-static int sxfe_display_open(frontend_t *this_gen, int width, int height, int fullscreen,
+static int sxfe_display_open(frontend_t *this_gen, int width, int height, int fullscreen, int hud,
 			     int modeswitch, const char *modeline, int aspect,
 			     fe_keypress_f keyfunc, const char *video_port,
 			     int scale_video, int field_order) 

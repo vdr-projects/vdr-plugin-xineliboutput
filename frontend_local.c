@@ -339,7 +339,7 @@ void cXinelibLocal::Action(void)
       SetStopSignal();
     } else {
       LOGDBG("cXinelibLocal::Action - fe created");
-      if(!curr_fe->fe_display_open(curr_fe, xc.width, xc.height, xc.fullscreen,
+      if(!curr_fe->fe_display_open(curr_fe, xc.width, xc.height, xc.fullscreen, xc.hud_osd,
 				   xc.modeswitch, xc.modeline, 
 				   xc.display_aspect, keypress_handler, 
 				   xc.video_port, 

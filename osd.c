@@ -228,6 +228,8 @@ void cXinelibOsd::CmdRle(int Wnd, int X0, int Y0,
 
     osdcmd.num_rle = rle_compress(&osdcmd.data, Data, W, H);
     osdcmd.datalen = 4 * osdcmd.num_rle;
+
+    osdcmd.scaling = xc.osd_scaling;
     
     m_Device->OsdCmd((void*)&osdcmd);
 

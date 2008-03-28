@@ -91,6 +91,7 @@ typedef struct osd_command_s {
 
   osd_rect_t dirty_area;
   uint8_t    flags;
+  uint8_t    scaling;
 
 } PACKED osd_command_t;
 
