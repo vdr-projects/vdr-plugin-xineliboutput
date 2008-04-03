@@ -201,7 +201,7 @@ int udp_discovery_is_valid_search(const char *buf)
 #else
 int udp_discovery_find_server(int *port, char *address)
 {
-  static const char *mystring = DISCOVERY_1_0_HDR "Server port: ";
+  static const char mystring[] = DISCOVERY_1_0_HDR "Server port: ";
   struct sockaddr_in from;
   char buf[DISCOVERY_MSG_MAXSIZE];
   int fd_discovery = -1;
