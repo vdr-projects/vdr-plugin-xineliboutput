@@ -396,27 +396,7 @@ void cXinelibLocal::Action(void)
 
     // configure frontend and xine
     m_bNoVideo  = false;
-    ConfigureOSD(xc.prescale_osd, xc.unscaled_osd);
-    ConfigurePostprocessing(xc.deinterlace_method, xc.audio_delay, 
-			    xc.audio_compression, xc.audio_equalizer,
-			    xc.audio_surround, xc.speaker_type);
-    ConfigureVideo(xc.hue, xc.saturation, xc.brightness, xc.contrast, xc.overscan, xc.vo_aspect_ratio);
-    ConfigurePostprocessing("upmix",     xc.audio_upmix ? true : false, NULL);
-    ConfigurePostprocessing("autocrop",  xc.autocrop  ? true : false, 
-			    xc.AutocropOptions());
-    ConfigurePostprocessing("swscale", xc.swscale ? true : false, 
-			    xc.SwScaleOptions());
-    ConfigurePostprocessing("pp", xc.ffmpeg_pp ? true : false, 
-			    xc.FfmpegPpOptions());
-    ConfigurePostprocessing("unsharp",xc.unsharp ? true : false, 
-                            xc.UnsharpOptions());
-    ConfigurePostprocessing("denoise3d",xc.denoise3d ? true : false, 
-                            xc.Denoise3dOptions());
-
-
-#ifdef ENABLE_TEST_POSTPLUGINS
-    ConfigurePostprocessing("headphone", xc.headphone ? true : false, NULL);
-#endif
+    Configure();
     LOGDBG("cXinelibLocal::Action - fe config OK");
 
     LogoDisplay();

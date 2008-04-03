@@ -70,6 +70,8 @@ class cXinelibThread : public cThread, public cListObject
     virtual int  Xine_Control(const char *cmd) = 0;
     virtual int  Xine_Control_Sync(const char *cmd) { return Xine_Control(cmd); }
 
+    void Configure(void);
+
   //
   // Data transfer
   //
