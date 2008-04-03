@@ -104,7 +104,7 @@ cXinelibPlayer::cXinelibPlayer(const char *File, bool Queue, const char *SubFile
     if(m_Playlist.Count() < 1)
       LOGMSG("cXinelibPlayer: nothing to play !");
 
-    if(m_Playlist.Count() > 1)
+    if(m_Playlist.Count() > 0)
       m_Playlist.StartScanner();
 
     m_File = m_Playlist.Current()->Filename;
@@ -496,6 +496,10 @@ void cXinelibPlayerControl::Queue(const char *File)
   Skins.Message(mtInfo, tr("Queued to playlist"));
 
   m_Lock.Unlock();
+
+  if(m_Player->Playlist().Count() > 0)
+    m_Player->Playlist().StartScanner();
+
 }
 
 cXinelibPlayer *cXinelibPlayerControl::OpenPlayer(const char *File, bool Queue, const char *SubFile)
