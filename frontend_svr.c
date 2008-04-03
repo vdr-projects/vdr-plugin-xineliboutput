@@ -44,6 +44,7 @@
 
 #include "frontend_svr.h"
 #include "device.h"
+#include "osd.h"
 
 //#define HTTP_OSD
 
@@ -1149,6 +1150,8 @@ void cXinelibServer::Handle_Control_CONFIG(int cli)
 			     (pos>0?pos/1000:0), xc.audio_visualization, *m_FileName);
     }
   }
+
+  cXinelibOsdProvider::RefreshOsd();
 }
 
 void cXinelibServer::Handle_Control_UDP_RESEND(int cli, const char *arg)
