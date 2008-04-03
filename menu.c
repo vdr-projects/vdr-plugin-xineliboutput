@@ -10,6 +10,10 @@
 
 #include <dirent.h>
 
+#ifdef HAVE_EXTRACTOR_H
+# include <extractor.h>
+#endif
+
 #include <vdr/config.h>
 #include <vdr/interface.h>
 #include <vdr/menu.h>
@@ -329,6 +333,28 @@ eOSState cMenuBrowseFiles::Open(bool ForceOpen, bool Parent, bool Queue)
 eOSState cMenuBrowseFiles::Info(void)
 {
   if(GetCurrent() && !GetCurrent()->IsDir()) {
+#ifdef HAVE_EXTRACTOR_H
+    cString filename = cString::sprintf("%s/%s", m_CurrentDir, GetCurrent()->Name());
+    EXTRACTOR_ExtractorList * plugins;
+    EXTRACTOR_KeywordList   * md_list;
+    plugins = EXTRACTOR_loadDefaultLibraries();
+    md_list = EXTRACTOR_getKeywords(plugins, *filename);
+    const char *key;
+    char * buf;
+    char metadata[4096];
+    strcpy(metadata, "");
+    while(md_list) {
+      if((key=EXTRACTOR_getKeywordTypeAsString(md_list->keywordType))) {
+          buf = strdup(md_list->keyword);
+          sprintf(metadata, "%s%s: %s\n", metadata, key, buf);
+          free(buf);
+       }
+      md_list=md_list->next;
+     }
+    EXTRACTOR_freeKeywords(md_list);
+    EXTRACTOR_removeAll(plugins); /* unload plugins */
+    return AddSubMenu(new cMenuText(GetCurrent()->Name(), metadata));
+#else
     cString cmd = cString::sprintf("'%s/%s'", m_CurrentDir, GetCurrent()->Name());
     if(xc.IsPlaylistFile(GetCurrent()->Name()))
       cmd = cString::sprintf("file -b %s; cat %s", *cmd, *cmd);
@@ -351,6 +377,7 @@ eOSState cMenuBrowseFiles::Info(void)
         return AddSubMenu(new cMenuText(GetCurrent()->Name(), buf));
       }
     }
+#endif
   }
 
   return osContinue;
