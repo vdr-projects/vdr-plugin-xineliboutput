@@ -365,6 +365,7 @@ void cXinelibOsd::Refresh(void)
   cMutexLock ml(&m_Lock);
 
   m_Refresh = true;
+  CloseWindows();
   Flush();
   m_Refresh = false;
 }
