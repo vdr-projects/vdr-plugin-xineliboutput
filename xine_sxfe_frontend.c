@@ -1190,16 +1190,20 @@ static int sxfe_run(frontend_t *this_gen)
 	if(this->hud) {
 	  if(cev->window == this->window[0]) {
 	    int hud_x, hud_y;
+	    XLockDisplay(cev->display);
 	    XTranslateCoordinates(this->display, this->window[0],
 				  DefaultRootWindow(this->display),
 				  0, 0, &hud_x, &hud_y, &tmp_win);
 	    XResizeWindow(this->display, this->hud_window, cev->width, cev->height);
 	    XMoveWindow(this->display, this->hud_window, hud_x, hud_y);
 	    set_cursor(this->display, this->hud_window, 1);
+	    XUnlockDisplay(cev->display);
 	  } else if(cev->window == this->window[1]) {
+	    XLockDisplay(cev->display);
 	    XResizeWindow(this->display, this->hud_window, cev->width, cev->height);
 	    XMoveWindow(this->display, this->hud_window, 0, 0);
 	    set_cursor(this->display, this->hud_window, 0);
+	    XUnlockDisplay(cev->display);
 	  }
 	}
 
@@ -1236,7 +1240,9 @@ static int sxfe_run(frontend_t *this_gen)
            XFocusChangeEvent *fev = (XFocusChangeEvent *) &event;
            /* Show HUD again if sxfe window receives focus */
            if(fev->window == this->window[0] || fev->window == this->window[1]) {
+             XLockDisplay(fev->display);
              XMapWindow(this->display, this->hud_window);
+             XUnlockDisplay(fev->display);
            }
         }
         break;
@@ -1247,7 +1253,9 @@ static int sxfe_run(frontend_t *this_gen)
 	  XFocusChangeEvent *fev = (XFocusChangeEvent *) &event;
 	  /* Dismiss HUD window if focusing away from frontend window */
 	  if(fev->window == this->window[0] || fev->window == this->window[1]) {
+            XLockDisplay(fev->display);
             XUnmapWindow(this->display, this->hud_window);
+            XUnlockDisplay(fev->display);
           }
         }
         break;
