@@ -400,7 +400,11 @@ void cXinelibThread::Clear(void)
 
   char buf[128];
   snprintf(buf, sizeof(buf), "DISCARD %" PRId64 " %d", tmp1, tmp2);
+  /* Send to control stream and data stream. If message is sent only to 
+   * control stream, and it is delayed, engine flush will be skipped.
+   */
   Xine_Control(buf);
+  Xine_Control_Sync(buf);
 }
 
 bool cXinelibThread::Flush(int TimeoutMs) 

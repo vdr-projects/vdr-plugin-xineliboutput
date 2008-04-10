@@ -2476,6 +2476,7 @@ static void vdr_flush_engine(vdr_input_plugin_t *this)
   _x_demux_control_start(this->stream);
 #endif
   this->stream_start = 1;
+  this->I_frames = this->B_frames = this->P_frames = 0;
 
   resume_demuxer(this);
 }
@@ -3553,10 +3554,13 @@ static int vdr_plugin_parse_control(input_plugin_t *this_gen, const char *cmd)
   } else if(!strncasecmp(cmd, "DISCARD ", 8)) {
     if(2 == sscanf(cmd, "DISCARD %" PRIu64 " %d", &tmp64, &tmp32)) {
       pthread_mutex_lock(&this->lock);
-      this->discard_index = tmp64;
-      this->discard_frame = tmp32;
-      vdr_flush_engine(this);
-      this->I_frames = this->B_frames = this->P_frames = 0;
+      if(this->discard_index < tmp64) {
+	this->discard_index = tmp64;
+	this->discard_frame = tmp32;
+	vdr_flush_engine(this);
+      } else if(this->discard_index != tmp64) {
+	LOGMSG("Ignoring delayed control message %s", cmd);
+      }
       pthread_mutex_unlock(&this->lock);
     } else 
       err = CONTROL_PARAM_ERROR;
