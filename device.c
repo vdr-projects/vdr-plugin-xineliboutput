@@ -914,7 +914,8 @@ bool cXinelibDevice::PlayFile(const char *FileName, int Position,
   if(FileName) {
     if(m_PlayingFile == pmNone) {
       m_PlayingFile = PlayMode;
-      StopOutput();
+      if (!xc.IsImageFile(FileName))
+         StopOutput();
     }
     for(int i = 0; i < mi_Count; i++) 
       m_MetaInfo[i][0] = 0;
