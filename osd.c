@@ -254,11 +254,6 @@ cXinelibOsd::cXinelibOsd(cXinelibDevice *Device, int x, int y, uint Level)
   m_Refresh = false;
   m_IsVisible = true;
   m_Layer = Level;
-  if(Setup.OSDWidth + (2*Setup.OSDLeft) > 720 || Setup.OSDHeight + (2*Setup.OSDTop) > 576) {
-    CmdSize(Setup.OSDWidth + (2*Setup.OSDLeft), Setup.OSDHeight + (2*Setup.OSDTop));
-  } else {
-    CmdSize(720, 576);
-  } 
 }
 
 cXinelibOsd::~cXinelibOsd()
