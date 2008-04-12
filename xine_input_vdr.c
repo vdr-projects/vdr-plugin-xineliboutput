@@ -313,7 +313,6 @@ typedef struct vdr_input_plugin_s {
   int video_width, video_height;
   int video_changed;
   int rescale_osd;
-  int rescale_osd_downscale;
   int unscaled_osd;
   int unscaled_osd_opaque;
   int unscaled_osd_lowresvideo;
@@ -2171,17 +2170,6 @@ static int exec_osd_command(vdr_input_plugin_t *this, osd_command_t *cmd)
 	    use_unscaled = 1;
 
 	if(!use_unscaled && this->rescale_osd) {
-
-	  if(!this->rescale_osd_downscale) {
-	    if(width_diff<0) {
-	      width_diff = 0;
-	      new_w = cmd->w;
-	    }
-	    if(height_diff<0) {
-	      height_diff = 0;
-	      new_h = cmd->h;
-	    }
-	  }
 	  if(height_diff || width_diff) {
 	    this->osddata[cmd->wnd].data = cmd->data;
 	    this->osddata[cmd->wnd].datalen = cmd->datalen;
@@ -3186,7 +3174,6 @@ static int handle_control_osdscaling(vdr_input_plugin_t *this, const char *cmd)
   pthread_mutex_lock(&this->osd_lock);
   if(1 == sscanf(cmd, "OSDSCALING %d", &tmp)) {
     this->rescale_osd = tmp ? 1 : 0;
-    this->rescale_osd_downscale = strstr(cmd, "NoDownscale") ? 0 : 1;
     this->unscaled_osd = strstr(cmd, "UnscaledAlways") ? 1 : 0;
     this->unscaled_osd_opaque = strstr(cmd, "UnscaledOpaque") ? 1 : 0;
     this->unscaled_osd_lowresvideo = strstr(cmd, "UnscaledLowRes") ? 1 : 0;
