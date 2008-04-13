@@ -704,11 +704,7 @@ int main(int argc, char *argv[])
     fflush(stderr);
 
     while(fe->fe_run(fe) && !fe->xine_is_finished(fe,0) && !terminate_key_pressed) 
-#ifdef __APPLE__
-      sched_yield();
-#else
-      pthread_yield();
-#endif
+      ;
 
     fe->xine_close(fe);
     firsttry = 0;
