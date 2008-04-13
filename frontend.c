@@ -810,7 +810,7 @@ void cXinelibThread::Configure(void)
 int cXinelibThread::ConfigureOSD(void) 
 {
   char buf[256];
-  sprintf(buf, "OSDSCALING %d", xc.prescale_osd);
+  strcpy(buf, "OSDSCALING ");
   if(xc.unscaled_osd)
     strcat(buf, " UnscaledAlways");
   if(xc.unscaled_osd_opaque)
