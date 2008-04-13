@@ -408,9 +408,9 @@ xine_fbfe_frontend_standalone.o: xine_fbfe_frontend.c xine_frontend.c \
 ### Internationalization (I18N):
 
 PODIR     = po
-LOCDIR   ?= $(VDRDIR)/locale
+LOCALEDIR ?= $(VDRDIR)/locale
 I18Npo    = $(wildcard $(PODIR)/*.po)
-I18Nmsgs  = $(addprefix $(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
+I18Nmsgs  = $(addprefix $(LOCALEDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
 I18Npot   = $(PODIR)/$(PLUGIN).pot
 
 %.mo: %.po
@@ -423,7 +423,7 @@ $(I18Npot): $(wildcard *.c)
 	msgmerge -U --no-wrap --no-location --backup=none -q $@ $<
 	@touch $@
 
-$(I18Nmsgs): $(LOCDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
+$(I18Nmsgs): $(LOCALEDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
 	@mkdir -p $(dir $@)
 	cp $< $@
 
