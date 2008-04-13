@@ -907,9 +907,6 @@ void cMenuSetupOSD::Set(void)
   Add(new cMenuEditStraI18nItem(tr("Show all layers"), &newconfig.osd_mixer, 
 			OSD_MIXER_count, xc.s_osdMixers));
 #endif
-  Add(ctrl_scale = 
-      new cMenuEditBoolItem(tr("Scale OSD to video size"), 
-			    &newconfig.prescale_osd));
   Add(ctrl_unscaled =
       new cMenuEditBoolItem(tr("Unscaled OSD (no transparency)"), 
 			    &newconfig.unscaled_osd));
@@ -1004,7 +1001,6 @@ void cMenuSetupOSD::Store(void)
   SetupStore("OSD.Scaling",         xc.osd_scaling);
   SetupStore("OSD.HideMainMenu",    xc.hide_main_menu);
   SetupStore("OSD.LayersVisible",   xc.osd_mixer);
-  SetupStore("OSD.Prescale",        xc.prescale_osd);
   SetupStore("OSD.UnscaledAlways",  xc.unscaled_osd);
   SetupStore("OSD.UnscaledOpaque", xc.unscaled_osd_opaque);
   SetupStore("OSD.UnscaledLowRes", xc.unscaled_osd_lowresvideo);

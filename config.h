@@ -242,7 +242,6 @@ class config_t {
     int  osd_mixer;                // show multiple OSD layers
     int  osd_scaling;              // OSD scaling mode: off, nearest, bilinear
     int  hud_osd;                  // head up display OSD
-    int  prescale_osd;
     int  unscaled_osd;
     int  unscaled_osd_opaque;
     int  unscaled_osd_lowresvideo;
