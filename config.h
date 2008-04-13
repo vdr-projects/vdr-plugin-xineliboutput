@@ -337,6 +337,10 @@ class config_t {
     int  remote_rtp_always_on;
     int  remote_rtp_sap;
 
+    // Advanced settings
+    int live_mode_sync;   /* Sync SCR to transponder clock in live mode */
+    int scr_tunning;      /* Fine-tune xine egine SCR (to sync video to graphics output) */
+    int scr_hz;           /* Current SCR speed (Hz), default is 90000 */
 
     config_t();
 
