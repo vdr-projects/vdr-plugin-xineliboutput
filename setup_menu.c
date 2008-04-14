@@ -895,22 +895,27 @@ void cMenuSetupOSD::Set(void)
   Add(NewTitle(tr("On-Screen Display")));
   Add(new cMenuEditBoolItem(tr("Hide main menu"), 
 			    &newconfig.hide_main_menu));
+
+  Add(ctrl_unscaled =
+      new cMenuEditBoolItem(tr("Blending method"),
+			    &newconfig.unscaled_osd,
+			    tr("Software"), tr("Hardware")));
+  if(!newconfig.unscaled_osd) {
+    Add(ctrl_lowres =
+	new cMenuEditBoolItem(tr("  Use hardware for low-res video"),
+			      &newconfig.unscaled_osd_lowresvideo));
+  }
+
   Add(ctrl_scaling =
-      new cMenuEditStraI18nItem(tr("OSD scaling method"), &newconfig.osd_scaling,
+      new cMenuEditStraI18nItem(tr("Scaling method"), &newconfig.osd_scaling,
 	                        OSD_SCALING_count, xc.s_osdScalings));
 
 #if VDRVERSNUM >= 10509
+# if 0
   Add(new cMenuEditStraI18nItem(tr("Show all layers"), &newconfig.osd_mixer, 
 			OSD_MIXER_count, xc.s_osdMixers));
+# endif
 #endif
-  Add(ctrl_unscaled =
-      new cMenuEditBoolItem(tr("Unscaled OSD (no transparency)"), 
-			    &newconfig.unscaled_osd));
-  if(!newconfig.unscaled_osd) {
-    Add(ctrl_lowres =
-	new cMenuEditBoolItem(tr("  When low-res video"),
-			      &newconfig.unscaled_osd_lowresvideo));
-  }
 
   Add(ctrl_alpha =
       new cMenuEditTypedIntItem(tr("Dynamic transparency correction"), "%", 
