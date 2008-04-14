@@ -285,50 +285,6 @@ const tI18nPhrase Phrases[] = {
     "", // Dansk
     "", // Czech
   },
-  { "Scale OSD to video size", // English
-    "Skaliere OSD auf Videogrˆﬂe", // Deutsch
-    "", // Slovenski
-    "Scala OSD a dimensione video", // Italiano
-    "", // Nederlands
-    "", // PortuguÍs
-    "", // FranÁais
-    "", // Norsk
-    "Skaalaa videon kokoiseksi", // Suomi
-    "", // Polski
-    "", // EspaÒol
-    "", // Ellinika
-    "", // Svenska
-    "", // Romaneste
-    "", // Magyar
-    "", // Catala
-    "º–·Ë‚–—ÿ‡ﬁ“–‚Ï “ ‡–◊‹’‡ “ÿ‘’ﬁ", // Russian
-    "", // Croatian
-    "", // Eesti
-    "", // Dansk
-    "", // Czech
-  },
-  { "Unscaled OSD (no transparency)", // English
-    "Unskaliertes OSD (keine Transparenz)", // Deutsch
-    "", // Slovenski
-    "OSD non scalato (nessuna trasparenza)", // Italiano
-    "", // Nederlands
-    "", // PortuguÍs
-    "", // FranÁais
-    "", // Norsk
-    "Skaalaamaton (ei l‰pin‰kyvyytt‰)", // Suomi
-    "", // Polski
-    "", // EspaÒol
-    "", // Ellinika
-    "", // Svenska
-    "", // Romaneste
-    "", // Magyar
-    "", // Catala
-    "Ω’ ‹–·Ë‚–—ÿ‡ﬁ“–‚Ï (›’ ﬂ‡ﬁ◊‡–Á›ﬁ)", // Russian
-    "", // Croatian
-    "", // Eesti
-    "", // Dansk
-    "", // Czech
-  },
   { "Dynamic transparency correction", // English
     "Dynamische Transparenz-Korrektur", // Deutsch
     "", // Slovenski
@@ -1739,15 +1695,15 @@ const tI18nPhrase Phrases[] = {
     "", // Dansk
     "", // Czech
   },
-  { "  Allow downscaling", // English
-    "  Verkleinern zulassen", // Deutsch
+  { "  Use hardware for low-res video", // English
+    "", // Deutsch
     "", // Slovenski
-    "  Permetti ridimensionamento", // Italiano
+    "", // Italiano
     "", // Nederlands
     "", // Portugu<EA>s
     "", // Fran<E7>ais
     "", // Norsk
-    "  Salli skaalaus pienemm‰ksi", // Suomi
+    "  Laitteisto matalaresoluutioisella videolla", // Suomi
     "", // Polski
     "", // Espa<F1>ol
     "", // Ellinika
@@ -1755,51 +1711,7 @@ const tI18nPhrase Phrases[] = {
     "", // Romaneste
     "", // Magyar
     "", // Catala
-    "  º–·Ë‚–—ÿ‡ﬁ“–‚Ï · ﬂ–‘’›ÿ’‹ ⁄–Á’·‚“–", // Russian
-    "", // Croatian
-    "", // Eesti
-    "", // Dansk
-    "", // Czech
-  },
-  { "  When opaque OSD", // English
-    "  Wenn undurchsichtiges OSD", // Deutsch
-    "", // Slovenski
-    "  Se OSD opaco", // Italiano
-    "", // Nederlands
-    "", // Portugu<EA>s
-    "", // Fran<E7>ais
-    "", // Norsk
-    "  Kun ei l‰pin‰kyv‰", // Suomi
-    "", // Polski
-    "", // Espa<F1>ol
-    "", // Ellinika
-    "", // Svenska
-    "", // Romaneste
-    "", // Magyar
-    "", // Catala
-    "  ∫ﬁ”‘– ›’ﬂ‡ﬁ◊‡–Á›ﬁ OSD", // Russian
-    "", // Croatian
-    "", // Eesti
-    "", // Dansk
-    "", // Czech
-  },
-  { "  When low-res video", // English
-    "  Wenn Video mit niedriger Auflˆsung", // Deutsch
-    "", // Slovenski
-    "  Se video a bassa risoluzione", // Italiano
-    "", // Nederlands
-    "", // Portugu<EA>s
-    "", // Fran<E7>ais
-    "", // Norsk
-    "  Kun matalaresoluutioinen video", // Suomi
-    "", // Polski
-    "", // Espa<F1>ol
-    "", // Ellinika
-    "", // Svenska
-    "", // Romaneste
-    "", // Magyar
-    "", // Catala
-    "  ∫ﬁ”‘– “ÿ‘’ﬁ ›ÿ◊⁄ﬁ”ﬁ ‡–◊‡’Ë’›ÿÔ", // Russian
+    "", // Russian
     "", // Croatian
     "", // Eesti
     "", // Dansk
@@ -4191,7 +4103,7 @@ const tI18nPhrase Phrases[] = {
     "", // Dansk
     "", // Czech
   },
-  { "OSD blending method", // English
+  { "Blending method", // English
     "", // Deutsch
     "", // Slovenski
     "", // Italiano
@@ -4213,7 +4125,7 @@ const tI18nPhrase Phrases[] = {
     "", // Dansk
     "", // Czech
   },
-  { "OSD scaling method", // English
+  { "Scaling method", // English
     "", // Deutsch
     "", // Slovenski
     "", // Italiano
@@ -4221,7 +4133,7 @@ const tI18nPhrase Phrases[] = {
     "", // Portugu<EA>s
     "", // Fran<E7>ais
     "", // Norsk
-    "Skaalaustapa", // Suomi
+    "Skaalaus", // Suomi
     "", // Polski
     "", // Espa<F1>ol
     "", // Ellinika
