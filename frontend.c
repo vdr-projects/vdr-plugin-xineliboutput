@@ -781,7 +781,6 @@ bool cXinelibThread::PlayFile(const char *FileName, int Position,
 
 void cXinelibThread::Configure(void)
 {
-    ConfigureOSD();
     ConfigurePostprocessing(xc.deinterlace_method, xc.audio_delay, 
 			    xc.audio_compression, xc.audio_equalizer,
 			    xc.audio_surround, xc.speaker_type);
@@ -805,18 +804,6 @@ void cXinelibThread::Configure(void)
     Xine_Control(cString::sprintf("SCR %s %d", 
 				  xc.live_mode_sync ? "Sync"    : "NoSync",
 				  xc.scr_tunning    ? xc.scr_hz : 90000));
-}
-
-int cXinelibThread::ConfigureOSD(void) 
-{
-  char buf[256];
-  strcpy(buf, "OSDSCALING ");
-  if(xc.unscaled_osd)
-    strcat(buf, " UnscaledAlways");
-  if(xc.unscaled_osd_lowresvideo)
-    strcat(buf, " UnscaledLowRes");
-
-  return Xine_Control(buf);
 }
 
 int cXinelibThread::ConfigurePostprocessing(const char *deinterlace_method, 

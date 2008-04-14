@@ -115,7 +115,6 @@ class cXinelibThread : public cThread, public cListObject
   //
 
   public:
-    virtual int ConfigureOSD(void);
     virtual int ConfigurePostprocessing(const char *deinterlace_method, 
 					int audio_delay, 
 					int audio_compression, 

@@ -414,13 +414,6 @@ void cXinelibDevice::MainThreadHook(void)
 // Configuration
 //
 
-void cXinelibDevice::ConfigureOSD(void)
-{
-  TRACEF("cXinelibDevice::ConfigureOSD");
-
-  ForEach(m_clients, &cXinelibThread::ConfigureOSD);
-}
-
 void cXinelibDevice::ConfigurePostprocessing(const char *deinterlace_method, 
 					     int audio_delay, 
 					     int audio_compression, 

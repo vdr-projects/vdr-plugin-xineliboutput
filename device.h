@@ -211,7 +211,6 @@ class cXinelibDevice : public cDevice
     cXinelibThread        *m_local;
 
   public:
-    void ConfigureOSD(void);
     void ConfigurePostprocessing(const char *deinterlace_method, 
 				 int audio_delay,
 				 int audio_compression, 
