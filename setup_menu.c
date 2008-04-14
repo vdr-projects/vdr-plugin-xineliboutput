@@ -911,8 +911,6 @@ void cMenuSetupOSD::Set(void)
       new cMenuEditBoolItem(tr("Unscaled OSD (no transparency)"), 
 			    &newconfig.unscaled_osd));
   if(!newconfig.unscaled_osd) {
-    Add(new cMenuEditBoolItem(tr("  When opaque OSD"),
-			      &newconfig.unscaled_osd_opaque));
     Add(ctrl_lowres =
 	new cMenuEditBoolItem(tr("  When low-res video"),
 			      &newconfig.unscaled_osd_lowresvideo));

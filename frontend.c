@@ -813,8 +813,6 @@ int cXinelibThread::ConfigureOSD(void)
   strcpy(buf, "OSDSCALING ");
   if(xc.unscaled_osd)
     strcat(buf, " UnscaledAlways");
-  if(xc.unscaled_osd_opaque)
-    strcat(buf, " UnscaledOpaque");
   if(xc.unscaled_osd_lowresvideo)
     strcat(buf, " UnscaledLowRes");
 
