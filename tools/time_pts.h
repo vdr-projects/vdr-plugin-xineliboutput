@@ -22,6 +22,7 @@ class cTimePts
     struct timeval tbegin;  /* Start time (real time) */
     bool m_Paused;
     int  m_Multiplier;
+    int  m_ScrSpeed;
 
     static int m_Monotonic;
     static void Init(void);
@@ -35,6 +36,8 @@ class cTimePts
     void Pause(void);
     void Resume(void);
     void TrickSpeed(int Multiplier);
+
+    void SetScrSpeed(int ScrSpeed = 90000);
 };
 
 #endif // __TIME_PTS_H

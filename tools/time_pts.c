@@ -61,6 +61,7 @@ void cTimePts::Init(void)
 cTimePts::cTimePts(void)
 {
   m_Paused     = false;
+  m_ScrSpeed   = 90000;
   m_Multiplier = 90000;
 
   Init();
@@ -106,8 +107,9 @@ int64_t cTimePts::Now(void)
   t.tv_usec -= tbegin.tv_usec;
 
   int64_t pts = 0;
-  pts += ((int64_t)t.tv_sec) * INT64_C(90000);
-  pts += ((int64_t)t.tv_usec) * INT64_C(90) / INT64_C(1000);
+  pts += (int64_t)t.tv_sec  * (int64_t)m_ScrSpeed;
+  pts += (int64_t)t.tv_usec * (int64_t)m_ScrSpeed / INT64_C(1000000);
+
   if(m_Multiplier != 90000)
     pts = pts * m_Multiplier / INT64_C(90000);
 
@@ -162,3 +164,9 @@ void cTimePts::TrickSpeed(int Multiplier)
     LOGERR("cTimePts::SetSpeed: Multiplier=%d", Multiplier);
 }
 
+void cTimePts::SetScrSpeed(int ScrSpeed)
+{
+  Set(Now());
+
+  m_ScrSpeed = ScrSpeed;
+}
