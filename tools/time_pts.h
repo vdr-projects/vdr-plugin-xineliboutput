@@ -22,7 +22,9 @@ class cTimePts
     struct timeval tbegin;  /* Start time (real time) */
     bool m_Paused;
     int  m_Multiplier;
-    bool m_Monotonic;
+
+    static int m_Monotonic;
+    static void Init(void);
 
   public:
     cTimePts(void);
