@@ -335,7 +335,7 @@ static const char help_str[] =
     "   --verbose                     Verbose debug output\n"
     "   --silent                      Silent mode (report only errors)\n"
     "   --syslog                      Write all output to system log\n"
-    "   --nokbd                       Disable kayboard input\n"
+    "   --nokbd                       Disable keyboard input\n"
     "   --daemon                      Run as daemon (disable keyboard,\n"
     "                                 log to syslog and fork to background)\n"
     "   --slave                       Enable slave mode (read commands from stdin)\r\n"
