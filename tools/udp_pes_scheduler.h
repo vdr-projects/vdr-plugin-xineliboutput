@@ -47,7 +47,8 @@ class cUdpScheduler : public cThread
     bool Flush(int TimeoutMs);
 
     void Pause(bool On);
-    void TrickSpeed(int Multiplier);
+    void TrickSpeed(const int Multiplier);
+    void SetScrSpeed(const int Speed = 90000);
 
   protected:
 
