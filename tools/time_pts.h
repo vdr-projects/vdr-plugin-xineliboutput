@@ -30,14 +30,14 @@ class cTimePts
   public:
     cTimePts(void);
 
-    int64_t Now(void);
+    int64_t Now(void) const;
     void    Set(int64_t Pts = 0LL);
 
     void Pause(void);
     void Resume(void);
-    void TrickSpeed(int Multiplier);
+    void TrickSpeed(const int Multiplier);
 
-    void SetScrSpeed(int ScrSpeed = 90000);
+    void SetScrSpeed(const int ScrSpeed = 90000);
 };
 
 #endif // __TIME_PTS_H
