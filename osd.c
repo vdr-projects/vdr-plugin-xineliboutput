@@ -224,9 +224,9 @@ void cXinelibOsd::CmdRle(int Wnd, int X0, int Y0,
       memcpy(&osdcmd.dirty_area, DirtyArea, sizeof(osd_rect_t));
     if(m_Refresh)
       osdcmd.flags |= OSDFLAG_REFRESH;
-    if(xc.unscaled_osd)
+    if(xc.osd_blending == OSD_BLENDING_HARDWARE)
       osdcmd.flags |= OSDFLAG_UNSCALED;
-    else if(xc.unscaled_osd_lowresvideo)
+    if(xc.osd_blending_lowresvideo == OSD_BLENDING_HARDWARE)
       osdcmd.flags |= OSDFLAG_UNSCALED_LOWRES;
 
     prepare_palette(&clut[0], Palette, Colors, /*Top*/(Prev() == NULL), true);
