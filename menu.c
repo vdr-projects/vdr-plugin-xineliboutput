@@ -187,12 +187,6 @@ void cMenuBrowseFiles::StoreConfig(void)
 							  xc.browse_files_dir);
   cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("Media.BrowseImagesDir", 
 							  xc.browse_images_dir);
-#if 1
-  cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("Media.CacheImplicitPlaylists", 
-							  xc.cache_implicit_playlists);
-  cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("Media.EnableID3Scanner", 
-							  xc.enable_id3_scanner);
-#endif
 }
 
 void cMenuBrowseFiles::SetHelpButtons(void)
