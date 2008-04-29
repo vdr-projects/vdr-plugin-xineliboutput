@@ -187,6 +187,12 @@ void cMenuBrowseFiles::StoreConfig(void)
 							  xc.browse_files_dir);
   cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("Media.BrowseImagesDir", 
 							  xc.browse_images_dir);
+#if 1
+  // delete old keys (<1.0.0)
+  cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("BrowseMusicDir");
+  cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("BrowseFilesDir");
+  cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("BrowseImagesDir");
+#endif
 }
 
 void cMenuBrowseFiles::SetHelpButtons(void)
