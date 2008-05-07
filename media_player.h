@@ -117,6 +117,8 @@ class cXinelibImagesControl : public cControl
     virtual void Hide(void);
     virtual eOSState ProcessKey(eKeys Key);
 
+    virtual cOsdObject *GetInfo(void);
+
     static void Close(void);
     static bool IsOpen(void) { return m_Player != NULL; }
 };

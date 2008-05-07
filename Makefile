@@ -317,7 +317,8 @@ ifeq ($(XINELIBOUTPUT_VDRPLUGIN), 1)
          frontend_local.o frontend_svr.o \
          tools/cxsocket.o tools/udp_pes_scheduler.o \
          tools/backgroundwriter.o tools/playlist.o tools/http.o \
-         tools/vdrdiscovery.o tools/time_pts.o tools.o
+         tools/vdrdiscovery.o tools/time_pts.o tools.o \
+         tools/metainfo_menu.o
   OBJS_MPG  = black_720x576.o nosignal_720x576.o vdrlogo_720x576.o
 else
   OBJS = 

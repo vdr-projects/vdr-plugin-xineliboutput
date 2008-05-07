@@ -19,6 +19,7 @@
 #include "media_player.h"
 #include "device.h"
 #include "tools/playlist.h"
+#include "tools/metainfo_menu.h"
 #include "menu.h"
 
 #include "logdefs.h"
@@ -576,8 +577,7 @@ void cXinelibPlayerControl::Hide()
 
 cOsdObject *cXinelibPlayerControl::GetInfo(void)
 {
-  /* ??? */
-  return NULL;
+  return new cMetainfoMenu(m_Player->Playlist().Current()->Filename);
 }
 
 eOSState cXinelibPlayerControl::ProcessKey(eKeys Key)
@@ -1190,6 +1190,11 @@ void cXinelibImagesControl::Delete(void)
       Seek(0);
     }
   }
+}
+
+cOsdObject *cXinelibImagesControl::GetInfo(void)
+{
+  return new cMetainfoMenu(m_Files[m_Index]);
 }
 
 void cXinelibImagesControl::Seek(int Rel)
