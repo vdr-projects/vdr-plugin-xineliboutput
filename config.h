@@ -153,6 +153,10 @@
 
 #define SUBTITLESIZE_count     7
 
+#if VDRVERSNUM >= 10510
+# define DEVICE_SUPPORTS_IBP_TRICKSPEED
+#endif
+
 #define HIDDEN_OPTION(opt) \
   (xc.IsOptionHidden(xc.opt))
 #define READONLY_OPTION(opt) \
