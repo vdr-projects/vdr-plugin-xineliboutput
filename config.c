@@ -239,7 +239,7 @@ static char *strcatrealloc(char *dest, const char *src)
   if (!src || !*src) 
     return dest;
 
-  int l = (dest ? strlen(dest) : 0) + strlen(src) + 1;
+  size_t l = (dest ? strlen(dest) : 0) + strlen(src) + 1;
   if(dest) {
     dest = (char *)realloc(dest, l);
     strcat(dest, src);
