@@ -291,7 +291,7 @@ static void SignalHandler(int signum)
 
 static char *strcatrealloc(char *dest, const char *src)
 {
-  int l;
+  size_t l;
 
   if (!src || !*src) 
     return dest;
