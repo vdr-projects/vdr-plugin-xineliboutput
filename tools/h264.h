@@ -18,10 +18,18 @@ extern "C" {
 
 #include "mpeg.h"
 
+#define NAL_SPS  0x07
+#define NAL_AUD  0x09
+
+typedef struct {
+  int num;
+  int den;  
+} h264_rational_t;
+
 typedef struct {
   int width;
   int height;
-  double pixel_aspect;
+  h264_rational_t pixel_aspect;
   /* ... */
 } h264_sps_data_t;
 
