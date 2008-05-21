@@ -657,8 +657,7 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
 
   this->pes_buffers = pes_buffers;
 
-  posts = this->postplugins = malloc(sizeof(post_plugins_t));
-  memset(posts, 0, sizeof(post_plugins_t));
+  posts = this->postplugins = calloc(1, sizeof(post_plugins_t));
   posts->xine = this->xine;
   posts->audio_port = this->audio_port;
   posts->video_port = this->video_port;

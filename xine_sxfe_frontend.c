@@ -1456,8 +1456,7 @@ static int sxfe_xine_play(frontend_t *this_gen)
 
 static frontend_t *sxfe_get_frontend(void)
 {
-  sxfe_t *this = malloc(sizeof(sxfe_t));
-  memset(this, 0, sizeof(sxfe_t));
+  sxfe_t *this = calloc(1, sizeof(sxfe_t));
 
   this->window_id = -1;
   
