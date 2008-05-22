@@ -49,6 +49,7 @@ void cMetainfoMenu::Display(void)
   md_list = EXTRACTOR_getKeywords(plugins, m_Filename);
   md_list = EXTRACTOR_removeEmptyKeywords (md_list);
   md_list = EXTRACTOR_removeDuplicateKeywords(md_list, 0);
+  md_list = EXTRACTOR_removeKeywordsOfType(md_list, EXTRACTOR_THUMBNAILS);
 
   const char *key;
   char * buf;
