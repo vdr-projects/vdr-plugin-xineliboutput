@@ -53,7 +53,7 @@ static void           draw_internal(vo_frame_t *frame, vo_frame_t *new_frame);
 
 static void *init_plugin(xine_t *xine, void *data)
 {
-  post_class_t *class = (post_class_t *)malloc(sizeof(post_class_t));
+  post_class_t *class = calloc(1, sizeof(post_class_t));
   
   if (!class)
     return NULL;
