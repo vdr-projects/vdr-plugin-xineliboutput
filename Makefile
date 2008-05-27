@@ -246,6 +246,9 @@ LIBS_X11  += -L/usr/X11R6/lib -lX11 -lXv -lXext
 ifeq ($(HAVE_XRENDER), 1)
     LIBS_X11  += -lXrender
 endif
+ifeq ($(HAVE_XINERAMA), 1)
+    LIBS_X11  += -lXinerama
+endif
 
 ifeq ($(APPLE_DARWIN), 1)
     INCLUDES  += -I/sw/include
