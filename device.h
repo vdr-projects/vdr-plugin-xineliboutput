@@ -266,10 +266,9 @@ class cXinelibDevice : public cDevice
 
     virtual int  PlayVideo(const uchar *Data, int Length);
     virtual int  PlayAudio(const uchar *Data, int Length, uchar Id);
+    virtual int  PlaySubtitle(const uchar *Data, int Length);
 
 #if VDRVERSNUM < 10510
-    virtual int  PlaySpu(const uchar *Data, int Length, uchar Id);
-
     // conflicts with vdr-1.5.10+ DVB subtitle handling
     // override cDevice to get DVD SPUs
     virtual int PlayPesPacket(const uchar *Data, int Length,
