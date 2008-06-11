@@ -481,6 +481,7 @@ config_t::config_t() {
   strn0cpy(spu_lang[3], "" ,   sizeof(spu_lang[3]));
 #endif
   extsub_size = -1;
+  dvb_subtitles = 0;
 
   alpha_correction     = 0;
   alpha_correction_abs = 0;
@@ -720,6 +721,7 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "OSD.SpuLang3")) STRN0CPY(spu_lang[3], Value);
 #endif
   else if (!strcasecmp(Name, "OSD.ExtSubSize"))    extsub_size = atoi(Value);
+  else if (!strcasecmp(Name, "OSD.DvbSubtitles"))  dvb_subtitles = atoi(Value);
 
   else if (!strcasecmp(Name, "RemoteMode"))          remote_mode = atoi(Value);
   else if (!strcasecmp(Name, "Remote.ListenPort"))   listen_port = atoi(Value);

@@ -256,7 +256,8 @@ class config_t {
     int  osd_blending_lowresvideo; // Use hardware blending for low-resolution video
     int  alpha_correction;
     int  alpha_correction_abs;
-    int  extsub_size; /* size of separate subtitles ( -1 = xine default ; 0...6 = { tiny  small  normal  large  very large  huge } */
+    int  extsub_size;              // size of separate subtitles ( -1 = xine default ; 0...6 = { tiny  small  normal  large  very large  huge }
+    int  dvb_subtitles;            // send DVB subtitles in data stream (decode+display using xine-lib or external media player)
 
     // Media player
 #if VDRVERSNUM < 10515
