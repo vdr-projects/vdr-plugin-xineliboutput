@@ -1249,15 +1249,12 @@ static void sxfe_interrupt(frontend_t *this_gen)
 
 static int XKeyEvent_handler(sxfe_t *this, XKeyEvent *kev)
 {
-  KeySym          ks;
-  char            *ksname;
-  char            buffer[20];
-  int             buf_len = 20;
-  XComposeStatus  status;
-
   if(kev->keycode) {
-    XLookupString(kev, buffer, buf_len, &ks, &status);
-    ksname = XKeysymToString(ks);
+    KeySym         ks;
+    char           buffer[20];
+    XComposeStatus status;
+
+    XLookupString(kev, buffer, sizeof(buffer), &ks, &status);
 #if defined(XINELIBOUTPUT_FE_TOGGLE_FULLSCREEN) || defined(INTERPRET_LIRC_KEYS)
     if(ks == XK_f || ks == XK_F) {
       sxfe_toggle_fullscreen(this);
@@ -1271,10 +1268,10 @@ static int XKeyEvent_handler(sxfe_t *this, XKeyEvent *kev)
 	terminate_key_pressed = 1;
 	return 0;
       } else if(this->input || find_input(this))
-	process_xine_keypress(this->input, "XKeySym",ksname, 0, 0);
+	process_xine_keypress(this->input, "XKeySym", XKeysymToString(ks), 0, 0);
 #else
     if(this->keypress) 
-      this->keypress("XKeySym",ksname);
+      this->keypress("XKeySym", XKeysymToString(ks));
 #endif
   }
 
