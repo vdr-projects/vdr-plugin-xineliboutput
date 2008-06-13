@@ -1247,6 +1247,32 @@ static void sxfe_interrupt(frontend_t *this_gen)
   XFlush(this->display);
 }
 
+static void XMotionEvent_handler(sxfe_t *this, XMotionEvent *mev)
+{
+  if(this->dragging && !this->fullscreen) {
+    Window tmp_win;
+    int xpos, ypos;
+
+    XLockDisplay(this->display);
+
+    while(XCheckMaskEvent(this->display, ButtonMotionMask, (XEvent*)mev));
+
+    XTranslateCoordinates(this->display, this->window[0],
+			  DefaultRootWindow(this->display),
+			  0, 0, &xpos, &ypos, &tmp_win);
+
+    this->xpos = (xpos += mev->x_root - this->dragging_x);
+    this->ypos = (ypos += mev->y_root - this->dragging_y);
+    this->dragging_x = mev->x_root;
+    this->dragging_y = mev->y_root;
+
+    XMoveWindow(this->display, this->window[0], xpos, ypos);
+    LOGDBG("MotionNotify: XMoveWindow called with x=%d and y=%d", xpos, ypos);
+
+    XUnlockDisplay(this->display);
+  }
+}
+
 static int sxfe_run(frontend_t *this_gen) 
 {
   sxfe_t *this = (sxfe_t*)this_gen;
@@ -1365,32 +1391,8 @@ static int sxfe_run(frontend_t *this_gen)
       }
 
       case MotionNotify:
-      {
-	if(this->dragging && !this->fullscreen) {
-	  XMotionEvent *mev = (XMotionEvent *) &event;
-	  Window tmp_win;
-	  int xpos, ypos;
-
-	  XLockDisplay(this->display);
-
-	  while(XCheckMaskEvent(this->display, ButtonMotionMask, &event));
-
-	  XTranslateCoordinates(this->display, this->window[0],
-				DefaultRootWindow(this->display),
-				0, 0, &xpos, &ypos, &tmp_win);
-
-	  this->xpos = (xpos += mev->x_root - this->dragging_x);
-	  this->ypos = (ypos += mev->y_root - this->dragging_y);
-	  this->dragging_x = mev->x_root;
-	  this->dragging_y = mev->y_root;
-
-	  XMoveWindow(this->display, this->window[0], xpos, ypos);
-          LOGDBG("MotionNotify: XMoveWindow called with x=%d and y=%d", xpos, ypos);
-
-	  XUnlockDisplay(this->display);
-	}
+	XMotionEvent_handler(this, (XMotionEvent *) &event);
 	break;
-      }
 
       case ButtonPress:
       {
