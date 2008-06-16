@@ -109,7 +109,7 @@ typedef struct fbfe_t {
   uint8_t     field_order;
 
   /* strings */
-  char        configfile[256];
+  char        *configfile;
   char        modeline[256];
 
 } fbfe_t, fe_t;

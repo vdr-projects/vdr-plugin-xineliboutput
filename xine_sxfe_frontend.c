@@ -193,7 +193,7 @@ typedef struct sxfe_s {
   uint8_t   dragging;
 
   /* strings */
-  char    configfile[256];
+  char    *configfile;
   char    modeline[256];
 
   /* HUD stuff */
