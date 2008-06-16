@@ -344,7 +344,8 @@ void cXinelibLocal::Action(void)
 				   xc.display_aspect, keypress_handler, 
 				   xc.video_port, 
 				   xc.scale_video, 
-				   xc.field_order)) {
+				   xc.field_order,
+				   NULL, -1)) {
 	LOGMSG("cXinelibLocal: Error initializing display");
 	SetStopSignal();
       } else {

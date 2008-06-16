@@ -54,7 +54,8 @@ struct frontend_s {
 			 int fullscreen, int hud, int modeswitch, const char *modeline, 
 			 int aspect, fe_keypress_f keypresshandler, 
 			 const char *video_port,
-			 int scale_video, int field_order);
+			 int scale_video, int field_order,
+			 const char *aspect_controller, int window_id);
   int  (*fe_display_config)(frontend_t *, int width, int height, 
 			    int fullscreen,
                             int modeswitch, const char *modeline, 
