@@ -15,6 +15,8 @@
 extern "C" {
 #endif
 
+#define MRL_ID      "xvdr"
+#define MRL_ID_LEN  4
 
 struct input_plugin_s;
 struct vdr_input_plugin_if_s;
