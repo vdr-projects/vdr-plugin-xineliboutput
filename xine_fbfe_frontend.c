@@ -64,7 +64,8 @@ typedef struct fbfe_t {
 
   /* function pointers */
   frontend_t         fe;
-  void (*update_display_size)(frontend_t*);
+  void (*update_display_size)(struct fbfe_t*);
+  void (*toggle_fullscreen_state)(struct fbfe_t*);
 
   /* vdr */
   fe_keypress_f       keypress;
@@ -119,9 +120,8 @@ typedef struct fbfe_t {
 /* Common (non-X11/FB) frontend functions */
 #include "xine_frontend.c"
 
-static void fbfe_update_display_size(frontend_t *this_gen)
+static void fbfe_update_display_size(fe_t *this)
 {
-  fe_t *this = (fe_t*)this_gen;
   if(this->fullscreen) {
     this->width  = this->video_port->get_property(this->video_port, 
 						  VO_PROP_WINDOW_WIDTH);
