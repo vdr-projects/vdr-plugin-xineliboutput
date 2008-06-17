@@ -1300,8 +1300,7 @@ static int XKeyEvent_handler(sxfe_t *this, XKeyEvent *kev)
 #endif
       default: 
 #ifdef FE_STANDALONE
-	if(this->input || find_input(this))
-	  process_xine_keypress(this->input, "XKeySym", XKeysymToString(ks), 0, 0);
+	process_xine_keypress((fe_t*)this, "XKeySym", XKeysymToString(ks), 0, 0);
 #else
 	if(this->keypress) 
 	  this->keypress("XKeySym", XKeysymToString(ks));

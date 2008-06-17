@@ -1198,17 +1198,17 @@ static int xine_queue_pes_packet(frontend_t *this_gen, const char *data, int len
 
 #else /* #ifndef FE_STANDALONE */
 
-static void process_xine_keypress(input_plugin_t *input, 
+static void process_xine_keypress(fe_t *this, 
 				  const char *map, const char *key,
 				  int repeat, int release)
 {
   /* from UI --> input plugin --> vdr */
   LOGDBG("Keypress: %s %s %s %s", 
 	 map, key, repeat?"Repeat":"", release?"Release":"");
-  if(input) {
-    vdr_input_plugin_t *input_vdr = (vdr_input_plugin_t *)input;
+  if(this->input || find_input(this)) {
+    vdr_input_plugin_t *input_vdr = (vdr_input_plugin_t *)this->input;
     if(input_vdr->f.input_control) {
-      input_vdr->f.input_control(input, map, key, repeat, release);
+      input_vdr->f.input_control(this->input, map, key, repeat, release);
     } else {
       LOGMSG("Keypress --- NO HANDLER SET");
     }
