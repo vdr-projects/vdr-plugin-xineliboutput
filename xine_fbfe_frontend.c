@@ -73,7 +73,7 @@ typedef struct fbfe_t {
   xine_t             *xine;
   xine_stream_t      *stream;
   xine_stream_t      *slave_stream;
-  input_plugin_t     *input;
+  vdr_input_plugin_if_t *input_plugin;
   xine_video_port_t  *video_port;
   xine_video_port_t  *video_port_none;
   xine_audio_port_t  *audio_port;
