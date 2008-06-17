@@ -195,6 +195,7 @@ typedef struct sxfe_s {
 
   /* strings */
   char    *configfile;
+  char    *video_port_name;
   char    modeline[256];
 
   /* HUD stuff */
