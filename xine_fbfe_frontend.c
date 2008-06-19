@@ -85,7 +85,7 @@ typedef struct fbfe_s {
 static void fbfe_update_display_size(fe_t *this_gen)
 {
   fbfe_t *this = (fbfe_t*)this_gen;
-  if(this->fullscreen) {
+  if(this->fullscreen && this->x.video_port) {
     this->x.width  = this->x.video_port->get_property(this->x.video_port, 
 						      VO_PROP_WINDOW_WIDTH);
     this->x.height = this->x.video_port->get_property(this->x.video_port, 
