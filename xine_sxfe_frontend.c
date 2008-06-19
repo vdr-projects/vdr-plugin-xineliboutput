@@ -1531,15 +1531,18 @@ static void sxfe_display_close(frontend_t *this_gen)
 {
   sxfe_t *this = (sxfe_t*)this_gen;
 
+  if(!this)
+    return;
+
+  if(this->xine)
+    this->fe.xine_exit(this_gen);
+
+  if(this->display) {
+
 #ifdef HAVE_XRENDER
-  hud_osd_close(this);
+    hud_osd_close(this);
 #endif
 
-  if(this && this->display) {
-    
-    if(this->xine)
-      this->fe.xine_exit(this_gen);
-    
 #ifdef HAVE_XDPMS
     if(this->dpms_state == TRUE)
       DPMSEnable(this->display);
