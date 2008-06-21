@@ -5774,6 +5774,14 @@ static int vdr_plugin_get_optional_data (input_plugin_t *this_gen,
 #endif
   }
 
+#ifdef INPUT_OPTIONAL_DATA_DEMUXER
+  else if(data_type == INPUT_OPTIONAL_DATA_DEMUXER) {
+    static const char demux_name[] = "mpeg_block";
+    *((const char **)data) = demux_name;
+    return INPUT_OPTIONAL_SUCCESS;
+  }
+#endif
+
   return INPUT_OPTIONAL_UNSUPPORTED;
 }
 
