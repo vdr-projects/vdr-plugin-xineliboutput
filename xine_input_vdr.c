@@ -4931,7 +4931,7 @@ static void post_frame_end(vdr_input_plugin_t *this, buf_element_t *vid_buf)
       bmi->biWidth = size.width;
       bmi->biHeight = size.height;
 
-      if (size.pixel_aspect.num) {
+      if (!this->h264 && size.pixel_aspect.num) {
 	cbuf->decoder_flags |= BUF_FLAG_ASPECT;
 	/* pixel ratio -> frame ratio */
 	if(size.pixel_aspect.num > size.height) {
