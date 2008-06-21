@@ -1282,8 +1282,8 @@ static int XKeyEvent_handler(sxfe_t *this, XKeyEvent *kev)
 	return 1;
       case XK_d:
       case XK_D:
-	xine_set_param(this->stream, XINE_PARAM_VO_DEINTERLACE, 
-		       xine_get_param(this->stream, XINE_PARAM_VO_DEINTERLACE) ? 0 : 1);
+	xine_set_param(this->x.stream, XINE_PARAM_VO_DEINTERLACE, 
+		       xine_get_param(this->x.stream, XINE_PARAM_VO_DEINTERLACE) ? 0 : 1);
 	return 1;
 #endif
 #ifdef FE_STANDALONE
