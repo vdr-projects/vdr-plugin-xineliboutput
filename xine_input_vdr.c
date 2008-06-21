@@ -4913,8 +4913,9 @@ static void post_frame_end(vdr_input_plugin_t *this, buf_element_t *vid_buf)
     cbuf = get_buf_element (this, 0, 1);
   }
   if (!cbuf) {
-    LOGERR("get_buf_element() for BUF_FLAG_FRAME_END failed - aborting");
-    abort();
+    LOGERR("get_buf_element() for BUF_FLAG_FRAME_END failed !");
+    /*abort();*/
+    return;
   }
 
   cbuf->type = this->h264 > 0 ? BUF_VIDEO_H264 : BUF_VIDEO_MPEG;
