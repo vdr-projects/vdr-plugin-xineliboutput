@@ -4931,9 +4931,17 @@ static void post_frame_end(vdr_input_plugin_t *this, buf_element_t *vid_buf)
       bmi->biWidth = size.width;
       bmi->biHeight = size.height;
 
-      cbuf->decoder_flags |= BUF_FLAG_ASPECT;
-      cbuf->decoder_info[1] = size.pixel_aspect.num;
-      cbuf->decoder_info[2] = size.pixel_aspect.den;
+      if (size.pixel_aspect.num) {
+	cbuf->decoder_flags |= BUF_FLAG_ASPECT;
+	/* pixel ratio -> frame ratio */
+	if(size.pixel_aspect.num > size.height) {
+	  cbuf->decoder_info[1] = size.pixel_aspect.num / size.height;
+	  cbuf->decoder_info[2] = size.pixel_aspect.den / size.width;
+	} else {
+	  cbuf->decoder_info[1] = size.pixel_aspect.num * size.width;
+	  cbuf->decoder_info[2] = size.pixel_aspect.den * size.height;
+	}
+      }
 
       LOGDBG("post_frame_end: video width %d, height %d, pixel aspect %d:%d", 
 	     size.width, size.height, size.pixel_aspect.num, size.pixel_aspect.den);
