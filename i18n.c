@@ -1742,7 +1742,7 @@ const tI18nPhrase Phrases[] = {
     "", // Czech
   },
   { "Play DVD disc >>", // English
-    "DVD abspielen", // Deutsch
+    "DVD abspielen >>", // Deutsch
     "", // Slovenski
     "Riproduci disco DVD >>", // Italiano
     "", // Nederlands
