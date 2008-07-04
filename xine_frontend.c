@@ -314,9 +314,9 @@ static void fe_frame_output_cb (void *data,
       .pan_scan = 0,
     };
     const xine_event_t event = {
-      .type = XINE_EVENT_FRAME_FORMAT_CHANGE,
-      .stream = this->stream,
-      .data = &framedata,
+      .type        = XINE_EVENT_FRAME_FORMAT_CHANGE,
+      .stream      = this->stream,
+      .data        = &framedata,
       .data_length = sizeof(framedata),
     };
     xine_event_send(this->stream, &event);
