@@ -894,7 +894,9 @@ void cXinelibDvdPlayerControl::Show(void)
 
 eOSState cXinelibDvdPlayerControl::ProcessKey(eKeys Key)
 {
-  if (cXinelibDevice::Instance().EndOfStreamReached()) {
+  if (cXinelibDevice::Instance().EndOfStreamReached() ||
+      !m_Player->Replaying() ) {
+    LOGDBG("cXinelibDvdPlayerControl: EndOfStreamReached");
     Hide();
     return osEnd;
   }
