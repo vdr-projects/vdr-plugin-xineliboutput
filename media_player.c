@@ -73,6 +73,7 @@ class cXinelibPlayer : public cPlayer
 
     bool NextFile(int step);
     bool Playing(void) { return !(m_Error || cXinelibDevice::Instance().EndOfStreamReached()); }
+    bool Error(void)   { return m_Error; }
     void UseResumeFile(bool Val) { m_UseResumeFile = Val; }
 
     /* Playlist access */
@@ -582,7 +583,7 @@ eOSState cXinelibPlayerControl::ProcessKey(eKeys Key)
 {
   if ( !m_Player->Playing() ) {
     LOGDBG("cXinelibPlayerControl: EndOfStreamReached");
-    if (m_Mode == ShowMusic && m_Player->Files() == 1) {
+    if (m_Mode == ShowMusic && m_Player->Files() == 1 && !m_Player->Error()) {
       m_Player->NextFile(0);
       return osContinue;
     }
