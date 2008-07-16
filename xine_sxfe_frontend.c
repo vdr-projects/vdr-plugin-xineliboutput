@@ -271,6 +271,9 @@ static void set_fullscreen_props(sxfe_t *this)
 
   set_fs_size_hint(this);
 
+  /* no border in fullscreen window */
+  set_border(this, this->window[1], 0);
+
   memset(&ev, 0, sizeof(ev));
   ev.type                 = ClientMessage;
   ev.xclient.type         = ClientMessage;
@@ -1016,18 +1019,9 @@ static int sxfe_display_open(frontend_t *this_gen, int width, int height, int fu
   }
 
   if(this->window_id <= 0) {
-    MWMHints   mwmhints;
 
     /* full-screen window */
     set_fullscreen_props(this);
-
-    /* no border in fullscreen window */
-    mwmhints.flags = MWM_HINTS_DECORATIONS;
-    mwmhints.decorations = 0;
-    XChangeProperty(this->display, this->window[1], 
-		    this->xa_MOTIF_WM_HINTS, this->xa_MOTIF_WM_HINTS, 32,
-		    PropModeReplace, (unsigned char *) &mwmhints,
-		    PROP_MWM_HINTS_ELEMENTS);
   }
 
   /* Select input */
