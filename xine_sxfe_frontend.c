@@ -241,6 +241,24 @@ static void set_fs_size_hint(sxfe_t *this)
   XSetNormalHints(this->display, this->window[1], &hint);
 }
 
+static void set_border(sxfe_t *this, int border)
+{
+  MWMHints   mwmhints;
+
+  if(this->window_id > 0)
+    return;
+
+  this->no_border = border ? 0 : 1;
+
+  /* Set/remove border */
+  mwmhints.flags = MWM_HINTS_DECORATIONS;
+  mwmhints.decorations = this->no_border ? 0 : 1;
+  XChangeProperty(this->display, this->window[0], 
+		  this->xa_MOTIF_WM_HINTS, this->xa_MOTIF_WM_HINTS, 32,
+		  PropModeReplace, (unsigned char *) &mwmhints,
+		  PROP_MWM_HINTS_ELEMENTS);
+}
+
 static void set_fullscreen_props(sxfe_t *this)
 {
   XEvent ev;
@@ -280,24 +298,6 @@ static void set_fullscreen_props(sxfe_t *this)
   XSendEvent(this->display, DefaultRootWindow(this->display), False, 
 	     SubstructureNotifyMask|SubstructureRedirectMask, &ev);
   XUnlockDisplay(this->display);
-}
-
-static void set_border(sxfe_t *this, int border)
-{
-  MWMHints   mwmhints;
-
-  if(this->window_id > 0)
-    return;
-
-  this->no_border = border ? 0 : 1;
-
-  /* Set/remove border */
-  mwmhints.flags = MWM_HINTS_DECORATIONS;
-  mwmhints.decorations = this->no_border ? 0 : 1;
-  XChangeProperty(this->display, this->window[0], 
-		  this->xa_MOTIF_WM_HINTS, this->xa_MOTIF_WM_HINTS, 32,
-		  PropModeReplace, (unsigned char *) &mwmhints,
-		  PROP_MWM_HINTS_ELEMENTS);
 }
 
 static void set_above(sxfe_t *this, int stay_above)
