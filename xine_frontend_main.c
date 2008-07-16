@@ -635,7 +635,7 @@ int main(int argc, char *argv[])
     }
 
     /* Connect to VDR xineliboutput server */
-    if(!fe_xine_open(fe, mrl)) {
+    if(!fe->xine_open(fe, mrl)) {
       /*print_xine_log(((fe_t *)fe)->xine);*/
       if(!firsttry) {
 	PRINTF("Error opening %s\n", mrl);
