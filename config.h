@@ -272,7 +272,8 @@ class config_t {
     int  subtitle_vpos;            // used in media player. Not saved !
     int  playlist_tracknumber;
     int  playlist_artist;
-    int  playlist_album;   
+    int  playlist_album;
+    int  dvd_arrow_keys_control_playback;
 
     // Audio visualization
     char audio_visualization[64];
