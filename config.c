@@ -234,6 +234,20 @@ const char * const config_t::s_osdScalings[] = {
   NULL
 };
 
+const char * const config_t::s_decoders_MPEG2[] = {
+  trNOOP("automatic"),
+  "libmpeg2",
+  "FFmpeg",
+  NULL
+};
+
+const char * const config_t::s_decoders_H264[] = {
+  trNOOP("automatic"),
+  "FFmpeg",
+  "CoreAVC",
+  NULL
+};
+
 static const char exts_playlist[][4] = {
   "asx",
   "m3u",
@@ -551,6 +565,9 @@ config_t::config_t() {
   scr_tunning    = 0;      // Fine-tune xine egine SCR (to sync video to graphics output)
   scr_hz         = 90000;  // Current SCR speed (Hz), default is 90000
 
+  decoder_mpeg2  = DECODER_MPEG2_auto;
+  decoder_h264   = DECODER_H264_auto;
+
   strn0cpy(browse_files_dir,  VideoDirectory, sizeof(browse_files_dir));
   strn0cpy(browse_music_dir,  VideoDirectory, sizeof(browse_music_dir));
   strn0cpy(browse_images_dir, VideoDirectory, sizeof(browse_images_dir));
@@ -777,6 +794,8 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "Video.IBPTrickSpeed"))  ibp_trickspeed = atoi(Value);
   else if (!strcasecmp(Name, "Video.MaxTrickSpeed"))  max_trickspeed = atoi(Value);
   else if (!strcasecmp(Name, "Video.AspectRatio"))    vo_aspect_ratio = atoi(Value);
+  else if (!strcasecmp(Name, "Video.Decoder.MPEG2"))  decoder_mpeg2 = strstra(Value, s_decoders_MPEG2, 0);
+  else if (!strcasecmp(Name, "Video.Decoder.H264"))   decoder_h264  = strstra(Value, s_decoders_H264,  0);
 
   else if (!strcasecmp(Name, "Post.pp.Enable"))    ffmpeg_pp = atoi(Value);
   else if (!strcasecmp(Name, "Post.pp.Quality"))   ffmpeg_pp_quality = atoi(Value);

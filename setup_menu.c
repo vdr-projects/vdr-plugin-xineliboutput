@@ -827,6 +827,8 @@ void cMenuSetupVideo::Store(void)
   SetupStore("Post.denoise3d.luma",     xc.denoise3d_luma);
   SetupStore("Post.denoise3d.chroma",   xc.denoise3d_chroma);
   SetupStore("Post.denoise3d.time",     xc.denoise3d_time);
+  SetupStore("Video.Decoder.MPEG2",     xc.s_decoders_MPEG2[xc.decoder_mpeg2]);
+  SetupStore("Video.Decoder.H264",      xc.s_decoders_H264[xc.decoder_h264]);
 #if 1
   // delete old keys (<1.0.0)
   SetupStore("Video.AutoScale");
