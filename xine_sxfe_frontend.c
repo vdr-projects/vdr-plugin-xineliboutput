@@ -1652,8 +1652,8 @@ static int sxfe_xine_open(frontend_t *this_gen, const char *mrl)
 {
   int result = fe_xine_open(this_gen, mrl);
 
-#if defined(FE_STANDALONE)
-  if(result && !strncmp(mrl, MRL_ID ":", MRL_ID_LEN+1) && strstr(mrl, "//")) {
+#ifdef FE_STANDALONE
+  if(result && !strncmp(mrl, MRL_ID, MRL_ID_LEN) && strstr(mrl, "//")) {
     sxfe_t *this = (sxfe_t*)this_gen;
     char *name = NULL, *end;
     asprintf(&name, "VDR - %s", strstr(mrl, "//")+2);
