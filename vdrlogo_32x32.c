@@ -10,12 +10,13 @@
 
 /* GIMP RGBA C-Source image dump (vdrlogo_32x32.c) */
 
-static const struct {
-  unsigned int 	 width;
-  unsigned int 	 height;
-  /*unsigned int 	 bytes_per_pixel; / * 3:RGB, 4:RGBA */ 
-  unsigned char	 pixel_data[32 * 32 * 4 + 1];
-} vdrlogo_32x32 = {
+typedef struct {
+  const uint32_t width;
+  const uint32_t height;
+  const uint8_t  pixel_data[32 * 32 * sizeof(uint32_t) + 1];
+} __attribute__((packed)) sxfe_32x32_icon_t;
+
+static const sxfe_32x32_icon_t vdrlogo_32x32 = {
   32, 32, /*4,*/
   "\375\375\374\377\375\375\375\377\375\375\375\377\375\375\375\377\375\375"
   "\375\377\375\375\375\377\375\375\375\377\375\375\375\377\375\375\375\377"
