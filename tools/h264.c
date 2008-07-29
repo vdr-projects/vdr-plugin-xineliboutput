@@ -168,7 +168,7 @@ int h264_get_picture_type(const uint8_t *buf, int len)
 {
   int i;
   for (i = 0; i < len-5; i++) {
-    if (buf[i] == 0 && buf[i + 1] == 0 && buf[i + 2] == 1 && buf[i + 3] == 9) {
+    if (buf[i] == 0 && buf[i + 1] == 0 && buf[i + 2] == 1 && buf[i + 3] == NAL_AUD) {
       uint8_t type = (buf[i + 4] >> 5);
       switch (type) {
         case 0: case 3: case 5: return I_FRAME;
