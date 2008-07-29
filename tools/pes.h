@@ -45,6 +45,7 @@
 #define IS_VIDEO_PACKET(data)  (VIDEO_STREAM == ((data)[3] & ~VIDEO_STREAM_MASK))
 #define IS_AUDIO_PACKET(data) ((AUDIO_STREAM == ((data)[3] & ~AUDIO_STREAM_MASK)) || \
                                (PRIVATE_STREAM1 == (data)[3]))
+#define IS_PADDING_PACKET(data) (PADDING_STREAM == (data)[3])
 
 #define PES_HAS_PTS(data)     ((data)[7] & 0x80)
 #define PES_HAS_DTS(data)     ((data)[7] & 0x40)
