@@ -111,7 +111,7 @@ int pes_is_frame_h264(const uint8_t *buf, int len)
 
   buf += 9 + buf[8];
 
-  if (!buf[0] && !buf[1] && buf[2] == 0x01 && buf[3] == NAL_AUD)
+  if (IS_NAL_AUD(buf))
     return 1;
   return 0;
 }
@@ -142,11 +142,9 @@ int pes_get_video_size(const uint8_t *buf, int len, video_size_t *size, int h264
   buf += i;
   len -= i;
 
-  if (h264 || (!buf[0] && !buf[1] && buf[2] == 0x01 && buf[3] == NAL_AUD))
+  if (h264 || IS_NAL_AUD(buf))
     return h264_get_video_size(buf, len, size);
-  else
-    return mpeg2_get_video_size(buf, len, size);
 
-  return 0;
+  return mpeg2_get_video_size(buf, len, size);
 }
 
