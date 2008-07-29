@@ -18,8 +18,9 @@ extern "C" {
 
 #include "mpeg.h"
 
-#define NAL_SPS  0x07
-#define NAL_AUD  0x09
+#define NAL_SPS     0x07 /* Sequence Parameter Set */
+#define NAL_AUD     0x09 /* Access Unit Delimiter */
+#define NAL_END_SEQ 0x10 /* End of Sequence */
 
 typedef struct {
   int width;
