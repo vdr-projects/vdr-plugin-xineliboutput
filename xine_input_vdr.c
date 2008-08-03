@@ -4876,19 +4876,28 @@ static void pts_wrap_workaround(vdr_input_plugin_t *this, buf_element_t *buf)
   }
 }
 
+/*
+ * post_frame_end()
+ *
+ * Signal end of video frame to decoder.
+ *
+ * This function is used with:
+ *  - FFmpeg mpeg2 decoder
+ *  - FFmpeg and CoreAVC H.264 decoders
+ *  - NOT with libmpeg2 mpeg decoder
+ */
 static void post_frame_end(vdr_input_plugin_t *this, buf_element_t *vid_buf)
 {
-  /* signal FRAME_END to video decoder */
   buf_element_t *cbuf = get_buf_element (this, sizeof(xine_bmiheader), 1);
+
   if (!cbuf) {
-    LOGMSG("get_buf_element() for BUF_FLAG_FRAME_END failed - retrying");
+    LOGMSG("post_frame_end(): get_buf_element() failed, retrying");
     xine_usec_sleep (10*1000);
-    cbuf = get_buf_element (this, sizeof(xine_bmiheader), 1);
-  }
-  if (!cbuf) {
-    LOGERR("get_buf_element() for BUF_FLAG_FRAME_END failed !");
-    /*abort();*/
+
+    if (!(cbuf = get_buf_element (this, sizeof(xine_bmiheader), 1))) {
+      LOGERR("post_frame_end(): get_buf_element() failed !");
     return;
+  }
   }
 
   cbuf->type = this->h264 > 0 ? BUF_VIDEO_H264 : BUF_VIDEO_MPEG;
