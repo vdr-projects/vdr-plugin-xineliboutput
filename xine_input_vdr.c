@@ -40,10 +40,6 @@
 # include <scsi/sg.h>
 #endif
 
-#if XINE_VERSION_CODE >= 10190
-# include <libavutil/mem.h>
-#endif
-
 #include <xine/xine_internal.h>
 #include <xine/xineutils.h>
 #include <xine/input_plugin.h>
@@ -51,6 +47,13 @@
 #include <xine/io_helper.h>
 #include <xine/buffer.h>
 #include <xine/post.h>
+
+#if XINE_VERSION_CODE >= 10190
+# include <libavutil/mem.h>
+#endif
+#ifndef XINE_VERSION_CODE 
+# error XINE_VERSION_CODE undefined !
+#endif
 
 #include "xine_input_vdr.h"
 #include "xine_input_vdr_net.h"
@@ -1325,7 +1328,7 @@ static fifo_buffer_t *fifo_buffer_new (xine_stream_t *stream, int num_buffers, u
   fifo_buffer_t *ref = stream->video_fifo;
   fifo_buffer_t *this;
   int            i;
-  unsigned char *multi_buffer = NULL;
+  unsigned char *multi_buffer;
 
   LOGDBG("fifo_buffer_new...");
   this = calloc(1, sizeof (fifo_buffer_t));
