@@ -376,19 +376,19 @@ bool config_t::IsPlaylistFile(const char *fname)
 bool config_t::IsAudioFile(const char *fname)
 {
   const char *ext = get_extension(fname);
-  return ext && ext_is_audio(ext);
+  return ext && (ext_is_audio(ext) || ext_is_playlist(ext));
 }
 
 bool config_t::IsVideoFile(const char *fname)
 {
   const char *ext = get_extension(fname);
-  return ext && (ext_is_video(ext) || ext_is_audio(ext));
+  return ext && (ext_is_video(ext) || ext_is_audio(ext) || ext_is_playlist(ext));
 }
 
 bool config_t::IsImageFile(const char *fname)
 {
   const char *ext = get_extension(fname);
-  return ext && ext_is_image(ext);
+  return ext && (ext_is_image(ext) || ext_is_playlist(ext));
 }
 
 cString config_t::AutocropOptions(void)
