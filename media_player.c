@@ -937,6 +937,11 @@ eOSState cXinelibDvdPlayerControl::ProcessKey(eKeys Key)
     const char *dt = cXinelibDevice::Instance().GetMetaInfo(miDvdTitleNo);
     if(dt && !strcmp("0", dt)) 
       MenuDomain = true;
+    else {
+      dt = cXinelibDevice::Instance().GetMetaInfo(miDvdButtons);
+      if(dt && *dt && *dt != '0')
+	MenuDomain = true;
+    }
   }
 
   if(MenuDomain) {
