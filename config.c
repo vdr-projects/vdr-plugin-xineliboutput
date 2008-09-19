@@ -644,6 +644,9 @@ bool config_t::ProcessArgs(int argc, char *argv[])
     case 'f': ProcessArg("Fullscreen", "1");
               break;
     case 'D': ProcessArg("X11.HUDOSD", "1");
+#ifndef HAVE_XRENDER
+              LOGMSG("HUD OSD not supported\n");
+#endif
               break;
     case 'w': ProcessArg("Fullscreen", "0");
               ProcessArg("X11.WindowWidth", optarg);
