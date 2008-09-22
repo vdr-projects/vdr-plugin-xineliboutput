@@ -211,7 +211,7 @@ void cXinelibOsd::CmdRle(int Wnd, int X0, int Y0,
   if(m_Device) {
 
     osd_command_t osdcmd;
-    xine_clut_t clut[256];
+    xine_clut_t clut[Colors];
 
     memset(&osdcmd, 0, sizeof(osdcmd));
     osdcmd.cmd = OSD_Set_RLE;
@@ -333,14 +333,16 @@ void cXinelibOsd::Flush(void)
       /* XXX what if only palette has been changed ? */
       int NumColors;
       const tColor *Colors = Bitmap->Colors(NumColors);
-      osd_rect_t DirtyArea = {x1:x1, y1:y1, x2:x2, y2:y2};
-      CmdRle(i,
-             Left() + Bitmap->X0(), Top() + Bitmap->Y0(),
-             Bitmap->Width(), Bitmap->Height(),
-             (unsigned char *)Bitmap->Data(0,0),
-             NumColors, (unsigned int *)Colors,
-	     &DirtyArea);
-      SendDone++;
+      if (Colors) {
+	osd_rect_t DirtyArea = {x1:x1, y1:y1, x2:x2, y2:y2};
+	CmdRle(i,
+	       Left() + Bitmap->X0(), Top() + Bitmap->Y0(),
+	       Bitmap->Width(), Bitmap->Height(),
+	       (unsigned char *)Bitmap->Data(0,0),
+	       NumColors, (unsigned int *)Colors,
+	       &DirtyArea);
+	SendDone++;
+      }
     }
     Bitmap->Clean();
   }

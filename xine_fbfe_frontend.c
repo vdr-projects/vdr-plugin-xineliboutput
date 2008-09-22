@@ -282,8 +282,7 @@ static void fbfe_display_close(frontend_t *this_gen)
 
 static frontend_t *fbfe_get_frontend(void)
 {
-  fe_t *this = malloc(sizeof(fe_t));
-  memset(this, 0, sizeof(fe_t));
+  fe_t *this = calloc(1, sizeof(fe_t));
 
   this->fd_tty = -1;
 
