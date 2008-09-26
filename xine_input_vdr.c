@@ -4125,6 +4125,20 @@ static void vdr_event_cb (void *user_data, const xine_event_t *event)
 	break;
       }
 
+    case XINE_EVENT_UI_NUM_BUTTONS:
+      if (event->stream == this->slave_stream) {
+	xine_ui_data_t *data = (xine_ui_data_t*)event->data;
+	char msg[64];
+	dvd_menu_domain(this, data->num_buttons > 0);
+	snprintf(msg, sizeof(msg), "INFO DVDBUTTONS %d\r\n", data->num_buttons);
+	msg[sizeof(msg)-1] = 0;
+	if (this->funcs.xine_input_event) 
+	  this->funcs.xine_input_event(msg, NULL);
+	else
+	  write_control(this, msg);
+	break;
+      }
+
     case XINE_EVENT_UI_CHANNELS_CHANGED:
       if(event->stream==this->slave_stream) 
 	slave_track_maps_changed(this);

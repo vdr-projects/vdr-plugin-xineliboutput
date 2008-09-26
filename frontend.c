@@ -198,6 +198,12 @@ void cXinelibThread::InfoHandler(const char *info)
     }
   }
    
+  else if(!strncmp(info, "DVDBUTTONS ", 11)) {
+    map += 11;
+    while(*map == ' ') map++;
+    cXinelibDevice::Instance().SetMetaInfo(miDvdButtons, map);
+  }
+
   else if(!strncmp(info, "TITLE ", 6)) {
     map += 6;
     while(*map == ' ') map++;

@@ -26,7 +26,8 @@ typedef enum {
   miArtist = 2,
   miAlbum  = 3,
   miDvdTitleNo = 4,
-  mi_Count = 5
+  miDvdButtons = 5,
+  mi_Count = 6
 } eMetainfoType;
 
 # define ttXSubtitleNone  (-2)
