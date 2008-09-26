@@ -873,7 +873,8 @@ bool cPlaylist::Read(const char *PlaylistFile, bool Recursive)
     if(strrchr(m_Name, '.'))
       *(strrchr(m_Name, '.')) = 0;
 
-  } else if(PlaylistFile[strlen(PlaylistFile)-1] == '/') {
+  } else if(PlaylistFile[                     0] == '/'  &&
+            PlaylistFile[strlen(PlaylistFile)-1] == '/') {
     // Scan folder
     Result = ScanFolder(PlaylistFile, Recursive) > 0;
     m_Origin = eImplicit;
