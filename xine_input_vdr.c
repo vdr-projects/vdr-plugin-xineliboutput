@@ -3995,6 +3995,8 @@ static void slave_track_maps_changed(vdr_input_plugin_t *this)
 		    "*%d:%s ", current, 
 		    current==SPU_CHANNEL_NONE ? "none" : "auto");
     n++;
+    if(current == SPU_CHANNEL_AUTO)
+      current = this->slave_stream->spu_channel_auto;
   }
   for(i=0; i<32 && cnt<sizeof(tracks)-32; i++)
     if(xine_get_spu_lang(this->slave_stream, i, lang)) {
