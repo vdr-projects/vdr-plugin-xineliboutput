@@ -119,7 +119,9 @@ const char cmdLineHelp[] =
 "                           (example: )\n" 
 #endif
 "  -f        --fullscreen   Fullscreen mode (X11)\n"
+#ifdef HAVE_XRENDER
 "  -D        --hud          Head Up Display OSD (X11)\n"
+#endif
 "  -w        --width=x      Window width\n"
 "  -h        --height=x     Window width\n"
 "  -d DISP   --display=DISP Use X11 display DISP\n"
