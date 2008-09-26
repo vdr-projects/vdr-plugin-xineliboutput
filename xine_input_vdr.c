@@ -4982,7 +4982,6 @@ static void post_frame_end(vdr_input_plugin_t *this, int type)
     /* Should not be here ... 
        Failing to send BUF_FLAG_FRAME_END 's freezes the decoder */
     LOGERR("get_buf_element() for H.264 BUF_FLAG_FRAME_END failed - aborting");
-    abort();
   }
 }
 
