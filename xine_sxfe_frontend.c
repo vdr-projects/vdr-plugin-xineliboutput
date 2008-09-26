@@ -983,6 +983,17 @@ static int sxfe_display_open(frontend_t *this_gen, int width, int height, int fu
 
 
   if(this->window_id <= 0) {
+
+    /* Window hint */
+    XClassHint *classHint = XAllocClassHint();
+    if(classHint) {
+      classHint->res_name = "VDR";
+      classHint->res_class = "VDR";
+      XSetClassHint(this->display, this->window[0], classHint);
+      XSetClassHint(this->display, this->window[1], classHint);
+      XFree(classHint);
+    }
+
     /* Window name */
 #ifdef FE_STANDALONE
     XStoreName(this->display, this->window[0], "VDR - ");
