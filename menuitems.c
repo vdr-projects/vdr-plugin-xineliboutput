@@ -8,8 +8,6 @@
  *
  */
 
-#include <math.h>
-
 #include "i18n.h"
 
 #include "menuitems.h"
@@ -103,6 +101,13 @@ cMenuEditFpIntItem::cMenuEditFpIntItem(const char *Name, int *Value, int Min, in
   Set();
 }
 
+static int my_exp10(int x)
+{
+  int r = 1;
+  for (; x > 0; x--, r *= 10) ;
+  return r;
+}
+
 void cMenuEditFpIntItem::Set(void)
 {
   if(*value == 0 && *zeroString) 
@@ -112,7 +117,7 @@ void cMenuEditFpIntItem::Set(void)
   else if (maxString && *value == max)
     SetValue(maxString);
   else
-    SetValue(cString::sprintf("%1.1f", ((float)(*value)) / exp10f(decimals)));
+    SetValue(cString::sprintf("%1.1f", ((float)(*value)) / (float)my_exp10(decimals)));
 }
 
 // --- cMenuEditStraI18nItem -------------------------------------------------
