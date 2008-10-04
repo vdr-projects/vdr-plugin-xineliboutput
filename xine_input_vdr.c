@@ -2085,6 +2085,8 @@ static int exec_osd_command(vdr_input_plugin_t *this, osd_command_t *cmd)
     int xmove = 0, ymove = 0;
     int unscaled_supported = 1;
 
+    stream->video_out->enable_ovl(stream->video_out, 1);
+
     if(handle < 0)
       handle = this->osdhandle[cmd->wnd] = 
 	ovl_manager->get_handle(ovl_manager,0);
