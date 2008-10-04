@@ -27,7 +27,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
  *
- * $Id$
  *
  * autocrop video filter by Petri Hintukainen 25/03/2006
  *
@@ -1512,7 +1511,7 @@ static post_plugin_t *autocrop_open_plugin(post_class_t *class_gen,
 					    xine_video_port_t **video_target)
 {
   if (video_target && video_target[ 0 ]) {
-    autocrop_post_plugin_t *this = (autocrop_post_plugin_t*)xine_xmalloc(sizeof(autocrop_post_plugin_t));
+    autocrop_post_plugin_t *this = calloc(1, sizeof(autocrop_post_plugin_t));
     post_in_t           *input;
     post_out_t          *output;
     post_video_port_t   *port;
@@ -1594,7 +1593,7 @@ static void autocrop_class_dispose(post_class_t *class_gen)
 
 static void *autocrop_init_plugin(xine_t *xine, void *data)
 {
-  post_class_t *class = (post_class_t*)malloc(sizeof(post_class_t));
+  post_class_t *class = calloc(1, sizeof(post_class_t));
   
   if(class) {
     class->open_plugin     = autocrop_open_plugin;

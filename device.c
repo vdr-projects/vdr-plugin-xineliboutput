@@ -26,9 +26,6 @@
 //#define FORWARD_DVD_SPUS
 //#define DEBUG_SWITCHING_TIME
 //#define LOG_TRICKSPEED
-#if VDRVERSNUM >= 10510
-# define DEVICE_SUPPORTS_IBP_TRICKSPEED
-#endif
 
 #include "logdefs.h"
 #include "config.h"

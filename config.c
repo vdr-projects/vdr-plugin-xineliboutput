@@ -596,6 +596,9 @@ bool config_t::ProcessArgs(int argc, char *argv[])
     case 'f': ProcessArg("Fullscreen", "1");
               break;
     case 'D': ProcessArg("X11.HUDOSD", "1");
+#ifndef HAVE_XRENDER
+              LOGMSG("HUD OSD not supported\n");
+#endif
               break;
     case 'w': ProcessArg("Fullscreen", "0");
               ProcessArg("X11.WindowWidth", optarg);
@@ -789,9 +792,9 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "Playlist.Artist"))      playlist_artist = atoi(Value);
   else if (!strcasecmp(Name, "Playlist.Album"))       playlist_album = atoi(Value);
 
-  else if (!strcasecmp(Name, "Advanced.LiveModeSync")) xc.live_mode_sync = atoi(Value);
-  else if (!strcasecmp(Name, "Advanced.AdjustSCR"))    xc.scr_tunning = atoi(Value);
-  else if (!strcasecmp(Name, "Advanced.SCRSpeed"))     xc.scr_hz = atoi(Value);
+  else if (!strcasecmp(Name, "Advanced.LiveModeSync")) live_mode_sync = atoi(Value);
+  else if (!strcasecmp(Name, "Advanced.AdjustSCR"))    scr_tunning = atoi(Value);
+  else if (!strcasecmp(Name, "Advanced.SCRSpeed"))     scr_hz = atoi(Value);
 
   else if (!strcasecmp(Name, "Audio.Equalizer")) 
     sscanf(Value,"%d %d %d %d %d %d %d %d %d %d",

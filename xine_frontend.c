@@ -744,7 +744,7 @@ static int fe_xine_open(frontend_t *this_gen, const char *mrl)
   x_upd_num("engine.buffers.video_num_buffers", this->pes_buffers);  
 
 #if !defined(IS_FBFE) && defined(FE_STANDALONE)
-  if(!strncmp(mrl, "xvdr:", 5) && strstr(mrl, "//")) {
+  if(!strncmp(mrl, "xvdr", 4) && strstr(mrl, "//")) {
     char *name = NULL, *end;
     asprintf(&name, "VDR - %s", strstr(mrl, "//")+2);
     if(NULL != (end = strstr(name, ":37890"))) *end = 0; /* hide only default port */
