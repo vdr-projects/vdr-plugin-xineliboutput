@@ -11,7 +11,7 @@
  * Finnish   Petri Hintukainen, Rolf Ahrenberg
  * Russian   Vladimir Monchenko
  * German    Udo Richter
- * Italian   Gringo <vdr-italian@tiscali.it
+ * Italian   Diego Pierotto
  *
  */
 
