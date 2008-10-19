@@ -249,7 +249,7 @@ void cXinelibPlayer::Activate(bool On)
 
       // cdda tracks
       if(m_Playlist.Count() == 1 && !strcmp("cdda:/", m_Playlist.First()->Filename)) {
-	int count = cXinelibDevice::Instance().PlayFileCtrl("GETAUTOPLAYSIZE");
+	int count = cXinelibDevice::Instance().PlayFileCtrl("GETAUTOPLAYSIZE CD");
 	if(count>1) {
 	  for(int i=0; i<count; i++)
 	    m_Playlist.Read(cString::sprintf("cdda:/%d", i+1));
