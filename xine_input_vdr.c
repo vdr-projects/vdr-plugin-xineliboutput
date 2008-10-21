@@ -3849,6 +3849,18 @@ static int vdr_plugin_parse_control(input_plugin_t *this_gen, const char *cmd)
     }
 
   } else if(!strncasecmp(cmd, "GETAUTOPLAYSIZE", 15)) {
+
+    if (cmd[15]==' ' && cmd[16]) {
+      /* query from specific input plugin */
+      const char *cls_name = cmd + 16;
+      this->autoplay_size = 0;
+      if (! xine_get_browse_mrls (stream->xine,
+                                  cls_name,
+                                  NULL, &this->autoplay_size))
+        /* try older method */
+        xine_get_autoplay_mrls(stream->xine, cls_name, &this->autoplay_size);
+    }
+
     if(this->autoplay_size < 0) {
       char **list;
       if(this->slave_stream &&
