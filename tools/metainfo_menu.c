@@ -8,7 +8,7 @@
  *
  */
 
-#ifdef HAVE_EXTRACTOR_H
+#ifdef HAVE_LIBEXTRACTOR
 # include <extractor.h>
 #endif
 
@@ -42,7 +42,7 @@ void cMetainfoMenu::Display(void)
   char metadata[4096];
   metadata[0] = 0;
 
-#ifdef HAVE_EXTRACTOR_H
+#ifdef HAVE_LIBEXTRACTOR
   EXTRACTOR_ExtractorList * plugins;
   EXTRACTOR_KeywordList   * md_list;
   plugins = EXTRACTOR_loadDefaultLibraries();
