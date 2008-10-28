@@ -48,7 +48,7 @@ ifeq ($(XINELIBOUTPUT_XINEPLUGIN), 1)
         else
             $(warning XRender extension not detected ! HUD OSD disabled. )
         endif
-        ifeq ($(shell (((echo "\#include <X11/extensions/Xrandr.h>";echo "int main(int c,char* v[]) {return 0;}") > testx.c && gcc -c testx.c -o testx.o >/dev/null 2>&1) && echo "1") || echo "0" ; rm -f testx.* >/dev/null), 1)
+        ifeq ($(shell (((echo "\#include <X11/Xlib.h>";echo "\#include <X11/extensions/Xrandr.h>";echo "int main(int c,char* v[]) {return 0;}") > testx.c && gcc -c testx.c -o testx.o >/dev/null 2>&1) && echo "1") || echo "0" ; rm -f testx.* >/dev/null), 1)
             HAVE_XRANDR = 1
         else
             $(warning XRandr extension not detected ! Video mode switching disabled. )
