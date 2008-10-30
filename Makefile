@@ -26,7 +26,7 @@ HAVE_XRANDR       = no
 HAVE_XDPMS        = no
 HAVE_XINERAMA     = no
 HAVE_LIBEXTRACTOR = no
-APPLE_DARWIN      = no
+ARCH_APPLE_DARWIN = no
 XINELIBOUTPUT_XINEPLUGIN = no
 
 # check for xine-lib
@@ -76,7 +76,7 @@ endif
 
 # check for Apple Darwin
 ifeq ($(shell gcc -dumpmachine | grep -q 'apple-darwin' && echo "1" || echo "0"), 1)
-    APPLE_DARWIN = yes
+    ARCH_APPLE_DARWIN = yes
 endif
 
 #
@@ -112,7 +112,7 @@ CXX      ?= g++
 CC       ?= gcc 
 OPTFLAGS ?= 
 
-ifeq ($(APPLE_DARWIN), yes)
+ifeq ($(ARCH_APPLE_DARWIN), yes)
     CXXFLAGS   ?= -O3 -pipe -Wall -Woverloaded-virtual -fPIC -g -fno-common -bundle -flat_namespace -undefined suppress
     CFLAGS     ?= -O3 -pipe -Wall -fPIC -g -fno-common -bundle -flat_namespace -undefined suppress
     LDFLAGS_SO ?= -fvisibility=hidden
@@ -149,7 +149,7 @@ VDRINCDIR ?= $(VDRDIR)/include
 ### check for VDR
 ###
 
-ifeq ($(APPLE_DARWIN), yes)
+ifeq ($(ARCH_APPLE_DARWIN), yes)
     VDRVERSION = $(shell sed -ne '/define VDRVERSION/s/^.*"\(.*\)".*$$/\1/p' $(VDRDIR)/config.h)
     APIVERSION = $(shell sed -ne '/define APIVERSION/s/^.*"\(.*\)".*$$/\1/p' $(VDRDIR)/config.h)
 else
@@ -257,7 +257,7 @@ ifeq ($(HAVE_XINERAMA), yes)
     LIBS_X11  += -lXinerama
 endif
 
-ifeq ($(APPLE_DARWIN), yes)
+ifeq ($(ARCH_APPLE_DARWIN), yes)
     INCLUDES  += -I/sw/include
     LIBDIRS   += -L/sw/lib
     LIBS      += $(LIBDIRS) -ljpeg -liconv
