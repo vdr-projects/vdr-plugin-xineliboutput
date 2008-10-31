@@ -8,6 +8,8 @@
  *
  */
 
+#include "../features.h"
+
 #include <stdlib.h> 
 
 #ifdef HAVE_LIBEXTRACTOR

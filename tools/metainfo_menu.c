@@ -8,6 +8,8 @@
  *
  */
 
+#include "../features.h"
+
 #ifdef HAVE_LIBEXTRACTOR
 # include <extractor.h>
 #endif
