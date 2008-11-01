@@ -9,6 +9,7 @@
  */
 
 /*#define HAVE_XF86VIDMODE*/
+#include "features.h"
 
 #include <errno.h>
 #include <inttypes.h>

@@ -25,6 +25,8 @@
  *
  */
 
+#include "features.h"
+
 #include <vdr/plugin.h>
 
 #include "logdefs.h"

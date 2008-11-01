@@ -11,6 +11,8 @@
 #ifndef _XINELIB_CONFIG_H_
 #define _XINELIB_CONFIG_H_
 
+#include "features.h"
+
 #include <string.h>
 #include <stdint.h>
 

@@ -8,6 +8,8 @@
  *
  */
 
+#include "features.h"
+
 #include <vdr/config.h>
 #include <vdr/plugin.h>
 #include <vdr/remote.h>

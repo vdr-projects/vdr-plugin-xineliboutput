@@ -11,6 +11,8 @@
 #ifndef __XINELIB_MENU_H
 #define __XINELIB_MENU_H
 
+#include "features.h"
+
 #include <vdr/menuitems.h>
 
 class cMenuXinelib : public cMenuSetupPage 

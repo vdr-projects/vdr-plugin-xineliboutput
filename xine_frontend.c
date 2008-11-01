@@ -8,6 +8,8 @@
  *
  */
 
+#include "features.h"
+
 #ifndef XINE_VERSION_CODE
 #  define XINE_VERSION_CODE (XINE_MAJOR_VERSION*10000 + \
                              XINE_MINOR_VERSION*100 + \

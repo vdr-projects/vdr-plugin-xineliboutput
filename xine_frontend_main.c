@@ -8,6 +8,8 @@
  *
  */
 
+#include "features.h"
+
 #include <termios.h>
 #include <unistd.h>
 #include <syslog.h>

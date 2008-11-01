@@ -8,6 +8,8 @@
  *
  */
 
+#include "features.h"
+
 #include <dirent.h>
 
 #include <vdr/config.h>
