@@ -41,11 +41,6 @@
  *
  */
 
-
-#ifdef HAVE_CONFIG_H 
-#include "config.h"     /* ARCH_X86 */
-#endif
-
 #include <stdint.h>
 
 #include <xine/xine_internal.h>
