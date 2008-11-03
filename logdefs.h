@@ -9,6 +9,7 @@
  */
 
 #ifndef _LOGDEFS_H_
+#define _LOGDEFS_H_
 
 /*
  * Default module name (goes to every log line)
