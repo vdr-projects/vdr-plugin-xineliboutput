@@ -18,6 +18,9 @@
 
 #include "tools/vdrdiscovery.h"
 
+/* next symbol is dynamically linked from input plugin */
+int SysLogLevel __attribute__((visibility("default"))) = 2; /* errors and info, no debug */
+
 
 static void list_plugins_type(xine_t *xine, const char *msg, typeof (xine_list_audio_output_plugins) list_func)
 {
@@ -371,6 +374,8 @@ int main(int argc, char *argv[])
   char *aspect_controller = NULL;
   int repeat_emu = 0;
   char *exec_name = argv[0];
+
+  LogToSysLog = 0;
 
   if(strrchr(argv[0],'/'))
     exec_name = strrchr(argv[0],'/')+1;
