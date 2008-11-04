@@ -19,7 +19,8 @@
 #  include <linux/unistd.h> /* syscall(__NR_gettid) */
 #endif
 
-extern int LogToSysLog; /* xine_frontend.c, log to syslog instead of console */
+/* next symbol is dynamically linked from input plugin */
+int LogToSysLog __attribute__((visibility("default"))) = 1; /* log to syslog instead of console */
 
 void x_syslog(int level, const char *module, const char *fmt, ...)
 { 
