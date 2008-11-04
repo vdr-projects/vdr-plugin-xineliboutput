@@ -20,13 +20,7 @@
 #include <sys/un.h>
 #include <arpa/inet.h>
 
-#ifdef FE_STANDALONE
-#  define LOG_MODULENAME "[discovery] "
-#else
-#  define LogToSysLog 1
-#endif
-
-#define NEED_x_syslog
+#define LOG_MODULENAME "[discovery] "
 #include "../logdefs.h"
 
 #include "vdrdiscovery.h"
