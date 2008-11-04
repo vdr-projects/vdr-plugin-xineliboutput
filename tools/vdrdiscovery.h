@@ -20,15 +20,14 @@
 extern "C" {
 #endif
 
-#ifdef FE_STANDALONE
+struct sockaddr_in;
+
 int udp_discovery_find_server(int *port, char *address);
-#else
 int udp_discovery_init(void);
 int udp_discovery_broadcast(int fd_discovery, int server_port, const char *server_address);
 int udp_discovery_recv(int fd_discovery, char *buf, int timeout,
 		       struct sockaddr_in *source);
 int udp_discovery_is_valid_search(const char *buf);
-#endif
 
 #ifdef __cplusplus
 };

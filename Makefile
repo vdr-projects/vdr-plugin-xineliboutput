@@ -241,7 +241,7 @@ endif
 
 ifeq ($(XINELIBOUTPUT_X11), yes)
   OBJS_SXFE_SO = xine_sxfe_frontend.o xine/post.o
-  OBJS_SXFE = xine_sxfe_frontend_standalone.o xine/post.o tools/vdrdiscovery_standalone.o
+  OBJS_SXFE = xine_sxfe_frontend_standalone.o xine/post.o tools/vdrdiscovery.o
 else
   OBJS_SXFE_SO = 
   OBJS_SXFE = 
@@ -249,7 +249,7 @@ endif
 
 ifeq ($(XINELIBOUTPUT_FB), yes)
   OBJS_FBFE_SO = xine_fbfe_frontend.o xine/post.o
-  OBJS_FBFE = xine_fbfe_frontend_standalone.o xine/post.o tools/vdrdiscovery_standalone.o
+  OBJS_FBFE = xine_fbfe_frontend_standalone.o xine/post.o tools/vdrdiscovery.o
 else
   OBJS_FBFE_SO = 
   OBJS_FBFE = 
@@ -300,8 +300,6 @@ xine/post.o: xine/post.c xine/post.h
 	$(CC) $(CFLAGS) -c $(DEFINES) $(INCLUDES) $(OPTFLAGS) xine/post.c -o $@
 tools/vdrdiscovery.o: tools/vdrdiscovery.c tools/vdrdiscovery.h
 	$(CC) $(CFLAGS) -c $(DEFINES) $(INCLUDES) $(OPTFLAGS) tools/vdrdiscovery.c -o $@
-tools/vdrdiscovery_standalone.o: tools/vdrdiscovery.c tools/vdrdiscovery.h
-	$(CC) $(CFLAGS) -c $(DEFINES) -DFE_STANDALONE $(INCLUDES) $(OPTFLAGS) tools/vdrdiscovery.c -o $@
 xine_post_autocrop.o: xine_post_autocrop.c
 	$(CC) $(CFLAGS) -c $(DEFINES) $(INCLUDES) $(OPTFLAGS) xine_post_autocrop.c
 xine_post_swscale.o: xine_post_swscale.c
