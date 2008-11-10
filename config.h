@@ -381,7 +381,7 @@ class config_t {
 
     // Advanced settings
     int live_mode_sync;   /* Sync SCR to transponder clock in live mode */
-    int scr_tunning;      /* Fine-tune xine egine SCR (to sync video to graphics output) */
+    int scr_tuning;       /* Fine-tune xine egine SCR (to sync video to graphics output) */
     int scr_hz;           /* Current SCR speed (Hz), default is 90000 */
 
     int decoder_mpeg2;    /* DECODER_MPEG2_... */
