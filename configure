@@ -169,7 +169,7 @@ test_library_pc(){
     add_flags LIBS_$subsys \
               `pkg-config --libs-only-L $libname` \
               `pkg-config --libs-only-l $libname`
-    add_flags INCS_$subsys `pkg-config --cflags-only-I $libname`
+    add_flags CFLAGS_$subsys `pkg-config --cflags-only-I $libname`
     log "yes"
     return 0
   fi
