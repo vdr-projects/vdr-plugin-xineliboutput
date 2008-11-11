@@ -57,7 +57,7 @@
 # ifdef HAVE_LIBAVUTIL
 #  include <libavutil/mem.h>
 # else
-#  error plugin was configured without libavutil. It can't be compiled against xine-lib 1.2 !
+#  error "plugin was configured without libavutil. It can't be compiled against xine-lib 1.2 !"
 # endif
 #endif
 

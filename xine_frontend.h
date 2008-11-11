@@ -11,6 +11,8 @@
 #ifndef _XINE_FRONTEND_H
 #define _XINE_FRONTEND_H
 
+#include "xine_osd_command.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

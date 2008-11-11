@@ -115,7 +115,7 @@ endif
 config.mak: Makefile configure
 	@echo Running configure
 	./configure --cc=$(CC) --cxx=$(CXX) $(CONFIGURE_OPTS)
-include config.mak
+-include config.mak
 
 ###
 ### The name of the distribution archive:

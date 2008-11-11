@@ -35,8 +35,9 @@
 #undef  MAX
 #define MAX(a,b) ( (a) > (b) ? (a) : (b))
 
+#ifdef FE_STANDALONE
 static int verbose_xine_log = 0;
-
+#endif
 
 char *strn0cpy(char *dest, const char *src, int n) 
 {
