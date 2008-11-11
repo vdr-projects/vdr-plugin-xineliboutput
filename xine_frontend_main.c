@@ -22,6 +22,7 @@
 #include <signal.h>
 
 #include "tools/vdrdiscovery.h"
+#include "xine_frontend_lirc.h"
 
 /* next symbol is dynamically linked from input plugin */
 int SysLogLevel __attribute__((visibility("default"))) = 2; /* errors and info, no debug */
@@ -62,8 +63,6 @@ pthread_t kbd_thread;
 struct termios tm, saved_tm;
 volatile int terminate_key_pressed = 0;
 
-/* include LIRC forwarding code */
-#include "xine_frontend_lirc.c"
 
 static int read_key(void)
 {

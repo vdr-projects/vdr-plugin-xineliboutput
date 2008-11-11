@@ -32,6 +32,11 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
+#define LOG_MODULENAME "[lirc]      "
+#include "logdefs.h"
+
+#include "xine_frontend_internal.h"
+
 #define REPEATDELAY     350 /* ms */
 #define REPEATFREQ      100 /* ms */
 #define REPEATTIMEOUT   500 /* ms */
