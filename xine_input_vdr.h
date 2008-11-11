@@ -15,8 +15,9 @@
 extern "C" {
 #endif
 
-#define MRL_ID      "xvdr"
-#define MRL_ID_LEN  4
+#include <xine/input_plugin.h>
+
+#include "xine_input_vdr_mrl.h"
 
 struct input_plugin_s;
 struct vdr_input_plugin_if_s;
