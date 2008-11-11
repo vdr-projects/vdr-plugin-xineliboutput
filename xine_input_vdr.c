@@ -48,11 +48,17 @@
 #include <xine/buffer.h>
 #include <xine/post.h>
 
-#if XINE_VERSION_CODE >= 10190
-# include <libavutil/mem.h>
-#endif
 #ifndef XINE_VERSION_CODE 
 # error XINE_VERSION_CODE undefined !
+#endif
+
+#if XINE_VERSION_CODE >= 10190
+# include "features.h"
+# ifdef HAVE_LIBAVUTIL
+#  include <libavutil/mem.h>
+# else
+#  error plugin was configured without libavutil. It can't be compiled against xine-lib 1.2 !
+# endif
 #endif
 
 #include "xine_input_vdr.h"
