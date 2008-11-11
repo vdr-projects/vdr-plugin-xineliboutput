@@ -185,7 +185,7 @@ LIBS_X11  += -L/usr/X11R6/lib -lXv -lXext
 ifeq ($(ARCH_APPLE_DARWIN), yes)
     INCLUDES  += -I/sw/include
     LIBDIRS   += -L/sw/lib
-    LIBS      += $(LIBDIRS) -ljpeg -liconv
+    LIBS      += $(LIBDIRS) -liconv
 else
     LIBS      += -lrt
 endif
@@ -387,7 +387,7 @@ $(VDRPLUGIN_SXFE_SO): $(OBJS_SXFE_SO)
 	@-rm -rf $(LIBDIR)/$(VDRPLUGIN_SXFE_SO).$(VERSION)
 	@cp $@ $(LIBDIR)/$(VDRPLUGIN_SXFE_SO).$(VERSION)
 $(VDRSXFE): $(OBJS_SXFE)
-	$(CC) -g $(OBJS_SXFE) $(LIBS_X11) -ljpeg $(LIBS_XINE) -o $@
+	$(CC) -g $(OBJS_SXFE) $(LIBS_X11) $(LIBS_XINE) -o $@
 endif
 
 #
@@ -399,7 +399,7 @@ $(VDRPLUGIN_FBFE_SO): $(OBJS_FBFE_SO)
 	@-rm -rf $(LIBDIR)/$(VDRPLUGIN_FBFE_SO).$(VERSION)
 	@cp $@ $(LIBDIR)/$(VDRPLUGIN_FBFE_SO).$(VERSION)
 $(VDRFBFE): $(OBJS_FBFE)
-	$(CC) -g $(OBJS_FBFE) $(LIBS_XINE) -ljpeg -o $@
+	$(CC) -g $(OBJS_FBFE) $(LIBS_XINE) -o $@
 endif
 
 #
