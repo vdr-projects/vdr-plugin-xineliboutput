@@ -251,7 +251,7 @@ endif
 ###
 
 %.o: %.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) -o $@ $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) $(CFLAGS_VDR) -o $@ $<
 
 
 ###
