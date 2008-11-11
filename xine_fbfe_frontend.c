@@ -29,12 +29,6 @@
 # include <linux/kd.h>
 #endif
 
-#ifdef boolean
-# define HAVE_BOOLEAN
-#endif
-#include <jpeglib.h>
-#undef boolean
-
 /* framegrab ports */
 #define XINE_ENABLE_EXPERIMENTAL_FEATURES
 

@@ -29,6 +29,7 @@
 #include <sys/shm.h>
 #include <math.h>
 
+/* X11 */
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/keysym.h>
@@ -52,11 +53,6 @@
 #  include <X11/extensions/Xinerama.h>
 #endif
 
-#ifdef boolean
-#  define HAVE_BOOLEAN
-#endif
-#include <jpeglib.h>
-#undef boolean
 
 /* framegrab ports */
 #define XINE_ENABLE_EXPERIMENTAL_FEATURES
@@ -72,6 +68,7 @@
 #include <xine/xineutils.h>
 #include <xine/input_plugin.h>
 #include <xine/plugin_catalog.h>
+
 
 #include "xine_input_vdr.h"
 #include "xine_osd_command.h"
@@ -1404,7 +1401,7 @@ static void sxfe_interrupt(frontend_t *this_gen)
     .format       = 32,
   };
   XLockDisplay (this->display);
-  if(!XSendEvent(event.display, event.window, TRUE, /*KeyPressMask*/0, (XEvent *)&event))
+  if(!XSendEvent(event.display, event.window, 1, /*KeyPressMask*/0, (XEvent *)&event))
     LOGERR("sxfe_interrupt: XSendEvent(ClientMessage) FAILED\n");
 
   XFlush(this->display);
@@ -1688,7 +1685,7 @@ static void sxfe_display_close(frontend_t *this_gen)
 #endif
 
 #ifdef HAVE_XDPMS
-    if(this->dpms_state == TRUE)
+    if(this->dpms_state)
       DPMSEnable(this->display);
 #endif
     if(this->window_id <= 0) {
