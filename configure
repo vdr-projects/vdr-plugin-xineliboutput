@@ -130,7 +130,7 @@ test_library_c(){
 
   log -n "Checking for $libname ... "
   generate_test_c $hdr $subsys $func
-  $CC -g testhdr.c -o testhdr $CFLAGS $lib
+  $CC -g testhdr.c -o testhdr $CFLAGS $lib > /dev/null 2>&1
   err=$?
 
   if test $err = 0; then
