@@ -11,8 +11,6 @@
 #ifndef _XINE_FRONTEND_H
 #define _XINE_FRONTEND_H
 
-#include "xine_osd_command.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -23,6 +21,8 @@ typedef void (*fe_keypress_f)(const char *keymap, const char *name);
 
 typedef struct frontend_config_s frontend_config_t;
 typedef struct frontend_s frontend_t;
+
+struct osd_command_s;
 
 #if 0
 struct frontend_config_s {
