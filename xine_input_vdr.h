@@ -55,8 +55,8 @@ typedef struct vdr_input_plugin_if_s {
 #define CONTROL_DISCONNECTED -3
 
 typedef struct grab_data_s {
-  int size;
-  char *data;
+  size_t  size;
+  char   *data;
 } grab_data_t;
 
 #if defined __cplusplus
