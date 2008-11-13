@@ -1731,10 +1731,3 @@ void init_fe(fe_t *fe)
   fe->fe.send_input_event = fe_send_input_event;
 }
 
-#ifdef FE_STANDALONE
-
-/* frontend main() */
-
-#include "xine_frontend_main.c"
-
-#endif /* #ifdef FE_STANDALONE */
