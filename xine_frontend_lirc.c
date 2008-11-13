@@ -81,7 +81,8 @@ static void lircd_connect(void)
   }
 
   addr.sun_family = AF_UNIX;
-  strn0cpy(addr.sun_path, (char*)lirc_device_name, sizeof(addr.sun_path));
+  strncpy(addr.sun_path, (char*)lirc_device_name, sizeof(addr.sun_path));
+  addr.sun_path[sizeof(addr.sun_path)-1] = 0;
 
   if ((fd_lirc = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
     LOGERR("lirc error: socket() < 0");
