@@ -1755,33 +1755,22 @@ static frontend_t *sxfe_get_frontend(void)
 {
   sxfe_t *this = calloc(1, sizeof(sxfe_t));
 
+  init_fe((fe_t*)this);
+
   this->window_id = -1;
   
   this->fe.fe_display_open   = sxfe_display_open;
   this->fe.fe_display_config = sxfe_display_config;
   this->fe.fe_display_close  = sxfe_display_close;
   
-  this->fe.xine_init  = fe_xine_init;
-  this->fe.xine_open  = sxfe_xine_open;
-  this->fe.xine_play  = sxfe_xine_play;
-  this->fe.xine_stop  = fe_xine_stop;
-  this->fe.xine_close = fe_xine_close;
-  this->fe.xine_exit  = fe_xine_exit;
-  this->fe.xine_is_finished = fe_is_finished;
-  
-  this->fe.fe_run  = sxfe_run;
+  this->fe.fe_run       = sxfe_run;
   this->fe.fe_interrupt = sxfe_interrupt;
-  this->fe.fe_free = fe_free;
-
-  this->fe.grab                  = fe_grab;
-#ifndef FE_STANDALONE
-  this->fe.xine_osd_command      = xine_osd_command;
-  this->fe.xine_control          = xine_control;
-
-  this->fe.xine_queue_pes_packet = xine_queue_pes_packet;
-#endif /*#ifndef FE_STANDALONE */
 
   this->x.toggle_fullscreen_state = sxfe_toggle_fullscreen;
+
+  /* override */
+  this->fe.xine_open  = sxfe_xine_open;
+  this->fe.xine_play  = sxfe_xine_play;
 
   return (frontend_t*)this;
 }
