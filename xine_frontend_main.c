@@ -28,36 +28,6 @@
 int SysLogLevel __attribute__((visibility("default"))) = 2; /* errors and info, no debug */
 
 
-static void list_plugins_type(xine_t *xine, const char *msg, typeof (xine_list_audio_output_plugins) list_func)
-{
-  static xine_t *tmp_xine = NULL;
-  if(!xine) {
-    if(!tmp_xine)
-      xine_init(tmp_xine = xine_new());
-    xine = tmp_xine;
-  }
-  const char *const *list = list_func(xine);
-
-  printf("%s", msg);
-  while(list && *list)
-    printf(" %s", *list++);
-  printf("\n");
-}
-
-static void list_plugins(xine_t *xine, int verbose)
-{
-  list_plugins_type (xine, "Available video drivers:", xine_list_video_output_plugins);
-  list_plugins_type (xine, "Available audio drivers:", xine_list_audio_output_plugins); 
-  if(verbose) {
-    list_plugins_type (xine, "Available post plugins: ", xine_list_post_plugins); 
-    list_plugins_type (xine, "Available input plugins:", xine_list_input_plugins);
-    list_plugins_type (xine, "Available demux plugins:", xine_list_demuxer_plugins);
-    list_plugins_type (xine, "Available audio decoder plugins:", xine_list_audio_decoder_plugins);
-    list_plugins_type (xine, "Available video decoder plugins:", xine_list_video_decoder_plugins);
-    list_plugins_type (xine, "Available SPU decoder plugins:  ", xine_list_spu_plugins);
-  }
-}
-
 /* static data */
 pthread_t kbd_thread;
 struct termios tm, saved_tm;
@@ -398,7 +368,7 @@ int main(int argc, char *argv[])
     case 'H': printf("\nUsage: %s [options] [" MRL_ID "[+udp|+tcp|+rtp]:[//host[:port]]] \n"
 		     "\nAvailable options:\n", exec_name);
               printf("%s", help_str);
-	      list_plugins(NULL, SysLogLevel>2);
+	      list_xine_plugins(NULL, SysLogLevel>2);
 	      exit(0);
     case 'A': adrv = strdup(optarg);
               adev = strchr(adrv, ':');
@@ -611,11 +581,11 @@ int main(int argc, char *argv[])
   if(!fe->xine_init(fe, adrv, adev, gdrv, 250, static_post_plugins)) {
     fprintf(stderr, "Error initializing xine\n");
     fe->fe_free(fe);
-    list_plugins(NULL, SysLogLevel>2);
+    list_xine_plugins(NULL, SysLogLevel>2);
     return -5;
   }
   if(SysLogLevel>2)
-    list_plugins(((fe_t*)fe)->xine, SysLogLevel>2);
+    list_xine_plugins(fe, SysLogLevel>2);
 
   /* signal handlers */
 
