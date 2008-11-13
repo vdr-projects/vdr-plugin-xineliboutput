@@ -1437,15 +1437,11 @@ static int XKeyEvent_handler(sxfe_t *this, XKeyEvent *kev)
 #endif
 #ifdef FE_STANDALONE
       case XK_Escape:
-	terminate_key_pressed = 1;
+	this->x.fe.send_event((frontend_t*)this, "QUIT");
 	return 0;
-      default: 
-	process_xine_keypress((fe_t*)this, "XKeySym", XKeysymToString(ks), 0, 0);
-#else
-      default: 
-	if(this->x.keypress) 
-	  this->x.keypress("XKeySym", XKeysymToString(ks));
 #endif
+      default:
+	this->x.fe.send_input_event((frontend_t*)this, "XKeySym", XKeysymToString(ks), 0, 0);
         return 1;
     }
   }
