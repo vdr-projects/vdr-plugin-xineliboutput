@@ -70,10 +70,8 @@ typedef struct fe_s {
 
 } fe_t;
 
-
-void process_xine_keypress(fe_t *this, 
-			   const char *map, const char *key,
-			   int repeat, int release);
+/* setup function pointers */
+void init_fe(fe_t *fe);
 
 char *strn0cpy(char *dest, const char *src, int n);
 
