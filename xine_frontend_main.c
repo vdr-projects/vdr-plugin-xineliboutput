@@ -485,13 +485,6 @@ int main(int argc, char *argv[])
 
   PRINTF("\n");
 
-  /* check xine-lib version */
-  if(!xine_check_version(1, 1, 0)) {
-    fprintf(stderr,"ERROR: xine-lib is too old, require at least "
-	    "xine library version 1.1.0\n");
-    return -1;
-  }
-
 #if 1
   /* backward compability */
   if(mrl && ( !strncmp(mrl, MRL_ID ":tcp:",  MRL_ID_LEN+5) ||

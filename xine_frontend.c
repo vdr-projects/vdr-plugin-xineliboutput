@@ -521,6 +521,13 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
   if(!this)
     return 0;
 
+  /* check xine-lib version */
+  if(!xine_check_version(1, 1, 0)) {
+    LOGERR("xine-lib is too old, require at least xine library version 1.1.0\n");
+    return FE_ERROR;
+  }
+
+
   /*
    * init xine engine
    */
