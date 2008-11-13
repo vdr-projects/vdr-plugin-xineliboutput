@@ -97,6 +97,9 @@ struct frontend_s {
 
 typedef frontend_t *(*fe_creator_f)(void);
 
+void list_xine_plugins(frontend_t *fe, int verbose);
+
+
 #ifdef __cplusplus
 } /* extern "C" { */
 #endif
