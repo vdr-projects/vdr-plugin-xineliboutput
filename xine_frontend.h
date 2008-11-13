@@ -50,6 +50,11 @@ struct frontend_config_s {
 };
 #endif
 
+/* xine_is_finished return values */
+#define FE_XINE_RUNNING 0
+#define FE_XINE_ERROR  -1
+#define FE_XINE_EXIT    1
+
 struct frontend_s {
   /* Display */
   int (*fe_display_open)(frontend_t*, int winwidth, int winheight, 
