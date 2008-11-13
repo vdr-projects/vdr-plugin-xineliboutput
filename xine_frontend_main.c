@@ -11,16 +11,24 @@
 #include "features.h"
 
 #include <stdio.h>
+#include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
 #include <poll.h>
 #include <errno.h>
 #include <termios.h>
+#include <pthread.h>
 #include <unistd.h>
 #include <syslog.h>
 #include <getopt.h>
 #include <signal.h>
 
+#include <xine.h>  /* xine_get_version */
+
+#include "logdefs.h"
+
+#include "xine_input_vdr_mrl.h"
+#include "xine_frontend.h"
 #include "tools/vdrdiscovery.h"
 #include "xine_frontend_lirc.h"
 
