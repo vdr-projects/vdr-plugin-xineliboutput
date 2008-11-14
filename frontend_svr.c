@@ -52,7 +52,7 @@
 #define LOG_OSD_BANDWIDTH (128*1024)  /* log messages if OSD bandwidth > 1 Mbit/s */
 
 #define PLAYFILE_CTRL_TIMEOUT   300   /* ms */
-#define PLAYFILE_TIMEOUT       5000   /* ms */
+#define PLAYFILE_TIMEOUT      20000   /* ms */
 
 typedef struct {
   int    Size;
