@@ -10,6 +10,11 @@
 
 #include "features.h"
 
+#include <inttypes.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+
 #ifdef HAVE_LIBJPEG
 # ifdef boolean
 #  define HAVE_BOOLEAN
@@ -18,11 +23,9 @@
 # undef boolean
 #endif
 
-#ifndef XINE_VERSION_CODE
-#  define XINE_VERSION_CODE (XINE_MAJOR_VERSION*10000 + \
-                             XINE_MINOR_VERSION*100 + \
-                             XINE_SUB_VERSION)
-#endif
+#define XINE_ENGINE_INTERNAL
+#include <xine.h>
+#include <xine/xine_internal.h>
 
 #define LOG_MODULENAME "[vdr-fe]    "
 #include "logdefs.h"
@@ -1096,12 +1099,10 @@ static void fe_xine_close(frontend_t *this_gen)
     return;
 
   if (this && this->xine) {
-#ifndef FE_STANDALONE
     if(this->input_plugin) {
       this->input_plugin->f.xine_input_event = NULL;
       this->input_plugin->f.fe_control       = NULL;
     }
-#endif
 
     fe_xine_stop(this_gen);
 
