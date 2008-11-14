@@ -114,7 +114,7 @@ endif
 
 config.mak: Makefile configure
 	@echo Running configure
-	./configure --cc=$(CC) --cxx=$(CXX) $(CONFIGURE_OPTS)
+	@sh configure --cc=$(CC) --cxx=$(CXX) $(CONFIGURE_OPTS)
 -include config.mak
 
 ###
