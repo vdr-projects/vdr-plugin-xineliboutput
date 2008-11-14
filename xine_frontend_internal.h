@@ -22,6 +22,18 @@ typedef struct fe_s {
   /* base class */
   frontend_t          fe;
 
+  /* from xine_frontend.c */
+  double (*dest_pixel_aspect)   (const struct fe_s *, 
+				 double video_pixel_aspect,
+				 int video_width, int video_height);
+  void   (*frame_output_handler)(void *data,
+				 int video_width, int video_height,
+				 double video_pixel_aspect,
+				 int *dest_x, int *dest_y,
+				 int *dest_width, int *dest_height,
+				 double *dest_pixel_aspect,
+				 int *win_x, int *win_y);
+
   /* called from xine_frontend.c */
   void   (*update_display_size_cb) (struct fe_s *);
   void   (*toggle_fullscreen_cb)   (struct fe_s *);

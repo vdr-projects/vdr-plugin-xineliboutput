@@ -272,8 +272,8 @@ static void fe_frame_output_cb (void *data,
   *win_x = this->xpos;
   *win_y = this->ypos;  
   
-  *dest_pixel_aspect = fe_dest_pixel_aspect(this, video_pixel_aspect,
-					    video_width, video_height);
+  *dest_pixel_aspect = this->dest_pixel_aspect(this, video_pixel_aspect,
+					       video_width, video_height);
 
 #if 0
   if(this->cropping) {
@@ -1730,5 +1730,8 @@ void init_fe(fe_t *fe)
 
   fe->fe.send_event       = fe_send_event;
   fe->fe.send_input_event = fe_send_input_event;
+
+  fe->dest_pixel_aspect    = fe_dest_pixel_aspect;
+  fe->frame_output_handler = fe_frame_output_cb;
 }
 

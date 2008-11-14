@@ -183,8 +183,8 @@ static void sxfe_dest_size_cb (void *data,
   *dest_width  = this->width;
   *dest_height = this->height;
 
-  *dest_pixel_aspect = fe_dest_pixel_aspect(this, video_pixel_aspect,
-					    video_width, video_height);
+  *dest_pixel_aspect = this->dest_pixel_aspect(this, video_pixel_aspect,
+					       video_width, video_height);
 }
 
 static void init_atoms(sxfe_t *this)
@@ -1221,7 +1221,7 @@ static int sxfe_display_open(frontend_t *this_gen, int width, int height, int fu
   this->x.vis_x11.screen           = this->screen;
   this->x.vis_x11.d                = this->window[this->fullscreen ? 1 : 0];
   this->x.vis_x11.dest_size_cb     = sxfe_dest_size_cb;
-  this->x.vis_x11.frame_output_cb  = fe_frame_output_cb;
+  this->x.vis_x11.frame_output_cb  = this->x.frame_output_handler;
   this->x.vis_x11.user_data        = this;
 
   set_fullscreen_props(this);

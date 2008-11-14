@@ -148,7 +148,7 @@ static int fbfe_display_open(frontend_t *this_gen, int width, int height, int fu
 
   /* setup xine FB visual */
   this->x.xine_visual_type = XINE_VISUAL_TYPE_FB;
-  this->x.vis_fb.frame_output_cb = fe_frame_output_cb;
+  this->x.vis_fb.frame_output_cb = this->x.frame_output_handler;
   this->x.vis_fb.user_data = this;
 
   /* select framebuffer device ? */
