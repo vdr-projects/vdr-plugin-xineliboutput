@@ -286,7 +286,7 @@ static frontend_t *fbfe_get_frontend(void)
   this->fe.fe_run       = fbfe_run;
   this->fe.fe_interrupt = fbfe_interrupt;
 
-  this->x.update_display_size = fbfe_update_display_size;
+  this->x.update_display_size_cb = fbfe_update_display_size;
 
   /* override */
   this->fe_xine_init  = this->fe.xine_init;

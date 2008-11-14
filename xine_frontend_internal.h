@@ -19,10 +19,12 @@
 #include "xine/post.h"
 
 typedef struct fe_s {
-  /* function pointers */
+  /* base class */
   frontend_t          fe;
-  void              (*update_display_size)    (struct fe_s *);
-  void              (*toggle_fullscreen_state)(struct fe_s *);
+
+  /* called from xine_frontend.c */
+  void   (*update_display_size_cb) (struct fe_s *);
+  void   (*toggle_fullscreen_cb)   (struct fe_s *);
 
   /* vdr callbacks */
   fe_keypress_f       keypress;

@@ -1735,7 +1735,7 @@ static frontend_t *sxfe_get_frontend(void)
   this->fe.fe_run       = sxfe_run;
   this->fe.fe_interrupt = sxfe_interrupt;
 
-  this->x.toggle_fullscreen_state = sxfe_toggle_fullscreen;
+  this->x.toggle_fullscreen_cb = sxfe_toggle_fullscreen;
 
   /* override */
 
