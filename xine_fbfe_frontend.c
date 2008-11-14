@@ -8,51 +8,19 @@
  *
  */
 
-#include <errno.h>
 #include <inttypes.h>
-#include <poll.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
-#include <dlfcn.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <sys/types.h>
 #include <unistd.h>
-#include <time.h>
-#include <pthread.h>
-#include <sched.h>
 
 #if defined(__linux__)
 # include <linux/kd.h>
 #endif
 
-/* framegrab ports */
-#define XINE_ENABLE_EXPERIMENTAL_FEATURES
+#define LOG_MODULENAME "[vdr-fbfe]  "
+#include "logdefs.h"
 
-#include <xine.h>
-#ifndef XINE_ENGINE_INTERNAL
-#  define XINE_ENGINE_INTERNAL
-#  include <xine/xine_internal.h>
-#  undef XINE_ENGINE_INTERNAL
-#else
-#  include <xine/xine_internal.h>
-#endif
-#include <xine/xineutils.h>
-#include <xine/input_plugin.h>
-#include <xine/plugin_catalog.h>
-
-#include "xine_input_vdr.h"
-
-#include "xine_frontend.h"
-#include "xine/post.h"
-
-#define IS_FBFE
-
-/* Common (non-X11/FB) frontend functions */
-#include "xine_frontend.c"
+#include "xine_frontend_internal.h"
 
 
 /*
