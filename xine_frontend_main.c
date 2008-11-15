@@ -529,7 +529,7 @@ int main(int argc, char *argv[])
 	      !strncmp(mrl, "xvdr:udp:", 9) ||
 	      !strncmp(mrl, "xvdr:rtp:", 9) ||
 	      !strncmp(mrl, "xvdr:pipe:", 10)))
-    mrl[5] = '+';
+    mrl[4] = '+';
 #endif
 
   /* If server address not given, try to find server automatically */
