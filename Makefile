@@ -245,6 +245,7 @@ else
   OBJS_FBFE = 
 endif
 
+OBJS_XINE = xine_input_vdr.o xine_post_autocrop.o xine_post_swscale.o xine_post_audiochannel.o
 
 ###
 ### Implicit rules:
@@ -261,7 +262,9 @@ endif
 MAKEDEP = g++ -MM -MG
 DEPFILE = .dependencies
 $(DEPFILE): Makefile
-	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(OBJS:%.o=%.c) $(OBJS_SXFE:%.o=%.c) $(OBJS_FBFE:%.o=%.c) > $@
+	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(OBJS:%.o=%.c) \
+                    $(OBJS_SXFE:%.o=%.c) $(OBJS_FBFE:%.o=%.c) \
+                    $(OBJS_XINE:%.o=%.c) > $@
 
 -include $(DEPFILE)
 
