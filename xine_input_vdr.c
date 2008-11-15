@@ -3411,6 +3411,10 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
   if(NULL != (pt = strstr(cmd, "\r\n")))
     *((char*)pt) = 0; /* auts */
 
+  /* very verbose logging ? */
+  if (iSysLogLevel>3) 
+    LOGDBG("<control> %s",cmd);
+
   if(!strncasecmp(cmd, "OSDCMD", 6)) {
     err = handle_control_osdcmd(this);
 
@@ -6710,7 +6714,11 @@ static void *init_class (xine_t *xine, void *data)
       iSysLogLevel = xine->verbosity + 1;
       LOGMSG("detected verbose logging xine->verbosity=%d, setting log level to %d:%s",
 	     xine->verbosity, iSysLogLevel, 
-	     iSysLogLevel==2?"INFO":"DEBUG");
+	     (iSysLogLevel < 1) ? "NONE" :
+	     (iSysLogLevel < 2) ? "ERRORS" : 
+	     (iSysLogLevel < 3) ? "INFO" :
+	     (iSysLogLevel < 4) ? "DEBUG" :
+	     "VERBOSE DEBUG");
     }
   }
 
