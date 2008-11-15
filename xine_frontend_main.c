@@ -33,7 +33,7 @@
 #include "xine_frontend_lirc.h"
 
 /* next symbol is dynamically linked from input plugin */
-int SysLogLevel __attribute__((visibility("default"))) = 2; /* errors and info, no debug */
+int SysLogLevel __attribute__((visibility("default"))) = SYSLOGLEVEL_INFO; /* errors and info, no debug */
 
 
 /* static data */
@@ -443,7 +443,7 @@ int main(int argc, char *argv[])
               PRINTF("LIRC device:  %s%s\n", lirc_dev,
 		     repeat_emu?", emulating key repeat":"");
 	      break;
-    case 'v': SysLogLevel = 3;
+    case 'v': SysLogLevel = (SysLogLevel<SYSLOGLEVEL_DEBUG) ? SYSLOGLEVEL_DEBUG : SysLogLevel+1;
 	      PRINTF("Verbose mode\n");
 	      break;
     case 's': SysLogLevel = 1;
