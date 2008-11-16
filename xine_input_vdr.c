@@ -4680,7 +4680,10 @@ static void *vdr_data_thread(void *this_gen)
 
   LOGDBG("Data thread started");
 
-  (void)nice(-1);
+  const int priority = -1;
+  errno = 0;
+  if((nice(priority) == -1) && errno)
+    LOGDBG("Data thread: Can't nice to value: %d", priority);
 
   if(this->udp || this->rtp) {
     while(this->control_running) {

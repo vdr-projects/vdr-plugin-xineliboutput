@@ -683,9 +683,11 @@ void cUdpScheduler::Action(void)
 #endif
 
   /* UDP Scheduler needs high priority */
-  SetPriority(-5);
-  (void)nice(-5);
+  const int priority = -5;
+  SetPriority(priority);
   errno = 0;
+  if ((nice(priority) == -1) && errno)
+    LOGDBG("cUdpScheduler: Can't nice to value: %d", priority);
 
   m_Lock.Lock();
 

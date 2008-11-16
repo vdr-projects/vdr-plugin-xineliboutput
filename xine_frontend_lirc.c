@@ -111,7 +111,10 @@ static void *lirc_receiver_thread(void *fe_gen)
 
   LOGMSG("lirc forwarding started");
 
-  (void)nice(-1);
+  const int priority = -1;
+  errno = 0;
+  if((nice(priority) == -1) && errno)
+    LOGDBG("LIRC: Can't nice to value: %d", priority);
 
   lircd_connect();
 

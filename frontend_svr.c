@@ -1688,16 +1688,22 @@ void cXinelibServer::Handle_ClientConnected(int fd)
 
   bool accepted = SVDRPhosts.Acceptable(sin.sin_addr.s_addr);
   if(!accepted) {
+    const char *msg = "Access denied.\r\n";
+    ssize_t len = strlen(msg);
     LOGMSG("Address not allowed to connect (svdrphosts.conf).");
-    (void)write(fd, "Access denied.\r\n", 16);
+    if(write(fd, msg, len) != len)
+       LOGERR("Write failed.");
     CLOSESOCKET(fd);  
     return;    
   }
 
   if(cli>=MAXCLIENTS) {
+    const char *msg = "Server busy.\r\n";
+    ssize_t len = strlen(msg);
     // too many clients
     LOGMSG("Too many clients, connection refused");
-    (void)write(fd, "Server busy.\r\n", 16);
+    if(write(fd, msg, len) != len)
+      LOGERR("Write failed.");
     CLOSESOCKET(fd);  
     return;
   }
