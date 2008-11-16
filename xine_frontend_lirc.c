@@ -111,7 +111,8 @@ static void *lirc_receiver_thread(void *fe_gen)
 
   LOGMSG("lirc forwarding started");
 
-  nice(-1);
+  (void)nice(-1);
+
   lircd_connect();
 
   while(lirc_device_name && fd_lirc >= 0) {
