@@ -261,7 +261,7 @@ OBJS_XINE = xine_input_vdr.o xine_post_autocrop.o xine_post_swscale.o xine_post_
 
 MAKEDEP = g++ -MM -MG
 DEPFILE = .dependencies
-$(DEPFILE): Makefile
+$(DEPFILE): Makefile config.mak
 	@rm -f $@
 	@for i in $(OBJS:%.o=%.c) $(OBJS_SXFE:%.o=%.c) $(OBJS_FBFE:%.o=%.c) $(OBJS_XINE:%.o=%.c) ; do \
 	  $(MAKEDEP) $(DEFINES) $(INCLUDES) -MT "`dirname $$i`/`basename $$i .c`.o" $$i >>$@ ; \
