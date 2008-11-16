@@ -35,14 +35,23 @@
 #  define x_syslog(l,m,x...) syslog_with_tid(l, m x)
 #else
 
+#  ifdef __cplusplus
+  extern "C" {
+#  endif
+
   /* from xine_frontend.c or vdr/tools.c: */
   extern int SysLogLevel; /* errors, info, debug */
 
   /* from logdefs.c: */
   extern int LogToSysLog;
 
-  void x_syslog(int level, const char *module, const char *fmt, ...) 
-       __attribute__ ((format (printf, 3, 4)));
+  void x_syslog(int level, const char *module, const char *fmt, ...)
+       __attribute__((format (printf, 3, 4)))
+       __attribute__((visibility("default")));
+
+#  ifdef __cplusplus
+  } /* extern "C" { */
+#  endif
 
 #endif /* VDR */
 
