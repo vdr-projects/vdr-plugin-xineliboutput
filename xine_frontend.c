@@ -335,7 +335,7 @@ static void fe_frame_output_cb (void *data,
          < sizeof(cmd)) {
         LOGDBG("Aspect ratio changed, executing %s", cmd);
         if(system(cmd) == -1)
-	  LOGERR("Executing /bin/sh -c %s failed");
+	  LOGERR("Executing /bin/sh -c %s failed", cmd);
         this->video_aspect = video_aspect;
       }
     }
