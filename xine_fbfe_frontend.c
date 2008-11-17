@@ -117,7 +117,7 @@ static void update_DFBARGS(const char *fb_dev)
  */
 static int fbfe_display_open(frontend_t *this_gen, int width, int height, int fullscreen, int hud,
 			     int modeswitch, const char *modeline, int aspect,
-			     fe_keypress_f keyfunc, const char *video_port,
+			     fe_keypress_f keyfunc, int gui_hotkeys, const char *video_port,
 			     int scale_video, int field_order,
 			     const char *aspect_controller, int window_id) 
 {

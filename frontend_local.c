@@ -341,7 +341,7 @@ void cXinelibLocal::Action(void)
       LOGDBG("cXinelibLocal::Action - fe created");
       if(!curr_fe->fe_display_open(curr_fe, xc.width, xc.height, xc.fullscreen, xc.hud_osd,
 				   xc.modeswitch, xc.modeline, 
-				   xc.display_aspect, keypress_handler, 
+				   xc.display_aspect, keypress_handler, 0,
 				   xc.video_port, 
 				   xc.scale_video, 
 				   xc.field_order,

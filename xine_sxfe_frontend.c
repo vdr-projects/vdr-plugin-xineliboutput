@@ -1084,7 +1084,7 @@ static void create_windows(sxfe_t *this)
  */
 static int sxfe_display_open(frontend_t *this_gen, int width, int height, int fullscreen, int hud,
 			     int modeswitch, const char *modeline, int aspect,
-			     fe_keypress_f keyfunc, const char *video_port,
+			     fe_keypress_f keyfunc, int gui_hotkeys, const char *video_port,
 			     int scale_video, int field_order,
 			     const char *aspect_controller, int window_id) 
 {
@@ -1141,10 +1141,7 @@ static int sxfe_display_open(frontend_t *this_gen, int width, int height, int fu
 
   this->xinerama_screen = -1;
 
-#if defined(XINELIBOUTPUT_FE_TOGGLE_FULLSCREEN) || defined(INTERPRET_LIRC_KEYS)
-  /* #warning TODO: make this command-line parameter */
-  this->gui_hotkeys = 1;
-#endif
+  this->gui_hotkeys = gui_hotkeys;
 
   /*
    * init x11 stuff

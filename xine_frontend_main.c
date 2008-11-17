@@ -691,7 +691,8 @@ int main(int argc, char *argv[])
 
   /* Initialize display */
   if (!fe->fe_display_open(fe, width, height, fullscreen, hud, 0, 
-			   "", aspect, NULL, video_port, scale_video, 0,
+			   "", aspect, NULL, gui_hotkeys,
+			   video_port, scale_video, 0,
 			   aspect_controller, window_id)) {
     fprintf(stderr, "Error opening display\n");
     fe->fe_free(fe);
