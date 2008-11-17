@@ -244,7 +244,8 @@ INCLUDES  += -I$(VDRINCDIR)
 LIBS_XINE += $(shell (pkg-config libxine --atleast-version=1.1.90 && pkg-config libxine --libs) || xine-config --libs)
 LIBS_X11  += -L/usr/X11R6/lib -lX11 -lXv -lXext
 ifeq ($(HAVE_XRENDER), 1)
-    LIBS_X11  += -lXrender
+# need -lm for ceil/floor in HUD OSD
+    LIBS_X11  += -lXrender -lm
 endif
 
 ifeq ($(APPLE_DARWIN), 1)
