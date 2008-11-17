@@ -576,8 +576,11 @@ int main(int argc, char *argv[])
 	      break;
     case 'o': gui_hotkeys = 1;
               PRINTF("GUI hotkeys enabled\n"
-		     "  mapping f,F  -> fullscreen toggle\n"
-		     "          d,D  -> deinterlace toggle\n");
+		     "  mapping keyboard f,F     -> fullscreen toggle\n"
+		     "          keyboard d,D     -> deinterlace toggle\n"
+		     "          LIRC Deinterlace -> deinterlace toggle\n"
+		     "          LIRC Fullscreen  -> fullscreen toggle\n"
+		     "          LIRC Quit        -> exit\n");
 	      break;
     case 'b': nokbd = daemon_mode = 1;
               PRINTF("Keyboard input disabled\n");
