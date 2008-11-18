@@ -29,7 +29,7 @@ endif
 USE_ICONV = yes
 #NOSIGNAL_IMAGE_FILE=/usr/share/vdr/xineliboutput/nosignal.mpv
 #STARTUP_IMAGE_FILE=/usr/share/vdr/xineliboutput/logodisplay.mpv
-CONFIGURE_OPTS =
+XINELIBOUTPUT_CONFIGURE_OPTS =
 
 
 ###
@@ -114,7 +114,7 @@ endif
 
 config.mak: Makefile configure
 	@echo Running configure
-	@sh configure --cc=$(CC) --cxx=$(CXX) $(CONFIGURE_OPTS)
+	@sh configure --cc=$(CC) --cxx=$(CXX) $(CONFIGURE_OPTS) $(XINELIBOUTPUT_CONFIGURE_OPTS)
 -include config.mak
 
 ###
