@@ -541,6 +541,7 @@ config_t::config_t() {
   remote_mode    = 0;
   listen_port    = LISTEN_PORT;
   remote_keyboard = 1;
+  remote_max_clients = MAXCLIENTS;
   remote_usetcp   = 1;
   remote_useudp   = 1;
   remote_usertp   = 1;
@@ -768,6 +769,7 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "RemoteMode"))          remote_mode = atoi(Value);
   else if (!strcasecmp(Name, "Remote.ListenPort"))   listen_port = atoi(Value);
   else if (!strcasecmp(Name, "Remote.Keyboard"))     remote_keyboard = atoi(Value);
+  else if (!strcasecmp(Name, "Remote.MaxClients"))   remote_max_clients = atoi(Value);
   else if (!strcasecmp(Name, "Remote.UseTcp"))       remote_usetcp = atoi(Value);
   else if (!strcasecmp(Name, "Remote.UseUdp"))       remote_useudp = atoi(Value);
   else if (!strcasecmp(Name, "Remote.UseRtp"))       remote_usertp = atoi(Value);

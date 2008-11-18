@@ -18,6 +18,9 @@
 
 #include <vdr/config.h>
 
+// Max number of remote clients
+#define MAXCLIENTS     10
+
 // Decoder buffer size
 #define PES_BUFFERS_CUSTOM      0
 #define PES_BUFFERS_TINY_50     1
@@ -358,8 +361,9 @@ class config_t {
     char remote_local_if[32]; // Listen only on this interface
     char remote_local_ip[32]; // Bind locally to this IP
     int  remote_keyboard;     // Allow remote client to control VDR with keyboard, LIRC, etc.
+    int  remote_max_clients;  // Max. number of clients
 
-    int  remote_usebcast;     // Use proadcasts to find servers automatically
+    int  remote_usebcast;     // Use broadcasts to find servers automatically
     int  remote_usepipe;      // enable local pipes for video transport
     int  remote_usertp;       // enable RTP multicast for video transport
     int  remote_useudp;       // enable UDP unicast for video transport

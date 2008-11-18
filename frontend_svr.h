@@ -12,11 +12,10 @@
 #define __XINELIB_FRONTEND_SVR_H
 
 
+#include "config.h"
 #include "frontend.h"
 
 //----------------------------- cXinelibServer --------------------------------
-
-#define MAXCLIENTS 10
 
 class cBackgroundWriterI;
 class cUdpScheduler;
