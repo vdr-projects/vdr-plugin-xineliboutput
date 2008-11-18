@@ -358,6 +358,9 @@ fi
 
 check_deps
 
+# need -lm for ceil/floor in HUD OSD
+enabled xrender && add_flags "LIBS_X11" "-lm"
+
 #
 # Print results
 #
