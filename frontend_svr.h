@@ -57,7 +57,7 @@ class cXinelibServer : public cXinelibThread
     virtual uchar  *GrabImage(int &Size, bool Jpeg, int Quality, 
 			      int SizeX, int SizeY);
     // Playback files
-    virtual int     PlayFileCtrl(const char *Cmd);
+    virtual int     PlayFileCtrl(const char *Cmd, int TimeoutMs=-1);
     virtual bool    EndOfStreamReached(void);
 
     // Configuration						  
