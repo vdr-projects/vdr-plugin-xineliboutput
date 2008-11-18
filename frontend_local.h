@@ -36,8 +36,8 @@ class cXinelibLocal : public cXinelibThread
   public:
 
     // Data transfer
-    virtual int  Play_PES(const uchar *buf, int len);
-    virtual void OsdCmd(void *cmd);
+    virtual int     Play_PES(const uchar *buf, int len);
+    virtual void    OsdCmd(void *cmd);
     virtual int64_t GetSTC();
 
     // Playback files
