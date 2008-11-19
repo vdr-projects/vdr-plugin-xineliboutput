@@ -103,7 +103,7 @@ static void lircd_connect(void)
 
 static void *lirc_receiver_thread(void *fe_gen)
 {
-  frontend_t *fe = (frontend_t*)fe;
+  frontend_t *fe = (frontend_t*)fe_gen;
   int timeout = -1;
   uint64_t FirstTime = time_ms();
   uint64_t LastTime = time_ms();
