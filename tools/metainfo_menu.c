@@ -15,8 +15,8 @@
 #endif
 
 #include <vdr/status.h>
+#include <vdr/i18n.h>
 
-#include "../i18n.h"
 #include "../config.h"
 
 #include "metainfo_menu.h"
