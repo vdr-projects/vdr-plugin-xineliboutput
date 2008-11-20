@@ -8,7 +8,7 @@
  *
  */
 
-#include "i18n.h"
+#include <vdr/i18n.h>
 
 #include "menuitems.h"
 

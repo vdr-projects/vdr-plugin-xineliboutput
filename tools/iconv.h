@@ -40,11 +40,7 @@ cIConv::cIConv(const char *SrcCharset, const char * DstCharset)
   if(!SrcCharset)
     SrcCharset = "UTF-8";
   if(!DstCharset) {
-#if APIVERSNUM >= 10503
     DstCharset = cCharSetConv::SystemCharacterTable();
-#else
-    DstCharset = I18nCharSets()[Setup.OSDLanguage];
-#endif
   }
   m_ic = (iconv_t)-1;
 

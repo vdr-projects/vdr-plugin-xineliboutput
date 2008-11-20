@@ -31,7 +31,7 @@
 #define SYSLOGLEVEL_DEBUG   3
 #define SYSLOGLEVEL_VERBOSE 4
 
-#if defined(esyslog) || (defined(VDRVERSNUM) && VDRVERSNUM >= 10343)
+#if defined(esyslog)
 #  define x_syslog(l,m,x...) syslog_with_tid(l, m x)
 #else
 

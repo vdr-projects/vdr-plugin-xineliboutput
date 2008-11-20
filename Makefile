@@ -213,7 +213,7 @@ endif
 
 # VDR plugin
 OBJS = $(PLUGIN).o device.o frontend.o osd.o config.o menu.o setup_menu.o \
-       i18n.o menuitems.o media_player.o equalizer.o \
+       menuitems.o media_player.o equalizer.o \
        frontend_local.o frontend_svr.o \
        tools/cxsocket.o tools/udp_pes_scheduler.o \
        tools/backgroundwriter.o tools/playlist.o tools/http.o \

@@ -57,11 +57,7 @@ class cXinelibThread : public cThread, public cListObject
     void SetStillMode(bool);
     void SetNoVideo(bool bVal);
     void AudioStreamChanged(bool ac3, int StreamId);
-#if VDRVERSNUM < 10515
-    void SpuStreamChanged(int StreamId);
-#else
     void SetSubtitleTrack(eTrackType Track);
-#endif
 
   protected:
     int  Xine_Control(const char *cmd, const char *p1);
