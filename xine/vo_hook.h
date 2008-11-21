@@ -13,6 +13,12 @@
 
 #include <xine/video_out.h>
 
+/* 
+ * synchronous video post plugins 
+ * internal API 
+ */
+
+
 /*
  * vo_driver_hook_t
  *
@@ -23,5 +29,14 @@ typedef struct driver_hook_s {
   vo_driver_t     vo;             /* public part */
   vo_driver_t    *orig_driver;
 } vo_driver_hook_t;
+
+/* proxy handlers: forward call to original driver */
+
+uint32_t vo_def_get_capabilities(vo_driver_t *self);
+int      vo_def_get_property(vo_driver_t *self, int prop);
+int      vo_def_set_property(vo_driver_t *self, int prop, int val);
+
+void     vo_def_dispose(vo_driver_t *self);
+
 
 #endif /* _XINELIBOUTPUT_VO_HOOK_H */

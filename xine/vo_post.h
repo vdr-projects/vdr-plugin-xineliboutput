@@ -13,6 +13,11 @@
 
 #include <xine/video_out.h>
 
+/* 
+ * synchronous video post plugins 
+ * public API 
+ */
+
 /* Wire / unwire hook chain to video port */
 int  wire_video_driver(xine_video_port_t *video_port, vo_driver_t *hook);
 int  unwire_video_driver(xine_video_port_t *video_port, vo_driver_t *hook, vo_driver_t *video_out);
