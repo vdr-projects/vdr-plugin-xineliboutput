@@ -2012,6 +2012,14 @@ static xine_rle_elem_t *scale_rle_image(osd_command_t *osdcmd,
   return tmp;
 }
 
+static void clear_osdcmd(osd_command_t *cmd)
+{
+  free(cmd->data);
+  cmd->data = NULL;
+  free(cmd->palette);
+  cmd->palette = NULL;
+}
+
 static int exec_osd_command(vdr_input_plugin_t *this, osd_command_t *cmd)
 {
   video_overlay_event_t   ov_event;
@@ -2091,20 +2099,12 @@ static int exec_osd_command(vdr_input_plugin_t *this, osd_command_t *cmd)
     ov_event.event_type = OVERLAY_EVENT_FREE_HANDLE;
     ov_event.object.handle = handle;
     this->osdhandle[cmd->wnd] = -1;
-    free(this->osddata[cmd->wnd].data);
-    this->osddata[cmd->wnd].data = NULL;
-    free(this->osddata[cmd->wnd].palette);
-    this->osddata[cmd->wnd].palette = NULL;
+    clear_osdcmd(&this->osddata[cmd->wnd]);
 
-    do {
-      int r = ovl_manager->add_event(ovl_manager, (void *)&ov_event);
-      if(r<0) {
-	LOGDBG("OSD_Close(%d): overlay manager queue full !", cmd->wnd);
-	ovl_manager->flush_events(ovl_manager);
-	continue;
-      }
-      break;
-    } while(1);
+    while (ovl_manager->add_event(ovl_manager, (void *)&ov_event) < 0) {
+      LOGDBG("OSD_Close(%d): overlay manager queue full !", cmd->wnd);
+      ovl_manager->flush_events(ovl_manager);
+    }
 
     this->last_changed_vpts[cmd->wnd] = 0;
 
@@ -2159,10 +2159,7 @@ static int exec_osd_command(vdr_input_plugin_t *this, osd_command_t *cmd)
       use_unscaled = 1;
 
     /* store osd for later rescaling (done if video size changes) */
-    free(this->osddata[cmd->wnd].data);
-    this->osddata[cmd->wnd].data = NULL;
-    free(this->osddata[cmd->wnd].palette);
-    this->osddata[cmd->wnd].palette = NULL;
+    clear_osdcmd(&this->osddata[cmd->wnd]);
 
     memcpy(&this->osddata[cmd->wnd], cmd, sizeof(osd_command_t));
     this->osddata[cmd->wnd].data = NULL;
@@ -2281,15 +2278,11 @@ static int exec_osd_command(vdr_input_plugin_t *this, osd_command_t *cmd)
     cmd->data = NULL;/* we 'consume' data (ownership goes for osd manager) */
 
     /* send event to overlay manager */
-    do {
-      int r = ovl_manager->add_event(ovl_manager, (void *)&ov_event);
-      if(r<0) {
-	LOGDBG("OSD_Set_RLE(%d): overlay manager queue full !", cmd->wnd);
-	ovl_manager->flush_events(ovl_manager);
-	continue;
-      }
-      break;
-    } while(1);
+    while (ovl_manager->add_event(ovl_manager, (void *)&ov_event) < 0) {
+      LOGDBG("OSD_Set_RLE(%d): overlay manager queue full !", cmd->wnd);
+      ovl_manager->flush_events(ovl_manager);
+      continue;
+    }
 
     this->last_changed_vpts[cmd->wnd] =  xine_get_current_vpts(stream);
 
