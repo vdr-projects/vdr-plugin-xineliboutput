@@ -61,6 +61,8 @@
 # endif
 #endif
 
+#include "xine/vo_props.h"
+
 #include "xine_input_vdr.h"
 #include "xine_input_vdr_net.h"
 #include "xine_osd_command.h"
@@ -2085,6 +2087,12 @@ static int exec_osd_command(vdr_input_plugin_t *this, osd_command_t *cmd)
   if(cmd->cmd == OSD_Size) {
     this->vdr_osd_width  = cmd->w;
     this->vdr_osd_height = cmd->h;
+
+    if(stream->video_out->get_capabilities(stream->video_out) &
+       VO_CAP_OSDSCALING) {
+      stream->video_out->set_property(stream->video_out, VO_PROP_OSD_WIDTH, cmd->w);
+      stream->video_out->set_property(stream->video_out, VO_PROP_OSD_HEIGHT, cmd->h);
+    }
 
   } else if(cmd->cmd == OSD_Nop) {
     this->last_changed_vpts[cmd->wnd] = xine_get_current_vpts(stream);
