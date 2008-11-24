@@ -26,7 +26,6 @@ endif
 # Override configuration here or in ../../../Make.config
 #
 
-USE_ICONV = yes
 #NOSIGNAL_IMAGE_FILE=/usr/share/vdr/xineliboutput/nosignal.mpv
 #STARTUP_IMAGE_FILE=/usr/share/vdr/xineliboutput/logodisplay.mpv
 XINELIBOUTPUT_CONFIGURE_OPTS =
@@ -183,7 +182,7 @@ LIBS_X11  += -L/usr/X11R6/lib -lXv -lXext
 ifeq ($(ARCH_APPLE_DARWIN), yes)
     INCLUDES  += -I/sw/include
     LIBDIRS   += -L/sw/lib
-    LIBS      += $(LIBDIRS) -liconv
+    LIBS      += $(LIBDIRS)
 else
     LIBS      += -lrt
 endif
@@ -196,9 +195,6 @@ ifeq ($(XINELIBOUTPUT_XINEPLUGIN), yes)
     CFLAGS += $(shell (pkg-config libxine --atleast-version=1.1.90 && pkg-config libxine --cflags) || xine-config --cflags) 
 endif
 
-ifeq ($(USE_ICONV), yes)
-  DEFINES += -DUSE_ICONV=1
-endif
 ifdef NOSIGNAL_IMAGE_FILE
   DEFINES += -DNOSIGNAL_IMAGE_FILE='"$(NOSIGNAL_IMAGE_FILE)"'
 endif
