@@ -22,5 +22,8 @@
 /* OSD height */
 #define VO_PROP_OSD_HEIGHT  0x1003
 
+/* VDR OSD , hili_rgb_clut */
+#define VDR_OSD_MAGIC       -9999
+
 
 #endif /* XINELIBOUTPUT_VO_PROPS_H_ */
