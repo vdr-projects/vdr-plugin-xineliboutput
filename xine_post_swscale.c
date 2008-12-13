@@ -1594,7 +1594,7 @@ static vo_frame_t *got_frame(vo_frame_t *frame)
        adiff < 0.1  && 
        adiff > -0.1 ) {
       this->enable = 0;
-      DBG("--> nothing to do, disabling processing for now");
+      DBG("--> nothing to do, disabling processing for now\n");
       return NULL;
     }
 
