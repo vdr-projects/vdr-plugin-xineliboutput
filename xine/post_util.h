@@ -28,8 +28,8 @@ static void  class_dispose(post_class_t *class_gen);
 
 /* required from plugin: */
 static post_plugin_t *open_plugin(post_class_t *class_gen, int inputs,
-				  xine_audio_port_t **audio_target,
-				  xine_video_port_t **video_target);
+                                  xine_audio_port_t **audio_target,
+                                  xine_video_port_t **video_target);
 
 /*
  * plugin util prototypes
@@ -54,7 +54,7 @@ static void           draw_internal(vo_frame_t *frame, vo_frame_t *new_frame);
 static void *init_plugin(xine_t *xine, void *data)
 {
   post_class_t *class = calloc(1, sizeof(post_class_t));
-  
+
   if (!class)
     return NULL;
 
