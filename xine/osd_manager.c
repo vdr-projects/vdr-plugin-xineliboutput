@@ -354,10 +354,11 @@ static int exec_osd_set_rle(osd_manager_impl_t *this, osd_command_t *cmd)
     /* RGB -> YUV */
     if(!(cmd->flags & OSDFLAG_YUV_CLUT))
       palette_argb_to_ayuv(cmd->palette, cmd->colors);
-    cmd->flags &= ~OSDFLAG_YUV_CLUT;
+    cmd->flags |= OSDFLAG_YUV_CLUT;
 
     osd->cmd.palette = malloc(sizeof(xine_clut_t)*cmd->colors);
     memcpy(osd->cmd.palette, cmd->palette, 4*cmd->colors);
+    osd->cmd.flags |= OSDFLAG_YUV_CLUT;
   }
 
   /* request OSD scaling from video_out layer */
