@@ -13,9 +13,9 @@
 
 #include <xine/video_out.h>
 
-/* 
- * synchronous video post plugins 
- * internal API 
+/*
+ * synchronous video post plugins
+ * internal API
  */
 
 
