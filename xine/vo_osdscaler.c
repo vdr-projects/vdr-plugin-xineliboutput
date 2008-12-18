@@ -240,9 +240,6 @@ static int check_for_scaling(osdscaler_hook_t *this, vo_frame_t *frame, vo_overl
     if (frame->crop_right  > 0) this->output_width  -= frame->crop_right;
   }
 
-this->output_width = this->output_width*2/3;
-this->output_height = this->output_height*2/3;
-
   /* check if scaling should be done */
   if (ABS(this->output_width  - this->osd_width)  > this->osd_width /20 ||
       ABS(this->output_height - this->osd_height) > this->osd_height/20 ) {
