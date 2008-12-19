@@ -257,6 +257,8 @@ static int write_osd_command(cxSocket& s, osd_command_t *cmd)
     return 0;
   }
 
+  cmd->size = sizeof(osd_command_t);
+
   if(8 != s.write("OSDCMD\r\n", 8, 100)) {
     LOGDBG("write_osd_command: write (command) failed");
     return -1;
