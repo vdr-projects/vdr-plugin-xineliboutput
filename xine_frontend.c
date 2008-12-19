@@ -530,7 +530,8 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
 			const char *audio_port,
 			const char *video_driver, 
 			int pes_buffers,
-			const char *static_post_plugins)
+			const char *static_post_plugins,
+			const char *config_file)
 {
   fe_t *this = (fe_t*)this_gen;
   post_plugins_t *posts = NULL;
@@ -569,7 +570,9 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
 
   free(this->configfile);
   this->configfile = NULL;
-  if(asprintf(&this->configfile, "%s%s", xine_get_homedir(), 
+  if (config_file)
+    this->configfile = strdup(config_file);
+  else if(asprintf(&this->configfile, "%s%s", xine_get_homedir(), 
 	      "/.xine/config_xineliboutput") < 0)
     return 0;
 

@@ -244,6 +244,7 @@ class config_t {
     char audio_driver[32];
     char audio_port[64];
     char *post_plugins;      // static post plugins from command line options
+    char *config_file;       // config file from command line options
     int  pes_buffers;
 
     char modeline[64];
