@@ -1189,10 +1189,10 @@ void cXinelibServer::Handle_Control_GRAB(int cli, const char *arg)
   cGrabReplyFuture *f;
   int token = -1, size = 0;
   if(2 == sscanf(arg, "%d %d", &token, &size)) {
-    if(size > 0) {
+    if(size > 0 && size < 20480000) {
       uchar *result = (uchar*)malloc(size);
       Unlock(); /* may take a while ... */
-      ssize_t n = fd_control[cli].read(result, size, 1000);
+      ssize_t n = fd_control[cli].read(result, size, 2000);
       Lock();
       if(n == size) {
 	if(NULL != (f = (cGrabReplyFuture*)m_Futures->Get(token))) {
