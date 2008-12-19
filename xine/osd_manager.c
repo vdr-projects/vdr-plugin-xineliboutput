@@ -572,7 +572,7 @@ static int exec_osd_command(osd_manager_t *this_gen,
     LOGMSG("exec_osd_command: Stream not initialized !");
     return CONTROL_DISCONNECTED;
   }
-  if (cmd->wnd < 0 || cmd->wnd >= MAX_OSD_OBJECT) {
+  if (cmd->wnd >= MAX_OSD_OBJECT) {
     LOGMSG("exec_osd_command: OSD window handle %d out of range !", cmd->wnd);
     return CONTROL_PARAM_ERROR;
   }
