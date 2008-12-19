@@ -193,7 +193,9 @@ void cXinelibOsd::CmdClose(int Wnd)
 
     if (m_Refresh)
       osdcmd.flags |= OSDFLAG_REFRESH;
-    
+    if (Prev() == NULL)
+      osdcmd.flags |= OSDFLAG_TOP_LAYER;
+
     m_Device->OsdCmd((void*)&osdcmd);
   }
 }
@@ -206,7 +208,7 @@ void cXinelibOsd::CmdFlush(void)
     osd_command_t osdcmd = {0};
 
     osdcmd.cmd = OSD_Flush;
-    
+
     m_Device->OsdCmd((void*)&osdcmd);
   }
 }
@@ -223,8 +225,9 @@ void cXinelibOsd::CmdRle(int Wnd, int X0, int Y0,
     xine_clut_t   clut[Colors];
     osd_command_t osdcmd = {0};
 
-    osdcmd.cmd = OSD_Set_RLE;
-    osdcmd.wnd = Wnd;
+    osdcmd.cmd   = OSD_Set_RLE;
+    osdcmd.wnd   = Wnd;
+    osdcmd.layer = saturate(m_Layer, 0, 0xffff);
     osdcmd.x   = X0;
     osdcmd.y   = Y0;
     osdcmd.w   = W;
@@ -241,6 +244,8 @@ void cXinelibOsd::CmdRle(int Wnd, int X0, int Y0,
       osdcmd.flags |= OSDFLAG_UNSCALED;
     if (xc.osd_blending_lowresvideo == OSD_BLENDING_HARDWARE)
       osdcmd.flags |= OSDFLAG_UNSCALED_LOWRES;
+    if (Prev() == NULL)
+      osdcmd.flags |= OSDFLAG_TOP_LAYER;
 
     prepare_palette(&clut[0], Palette, Colors, /*Top*/(Prev() == NULL), true);
 
