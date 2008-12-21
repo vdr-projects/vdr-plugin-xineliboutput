@@ -770,9 +770,9 @@ int main(int argc, char *argv[])
     fflush(stdout);
     fflush(stderr);
 
-    while (!last_signal && fe->fe_run(fe) &&
-           (FE_XINE_RUNNING == (xine_finished = fe->xine_is_finished(fe,0))))
+    while (!last_signal && fe->fe_run(fe))
       ;
+    xine_finished = fe->xine_is_finished(fe,0);
 
     fe->xine_close(fe);
     firsttry = 0;
