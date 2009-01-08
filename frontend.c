@@ -781,7 +781,7 @@ void cXinelibThread::Configure(void)
     ConfigurePostprocessing(xc.deinterlace_method, xc.audio_delay, 
 			    xc.audio_compression, xc.audio_equalizer,
 			    xc.audio_surround, xc.speaker_type);
-    ConfigureVideo(xc.hue, xc.saturation, xc.brightness, xc.contrast, xc.overscan, xc.vo_aspect_ratio);
+    ConfigureVideo(xc.hue, xc.saturation, xc.brightness, xc.sharpness, xc.noise_reduction, xc.contrast, xc.overscan, xc.vo_aspect_ratio);
     ConfigurePostprocessing("upmix",     xc.audio_upmix ? true : false, NULL);
     ConfigurePostprocessing("autocrop",  xc.autocrop  ? true : false, 
 			    xc.AutocropOptions());
@@ -870,14 +870,15 @@ int cXinelibThread::ConfigurePostprocessing(const char *name, bool on, const cha
 }
 
 int cXinelibThread::ConfigureVideo(int hue, int saturation, 
-				   int brightness, int contrast,
+				   int brightness, int sharpness,
+				   int noise_reduction, int contrast,
 				   int overscan, int vo_aspect_ratio)
 {
   char cmd[128];
   Xine_Control("OVERSCAN", overscan);
   snprintf(cmd, sizeof(cmd),
-	   "VIDEO_PROPERTIES %d %d %d %d %d", 
-	  hue, saturation, brightness, contrast, vo_aspect_ratio);
+	   "VIDEO_PROPERTIES %d %d %d %d %d %d %d", 
+	  hue, saturation, brightness, sharpness, noise_reduction, contrast, vo_aspect_ratio);
   return Xine_Control(cmd);
 }
 

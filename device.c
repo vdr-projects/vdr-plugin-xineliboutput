@@ -436,15 +436,15 @@ void cXinelibDevice::ConfigurePostprocessing(const char *name, bool on,
     m_server->ConfigurePostprocessing(name, on, args);
 }
 
-void cXinelibDevice::ConfigureVideo(int hue, int saturation, int brightness, int contrast,
-				    int overscan, int vo_aspect_ratio)
+void cXinelibDevice::ConfigureVideo(int hue, int saturation, int brightness, int sharpness,
+				    int noise_reduction, int contrast, int overscan, int vo_aspect_ratio)
 {
   TRACEF("cXinelibDevice::ConfigureVideo");
 
   if(m_local)
-    m_local->ConfigureVideo(hue, saturation, brightness, contrast, overscan, vo_aspect_ratio);
+    m_local->ConfigureVideo(hue, saturation, brightness, sharpness, noise_reduction, contrast, overscan, vo_aspect_ratio);
   if(m_server)
-    m_server->ConfigureVideo(hue, saturation, brightness, contrast, overscan, vo_aspect_ratio);
+    m_server->ConfigureVideo(hue, saturation, brightness, sharpness, noise_reduction, contrast, overscan, vo_aspect_ratio);
 }
 
 void cXinelibDevice::ConfigureDecoder(int pes_buffers)

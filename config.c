@@ -568,6 +568,8 @@ config_t::config_t() {
   saturation   = -1; 
   contrast     = -1; 
   brightness   = -1; 
+  sharpness    = -1;
+  noise_reduction = -1;
   vo_aspect_ratio = 0;
 
   live_mode_sync = 1;      // Sync SCR to transponder clock in live mode
@@ -802,6 +804,8 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "Video.Saturation"))  saturation = atoi(Value);
   else if (!strcasecmp(Name, "Video.Contrast"))    contrast = atoi(Value);
   else if (!strcasecmp(Name, "Video.Brightness"))  brightness = atoi(Value);
+  else if (!strcasecmp(Name, "Video.Sharpness"))   sharpness = atoi(Value);
+  else if (!strcasecmp(Name, "Video.NoiseReduction")) noise_reduction = atoi(Value);
   else if (!strcasecmp(Name, "Video.Overscan"))    overscan = atoi(Value);
   else if (!strcasecmp(Name, "Video.IBPTrickSpeed"))  ibp_trickspeed = atoi(Value);
   else if (!strcasecmp(Name, "Video.MaxTrickSpeed"))  max_trickspeed = atoi(Value);

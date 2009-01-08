@@ -119,7 +119,7 @@ class cXinelibThread : public cThread, public cListObject
 					int speaker_type);
     virtual int ConfigurePostprocessing(const char *name, bool on, const char *args);
     virtual int ConfigureVideo(int hue, int saturation, 
-			       int brightness, int contrast,
+			       int brightness, int sharpness, int noise_reduction, int contrast,
 			       int overscan, int vo_aspect_ratio);
     // Local frontend:
     virtual void ConfigureWindow(int fullscreen, int width, int height, 

@@ -276,6 +276,8 @@ class config_t {
     int  saturation;          // 0...0xffff, -1 == off
     int  contrast;            // 0...0xffff, -1 == off
     int  brightness;          // 0...0xffff, -1 == off
+    int  sharpness;           // 0...0xffff, -1 == off
+    int  noise_reduction;     // 0...0xffff, -1 == off
     int  vo_aspect_ratio;
 
     // OSD settings 
