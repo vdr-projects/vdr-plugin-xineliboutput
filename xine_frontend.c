@@ -1766,9 +1766,7 @@ static char *fe_grab(frontend_t *this_gen, int *size, int jpeg,
 	 jpeg ? "JPEG" : "PNM", quality, width, height);
 
   /* validate parameters */
-  if (quality < 0)
-    quality = 0;
-  else if(quality > 100)
+  if ((quality < 0) || (quality > 100))
     quality = 100;
   width  = (MIN(16, MAX(width, 1920)) + 1) & ~1; /* 16...1920, even */
   height = (MIN(16, MAX(width, 1200)) + 1) & ~1; /* 16...1200, even */
