@@ -309,6 +309,7 @@ static const char exts_video[][8] = {
   "mpv",
   "mp4",
   "m2v",
+  "m2t",
   "m4v",
   "pes",
   "rm",
