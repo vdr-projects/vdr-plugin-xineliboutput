@@ -19,8 +19,8 @@
 #include "vo_post.h"
 
 /* This module supports only video driver interface version 21 */
-#if VIDEO_OUT_DRIVER_IFACE_VERSION != 21
-#  error xine-lib VIDEO_OUT_DRIVER_IFACE_VERSION != 21
+#if (VIDEO_OUT_DRIVER_IFACE_VERSION < 21)
+#  error xine-lib VIDEO_OUT_DRIVER_IFACE_VERSION < 21
 #endif
 
 
