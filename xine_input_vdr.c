@@ -68,6 +68,7 @@
 #include "xine_osd_command.h"
 
 #include "tools/pes.h"
+#include "tools/ts.h"
 
 /***************************** DEFINES *********************************/
 
@@ -3761,8 +3762,8 @@ static int vdr_plugin_read_net_udp(vdr_input_plugin_t *this)
       }
     } else {
       /* Check for PES header */
-      if(pkt_data[0] || pkt_data[1] || pkt_data[2] != 1) {
-	LOGMSG("received invalid UDP packet (PES header 0x000001 missing)");
+      if(!DATA_IS_TS(pkt_data) && (pkt_data[0] || pkt_data[1] || pkt_data[2] != 1)) {
+	LOGMSG("received invalid UDP packet (TS sync byte or PES header missing)");
 	continue;
       }
     }
@@ -4572,12 +4573,33 @@ static buf_element_t *preprocess_buf(vdr_input_plugin_t *this, buf_element_t *bu
 }
 
 /*
+ * ts_demux()
+ *
+ * MPEG TS processing
+ */
+
+static void demux_ts(vdr_input_plugin_t *this, buf_element_t *buf)
+{
+  unsigned int ts_pid = ts_PID(buf->content);
+
+  LOGMSG("Got TS packet, pid = %d", ts_pid);
+
+  buf->free_buffer(buf);
+}
+
+/*
  * Demux some buffers not supported by mpeg_block demuxer:
+ *  - MPEG TS
  *  - H.264 video
  *  - DVB Subtitles
  */
 static buf_element_t *demux_buf(vdr_input_plugin_t *this, buf_element_t *buf)
 {
+  if (DATA_IS_TS(buf->content)) {
+    demux_ts(this, buf);
+    return NULL;
+  }
+
 #ifdef TEST_H264
   /* H.264 */
   if (IS_VIDEO_PACKET(buf->content)) {
