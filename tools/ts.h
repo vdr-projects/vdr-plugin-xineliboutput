@@ -11,6 +11,7 @@
 #ifndef _XINELIBOUTPUT_TS_H_
 #define _XINELIBOUTPUT_TS_H_
 
+/* Avoid warnings when included to VDR plugin */
 #undef TS_SYNC_BYTE
 #undef TS_SIZE
 #undef TS_PAYLOAD_EXISTS
@@ -33,11 +34,11 @@
 
 #define TS_HAS_PAYLOAD(ts)      ((ts)[3] & TS_PAYLOAD_EXISTS)
 #define TS_PAYLOAD_START(ts)    ((ts)[1] & TS_PAYLOAD_START)
-#define TS_ERROR(ts)            ((ts)[1] & TS_ERROR)
+#define TS_HAS_ERROR(ts)        ((ts)[1] & TS_ERROR)
 #define TS_PID(ts)            ((((ts)[1] & TS_PID_MASK_HI) << 8) + (ts)[2])
 #define TS_PAYLOAD_OFFSET(ts)  (((ts)[3] & TS_ADAPT_FIELD_EXISTS) ? (ts)[4] + 5 : 4)
 
-#define TS_PAYLOAD(ts)          ((ts) + TS_PAYLOAD_OFFSET(ts))
+#define TS_GET_PAYLOAD(ts)      ((ts) + TS_PAYLOAD_OFFSET(ts))
 #define TS_PAYLOAD_SIZE(ts)     (TS_SIZE - TS_PAYLOAD_OFFSET(ts))
 
 #define DATA_IS_TS(data)        ((data)[0] == TS_SYNC_BYTE)
