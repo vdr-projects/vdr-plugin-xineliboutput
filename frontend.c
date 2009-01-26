@@ -689,7 +689,8 @@ int cXinelibThread::Xine_Control(const char *cmd, const char *p1)
 }
 
 bool cXinelibThread::PlayFile(const char *FileName, int Position, 
-			      bool LoopPlay, ePlayMode PlayMode)
+			      bool LoopPlay, ePlayMode PlayMode,
+			      int TimeoutMs)
 {
   TRACEF("cXinelibThread::PlayFile");
 
@@ -738,7 +739,7 @@ bool cXinelibThread::PlayFile(const char *FileName, int Position,
     Unlock();
   }
 
-  int result = PlayFileCtrl(buf);
+  int result = PlayFileCtrl(buf, TimeoutMs);
 
   if(!FileName || result != 0) {
     Lock();

@@ -93,7 +93,8 @@ class cXinelibThread : public cThread, public cListObject
 
     // Playback files
     virtual bool PlayFile(const char *FileName, int Position, 
-			  bool LoopPlay = false, ePlayMode PlayMode = pmAudioVideo);
+			  bool LoopPlay = false, ePlayMode PlayMode = pmAudioVideo,
+			  int TimeoutMs = -1);
     virtual int  PlayFileCtrl(const char *Cmd, int TimeoutMs=-1) { return Xine_Control(Cmd); }
     virtual bool EndOfStreamReached(void);
 
