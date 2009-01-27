@@ -16,8 +16,9 @@
 #include <vdr/tools.h>
 #include "logdefs.h"
 
+//#include "tools/vdrdiscovery.c"
 
 #include "tools/pes.c"
 #include "tools/mpeg.c"
 #include "tools/h264.c"
-
+#include "tools/ts.c"
