@@ -251,10 +251,19 @@ class cXinelibDevice : public cDevice
 #if VDRVERSNUM >= 10701
     cPatPmtParser m_PatPmtParser;
 
+    /* join multiple TS packets to xineliboutput transport packet */
+    uint8_t       m_TsBuf[4096];
+    uint          m_TsBufSize;
+    void          TsBufferFlush(void) { if (m_TsBufSize) PlayAny(m_TsBuf, m_TsBufSize); };
+    void          TsBufferClear(void) { m_TsBufSize = 0; };
+
     virtual int PlayTsVideo(const uchar *Data, int Length);
     virtual int PlayTsAudio(const uchar *Data, int Length);
     virtual int PlayTsSubtitle(const uchar *Data, int Length);
     virtual int PlayTs(const uchar *Data, int Length, bool VideoOnly = false);
+#else
+    void        TsBufferClear(void) {}
+    void        TsBufferFlush(void) {}
 #endif
 };
 
