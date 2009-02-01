@@ -1266,8 +1266,10 @@ void cXinelibDevice::StillPicture(const uchar *Data, int Length)
 	      &mmin<int>, Length);
     } else if(isPes) {
       /*cDevice::*/PlayPes(Data, Length, m_SkipAudio);
+#if VDRVERSNUM >= 10701
     } else if(isTs) {
       /*cDevice::*/PlayTs(Data, Length, m_SkipAudio);
+#endif
     } else {
       ForEach(m_clients, &cXinelibThread::Play_Mpeg2_ES, 
 	      Data, Length, VIDEO_STREAM,
