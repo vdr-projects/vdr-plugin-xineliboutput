@@ -64,6 +64,7 @@ typedef enum {
   ISO_14496_PART10_VIDEO = 0x1b,  /* ISO/IEC 14496-10 Video (MPEG-4 part 10/AVC, aka H.264) */
   STREAM_VIDEO_MPEG      = 0x80,
   STREAM_AUDIO_AC3       = 0x81,
+  STREAM_DVBSUB          = 0x100
 } ts_stream_type;
 
 
