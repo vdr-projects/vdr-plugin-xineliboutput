@@ -1253,7 +1253,9 @@ void cXinelibDevice::StillPicture(const uchar *Data, int Length)
   bool isPes   = DATA_IS_PES(Data) && ((Data[3] & 0xF0) == 0xE0);
   bool isMpeg1 = isPes && ((Data[6] & 0xC0) != 0x80);
   bool isH264  = isPes && pes_is_frame_h264(Data, Length);
+#if VDRVERSNUM >= 10701
   bool isTs    = DATA_IS_TS(Data);
+#endif
 
   int i;
 
