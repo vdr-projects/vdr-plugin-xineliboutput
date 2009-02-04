@@ -861,7 +861,7 @@ int cXinelibDevice::PlayFileCtrl(const char *Cmd, int TimeoutMs)
   TRACEF("cXinelibDevice::PlayFile");
   int result = -1;
 
-  if(m_PlayingFile != pmNone) {
+  /*if(m_PlayingFile != pmNone)*/ {
     if(m_server)
       result = m_server->PlayFileCtrl(Cmd, TimeoutMs);
     if(m_local) 
