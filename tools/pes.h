@@ -52,6 +52,9 @@
 
 #define DATA_IS_PES(data) (!(data)[0] && !(data)[1] && (data)[2] == 1)
 
+#define PES_HEADER_LEN(data) (8 + (data)[8] + 1)
+
+
 /*
  * timestamps
  */
