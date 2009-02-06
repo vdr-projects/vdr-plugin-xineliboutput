@@ -5065,7 +5065,7 @@ static void demux_ts(vdr_input_plugin_t *this, buf_element_t *buf)
           if (ts_data->audio[i]) {
             buf_element_t *abuf = ts2es_put(ts_data->audio[i], buf->content);
             if (abuf)
-              demux_ts_proc_audio(this, buf, i);
+              demux_ts_proc_audio(this, abuf, i);
           }
           done = 1;
           break;
