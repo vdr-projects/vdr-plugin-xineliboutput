@@ -1974,15 +1974,13 @@ static void vdr_flush_engine(vdr_input_plugin_t *this, uint64_t discard_index)
     return;
   }
 
-  ts_data_flush(this);
-
   if(this->curpos > discard_index) {
     if(this->curpos < this->guard_index) {
       LOGMSG("vdr_flush_engine: guard > curpos, flush skipped");
       return;
     }
-    LOGMSG("vdr_flush_engine: %"PRIu64" < current position, flush skipped", 
-	   discard_index);
+    LOGMSG("vdr_flush_engine: %"PRIu64" < current position %"PRIu64", flush skipped", 
+	   discard_index, this->curpos);
     return;
   }
 
@@ -1998,6 +1996,8 @@ static void vdr_flush_engine(vdr_input_plugin_t *this, uint64_t discard_index)
     LOGERR("pthread_mutex_unlock failed !");
   suspend_demuxer(this);
   pthread_mutex_lock( &this->lock );
+
+  ts_data_flush(this);
 
   reset_scr_tuning(this, this->speed_before_pause);
 
