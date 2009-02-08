@@ -5297,6 +5297,8 @@ static buf_element_t *vdr_plugin_read_block (input_plugin_t *this_gen,
 
   TRACE("vdr_plugin_read_block");
 
+  do {
+
   /* check for disconnection/termination */
   if(!this->funcs.push_input_write /* reading from socket */ &&
      !this->control_running) {
@@ -5318,8 +5320,6 @@ static buf_element_t *vdr_plugin_read_block (input_plugin_t *this_gen,
 
   /* adjust SCR speed */
   need_pause = adjust_scr_speed(this);
-
-  do {
 
     /* get next buffer */
     buf = fifo_buffer_try_get(this->block_buffer);
