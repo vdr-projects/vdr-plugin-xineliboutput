@@ -5059,6 +5059,8 @@ static void demux_ts(vdr_input_plugin_t *this, buf_element_t *buf)
         LOGMSG("demux_ts: PMT changed");
         ts_data_ts2es_init(ts_data, this->stream->video_fifo, this->stream->audio_fifo);
 
+        this->h264 = (ts_data->pmt.video_type == ISO_14496_PART10_VIDEO) ? 1 : 0;
+
         /* Inform UI of channels changes */
         xine_event_t event;
         event.type = XINE_EVENT_UI_CHANNELS_CHANGED;
