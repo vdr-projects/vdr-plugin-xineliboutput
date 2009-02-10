@@ -4048,7 +4048,8 @@ static int vdr_plugin_read_net_udp(vdr_input_plugin_t *this)
       /* check if RTP header is valid. If not, assume UDP without RTP. */
       rtp_pkt = (stream_rtp_header_impl_t*)read_buffer->mem;
       if(rtp_pkt->rtp_hdr.raw[0] == (RTP_VERSION_BYTE | RTP_HDREXT_BIT) && 
-	 rtp_pkt->rtp_hdr.raw[1] == RTP_PAYLOAD_TYPE &&
+	 ( rtp_pkt->rtp_hdr.raw[1] == RTP_PAYLOAD_TYPE_PES ||
+           rtp_pkt->rtp_hdr.raw[1] == RTP_PAYLOAD_TYPE_TS ) &&
 	 rtp_pkt->hdr_ext.hdr.size == htons(RTP_HEADER_EXT_X_SIZE) &&
 	 rtp_pkt->hdr_ext.hdr.type == htons(RTP_HEADER_EXT_X_TYPE)) {
 
