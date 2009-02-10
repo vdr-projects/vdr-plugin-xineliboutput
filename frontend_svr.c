@@ -1434,18 +1434,20 @@ void cXinelibServer::Handle_Control_RTSP(int cli, const char *arg)
     else if(!strcmp(m_State[cli]->Name(), "DESCRIBE")) {
       cHeader *accept = m_State[cli]->Header("Accept");
       if(accept && strstr(accept->Value(), "application/sdp")) {
-	struct sockaddr_in sin;
-	socklen_t len = sizeof(sin);
-	char buf[64];
-	fd_control[cli].getsockname((struct sockaddr *)&sin, &len);
+        struct sockaddr_in sin;
+        socklen_t len = sizeof(sin);
+        char buf[64];
+        uint32_t payload_type = VDRVERSNUM > 10702 ? SDP_PAYLOAD_MPEG_TS : SDP_PAYLOAD_MPEG_PES;
+        fd_control[cli].getsockname((struct sockaddr *)&sin, &len);
 	const char *sdp_descr = vdr_sdp_description(cxSocket::ip2txt(sin.sin_addr.s_addr, 
-								     sin.sin_port, buf),
-						    2001,
-						    xc.listen_port,
-						    xc.remote_rtp_addr,
-						    /*m_ssrc*/0x4df73452,
-						    xc.remote_rtp_port,
-						    xc.remote_rtp_ttl);
+                                                                     sin.sin_port, buf),
+                                                    2001,
+                                                    xc.listen_port,
+                                                    xc.remote_rtp_addr,
+                                                    payload_type,
+                                                    /*m_ssrc*/0x4df73452,
+                                                    xc.remote_rtp_port,
+                                                    xc.remote_rtp_ttl);
 	size_t sdplen = sdp_descr ? strlen(sdp_descr) : 0;
 	RTSPOUT(RTSP_200_OK
 		"Content-Type: application/sdp\r\n"
