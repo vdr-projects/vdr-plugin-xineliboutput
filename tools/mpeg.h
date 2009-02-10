@@ -28,7 +28,7 @@ extern "C" {
 
 typedef struct {
   int num;
-  int den;  
+  int den;
 } mpeg_rational_t;
 
 typedef struct {
