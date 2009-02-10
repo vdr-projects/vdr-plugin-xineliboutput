@@ -14,7 +14,7 @@
 #include <stdint.h>
 
 #include "../xine_input_vdr_net.h" // frame headers
-
+#include "ts.h"
 
 #define UDP_BUFFER_SIZE 0x100   // 2^n
 #define UDP_BUFFER_MASK 0xff    // 2^n - 1
@@ -109,7 +109,14 @@ class cUdpBackLog
 
       // RTP header
       header->rtp_hdr.raw[0] = RTP_VERSION_BYTE | RTP_HDREXT_BIT;
-      header->rtp_hdr.raw[1] = RTP_PAYLOAD_TYPE;
+#if VDRVERSNUM >= 10701
+      if (DATA_IS_TS(Data))
+        header->rtp_hdr.raw[1] = RTP_PAYLOAD_TYPE_TS;
+      else
+        header->rtp_hdr.raw[1] = RTP_PAYLOAD_TYPE_PES;
+#else
+      header->rtp_hdr.raw[1] = RTP_PAYLOAD_TYPE_PES;
+#endif
       header->rtp_hdr.seq  = htons(m_RtpSeqNo & 0xFFFF);
       /*header->rtp_hdr.ts   = htonl((uint32_t)(RtpScr.Now() & 0xffffffff));*/
       /*header->rtp_hdr.ssrc = htonl(m_ssrc);*/

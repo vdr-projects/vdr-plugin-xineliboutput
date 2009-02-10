@@ -146,13 +146,15 @@ typedef struct stream_rtp_header_impl {
 } PACKED stream_rtp_header_impl_t;
 
 
-#define RTP_VERSION         2
-#define RTP_MARKER_BIT      0x80
-#define RTP_HDREXT_BIT      0x10
-#define RTP_PAYLOAD_TYPE    96     /* application */
+#define RTP_VERSION           2
+#define RTP_MARKER_BIT        0x80
+#define RTP_HDREXT_BIT        0x10
+#define RTP_PAYLOAD_TYPE_PES  96     /* application */
+#define RTP_PAYLOAD_TYPE_TS   33     /* MPEG-TS */
 
-#define RTP_VERSION_BYTE    (RTP_VERSION<<6)
-#define RTP_PAYLOAD_TYPE_M  (RTP_PAYLOAD_TYPE|RTP_MARKER_BIT)
+#define RTP_VERSION_BYTE        (RTP_VERSION<<6)
+#define RTP_PAYLOAD_TYPE_PES_M  (RTP_PAYLOAD_TYPE_PES|RTP_MARKER_BIT)
+#define RTP_PAYLOAD_TYPE_TS_M   (RTP_PAYLOAD_TYPE_TS |RTP_MARKER_BIT)
 
 #define RTP_HEADER_EXT_X_SIZE  3      /* dwords, not counting stream_rtp_header_ext_t */
 #define RTP_HEADER_EXT_X_TYPE  0x54d3 
