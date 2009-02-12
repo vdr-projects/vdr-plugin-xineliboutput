@@ -142,8 +142,10 @@ class cID3Scanner : public cThread
   {
     cPlaylistItem *Item = NULL;
     unsigned int Version = 0;
-
-    (void)nice(10);
+    const int priority = 10;
+    errno = 0;
+    if((nice(priority) == -1) && errno)
+      LOGDBG("ID3Scanner: Can't nice to value: %d", priority);
 
     LOGDBG("ID3Scanner Started");
     while(Running()) {
