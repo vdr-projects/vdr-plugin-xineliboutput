@@ -90,7 +90,7 @@ int ts_parse_pat(pat_data_t *pat, const uint8_t *pkt)
     return 0;
   }
 
-  if (pkt - original_pkt > TS_SIZE-4 - 1 - 3 - section_length) {
+  if (pkt - original_pkt > TS_SIZE - 4 - 1 - 3 - (int)section_length) {
     LOGMSG("parse_pat: unsupported PAT does not fit to single TS packet");
     return 0;
   }
