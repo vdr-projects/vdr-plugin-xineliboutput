@@ -309,7 +309,8 @@ static void set_above(sxfe_t *this, int stay_above)
       if(strstr(name, " (top)"))
 	*strstr(name, " (top)") = 0;
       if(stay_above)
-	asprintf(&newname, "%s (top)", name);
+	if (asprintf(&newname, "%s (top)", name) < 0)
+          newname = NULL;
       XStoreName(this->display, this->window[0], newname ?: name);
       XStoreName(this->display, this->window[1], newname ?: name);
       XFree(name);
