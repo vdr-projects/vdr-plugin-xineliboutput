@@ -1477,6 +1477,9 @@ uchar *cXinelibDevice::GrabImage(int &Size, bool Jpeg,
 {
   TRACEF("cXinelibDevice::GrabImage");
 
+  if (Quality < 0)
+    Quality = 100;
+
   if(m_local)
     return m_local->GrabImage(Size, Jpeg, Quality, SizeX, SizeY);
   if(m_server)
