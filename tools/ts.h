@@ -11,6 +11,8 @@
 #ifndef _XINELIBOUTPUT_TS_H_
 #define _XINELIBOUTPUT_TS_H_
 
+#include "mpeg.h"
+
 /* Avoid warnings when included to VDR plugin */
 #undef TS_SYNC_BYTE
 #undef TS_SIZE
