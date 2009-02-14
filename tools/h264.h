@@ -35,8 +35,8 @@ extern "C" {
 
 
 typedef struct {
-  int width;
-  int height;
+  uint16_t        width;
+  uint16_t        height;
   mpeg_rational_t pixel_aspect;
   /* ... */
 } h264_sps_data_t;

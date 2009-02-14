@@ -32,8 +32,8 @@ typedef struct {
 } mpeg_rational_t;
 
 typedef struct {
-  int width;
-  int height;
+  uint16_t        width;
+  uint16_t        height;
   mpeg_rational_t pixel_aspect;
 } video_size_t;
 
