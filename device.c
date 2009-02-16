@@ -32,6 +32,7 @@
 #include "osd.h"
 
 #include "tools/listiter.h"
+#include "tools/mpeg.h"
 #include "tools/pes.h"
 #include "tools/ts.h"
 #include "tools/functor.h"
