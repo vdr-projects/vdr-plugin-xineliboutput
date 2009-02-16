@@ -12,7 +12,7 @@
 #define _XINELIBOUTPUT_TS_H_
 
 #ifdef __cplusplus
-} /* extern "C" { */
+extern "C" {
 #endif
 
 
