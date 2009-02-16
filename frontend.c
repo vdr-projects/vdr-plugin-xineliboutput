@@ -35,6 +35,7 @@
 #include "device.h"
 
 #include "tools/pes.h"
+#include "tools/mpeg.h"
 #include "tools/h264.h"
 #include "tools/general_remote.h"
 #include "tools/iso639.h"
