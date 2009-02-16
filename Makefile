@@ -214,7 +214,10 @@ OBJS_FBFE_SO = xine_fbfe_frontend.o $(OBJS_FE_SO)
 OBJS_FBFE    = xine_fbfe_frontend.o $(OBJS_FE)
 
 # xine plugins
-OBJS_XINEINPUTVDR = xine_input_vdr.o xine/adjustable_scr.o xine/osd_manager.o tools/rle.o xine/demux_xvdr.o
+OBJS_XINEINPUTVDR = xine_input_vdr.o xine/demux_xvdr.o \
+                    xine/adjustable_scr.o xine/osd_manager.o \
+                    tools/rle.o \
+                    tools/ts.o tools/pes.o tools/mpeg.o tools/h264.o
 
 OBJS_XINE = $(OBJS_XINEINPUTVDR) xine_post_autocrop.o xine_post_swscale.o xine_post_audiochannel.o
 
