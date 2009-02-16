@@ -67,6 +67,8 @@
 #include "xine_input_vdr_net.h"
 #include "xine_osd_command.h"
 
+#include "tools/mpeg.h"
+#include "tools/h264.h"
 #include "tools/pes.h"
 #include "tools/ts.h"
 
@@ -220,13 +222,6 @@ static void SetupLogLevel(void)
 #ifdef DEBUG_LOCKING
 # include "tools/debug_mutex.h"
 #endif
-
-/************************************************************************/
-
-#include "tools/pes.c"
-#include "tools/mpeg.c"
-#include "tools/h264.c"
-#include "tools/ts.c"
 
 /******************************* DATA ***********************************/
 
