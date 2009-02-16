@@ -26,17 +26,16 @@ extern "C" {
 #define P_FRAME     2
 #define B_FRAME     3
 
-typedef struct {
+typedef struct mpeg_rational_s {
   int num;
   int den;
 } mpeg_rational_t;
 
-typedef struct {
+typedef struct video_size_s {
   uint16_t        width;
   uint16_t        height;
   mpeg_rational_t pixel_aspect;
 } video_size_t;
-
 
 extern const char * const picture_type_str[];
 

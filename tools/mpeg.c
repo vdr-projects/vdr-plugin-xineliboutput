@@ -8,6 +8,9 @@
  *
  */
 
+#include <inttypes.h>
+#include <string.h>
+
 #include "mpeg.h"
 
 

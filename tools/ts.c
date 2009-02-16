@@ -8,10 +8,13 @@
  *
  */
 
-#ifndef LOGDBG
-# include "../logdefs.h"
-#endif
+#include <inttypes.h>
+#include <stdlib.h>
+#include <string.h>
 
+#include "../logdefs.h"
+
+#include "mpeg.h"
 #include "ts.h"
 #include "pes.h"
 

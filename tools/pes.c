@@ -8,6 +8,11 @@
  *
  */
 
+#include <inttypes.h>
+#include <string.h>
+
+#include "../logdefs.h"
+
 #include "mpeg.h"
 #include "h264.h"
 

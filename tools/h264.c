@@ -8,11 +8,10 @@
  *
  */
 
+#include <stdint.h>
+#include <string.h>
 
-#ifndef LOGDBG
-# include <vdr/tools.h>
-# include "../logdefs.h"
-#endif
+#include "../logdefs.h"
 
 #define NOCACHE 1
 #include "bitstream.h"

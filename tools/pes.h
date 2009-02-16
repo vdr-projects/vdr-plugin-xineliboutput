@@ -11,7 +11,9 @@
 #ifndef _XINELIBOUTPUT_PES_H_
 #define _XINELIBOUTPUT_PES_H_
 
-#include "mpeg.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /*
@@ -70,9 +72,11 @@ int     pes_strip_pts_dts(uint8_t *buf, int len);
  * payload
  */
 
+struct video_size_s;
+
 int     pes_is_frame_h264(const uint8_t *buf, int len);
 uint8_t pes_get_picture_type(const uint8_t *buf, int len);
-int     pes_get_video_size(const uint8_t *buf, int len, video_size_t *size, int h264);
+int     pes_get_video_size(const uint8_t *buf, int len, struct video_size_s *size, int h264);
 
 static inline int pes_is_mpeg1(const uint8_t *header)
 {
@@ -104,5 +108,9 @@ static inline int pes_packet_len(const uint8_t *data, const int len)
   return -(6 + (data[4] << 8 | data[5]));
 }
 
+
+#ifdef __cplusplus
+} /* extern "C" { */
+#endif
 
 #endif /* _XINELIBOUTPUT_PES_H_ */
