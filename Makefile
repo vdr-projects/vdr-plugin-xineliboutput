@@ -213,8 +213,7 @@ OBJS_SXFE    = xine_sxfe_frontend.o $(OBJS_FE)
 OBJS_FBFE_SO = xine_fbfe_frontend.o $(OBJS_FE_SO)
 OBJS_FBFE    = xine_fbfe_frontend.o $(OBJS_FE)
 
-
-ifeq ($(HAVE_DBUS_GLIB_1), yes)
+ifneq ($(HAVE_DBUS_GLIB_1), no)
 OBJS_SXFE    += tools/gnome_screensaver.o
 OBJS_SXFE_SO += tools/gnome_screensaver.o
 endif
