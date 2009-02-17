@@ -25,7 +25,7 @@ CFLAGS=""
 #
 
 toupper(){
-  echo "$@" | tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  echo "$@" | tr abcdefghijklmnopqrstuvwxyz- ABCDEFGHIJKLMNOPQRSTUVWXYZ_
 }
 
 die(){
