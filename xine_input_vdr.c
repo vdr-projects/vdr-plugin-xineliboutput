@@ -1610,7 +1610,7 @@ static void queue_blank_yv12(vdr_input_plugin_t *this)
     int         width  = _x_stream_info_get(this->stream, XINE_STREAM_INFO_VIDEO_WIDTH);
     int         height = _x_stream_info_get(this->stream, XINE_STREAM_INFO_VIDEO_HEIGHT);
 
-    if (width >= 360 && height >= 288 && width <= 1920 && height <= 1024) {
+    if (width >= 360 && height >= 288 && width <= 1920 && height <= 1200) {
       this->class->xine->port_ticket->acquire(this->class->xine->port_ticket, 1);
       img = this->stream->video_out->get_frame (this->stream->video_out,
 						width, height,
