@@ -63,7 +63,8 @@ struct frontend_s {
   /* Display */
   int (*fe_display_open)(frontend_t*, int winwidth, int winheight,
                          int fullscreen, int hud, int modeswitch, const char *modeline,
-                         int aspect, fe_keypress_f keypresshandler, int gui_hotkeys,
+                         int aspect, fe_keypress_f keypresshandler,
+                         int no_x_kbd, int gui_hotkeys,
                          const char *video_port,
                          int scale_video, int field_order,
                          const char *aspect_controller, int window_id);
