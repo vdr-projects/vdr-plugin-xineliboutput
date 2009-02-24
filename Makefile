@@ -221,7 +221,7 @@ endif
 # xine plugins
 OBJS_XINEINPUTVDR = xine_input_vdr.o xine/demux_xvdr.o \
                     xine/adjustable_scr.o xine/osd_manager.o \
-                    xine/ts2es.o \
+                    xine/ts2es.o xine/demux_xvdr_tsdata.o \
                     tools/rle.o \
                     tools/ts.o tools/pes.o tools/mpeg.o tools/h264.o
 
