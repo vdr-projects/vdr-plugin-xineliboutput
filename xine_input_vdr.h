@@ -41,7 +41,7 @@ typedef struct vdr_input_plugin_funcs_s {
   struct frontend_s *fe_handle;
 
   /* frontend --> input plugin (remote mode) */
-  int  (*input_control)     (struct vdr_input_plugin_if_s *, const char *, const char *, int, int);
+  int  (*post_vdr_event)    (struct vdr_input_plugin_if_s *, const char *);
 } vdr_input_plugin_funcs_t;
 
 typedef struct vdr_input_plugin_if_s {
