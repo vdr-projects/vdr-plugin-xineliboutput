@@ -249,6 +249,8 @@ void cXinelibOsd::CmdRle(int Wnd, int X0, int Y0,
 
     prepare_palette(&clut[0], Palette, Colors, /*Top*/(Prev() == NULL), true);
 
+    if (xc.osd_blending_lowresvideo == OSD_BLENDING_HARDWARE)
+      osdcmd.flags |= OSDFLAG_UNSCALED_LOWRES;
     osdcmd.num_rle = rle_compress(&osdcmd.data, Data, W, H);
     osdcmd.datalen = 4 * osdcmd.num_rle;
 
