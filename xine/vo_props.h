@@ -25,5 +25,12 @@
 /* VDR OSD , hili_rgb_clut */
 #define VDR_OSD_MAGIC       -9999
 
+typedef struct {
+  /* extent of reference coordinate system */
+  uint16_t extent_width;
+  uint16_t extent_height;
+  /* overlay layer */
+  uint32_t layer;
+} vdr_osd_extradata_t;
 
 #endif /* XINELIBOUTPUT_VO_PROPS_H_ */
