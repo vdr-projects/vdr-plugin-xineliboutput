@@ -294,10 +294,16 @@ static int exec_osd_close(osd_manager_impl_t *this, osd_command_t *cmd)
   osd_data_t              *osd         = &this->osd[cmd->wnd];
   int                      handle      = osd->handle;
 
+  if (cmd->flags & OSDFLAG_REFRESH) {
+    LOGDBG("Ignoring OSD_Close(OSDFLAG_REFRESH)");
+    return CONTROL_OK;
+  }
+
   if (handle < 0) {
     LOGMSG("OSD_Close(%d): non-existing OSD !", cmd->wnd);
     return CONTROL_PARAM_ERROR;
   }
+
   if (!ovl_manager)
     return CONTROL_PARAM_ERROR;
 
