@@ -356,7 +356,7 @@ void cXinelibServer::OsdCmd(void *cmd_gen)
 #endif
 
     for(i = 0; i < MAXCLIENTS; i++) {
-      if(fd_control[i].open()) {
+      if(fd_control[i].open() && m_bConfigOk[i]) {
 	int r = write_osd_command(fd_control[i], &cmdnet);
 	if(r < 0) {
 	  LOGMSG("Send OSD command failed, closing connection");
