@@ -249,8 +249,6 @@ static int exec_osd_size(osd_manager_impl_t *this, osd_command_t *cmd)
   xine_video_port_t *video_out = this->stream->video_out;
   this->vo_scaling = 0;
   if (video_out->get_capabilities(video_out) & VO_CAP_OSDSCALING) {
-    video_out->set_property(video_out, VO_PROP_OSD_WIDTH,  cmd->w);
-    video_out->set_property(video_out, VO_PROP_OSD_HEIGHT, cmd->h);
     this->vo_scaling = 1;
   }
 
@@ -443,9 +441,12 @@ static int exec_osd_set_rle(osd_manager_impl_t *this, osd_command_t *cmd)
   extra_data->extent_width  = osd->extent_width;
   extra_data->extent_height = osd->extent_height;
   extra_data->layer         = cmd->layer;
+  extra_data->scaling       = cmd->scaling;
 #ifdef VO_CAP_CUSTOM_EXTENT_OVERLAY
-  ov_overlay.extent_width   = osd->extent_width;
-  ov_overlay.extent_height  = osd->extent_height;
+  if (cmd->scaling) {
+    ov_overlay.extent_width   = osd->extent_width;
+    ov_overlay.extent_height  = osd->extent_height;
+  }
 #endif
 
   /* if no scaling was required, we may still need to re-center OSD */
