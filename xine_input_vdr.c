@@ -3552,14 +3552,15 @@ static int vdr_plugin_read_net_tcp(vdr_input_plugin_t *this)
   }
 
   if (read_buffer) {
-    if (read_buffer->size && this->control_running && result == XIO_TIMEOUT && (++retries < 10)) {
+    int cnt = read_buffer->size;
+    if (cnt && this->control_running && result == XIO_TIMEOUT && (++retries < 10)) {
       LOGMSG("TCP: Warning: long delay (>500ms) !");
       goto retry;
     }
 
     read_buffer->free_buffer(read_buffer);
     read_buffer = NULL;
-    if (this->fd_data >= 0 && result == XIO_TIMEOUT) {
+    if (cnt && this->fd_data >= 0 && result == XIO_TIMEOUT) {
       LOGMSG("TCP: Delay too long, disconnecting");
       this->control_running = 0;
       return XIO_ERROR;
