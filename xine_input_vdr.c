@@ -3559,7 +3559,7 @@ static int vdr_plugin_read_net_tcp(vdr_input_plugin_t *this)
 
     read_buffer->free_buffer(read_buffer);
     read_buffer = NULL;
-    if (read_buffer->size && this->fd_data >= 0 && result == XIO_TIMEOUT) {
+    if (this->fd_data >= 0 && result == XIO_TIMEOUT) {
       LOGMSG("TCP: Delay too long, disconnecting");
       this->control_running = 0;
       return XIO_ERROR;
