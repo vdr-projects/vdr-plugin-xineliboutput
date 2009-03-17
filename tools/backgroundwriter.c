@@ -288,10 +288,11 @@ int cTcpWriter::Put(const uchar *Header, int HeaderCount,
 //
 
 #include "pes.h"
+#include "ts.h"
 
 cRawWriter::cRawWriter(int fd, int Size) :
      cBackgroundWriterI(fd, Size, 6)
-{ 
+{
   LOGDBG("cRawWriter initialized (buffer %d kb)", Size/1024);
   Start();
 }
@@ -333,7 +334,11 @@ void cRawWriter::Action(void)
 	if(GetPos == NextHeaderPos) {
 	  if(Count < 6)
 	    LOGMSG("cBackgroundWriter @NextHeaderPos: Count < header size !");
+#if VDRVERSNUM >= 10701
+	  int packlen = DATA_IS_TS(Data) ? TS_SIZE : pes_packet_len(Data, Count);
+#else
 	  int packlen = pes_packet_len(Data, Count);
+#endif
 	  if(Count < packlen)
 	    ;//LOGMSG("Count = %d < %d", Count, 
 	     //   header->len + sizeof(stream_tcp_header_t));
