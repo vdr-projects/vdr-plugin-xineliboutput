@@ -17,6 +17,7 @@
 #include <netinet/tcp.h> // CORK, NODELAY
 
 #include <vdr/tools.h>
+#include <vdr/config.h>  // VDRVERSNUM
 
 #include "../logdefs.h"
 #include "../xine_input_vdr_net.h" // stream_tcp_header_t

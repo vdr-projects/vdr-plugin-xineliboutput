@@ -13,6 +13,8 @@
 
 #include <stdint.h>
 
+#include <vdr/config.h>  // VDRVERSNUM
+
 #include "../xine_input_vdr_net.h" // frame headers
 #include "ts.h"
 
