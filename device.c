@@ -1135,7 +1135,7 @@ int cXinelibDevice::PlayTs(const uchar *Data, int Length, bool VideoOnly)
 #endif
         LOGMSG("Got PAT: PMT pid = %d", m_PatPmtParser.PmtPid());
         if (m_server)
-          m_Server->SetHeader(Data, Length, true);
+          m_server->SetHeader(Data, Length, true);
         PlayAny(Data, Length);
       } else if (Pid == m_PatPmtParser.PmtPid()) {
 #if VDRVERSNUM >= 10704
@@ -1146,7 +1146,7 @@ int cXinelibDevice::PlayTs(const uchar *Data, int Length, bool VideoOnly)
         m_h264 = (m_PatPmtParser.Vtype() == 0x1b); /* ISO_14496_PART10_VIDEO */
         LOGMSG("Got PMT packet, h264 = %d", m_h264?1:0);
         if (m_server)
-          m_Server->SetHeader(Data, Length);
+          m_server->SetHeader(Data, Length);
         PlayAny(Data, Length);
         TsBufferFlush();
       }
