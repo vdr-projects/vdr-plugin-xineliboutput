@@ -950,10 +950,8 @@ void cMenuSetupOSD::Set(void)
       new cMenuEditStraI18nItem(tr("Scaling method"), &newconfig.osd_scaling,
 	                        OSD_SCALING_count, xc.s_osdScalings));
 
-# if 0
-  Add(new cMenuEditStraI18nItem(tr("Show all layers"), &newconfig.osd_mixer, 
-			OSD_MIXER_count, xc.s_osdMixers));
-# endif
+  Add(new cMenuEditStraI18nItem(tr("Show all layers"), &newconfig.osd_mixer,
+                                OSD_MIXER_count, xc.s_osdMixers));
 
   Add(ctrl_alpha =
       new cMenuEditTypedIntItem(tr("Dynamic transparency correction"), "%", 
