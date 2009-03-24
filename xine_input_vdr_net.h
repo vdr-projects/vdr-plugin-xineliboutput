@@ -116,12 +116,12 @@ typedef struct stream_rtp_header_ext_x {
     union {
 
       struct {
-	uint8_t             padding0[2]; /* must be padded to full DWORDs */
+	uint16_t            padding0; /* must be padded to full DWORDs */
 	stream_udp_header_t udphdr;
       } PACKED;
 
       struct {
-	uint8_t  padding1[2];  /* must be padded to full DWORDs */
+	uint16_t padding1;  /* must be padded to full DWORDs */
 
 	uint64_t pos;
 	uint16_t seq;
