@@ -67,7 +67,7 @@ static inline void prepare_palette(xine_clut_t *clut, const unsigned int *palett
     if(!top) {
       if(xc.osd_mixer & OSD_MIXER_ALPHA)
 	for(c=0; c<colors; c++)
-	  clut[c].alpha = (clut[c].alpha >> 1) | 0x80;
+	  clut[c].alpha >>= 1; /* fade */
       if(xc.osd_mixer & OSD_MIXER_GRAY)
 	for(c=0; c<colors; c++) {
 	  if(rgb)
