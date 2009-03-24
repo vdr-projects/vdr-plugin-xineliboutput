@@ -1005,6 +1005,9 @@ void cXinelibServer::Handle_Control_PIPE(int cli, const char *arg)
 
   CREATE_NEW_WRITER;
 
+  if (m_Header)
+    m_Writer[cli]->Put(0, m_Header, m_HeaderLength);
+
   fd_data[cli] = fd;
 }
 
