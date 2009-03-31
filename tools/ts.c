@@ -12,7 +12,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../logdefs.h"
+#ifndef LOG_MODULENAME
+#  define LOG_MODULENAME "[mpeg-ts  ] "
+#  define SysLogLevel    iSysLogLevel
+#  include "../logdefs.h"
+#endif
 
 #include "mpeg.h"
 #include "ts.h"

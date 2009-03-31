@@ -11,7 +11,11 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "../logdefs.h"
+#ifndef LOG_MODULENAME
+#  define LOG_MODULENAME "[h264     ] "
+#  define SysLogLevel    iSysLogLevel
+#  include "../logdefs.h"
+#endif
 
 #define NOCACHE 1
 #include "bitstream.h"
