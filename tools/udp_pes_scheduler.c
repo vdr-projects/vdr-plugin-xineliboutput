@@ -891,7 +891,7 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
 	   ((stream_udp_header_t *)udp_ctrl)->seq);
 
     int Seq0 = Seq1;
-    for(; Seq1 <= Seq2; Seq1++) {
+    for(; Seq1 < Seq2; Seq1++) {
       stream_rtp_header_impl_t *frame = m_BackLog->Get(Seq1+1);
       if(frame && (ntohull(frame->hdr_ext.pos) - Pos < 100000))
 	break;
