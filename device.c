@@ -1123,6 +1123,8 @@ int cXinelibDevice::PlayAny(const uchar *buf, int length)
  */
 int cXinelibDevice::PlayTs(const uchar *Data, int Length, bool VideoOnly)
 {
+  if (Length > TS_SIZE) Length = TS_SIZE;
+
   if (Length == TS_SIZE && TsHasPayload(Data)) {
     int PayloadOffset = TsPayloadOffset(Data);
     if (PayloadOffset < Length) {
