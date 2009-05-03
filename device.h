@@ -120,6 +120,7 @@ class cXinelibDevice : public cDevice
 
   protected:
     virtual void SetAudioTrackDevice(eTrackType Type);
+  public:
     virtual void SetSubtitleTrackDevice(eTrackType Type);
 
   // Audio facilities
