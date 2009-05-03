@@ -132,8 +132,8 @@ int cXinelibLocal::Play_PES(const uchar *data, int len)
 	Lock();
 	m_StreamPos += done;
 	Unlock();
-	return done;
       }
+      return done;
     }
   }
 
