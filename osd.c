@@ -13,8 +13,8 @@
 #include <vdr/thread.h>
 
 #include "logdefs.h"
-#include "device.h"
 #include "config.h"
+#include "device.h"
 #include "xine_osd_command.h"
 #include "tools/rle.h"
 

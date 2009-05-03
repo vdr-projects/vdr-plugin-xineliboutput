@@ -15,11 +15,11 @@
 #include <vdr/remote.h>
 #include <vdr/i18n.h>
 
-#include "setup_menu.h"
+#include "config.h"
 #include "device.h"
 #include "menuitems.h"
-#include "config.h"
 #include "osd.h"       // cXinelibOsdProvider::RefreshOsd()
+#include "setup_menu.h"
 
 
 namespace XinelibOutputSetupMenu {
