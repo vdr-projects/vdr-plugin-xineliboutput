@@ -1504,6 +1504,14 @@ eVideoSystem cXinelibDevice::GetVideoSystem(void)
   return cDevice::GetVideoSystem();
 }
 
+#if VDRVERSNUM >= 10707
+void cXinelibDevice::GetVideoSize(int &Width, int &Height, eVideoAspect &Aspect)
+{
+  Width  = 720;
+  Height = 576;
+  Aspect = va4_3;
+}
+#endif
 
 //
 // SPU decoder
