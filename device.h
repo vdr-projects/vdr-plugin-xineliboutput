@@ -112,6 +112,9 @@ class cXinelibDevice : public cDevice
     virtual void SetVideoDisplayFormat(eVideoDisplayFormat VideoDisplayFormat);
     virtual void SetVideoFormat(bool VideoFormat16_9);
     virtual eVideoSystem GetVideoSystem(void);
+#if VDRVERSNUM >= 10707
+    virtual void GetVideoSize(int &Width, int &Height, eVideoAspect &Aspect);
+#endif
 
   // Track facilities
 
