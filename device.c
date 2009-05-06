@@ -1143,7 +1143,6 @@ int cXinelibDevice::PlayTs(const uchar *Data, int Length, bool VideoOnly)
     }
   } else if (!Data) {
     TsBufferFlush();
-    m_PatPmtParser.Reset();
   }
 
   return cDevice::PlayTs(Data, Length, VideoOnly);
