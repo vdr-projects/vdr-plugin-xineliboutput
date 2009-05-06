@@ -245,8 +245,10 @@ class cXinelibDevice : public cDevice
     /* join multiple TS packets to xineliboutput transport packet */
     uint8_t       m_TsBuf[4096];
     uint          m_TsBufSize;
-    void          TsBufferFlush(void) { if (m_TsBufSize) PlayAny(NULL, 0); };
+    int           TsBufferFlush(void);
     void          TsBufferClear(void) { m_TsBufSize = 0; };
+
+    int           PlayTsAny(const uchar *Data, int Length);
 
     virtual int PlayTsVideo(const uchar *Data, int Length);
     virtual int PlayTsAudio(const uchar *Data, int Length);
