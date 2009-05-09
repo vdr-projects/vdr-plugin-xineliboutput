@@ -150,7 +150,7 @@ int wire_video_driver(xine_video_port_t *video_port, vo_driver_t *hook)
     return 0;
   }
 
-  LOGMSG("wire_video_driver: vo_driver == vos_driver");
+  /*LOGMSG("wire_video_driver: vo_driver == vos_driver");*/
 
   /* wire */
 
