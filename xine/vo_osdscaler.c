@@ -237,10 +237,18 @@ static int check_for_scaling(osdscaler_hook_t *this, vo_frame_t *frame, vo_overl
   if (!data->scaling)
     return 0;
 
+#if 0
   if (this->custom_extent_supported) {
     /* let the "real" video driver do scaling */
     return 0;
   }
+#else
+# ifdef VO_CAP_CUSTOM_EXTENT_OVERLAY
+  /* disable VDPAU HW scaler */
+  overlay->extent_width   = 0;
+  overlay->extent_height  = 0;
+# endif
+#endif
 
   /* detect output size */
   if (overlay->unscaled && this->unscaled_supported) {
