@@ -910,6 +910,9 @@ bool cXinelibDevice::PlayFile(const char *FileName, int Position,
 
 int cXinelibDevice::PlayTrickSpeed(const uchar *buf, int length) 
 {
+#if VDRVERSNUM >= 10705
+  return 0;
+#endif
   if(abs(m_TrickSpeed) > 1 && (m_TrickSpeedMode & trs_I_frames)) {
     uint8_t PictureType = pes_get_picture_type(buf, length);
 #ifdef LOG_TRICKSPEED
