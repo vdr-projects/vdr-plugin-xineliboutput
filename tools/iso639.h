@@ -160,7 +160,7 @@ static const char *iso639_2_to_iso639_1(const char *lang)
   if (lang && lang[0]) {
     if (lang[1] && !lang[2]) {
       for (unsigned int i = 0 ; i < sizeof(ISO639_map) / sizeof(ISO639_map[0]); i++)
-	if (((uint16_t*)ISO639_map[i].iso639_1)[0] == ((uint16_t*)lang)[0])
+	if (!memcmp(ISO639_map[i].iso639_1, lang, 2))
 	  return ISO639_map[i].iso639_2;
       LOGMSG("Unknown iso639-2 code: %s", lang);
     }
@@ -174,8 +174,7 @@ static const char *iso639_1_to_iso639_2(const char *lang)
   if (lang && lang[0]) {
     if (lang[1] && lang[2] && !lang[3]) {
       for (unsigned int i = 0 ; i < sizeof(ISO639_map) / sizeof(ISO639_map[0]); i++)
-	if (((uint16_t*)ISO639_map[i].iso639_2)[0] == ((uint16_t*)lang)[0] &&
-	    ((uint8_t *)ISO639_map[i].iso639_2)[2] == ((uint8_t *)lang)[2])
+	if (!memcmp(ISO639_map[i].iso639_2, lang, 3))
 	  return ISO639_map[i].iso639_1;
       LOGMSG("Unknown iso639-1 code: %s", lang);
     }
