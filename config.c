@@ -708,7 +708,7 @@ bool config_t::ProcessArgs(int argc, char *argv[])
 
 bool config_t::SetupParse(const char *Name, const char *Value)
 {
-  char *pt;
+  const char *pt;
   if(*m_ProcessedArgs && NULL != (pt=strstr(m_ProcessedArgs+1, Name)) &&
      *(pt-1) == ' ' && *(pt+strlen(Name)) == ' ') {
     LOGDBG("Skipping configuration entry %s=%s (overridden in command line)", Name, Value);
