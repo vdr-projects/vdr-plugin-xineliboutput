@@ -702,7 +702,7 @@ int main(int argc, char *argv[])
   }
 
   /* Initialize display */
-  if (!fe->fe_display_open(fe, width, height, fullscreen, hud, 0,
+  if (!fe->fe_display_open(fe, 0, 0, width, height, fullscreen, hud, 0,
                            "", aspect, NULL, noxkbd, gui_hotkeys,
                            video_port, scale_video, 0,
                            aspect_controller, window_id)) {
