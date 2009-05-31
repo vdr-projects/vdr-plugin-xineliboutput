@@ -397,6 +397,7 @@ class config_t {
     bool IsAudioFile(const char *);
     bool IsVideoFile(const char *);
     bool IsPlaylistFile(const char *);
+    bool IsDvdImage(const char *);
 
     cString AutocropOptions(void);
     cString SwScaleOptions(void);

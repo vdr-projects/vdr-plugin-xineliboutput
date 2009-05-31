@@ -396,6 +396,12 @@ bool config_t::IsImageFile(const char *fname)
   return ext && (ext_is_image(ext) || ext_is_playlist(ext));
 }
 
+bool config_t::IsDvdImage(const char *fname)
+{
+  const char *ext = get_extension(fname);
+  return (ext && !strcasecmp(ext, ".iso")) ? true : false;
+}
+
 cString config_t::AutocropOptions(void)
 {
   if (!autocrop)
