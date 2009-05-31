@@ -1219,6 +1219,7 @@ static int sxfe_display_open(frontend_t *this_gen,
 
   /* Map current window */
   XMapRaised (this->display, this->window[this->fullscreen ? 1 : 0]);
+  XMoveWindow(this->display, this->window[0], this->x.xpos, this->x.ypos);
 
   /* determine display aspect ratio */
   this->x.display_ratio = detect_display_ratio(this->display, this->screen);
