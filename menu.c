@@ -94,7 +94,7 @@ static char *ParentDir(const char *dir)
 
 static char *LastDir(const char *dir)
 {
-  char *pt = strrchr(dir, '/');
+  const char *pt = strrchr(dir, '/');
   if(pt && pt[0] && pt[1])
     return strdup(pt+1);
   return NULL;
