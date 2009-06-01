@@ -8,6 +8,8 @@
  *
  */
 
+#define __STDC_CONSTANT_MACROS
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -165,17 +167,18 @@ int64_t cXinelibLocal::GetSTC()
 {
   TRACEF("cXinelibLocal::GetSTC");
 
-  int64_t pts = -1;
-  char buf[32] = {0};
-  strcpy(buf, "GETSTC\r\n");
+  union {
+    char    buf[32];
+    int64_t pts;
+  } u = {"GETSTC\r\n"};
 
   LOCK_FE;
-  if(fe && m_bReady)
-    if(0 == fe->xine_control(fe, (char*)buf))
-      //if(*((int64_t *)buf) < MAX_SCR)
-      //  if(*((int64_t *)buf) >= 0LL)
-	  pts = *((int64_t *)buf);
-  return pts;
+
+  if (fe && m_bReady)
+    if (0 == fe->xine_control(fe, u.buf))
+      return u.pts;
+
+  return INT64_C(-1);
 }
 
 //
