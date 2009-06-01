@@ -1398,11 +1398,12 @@ void cXinelibServer::Handle_Control_HTTP(int cli, const char *arg)
       }
 
       if( *m_FileName && m_bPlayingFile) {
-	char *pos = strstr(m_FileName, "#subtitle:");
-	if(pos) *pos = 0;
-	bool Allow = ( !strcmp_escaped(m_FileName, m_State[cli]->Uri() + 9)
+        cString file = m_FileName;
+	const char *pos = strstr(m_FileName, "#subtitle:");
+	if(pos)
+          file.Truncate(pos - m_FileName);
+	bool Allow = ( !strcmp_escaped(file, m_State[cli]->Uri() + 9)
 		       || (pos && !strcmp_escaped(pos + 10, m_State[cli]->Uri() + 9)));
-	if(pos) *pos = '#';
 	if(Allow) {
 	  LOGMSG("HTTP streaming media file");
 
