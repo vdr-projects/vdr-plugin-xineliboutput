@@ -228,9 +228,10 @@ void cXinelibPlayer::Activate(bool On)
     // (those may contain #subtitle, #volnorm etc. directives)
     cString mrl;
     if(*m_SubFile)
-      mrl = cString::sprintf("%s%s#subtitle:%s",
+      mrl = cString::sprintf("%s%s#subtitle:%s%s",
 			     m_File[0] == '/' ? "file:" : "",
 			     *cPlaylist::EscapeMrl(m_File), 
+			     m_SubFile[0] == '/' ? "file:" : "",
 			     *cPlaylist::EscapeMrl(m_SubFile));
     else if((*m_File)[0] == '/')
       mrl = cString::sprintf("%s%s",
