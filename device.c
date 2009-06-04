@@ -580,6 +580,10 @@ void cXinelibDevice::SetTvMode(cChannel *Channel)
   TRACEF("cXinelibDevice::SetTvMode");
   TRACK_TIME(250);
 
+#if VDRVERSNUM >= 10701
+  m_PatPmtParser.Reset();
+#endif
+
   m_RadioStream = false;
   if (Channel && !Channel->Vpid() && (Channel->Apid(0) || Channel->Apid(1)))
     m_RadioStream = true;
