@@ -622,9 +622,9 @@ bool cXinelibThread::LogoDisplay(void)
 
   if(Setup.FileName()) {
     cString SetupPath = Setup.FileName();
-    char *end = strrchr(SetupPath, '/');
+    const char *end = strrchr(SetupPath, '/');
     if(end) {
-      *end = 0;
+      SetupPath.Truncate(end - (const char *)SetupPath);
       fd = open(Path=cString::sprintf("%s/plugins/xineliboutput/logo.mpv", *SetupPath), O_RDONLY);
     }
   }
