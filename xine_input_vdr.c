@@ -3478,7 +3478,7 @@ static int vdr_plugin_parse_control(input_plugin_t *this_gen, const char *cmd)
 
   LOGCMD("vdr_plugin_parse_control: %s", cmd); 
 
-  if( *((uint32_t*)cmd) == *((uint32_t*)str_poll) ||
+  if( !memcmp(cmd, str_poll, 4) ||
       !strncasecmp(cmd, "POLL ", 5)) {
     tmp32 = atoi(cmd+5);
     if(tmp32 >= 0 && tmp32 < 1000) {
