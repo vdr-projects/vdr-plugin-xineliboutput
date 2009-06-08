@@ -324,6 +324,8 @@ void cXinelibDevice::MakePrimaryDevice(bool On)
 {
   TRACEF("cXinelibDevice::MakePrimaryDevice");
 
+  cDevice::MakePrimaryDevice(On);
+
   if(On)
     new cXinelibOsdProvider(this);
 }
