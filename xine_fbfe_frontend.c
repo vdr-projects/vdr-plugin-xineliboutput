@@ -135,7 +135,9 @@ static void fbfe_update_display_size(frontend_t *this_gen)
 /*
  * fbfe_display_open
  */
-static int fbfe_display_open(frontend_t *this_gen, int width, int height, int fullscreen, int hud,
+static int fbfe_display_open(frontend_t *this_gen,
+                             int xpos, int ypos,
+                             int width, int height, int fullscreen, int hud,
 			     int modeswitch, const char *modeline, int aspect,
 			     fe_keypress_f keyfunc, const char *video_port,
 			     int scale_video, int field_order) 
@@ -156,8 +158,8 @@ static int fbfe_display_open(frontend_t *this_gen, int width, int height, int fu
   LOGDBG("fbfe_display_open(width=%d, height=%d, fullscreen=%d, display=%s)",
 	 width, height, fullscreen, video_port);
 
-  this->xpos            = 0;
-  this->ypos            = 0;
+  this->xpos            = xpos;
+  this->ypos            = ypos;
   this->width           = width;
   this->height          = height;
   this->fullscreen      = fullscreen;
