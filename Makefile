@@ -269,7 +269,7 @@ ifeq ($(HAVE_XINERAMA), 1)
     DEFINES += -DHAVE_XINERAMA=1
 endif
 ifeq ($(HAVE_EXTRACTOR_H), 1)
-    DEFINES  += -DHAVE_EXTRACTOR_H=1
+    DEFINES  += -DHAVE_LIBEXTRACTOR=1
     INCLUDES += $(shell pkg-config libextractor --cflags-only-I)
     LIBS_VDR += $(shell pkg-config libextractor --libs-only-L)
     LIBS_VDR += $(shell pkg-config libextractor --libs-only-l)
