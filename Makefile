@@ -254,6 +254,9 @@ ifeq ($(HAVE_XRENDER), 1)
 # need -lm for ceil/floor in HUD OSD
     LIBS_X11  += -lXrender -lm
 endif
+ifeq ($(HAVE_XINERAMA), 1)
+    LIBS_X11  += -lXinerama
+endif
 
 ifeq ($(APPLE_DARWIN), 1)
     INCLUDES  += -I/sw/include
