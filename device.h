@@ -20,6 +20,8 @@ class cXinelibThread;
 class cChannel;
 class cFunctor;
 
+struct video_size_s;
+
 typedef enum {
   miTitle        = 0,
   miTracknumber  = 1,
@@ -112,9 +114,12 @@ class cXinelibDevice : public cDevice
     virtual void SetVideoDisplayFormat(eVideoDisplayFormat VideoDisplayFormat);
     virtual void SetVideoFormat(bool VideoFormat16_9);
     virtual eVideoSystem GetVideoSystem(void);
-#if VDRVERSNUM >= 10707
-    virtual void GetVideoSize(int &Width, int &Height, eVideoAspect &Aspect);
+
+    struct video_size_s *m_VideoSize;
+#if VDRVERSNUM >= 10708
+    virtual void GetVideoSize(int &Width, int &Height, double &VideoAspect);
 #endif
+    virtual void GetOsdSize(int &Width, int &Height, double &PixelAspect);
 
   // Track facilities
 
