@@ -8,6 +8,9 @@
  *
  */
 
+/*#define LOG_PCR*/
+/*#define LOG_PMT*/
+
 #include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,8 +25,16 @@
 #include "ts.h"
 #include "pes.h"
 
-#ifndef LOGPMT
+#ifdef LOG_PMT
 #  define LOGPMT LOGMSG
+#else
+#  define LOGPMT(x...)
+#endif
+
+#ifdef LOG_PCR
+#  define LOGPCR LOGMSG
+#else
+#  define LOGPCR(x...)
 #endif
 
 
