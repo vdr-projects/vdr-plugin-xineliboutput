@@ -46,6 +46,10 @@ extern "C" {
 #define ts_GET_PAYLOAD(ts)      ((ts) + ts_PAYLOAD_OFFSET(ts))
 #define ts_PAYLOAD_SIZE(ts)     (TS_SIZE - ts_PAYLOAD_OFFSET(ts))
 
+#define ts_ADAPT_FIELD_EXISTS(ts)  ((ts)[3] & TS_ADAPT_FIELD_EXISTS)
+#define ts_ADAPT_FIELD_LENGTH(ts)  (ts_ADAPT_FIELD_EXISTS(ts) ? (ts)[4] : 0)
+
+
 #define DATA_IS_TS(data)        ((data)[0] == TS_SYNC_BYTE)
 
 
@@ -149,6 +153,7 @@ int64_t ts_get_pts(ts_state_t *ts, const uint8_t *data);
 int     ts_get_picture_type(ts_state_t *ts, const uint8_t *data, int h264);
 int     ts_get_video_size(ts_state_t *ts, const uint8_t *data, struct video_size_s *size, int h264);
 
+int64_t ts_get_pcr(const uint8_t *data);
 
 #ifdef __cplusplus
 } /* extern "C" { */
