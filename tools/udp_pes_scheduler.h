@@ -95,7 +95,6 @@ class cUdpScheduler : public cThread
     int  calc_elapsed_vtime(int64_t pts, bool Audio);
     void Schedule(const uchar *Data, int Length);
 
-    bool m_Running;
     virtual void Action(void);
 
     void Send_RTCP(void);
