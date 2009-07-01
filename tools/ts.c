@@ -483,17 +483,17 @@ int ts_parse_pmt (pmt_data_t *pmt, uint program_no, const uint8_t *pkt)
 int64_t ts_get_pcr(const uint8_t *pkt)
 {
   if (!ts_ADAPT_FIELD_EXISTS(pkt)) {
-    return INT64_C(-1);
+    return NO_PTS;
   }
 
   if (ts_HAS_ERROR(pkt)) {
     LOGMSG("ts_get_pcr: transport error");
-    return INT64_C(-1);
+    return NO_PTS;
   }
 
   /* pcr flag ? */
   if (! (pkt[5] & 0x10))
-    return INT64_C(-1);
+    return NO_PTS;
 
   int64_t pcr;
   uint    epcr;
@@ -642,7 +642,7 @@ static int ts_get_pes(ts_state_t *ts, const uint8_t *data)
 
 int64_t ts_get_pts(ts_state_t *ts, const uint8_t *data)
 {
-  int64_t pts = INT64_C(-1);
+  int64_t pts = NO_PTS;
   int     cnt = ts_get_pes(ts, data);
 
   if (cnt > 14) {

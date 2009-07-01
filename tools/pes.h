@@ -24,6 +24,8 @@ extern "C" {
 
 #define MAX_SCR ((int64_t)0x1ffffffffLL)
 
+#define NO_PTS  (INT64_C(-1))
+
 /* PES PIDs */
 #define PRIVATE_STREAM1   0xBD
 #define PADDING_STREAM    0xBE
