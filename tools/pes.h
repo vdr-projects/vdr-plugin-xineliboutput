@@ -64,6 +64,8 @@ extern "C" {
  * timestamps
  */
 
+static inline int     pts_to_ms(int64_t pts) { return (int)(pts/INT64_C(90)); }
+static inline int64_t ms_to_pts(int ms)      { return ((int64_t)(ms)) * INT64_C(90); }
 
 int64_t pes_get_pts(const uint8_t *buf, int len);
 int64_t pes_get_dts(const uint8_t *buf, int len);
