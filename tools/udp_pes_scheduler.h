@@ -81,6 +81,9 @@ class cUdpScheduler : public cThread
     int64_t      m_CurrentAudioVtime;
     int64_t      m_CurrentVideoVtime;
 
+    uint         m_BurstBytes;   /* number of bytes sent without sleeps */
+    uint         m_BurstFrames;  /* number of frames sent without sleeps */
+
     cCondWait    m_CondWait;
 
     int          CalcElapsedVtime(int64_t pts, bool Audio);
