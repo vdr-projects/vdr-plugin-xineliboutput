@@ -360,7 +360,7 @@ int cUdpScheduler::Poll(int TimeoutMs, bool Master)
       m_Cond.TimedWait(m_Lock, 5);
   }
 
-  return limit < m_QueuePending ? limit - m_QueuePending : 0;
+  return limit > m_QueuePending ? limit - m_QueuePending : 0;
 }
 
 bool cUdpScheduler::Flush(int TimeoutMs)
