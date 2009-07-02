@@ -1108,6 +1108,12 @@ void cXinelibServer::Handle_Control_RTP(int cli, const char *arg)
 
   m_bMulticast[cli] = true;
   m_iMulticastMask |= (1<<cli);
+
+  // Send padding packet before header (PAT/PMT).
+  // Client uses first received UDP/RTP packet to test connection.
+  m_Scheduler->QueuePadding();
+  if (m_Header)
+    m_Scheduler->Queue(0, m_Header, m_HeaderLength);
 }
 
 void cXinelibServer::Handle_Control_UDP(int cli, const char *arg)
@@ -1140,6 +1146,12 @@ void cXinelibServer::Handle_Control_UDP(int cli, const char *arg)
   m_bUdp[cli] = true;
   fd_data[cli] = fd;
   m_Scheduler->AddHandle(fd);
+
+  // Send padding packet before header (PAT/PMT).
+  // Client uses first received UDP/RTP packet to test connection.
+  m_Scheduler->QueuePadding();
+  if (m_Header)
+    m_Scheduler->Queue(0, m_Header, m_HeaderLength);
 }
 
 void cXinelibServer::Handle_Control_KEY(int cli, const char *arg)
