@@ -137,6 +137,12 @@ typedef struct {
  */
 int ts_parse_pmt(pmt_data_t *pmt, uint program_no, const uint8_t *ts_data);
 
+/*
+ * PCR
+ */
+
+int64_t ts_get_pcr(const uint8_t *data);
+int     ts_get_pcr_n(const uint8_t *pkt, int npkt, int64_t *pcr);
 
 /*
  * TS->ES, simple ES parsers
@@ -153,7 +159,6 @@ int64_t ts_get_pts(ts_state_t *ts, const uint8_t *data);
 int     ts_get_picture_type(ts_state_t *ts, const uint8_t *data, int h264);
 int     ts_get_video_size(ts_state_t *ts, const uint8_t *data, struct video_size_s *size, int h264);
 
-int64_t ts_get_pcr(const uint8_t *data);
 
 #ifdef __cplusplus
 } /* extern "C" { */
