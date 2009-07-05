@@ -4284,6 +4284,14 @@ static buf_element_t *vdr_plugin_read_block (input_plugin_t *this_gen,
 
   TRACE("vdr_plugin_read_block");
 
+  if (this->slave_stream) {
+    xine_usec_sleep(50*1000);
+    if (this->slave_stream) {
+      errno = EAGAIN;
+      return NULL;
+    }
+  }
+
   do {
 
     /* check for disconnection/termination */
