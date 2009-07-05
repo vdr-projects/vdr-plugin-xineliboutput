@@ -4492,8 +4492,10 @@ static void vdr_plugin_dispose (input_plugin_t *this_gen)
   }
 
   /* OSD */
-  this->osd_manager->dispose(this->osd_manager, this->stream);
-  this->osd_manager = NULL;
+  if (this->osd_manager) {
+    this->osd_manager->dispose(this->osd_manager, this->stream);
+    this->osd_manager = NULL;
+  }
 
   /* restore video properties */
   if(this->video_properties_saved)
