@@ -4429,7 +4429,7 @@ static buf_element_t *vdr_plugin_read_block (input_plugin_t *this_gen,
 
     /* Return immediately if demux_action_pending flag is set */
     if (this->stream->demux_action_pending) {
-      errno = EAGAIN;
+      errno = EINTR;
       return NULL;
     }
 
@@ -4460,7 +4460,7 @@ static buf_element_t *vdr_plugin_read_block (input_plugin_t *this_gen,
       } else {
 	this->read_timeouts = 0;
       }
-      errno = EAGAIN;
+      errno = this->stream->demux_action_pending ? EINTR : EAGAIN;
       return NULL;
     }
     this->read_timeouts = 0;
@@ -4578,9 +4578,10 @@ static void vdr_plugin_dispose (input_plugin_t *this_gen)
 
   /* event queue(s) and listener threads */
   LOGDBG("Disposing event queues");
-  if (this->event_queue) 
+  if (this->event_queue) {
     xine_event_dispose_queue (this->event_queue);
-  this->event_queue = NULL;
+    this->event_queue = NULL;
+  }
 
   pthread_cond_broadcast(&this->engine_flushed);
   while(pthread_cond_destroy(&this->engine_flushed) == EBUSY) {
