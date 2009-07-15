@@ -1154,6 +1154,15 @@ static void flush_all_fifos (vdr_input_plugin_t *this, int full)
     this->read_buffer = NULL;
   }
 
+  if (this->udp_data) {
+    int i;
+    for (i = 0; i <= UDP_SEQ_MASK; i++)
+      if (this->udp_data->queue[i]) {
+        this->udp_data->queue[i]->free_buffer(this->udp_data->queue[i]);
+        this->udp_data->queue[i] = NULL;
+      }
+  }
+
   if (full) {
     if (this->stream && this->stream->audio_fifo)
       this->stream->audio_fifo->clear(this->stream->audio_fifo);
