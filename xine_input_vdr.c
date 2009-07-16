@@ -3563,7 +3563,7 @@ static buf_element_t *vdr_plugin_read_block_tcp(vdr_input_plugin_t *this)
   if (read_buffer && read_buffer->size >= sizeof(stream_tcp_header_t))
     todo = read_buffer->size + ((stream_tcp_header_t *)read_buffer->content)->len;
 
-  while (XIO_READY == (result = io_select_rd(this->fd_data))) {
+  while (XIO_READY == (result = _x_io_select(this->stream, this->fd_data, XIO_READ_READY, 100))) {
 
     pthread_testcancel();
     if (!this->control_running || this->fd_data < 0) {
@@ -3656,7 +3656,7 @@ static int vdr_plugin_read_net_tcp(vdr_input_plugin_t *this)
     this->block_buffer->put(this->block_buffer, buf);
     return XIO_READY;
   }
-  if (errno == EAGAIN)
+  if (errno == EAGAIN || errno == EINTR)
     return XIO_TIMEOUT;
   return XIO_ERROR;
 }
