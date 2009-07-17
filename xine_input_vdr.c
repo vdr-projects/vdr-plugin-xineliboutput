@@ -3924,7 +3924,17 @@ static void udp_process_queue(vdr_input_plugin_t *this)
   }
 
   /*
-   * flush continous part of queue to demuxer queue
+   * flush all packets when idle padding found
+   */
+
+  if (udp->is_padding && udp->queued > 0)
+    while (!udp->queue[udp->next_seq]) {
+      INCSEQ(udp->next_seq);
+      udp->missed_frames++;
+    }
+
+  /*
+   * return next packet if available
    */
 
   while (udp->queued > 0 && udp->queue[udp->next_seq]) {
@@ -3938,8 +3948,16 @@ static void udp_process_queue(vdr_input_plugin_t *this)
     udp->queue[udp->next_seq] = NULL;
     udp->queued --;
     INCSEQ(udp->next_seq);
+
     if (udp->resend_requested)
       udp->resend_requested --;
+
+    /* flush all packets when idle padding found */
+    if (udp->is_padding && udp->queued > 0)
+      while (!udp->queue[udp->next_seq]) {
+        INCSEQ(udp->next_seq);
+        udp->missed_frames++;
+      }
   }
 }
 
