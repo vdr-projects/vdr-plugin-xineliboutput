@@ -105,7 +105,8 @@ bool cBackgroundWriterI::Flush(int TimeoutMs)
       cCondWait::SleepMs(3);
   }
 
-  if(m_IsSocket && m_RingBuffer.Available() <= 0) {
+  int Available = m_RingBuffer.Available();
+  if(m_IsSocket && Available <= 0) {
     // flush corked data too
 #if defined(TCP_CORK)
     int i = 1;
@@ -122,8 +123,8 @@ bool cBackgroundWriterI::Flush(int TimeoutMs)
     }
 #endif
   }
-  
-  return m_RingBuffer.Available() <= 0;
+
+  return Available <= 0;
 }
 
 
