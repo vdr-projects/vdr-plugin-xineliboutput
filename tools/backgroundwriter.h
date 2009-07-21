@@ -37,6 +37,7 @@ class cBackgroundWriterI : public cThread
 
   protected:
     virtual void Action(void) = 0;
+    void Cork(void);
 
   public:
     cBackgroundWriterI(int fd, int Size = KILOBYTE(512), int Margin = 0);
