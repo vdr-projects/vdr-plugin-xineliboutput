@@ -1405,7 +1405,7 @@ static void sxfe_interrupt(frontend_t *this_gen)
  */
 static void XKeyEvent_handler(sxfe_t *this, XKeyEvent *kev)
 {
-  if(kev->keycode) {
+  if(kev->keycode && kev->type == KeyPress) {
     KeySym         ks;
     char           buffer[20];
     XComposeStatus status;
