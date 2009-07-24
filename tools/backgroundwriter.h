@@ -25,7 +25,6 @@ class cBackgroundWriterI : public cThread
   protected:
     cRingBufferLinear m_RingBuffer;
 
-    volatile bool m_Active;
     int      m_fd;
     bool     m_IsSocket;
 
