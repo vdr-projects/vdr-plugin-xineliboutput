@@ -147,6 +147,7 @@ class cXinelibThread : public cThread, public cListObject
     int  m_Volume;
     cString  m_FileName;
     uint64_t m_StreamPos;
+    uint64_t m_LastClearPos;
     uint32_t m_Frames;
 
     cStatus *m_StatusMonitor;

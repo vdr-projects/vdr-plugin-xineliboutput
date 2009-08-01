@@ -228,7 +228,6 @@ class cXinelibDevice : public cDevice
     bool m_SkipAudio;
     bool m_StreamStart;
     int  m_FreeBufs;
-    bool m_Cleared;
     bool m_h264;
 
     int PlayAny(const uchar *Data, int Length);
