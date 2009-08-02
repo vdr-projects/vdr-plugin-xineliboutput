@@ -398,6 +398,7 @@ class config_t {
     bool IsVideoFile(const char *);
     bool IsPlaylistFile(const char *);
     bool IsDvdFolder(const char *);
+    bool IsBluRayFolder(const char *);
     bool IsDvdImage(const char *);
 
     cString AutocropOptions(void);

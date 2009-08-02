@@ -429,6 +429,37 @@ bool config_t::IsDvdFolder(const char *fname)
   return false;
 }
 
+bool config_t::IsBluRayFolder(const char *fname)
+{
+  struct stat st;
+  cString buf, folder;
+
+  buf = cString::sprintf("%s/BDMV/", fname);
+  if (stat(buf, &st) == 0) {
+    folder = buf;
+  } else {
+    buf = cString::sprintf("%s/bdmv/", fname);
+    if (stat(buf, &st) == 0)
+      folder = buf;
+    else
+      return false;
+  }
+
+  buf = cString::sprintf("%s/MovieObject.bdmv", *folder);
+  if (stat(buf, &st) == 0)
+    return true;
+
+  buf = cString::sprintf("%s/movieobject.bdmv", *folder);
+  if (stat(buf, &st) == 0)
+    return true;
+
+  buf = cString::sprintf("%s/MOVIEOBJECT.BDMV", *folder);
+  if (stat(buf, &st) == 0)
+    return true;
+
+  return false;
+}
+
 cString config_t::AutocropOptions(void)
 {
   if (!autocrop)
