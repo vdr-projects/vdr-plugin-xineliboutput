@@ -97,6 +97,7 @@ class cFileListItem : public cOsdItem
     bool IsDir(void)       { return m_IsDir; }
     bool IsDvd(void)       { return m_IsDvd; }
     bool IsBluRay(void)    { return m_IsBluRay; }
+    bool HasResume(void)   { return m_HasResume; }
 
     virtual bool operator< (const cListObject &ListObject);
     virtual int Compare(const cListObject &ListObject) const;
