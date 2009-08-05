@@ -31,14 +31,16 @@
 #include "../config.h"             // configuration data
 #include "../xine_input_vdr_net.h" // frame headers and constants
 
+#include "ts.h"
 #include "pes.h"
 #include "udp_buffer.h"
-#include "udp_pes_scheduler.h"
 #include "time_pts.h"
 #include "cxsocket.h"
 #include "sap.h"  // SAP  - Session Announcement Protocol
 #include "sdp.h"  // SDP  - Session Description Protocol
 #include "rtcp.h" // RTCP
+
+#include "udp_pes_scheduler.h"
 
 
 #ifdef LOG_RESEND
