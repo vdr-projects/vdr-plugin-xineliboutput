@@ -394,7 +394,7 @@ void cXinelibServer::SetHeader(const uchar *Data, int Length, bool Reset)
     }
   }
 
-  if (m_Header) {
+  if (m_Header && Data) {
     memcpy(m_Header + m_HeaderLength, Data, Length);
     m_HeaderLength += Length;
   }
