@@ -175,6 +175,8 @@ void cXinelibServer::Clear(void)
 
   LOCK_THREAD;
 
+  SetHeader(NULL, 0, true);
+
   for(int i = 0; i < MAXCLIENTS; i++)
     if(fd_control[i].open() && m_Writer[i])
       m_Writer[i]->Clear();
