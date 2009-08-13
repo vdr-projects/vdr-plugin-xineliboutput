@@ -81,6 +81,13 @@ ifeq ($(shell gcc -dumpmachine | grep -q 'apple-darwin' && echo "1" || echo "0")
     APPLE_DARWIN = 1
 endif
 
+# check for libexractor
+ifeq ($(shell pkg-config libextractor && echo "1"), 1)
+    HAVE_EXTRACTOR_H = 1
+else
+    $(warning libextractor not found.)
+endif
+
 #
 # Override configuration here or in ../../../Make.config
 #
@@ -171,11 +178,6 @@ else
         APIVERSION = $(VDRVERSION)
     endif
     XINELIBOUTPUT_VDRPLUGIN = 1
-    ifeq ($(shell pkg-config libextractor && echo "1"), 1)
-        HAVE_EXTRACTOR_H = 1
-    else
-        $(warning libextractor not found.)
-    endif
 endif
 
 
