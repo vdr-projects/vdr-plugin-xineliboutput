@@ -55,6 +55,9 @@ static void list_plugins(xine_t *xine, int verbose)
   }
 }
 
+volatile int   last_signal = 0;
+int            gui_hotkeys = 0;
+
 /* static data */
 pthread_t kbd_thread;
 struct termios tm, saved_tm;
@@ -383,9 +386,7 @@ int main(int argc, char *argv[])
   int scale_video = 1, aspect = 1;
   int daemon_mode = 0, nokbd = 0, noxkbd = 0, slave_mode = 0;
   char *video_port = NULL;
-#ifndef IS_FBFE
   int window_id = -1;
-#endif
   int xmajor, xminor, xsub;
   int err, c;
   frontend_t *fe = NULL;
@@ -625,14 +626,12 @@ int main(int argc, char *argv[])
     fprintf(stderr, "Error initializing frontend\n");
     return -3;
   }
-#ifndef IS_FBFE
-  ((fe_t*)fe)->window_id = window_id;
-#endif
-  ((fe_t*)fe)->aspect_controller = aspect_controller;
 
   /* Initialize display */
-  if(!fe->fe_display_open(fe, xpos, ypos, width, height, fullscreen, hud, 0,
-			  "", aspect, NULL, noxkbd, video_port, scale_video, 0)) {
+  if (!fe->fe_display_open(fe, xpos, ypos, width, height, fullscreen, hud, 0,
+                           "", aspect, NULL, noxkbd, gui_hotkeys,
+                           video_port, scale_video, 0,
+                           aspect_controller, window_id)) {
     fprintf(stderr, "Error opening display\n");
     fe->fe_free(fe);
     return -4;
