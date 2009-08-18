@@ -34,9 +34,6 @@ class cXinelibServer : public cXinelibThread
     cXinelibServer(int listen_port);
     virtual ~cXinelibServer();
 
-    // Thread control
-    virtual void    Stop(void);
-
   protected:
     virtual void    Action(void);
 
