@@ -34,7 +34,6 @@ class cXinelibThread : public cThread, public cListObject
 
   public:
     bool IsReady(void);
-    bool IsFinished(void);
 
   //
   // Playback control
@@ -130,7 +129,6 @@ class cXinelibThread : public cThread, public cListObject
 
   protected:
     bool m_bReady;
-    bool m_bIsFinished;
     bool m_bNoVideo;
     bool m_bLiveMode;
     bool m_bEndOfStreamReached;

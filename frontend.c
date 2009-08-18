@@ -249,12 +249,6 @@ bool cXinelibThread::IsReady(void)
   return m_bReady;
 }
 
-bool cXinelibThread::IsFinished(void)
-{
-  LOCK_THREAD;
-  return m_bIsFinished;
-}
-
 //
 // Playback control
 //
