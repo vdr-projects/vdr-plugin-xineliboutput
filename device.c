@@ -303,15 +303,11 @@ void cXinelibDevice::StopDevice(void)
   if(local)  m_clients.Del(local,  false);
   if(server) m_clients.Del(server, false);
 
-  if(server) {
-    server->Stop();
+  if(server)
     delete server;
-  }
-  if(local) {
-    local->Stop();
+  if(local)
     delete local;
-  }
- 
+
   m_clients.Clear();
 }
 
@@ -478,8 +474,6 @@ void cXinelibDevice::ConfigureWindow(int fullscreen, int width, int height,
     m_clients.Del(tmp, false);
     m_local = NULL;
     cCondWait::SleepMs(5);
-    tmp->Stop();
-    cCondWait::SleepMs(5);
     delete tmp;
     if(xc.force_primary_device)
       ForcePrimaryDevice(false);
@@ -540,8 +534,6 @@ void cXinelibDevice::Listen(bool activate, int port)
     cXinelibThread *tmp = m_server;
     m_clients.Del(tmp, false);
     m_server = NULL;
-    cCondWait::SleepMs(5);
-    tmp->Stop();
     cCondWait::SleepMs(5);
     delete tmp;
   }
