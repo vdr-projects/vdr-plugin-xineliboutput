@@ -146,7 +146,7 @@ int ts_parse_pat(pat_data_t *pat, const uint8_t *pkt)
     pat->program_number[program_count] = program_number;
     pat->pmt_pid[program_count] = pmt_pid;
 
-    LOGDBG("PAT acquired count=%d programNumber=0x%04x pmtPid=0x%04x",
+    LOGPMT("PAT acquired count=%d programNumber=0x%04x pmtPid=0x%04x",
            program_count,
            pat->program_number[program_count],
            pat->pmt_pid[program_count]);
