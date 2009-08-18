@@ -1847,6 +1847,5 @@ void cXinelibServer::Action(void)
     } /* while running */
 
   m_bReady = false;
-  m_bIsFinished = true;
   Unlock();
 }

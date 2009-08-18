@@ -457,7 +457,6 @@ void cXinelibLocal::Action(void)
     curr_fe->fe_free(curr_fe);
   }
 
-  m_bIsFinished = true;
   LOGMSG("cXinelibLocal::Action: thread finished");
 }
 

@@ -218,7 +218,6 @@ cXinelibThread::cXinelibThread(const char *Description) : cThread(Description)
 
   m_Volume = 255;
   m_bReady = false;
-  m_bIsFinished = false;
   m_bNoVideo = true;
   m_bLiveMode = true; /* can't be replaying when there is no output device */
   m_StreamPos = 0;
