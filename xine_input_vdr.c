@@ -1277,7 +1277,8 @@ static buf_element_t *get_buf_element(vdr_input_plugin_t *this, int size, int fo
 
   /* HD buffer */
   if (this->hd_stream && size <= HD_BUF_ELEM_SIZE) {
-    buf = this->hd_buffer->buffer_pool_try_alloc(this->hd_buffer);
+    if (this->hd_buffer->buffer_pool_num_free > 2)
+      buf = this->hd_buffer->buffer_pool_try_alloc(this->hd_buffer);
     if (!force && !buf)
       return NULL;
   }
