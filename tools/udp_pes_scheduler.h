@@ -76,11 +76,12 @@ class cUdpScheduler : public cThread
     // Scheduling
 
     typedef enum {
-      eScrDetect,
-      eScrFromAudio,
-      /*eScrFromPS1,*/
-      eScrFromVideo,
-      eScrFromPcr
+      /* from worst to best */
+      eScrDetect     = 0,
+      eScrFromVideo  = 1,
+      eScrFromPS1    = 2,
+      eScrFromAudio  = 3,
+      eScrFromPcr    = 4,
     } ScrSource_t;
 
     cTimePts     m_MasterClock;   /* Current MPEG PTS (synchronized to current stream) */
