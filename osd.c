@@ -364,6 +364,16 @@ eOsdError cXinelibOsd::SetAreas(const tArea *Areas, int NumAreas)
     return oeTooManyAreas;
   }
 
+#if VDRVERSNUM >= 10708
+
+  double Aspect;
+  int    W, H;
+  m_Device->GetOsdSize(W, H, Aspect);
+  m_ExtentWidth  = W;
+  m_ExtentHeight = H;
+
+#else
+
   // Detect full OSD area size
   if(Left() + Width() > 720 || Top() + Height() > 576) {
     m_ExtentWidth  = Setup.OSDWidth  + 2 * Setup.OSDLeft;
@@ -375,6 +385,9 @@ eOsdError cXinelibOsd::SetAreas(const tArea *Areas, int NumAreas)
     m_ExtentWidth  = 720;
     m_ExtentHeight = 576;
   }
+
+#endif
+
   CmdSize(m_ExtentWidth, m_ExtentHeight);
 
   return Result;
