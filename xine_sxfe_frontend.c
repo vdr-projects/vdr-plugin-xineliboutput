@@ -1451,6 +1451,12 @@ static void XConfigureEvent_handler(sxfe_t *this, XConfigureEvent *cev)
     hud_osd_resize(this, cev->window, cev->width, cev->height);
 #endif
 
+  if (this->x.width != cev->width || this->x.height != cev->height) {
+    char str[128];
+    snprintf(str, sizeof(str), "INFO WINDOW %dx%d", this->x.width, this->x.height);
+    this->x.fe.send_event((frontend_t*)this, str);
+  }
+
   /* update video window size */
   this->x.width  = cev->width;
   this->x.height = cev->height;
