@@ -1099,6 +1099,10 @@ static int fe_xine_play(frontend_t *this_gen)
   if(this->playback_finished)
     LOGMSG("Error playing " MRL_ID ":// !");
 
+  char str[128];
+  snprintf(str, sizeof(str), "INFO WINDOW %dx%d", this->width, this->height);
+  this->fe.send_event(&this->fe, str);
+
   return !this->playback_finished;
 }
 
