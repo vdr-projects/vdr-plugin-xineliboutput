@@ -113,6 +113,9 @@ const char cmdLineHelp[] =
 "  -V NAME   --video=NAME   Use video driver NAME for local frontend\n"
 "                           Supported values:\n"
 "                           for sxfe: auto, x11, xshm, xv, xvmc, xxmc,\n"
+#ifdef HAVE_VDPAU
+                                     "vdpau, "
+#endif
 "                                     vidix, sdl, opengl, none\n"
 "                           for fbfe: auto, fb, DirectFB, vidixfb,\n"
 "                                     sdl, dxr3, aadxr3, none\n"
