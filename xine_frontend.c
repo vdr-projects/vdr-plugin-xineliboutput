@@ -1347,6 +1347,7 @@ static int fe_send_event(frontend_t *this_gen, const char *data)
           msg = NULL;
         if (msg) {
           int r = this->input_plugin->f.post_vdr_event(this->input_plugin, msg);
+          free(msg);
           return (r > 0) ? FE_OK : FE_ERROR;
         }
         return FE_ERROR;
