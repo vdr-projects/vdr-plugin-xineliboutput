@@ -295,6 +295,8 @@ class config_t {
     int  osd_size;
     int  osd_width;
     int  osd_height;
+    int  osd_width_auto;
+    int  osd_height_auto;
     int  osd_mixer;                // show multiple OSD layers
     int  osd_scaling;              // OSD scaling mode: off, nearest, bilinear
     int  hud_osd;                  // head up display OSD

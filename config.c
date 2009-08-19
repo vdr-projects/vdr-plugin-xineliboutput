@@ -578,6 +578,8 @@ config_t::config_t() {
   osd_size             = OSD_SIZE_auto;
   osd_width            = 720;
   osd_height           = 576;
+  osd_width_auto       = 0;
+  osd_height_auto      = 0;
   osd_mixer            = OSD_MIXER_FULL;
   osd_scaling          = OSD_SCALING_NEAREST;
   hud_osd              = 0;
