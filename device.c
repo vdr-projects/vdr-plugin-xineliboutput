@@ -1547,6 +1547,11 @@ void cXinelibDevice::GetOsdSize(int &Width, int &Height, double &PixelAspect)
       Height = 1080;
       break;
     case OSD_SIZE_auto:
+      if (xc.osd_width_auto > 0 && xc.osd_height_auto > 0) {
+        Width  = xc.osd_width_auto;
+        Height = xc.osd_height_auto;
+        break;
+      }
     case OSD_SIZE_custom:
     default:
       Width  = xc.osd_width;
