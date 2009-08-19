@@ -209,6 +209,16 @@ void cXinelibThread::InfoHandler(const char *info)
       cXinelibDevice::Instance().SetCurrentSubtitleTrack(ttSubtitleFirst);
   }
 
+  else if (!strncmp(info, "WINDOW ", 7)) {
+    int w, h;
+    map += 7;
+    while(*map == ' ') map++;
+    if (2 == sscanf(map, "%dx%d", &w, &h)) {
+      xc.osd_width_auto  = w;
+      xc.osd_height_auto = h;
+    }
+  }
+
   free(pmap);
 }
 
