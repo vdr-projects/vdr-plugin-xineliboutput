@@ -83,6 +83,7 @@
 #define METRONOM_PREBUFFER_VAL  (4 * 90000 / 25 )
 #define HD_BUF_NUM_BUFS         (2500)  /* 2k payload * 2500 = 5MB */
 #define HD_BUF_ELEM_SIZE        (2048+64)
+#define HD_BUF_RESERVED_BUFS    2
 
 #define RADIO_MAX_BUFFERS  10
 
@@ -1278,7 +1279,7 @@ static buf_element_t *get_buf_element(vdr_input_plugin_t *this, int size, int fo
 
   /* HD buffer */
   if (this->hd_stream && size <= HD_BUF_ELEM_SIZE) {
-    if (this->hd_buffer->buffer_pool_num_free > 2)
+    if (this->hd_buffer->buffer_pool_num_free > HD_BUF_RESERVED_BUFS)
       buf = this->hd_buffer->buffer_pool_try_alloc(this->hd_buffer);
     if (!force && !buf)
       return NULL;
@@ -2513,8 +2514,9 @@ static const struct {
 static int vdr_plugin_poll(vdr_input_plugin_t *this, int timeout_ms)
 {
   struct timespec abstime;
-  fifo_buffer_t  *fifo          = this->buffer_pool;
-  int             reserved_bufs = fifo->buffer_pool_capacity - this->max_buffers;
+  fifo_buffer_t  *fifo          = this->hd_stream ? this->hd_buffer : this->buffer_pool;
+  int             reserved_bufs = this->hd_stream ? HD_BUF_RESERVED_BUFS :
+                                  (fifo->buffer_pool_capacity - this->max_buffers);
   int             result        = 0;
 
   /* Caller must have locked this->vdr_entry_lock ! */
