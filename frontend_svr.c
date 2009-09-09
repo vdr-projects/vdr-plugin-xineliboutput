@@ -1674,7 +1674,11 @@ void cXinelibServer::Handle_ClientConnected(int fd)
   if (fcntl (fd, F_SETFL, fcntl (fd, F_GETFL) | O_NONBLOCK) == -1) {
     LOGERR("Error setting control socket to nonblocking mode");
     CLOSESOCKET(fd);
+    return;
   }
+
+  int alive = 1;
+  setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &alive, sizeof(alive));
 
   CloseDataConnection(cli);
 
