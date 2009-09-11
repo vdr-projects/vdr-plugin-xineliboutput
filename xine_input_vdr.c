@@ -87,6 +87,8 @@
 
 #define RADIO_MAX_BUFFERS  10
 
+#define SLAVE_VIDEO_FIFO_SIZE 1000
+
 #ifndef NOSIGNAL_IMAGE_FILE
 #  define  NOSIGNAL_IMAGE_FILE "/usr/share/vdr/xineliboutput/nosignal.mpv"
 #endif
@@ -2207,9 +2209,18 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
 #endif
 
     if(!this->slave_stream) {
+      cfg_entry_t *e = this->class->xine->config->lookup_entry(this->class->xine->config,
+                                                               "engine.buffers.video_num_buffers");
+      int vbufs = e ? e->num_value : 250;
+      this->class->xine->config->update_num(this->class->xine->config,
+					    "engine.buffers.video_num_buffers", SLAVE_VIDEO_FIFO_SIZE);
+      LOGMSG("xine_stream_new(slave_stream): using %dMB video fifo", SLAVE_VIDEO_FIFO_SIZE*8/1024);
       this->slave_stream = xine_stream_new(this->class->xine, 
 					   this->stream->audio_out, 
 					   this->stream->video_out);
+
+      this->class->xine->config->update_num(this->class->xine->config,
+					    "engine.buffers.video_num_buffers", vbufs);
     }
 
     if(!this->slave_event_queue) {
