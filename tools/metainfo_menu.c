@@ -19,6 +19,7 @@
 
 #include "metainfo_menu.h"
 
+
 //
 // cMetainfoMenu
 //
@@ -39,6 +40,7 @@ cMetainfoMenu::~cMetainfoMenu()
 void cMetainfoMenu::Display(void)
 {
   cOsdMenu::Display();
+
   char metadata[4096];
   metadata[0] = 0;
 
@@ -51,16 +53,17 @@ void cMetainfoMenu::Display(void)
   md_list = EXTRACTOR_removeDuplicateKeywords(md_list, 0);
   md_list = EXTRACTOR_removeKeywordsOfType(md_list, EXTRACTOR_THUMBNAILS);
 
-  const char *key;
-  char * buf;
+  uint pos = 0;
+  int n;
   while(md_list) {
-    if((key=EXTRACTOR_getKeywordTypeAsString(md_list->keywordType))) {
-      buf = strdup(md_list->keyword);
-      sprintf(metadata, "%s%s: %s\n", metadata, key, buf);
-      free(buf);
-     }
-    md_list=md_list->next;
-   }
+    const char *key = EXTRACTOR_getKeywordTypeAsString(md_list->keywordType);
+    if(key && pos < sizeof(metadata))
+      if(0 < (n = snprintf(metadata+pos, sizeof(metadata)-pos, "%s: %s\n", key, md_list->keyword)))
+	pos += n;
+    md_list = md_list->next;
+  }
+  metadata[sizeof(metadata)-1] = 0;
+
   EXTRACTOR_freeKeywords(md_list);
   EXTRACTOR_removeAll(plugins); /* unload plugins */
 #else
