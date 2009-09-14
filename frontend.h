@@ -33,16 +33,7 @@ class cXinelibThread : public cThread, public cListObject
   //
 
   public:
-    virtual void Start(void);
-    virtual void Stop(void);
     bool IsReady(void);
-    bool IsFinished(void);
-
-  protected:
-    void SetStopSignal(void);
-    bool GetStopSignal(void);
-
-    virtual void Action(void) = 0;
 
   //
   // Playback control
@@ -141,9 +132,7 @@ class cXinelibThread : public cThread, public cListObject
   //
 
   protected:
-    bool m_bStopThread;
     bool m_bReady;
-    bool m_bIsFinished;
     bool m_bNoVideo;
     bool m_bLiveMode;
     bool m_bEndOfStreamReached;
@@ -151,6 +140,7 @@ class cXinelibThread : public cThread, public cListObject
     int  m_Volume;
     cString  m_FileName;
     uint64_t m_StreamPos;
+    uint64_t m_LastClearPos;
     uint32_t m_Frames;
 
     cStatus *m_StatusMonitor;
