@@ -297,7 +297,7 @@ bool cHttpStreamer::Seek(void)
   }
 
   /* content type */
-  char *ext = strrchr(m_Filename, '.');
+  const char *ext = strrchr(m_Filename, '.');
   if(ext) {
     const char *mime = mimetype(ext+1);
     if(mime)

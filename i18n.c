@@ -11,7 +11,7 @@
  * Finnish   Petri Hintukainen, Rolf Ahrenberg
  * Russian   Vladimir Monchenko
  * German    Udo Richter
- * Italian   Gringo <vdr-italian@tiscali.it
+ * Italian   Diego Pierotto
  *
  */
 
@@ -1742,7 +1742,7 @@ const tI18nPhrase Phrases[] = {
     "", // Czech
   },
   { "Play DVD disc >>", // English
-    "DVD abspielen", // Deutsch
+    "DVD abspielen >>", // Deutsch
     "", // Slovenski
     "Riproduci disco DVD >>", // Italiano
     "", // Nederlands

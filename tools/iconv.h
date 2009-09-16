@@ -74,11 +74,7 @@ cString cIConv::Translate(const char *Text) const
 
   size_t  inc  = strlen(Text);
   size_t  outc = inc<2048 ? 2048 : inc+1;
-#ifdef __APPLE__  
-  const char *in = Text;
-#else
   char   *in   = (char*)Text;
-#endif
   char   *buf  = (char*)malloc(outc+1);
   char   *out  = buf;
     

@@ -26,9 +26,6 @@
 //#define FORWARD_DVD_SPUS
 //#define DEBUG_SWITCHING_TIME
 //#define LOG_TRICKSPEED
-#if VDRVERSNUM >= 10510
-# define DEVICE_SUPPORTS_IBP_TRICKSPEED
-#endif
 
 #include "logdefs.h"
 #include "config.h"
@@ -870,16 +867,16 @@ bool cXinelibDevice::Flush(int TimeoutMs)
 // Playback of files and images
 //
 
-int cXinelibDevice::PlayFileCtrl(const char *Cmd)
+int cXinelibDevice::PlayFileCtrl(const char *Cmd, int TimeoutMs)
 {
   TRACEF("cXinelibDevice::PlayFile");
   int result = -1;
 
-  if(m_PlayingFile != pmNone) {
+  /*if(m_PlayingFile != pmNone)*/ {
     if(m_server)
-      result = m_server->PlayFileCtrl(Cmd);
+      result = m_server->PlayFileCtrl(Cmd, TimeoutMs);
     if(m_local) 
-      result = m_local->PlayFileCtrl(Cmd);
+      result = m_local->PlayFileCtrl(Cmd, TimeoutMs);
   }
   return result;
 }
@@ -1479,6 +1476,9 @@ uchar *cXinelibDevice::GrabImage(int &Size, bool Jpeg,
 				 int Quality, int SizeX, int SizeY)
 {
   TRACEF("cXinelibDevice::GrabImage");
+
+  if (Quality < 0)
+    Quality = 100;
 
   if(m_local)
     return m_local->GrabImage(Size, Jpeg, Quality, SizeX, SizeY);
