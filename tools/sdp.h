@@ -15,16 +15,16 @@
 #define SDP_MIME_TYPE  "application/sdp"
 
 
-static const char *vdr_sdp_description(const char *vdr_ip, 
-				       int vdr_svdrp_port,
-				       int vdr_xineliboutput_port,
-				       const char *rtp_ip,
-				       uint32_t rtp_ssrc,
-				       int rtp_port, 
-				       int rtp_ttl)
+static char *vdr_sdp_description(const char *vdr_ip, 
+				 int vdr_svdrp_port,
+				 int vdr_xineliboutput_port,
+				 const char *rtp_ip,
+				 uint32_t rtp_ssrc,
+				 int rtp_port, 
+				 int rtp_ttl)
 {
   static uint8_t s_serial = 0;
-  static cString s_data;
+  static char   *s_data = NULL;
   static char    s_hostname[257] = {0};
 
   uint64_t serial = (time(NULL) << 2) + ((s_serial++) & 0x03);
@@ -32,7 +32,9 @@ static const char *vdr_sdp_description(const char *vdr_ip,
   if(!s_hostname[0])
     gethostname(s_hostname, 256);
 
-  s_data = cString::sprintf(
+  free(s_data);
+
+  asprintf(&s_data,
 	   /*** session ***/
 	   /* version    */        "v=0"
 	   /* origin     */ "\r\n" "o=%s %u %"PRIu64" IN IP4 %s"
@@ -84,7 +86,8 @@ static const char *vdr_sdp_description(const char *vdr_ip,
 	   /* tcp control/x-svdrp */
 	   , vdr_ip
 	   , vdr_svdrp_port
-			    );
+	   );
+
   return s_data;
 }
 

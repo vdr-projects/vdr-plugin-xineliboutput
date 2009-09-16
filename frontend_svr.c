@@ -715,7 +715,7 @@ bool cXinelibServer::HasClients(void)
   return false;
 }
 
-int cXinelibServer::PlayFileCtrl(const char *Cmd, int TimeoutMs)
+int cXinelibServer::PlayFileCtrl(const char *Cmd)
 {
   /* Check if there are any clients */
   if(!HasClients()) {
@@ -750,7 +750,6 @@ int cXinelibServer::PlayFileCtrl(const char *Cmd, int TimeoutMs)
 #endif
 
     int timeout = bPlayfile ? PLAYFILE_TIMEOUT : PLAYFILE_CTRL_TIMEOUT;
-    if(TimeoutMs > 0) timeout = TimeoutMs;
 
     future.Wait(timeout);
 
@@ -1332,12 +1331,11 @@ void cXinelibServer::Handle_Control_HTTP(int cli, const char *arg)
     else if(!strncmp(m_State[cli]->Uri(), "/PLAYFILE", 9)) {
 
       if( *m_FileName && m_bPlayingFile) {
-        cString file = m_FileName;
-	const char *pos = strstr(m_FileName, "#subtitle:");
-	if(pos)
-          file.Truncate(pos - m_FileName);
-	bool Allow = ( !strcmp_escaped(file, m_State[cli]->Uri() + 9)
+	char *pos = strstr(m_FileName, "#subtitle:");
+	if(pos) *pos = 0;
+	bool Allow = ( !strcmp_escaped(m_FileName, m_State[cli]->Uri() + 9)
 		       || (pos && !strcmp_escaped(pos + 10, m_State[cli]->Uri() + 9)));
+	if(pos) *pos = '#';
 	if(Allow) {
 	  LOGMSG("HTTP streaming media file");
 
@@ -1691,8 +1689,7 @@ void cXinelibServer::Handle_ClientConnected(int fd)
   bool accepted = SVDRPhosts.Acceptable(sin.sin_addr.s_addr);
   if(!accepted) {
     LOGMSG("Address not allowed to connect (svdrphosts.conf).");
-    if (write(fd, "Access denied.\r\n", 16) != 16)
-      LOGERR("Write failed");
+    write(fd, "Access denied.\r\n", 16);
     CLOSESOCKET(fd);  
     return;    
   }

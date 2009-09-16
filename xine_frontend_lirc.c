@@ -102,7 +102,7 @@ static void *lirc_receiver_thread(void *fe)
 
   LOGMSG("lirc forwarding started");
 
-  if (nice(-1) < 0) ;
+  nice(-1);
   lircd_connect();
 
   while(lirc_device_name && fd_lirc >= 0) {

@@ -456,7 +456,7 @@ struct tvtime_s {
     judder_correction = strstr(str, "judder_correction=0") ? 0 : 1;
     use_progressive_frame_flag = strstr(str, "use_progressive_frame_flag=0") ? 0 : 1;
     method=1;
-    const char *m = strstr(str, "method=");
+    char *m = strstr(str, "method=");
     if(m) {
       char *tmp = strdup(m + 7);
       if(strchr(tmp, ','))
