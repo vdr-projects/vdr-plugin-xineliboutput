@@ -52,6 +52,9 @@
 #define PLAYFILE_CTRL_TIMEOUT   300   /* ms */
 #define PLAYFILE_TIMEOUT      20000   /* ms */
 
+#undef  MIN
+#define MIN(a,b) ( (a) < (b) ? (a) : (b))
+
 typedef struct {
   int    Size;
   uchar *Data;
@@ -241,7 +244,7 @@ static int write_osd_command(cxSocket& s, osd_command_t *cmd)
                  (ssize_t)(sizeof(xine_clut_t) * ntohl(cmd->colors)) +
                  (ssize_t)(ntohl(cmd->datalen));
 
-  if(max > 0 && max < size) {
+  if(max > 0 && max < MIN(size, 32768)) {
 /* #warning TODO: buffer latest failed OSD and retry
                   -> skipped OSDs can be left out but
                   latest will be always delivered */
