@@ -214,7 +214,7 @@ typedef struct sxfe_s {
   /* frontend */
   double    display_ratio;
   double    video_aspect;
-  const char *aspect_controller;
+  char     *aspect_controller;
   int       xpos, ypos;
   uint16_t  video_width, video_height;
   uint16_t  width, height;
@@ -1780,8 +1780,8 @@ static void sxfe_display_close(frontend_t *this_gen)
     this->display = NULL;
   }
 
-  free(this->x.aspect_controller);
-  this->x.aspect_controller = NULL;
+  free(this->aspect_controller);
+  this->aspect_controller = NULL;
 #if 0
   free(this->modeline);
   this->modeline = NULL;
