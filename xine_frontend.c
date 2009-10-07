@@ -763,18 +763,6 @@ static int fe_xine_open(frontend_t *this_gen, const char *mrl)
 #endif
   x_upd_num("engine.buffers.video_num_buffers", this->pes_buffers);  
 
-#if !defined(IS_FBFE) && defined(FE_STANDALONE)
-  if(!strncmp(mrl, "xvdr", 4) && strstr(mrl, "//")) {
-    char *name = NULL, *end;
-    if (asprintf(&name, "VDR - %s", strstr(mrl, "//")+2) >= 0) {
-      if(NULL != (end = strstr(name, ":37890"))) *end = 0; /* hide only default port */
-      XStoreName(this->display, this->window[0], name);
-      XStoreName(this->display, this->window[1], name);
-      free(name);
-    }
-  }
-#endif
-
   return result;
 }
 
@@ -1091,6 +1079,10 @@ static int fe_xine_play(frontend_t *this_gen)
 
   if(this->playback_finished)
     LOGMSG("Error playing " MRL_ID ":// !");
+
+  char str[128];
+  snprintf(str, sizeof(str), "INFO WINDOW %dx%d", this->width, this->height);
+  this->fe.send_event(&this->fe, str);
 
   return !this->playback_finished;
 }
