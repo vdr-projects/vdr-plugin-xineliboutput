@@ -4228,17 +4228,13 @@ static void vdr_event_cb (void *user_data, const xine_event_t *event)
       LOGDBG("XINE_EVENT (input) %d --> %s", 
              event->type, vdr_keymap[i].name);
 
-      if(this->funcs.post_vdr_event) {
-	/* remote mode: -> input_plugin -> connection -> VDR */
-        char *msg=NULL;
-        if (asprintf(&msg, "KEY %s\r\n", vdr_keymap[i].name) >= 0) {
-          this->funcs.post_vdr_event((vdr_input_plugin_if_t*)this, msg);
-          free(msg);
-        }
+      if (this->fd_control >= 0) {
+        /* remote mode: -> input_plugin -> connection -> VDR */
+        printf_control(this, "KEY %s\r\n", vdr_keymap[i].name);
       }
-      if(this->funcs.xine_input_event) {
-	/* local mode: -> VDR */
-	this->funcs.xine_input_event(NULL, vdr_keymap[i].name);
+      if (this->funcs.xine_input_event) {
+        /* local mode: -> VDR */
+        this->funcs.xine_input_event(NULL, vdr_keymap[i].name);
       }
       return;
     }
