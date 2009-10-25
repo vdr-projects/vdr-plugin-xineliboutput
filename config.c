@@ -668,6 +668,7 @@ config_t::config_t() {
   cache_implicit_playlists = 1;
   enable_id3_scanner = 1;
   dvd_arrow_keys_control_playback = 1;
+  media_menu_items = ~0;
 
   main_menu_mode = ShowMenu;
   force_primary_device = 0;
@@ -923,6 +924,7 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "Media.CacheImplicitPlaylists")) cache_implicit_playlists = atoi(Value);
   else if (!strcasecmp(Name, "Media.EnableID3Scanner"))  enable_id3_scanner = atoi(Value);
   else if (!strcasecmp(Name, "Media.DVD.ArrowKeysControlPlayback")) dvd_arrow_keys_control_playback = atoi(Value);
+  else if (!strcasecmp(Name, "Media.MenuItems"))         media_menu_items = atoi(Value);
 
   else if (!strcasecmp(Name, "Playlist.Tracknumber")) playlist_tracknumber = atoi(Value);
   else if (!strcasecmp(Name, "Playlist.Artist"))      playlist_artist = atoi(Value);
