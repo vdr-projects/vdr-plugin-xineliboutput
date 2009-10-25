@@ -32,7 +32,9 @@ class cXinelibPlayerControl : public cControl
     static cXinelibPlayer *m_Player;
 
     cSkinDisplayReplay *m_DisplayReplay;
-    cPlaylistMenu *m_PlaylistMenu;
+    cPlaylistMenu      *m_PlaylistMenu;
+
+    void     CloseMenus(void);
 
     eMainMenuMode m_Mode;
     bool   m_ShowModeOnly;
@@ -69,15 +71,17 @@ class cDvdMenu;
 class cXinelibDvdPlayerControl : public cXinelibPlayerControl
 {
   private:
-    cDvdMenu *Menu;
-    char m_CurrentDVDTitle[63];
+    cDvdMenu *m_DvdMenu;
+    char      m_CurrentDVDTitle[63];
+
+    void      CloseDvdMenu(void);
 
   public:
-    cXinelibDvdPlayerControl(const char *File) : 
-      cXinelibPlayerControl(ShowFiles, File), Menu(NULL)
+    cXinelibDvdPlayerControl(const char *File) :
+      cXinelibPlayerControl(ShowFiles, File), m_DvdMenu(NULL)
       {}
     virtual ~cXinelibDvdPlayerControl();
- 
+
     virtual void Show(void);
     virtual void Hide(void);
     virtual eOSState ProcessKey(eKeys Key);
