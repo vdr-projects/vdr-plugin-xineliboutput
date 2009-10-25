@@ -1681,6 +1681,7 @@ void cMenuSetupMediaPlayer::Set(void)
   Add(new cMenuEditBitItem(tr("View images >>"),      &newconfig.media_menu_items, MEDIA_MENU_IMAGES));
   Add(new cMenuEditBitItem(tr("Play DVD disc >>"),    &newconfig.media_menu_items, MEDIA_MENU_DVD));
   Add(new cMenuEditBitItem(tr("Play audio CD >>"),    &newconfig.media_menu_items, MEDIA_MENU_CD));
+  Add(new cMenuEditBitItem(tr("Play BluRay disc >>"), &newconfig.media_menu_items, MEDIA_MENU_BLURAY));
   Add(new cMenuEditBitItem(tr("Video settings"),      &newconfig.media_menu_items, MEDIA_MENU_VIDEO_SETUP));
   Add(new cMenuEditBitItem(tr("Audio settings"),      &newconfig.media_menu_items, MEDIA_MENU_AUDIO_SETUP));
 

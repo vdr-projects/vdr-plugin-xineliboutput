@@ -172,6 +172,7 @@
 #define MEDIA_MENU_IMAGES       (1<<2)
 #define MEDIA_MENU_DVD          (1<<3)
 #define MEDIA_MENU_CD           (1<<4)
+#define MEDIA_MENU_BLURAY       (1<<5)
 #define MEDIA_MENU_VIDEO_SETUP  (1<<6)
 #define MEDIA_MENU_AUDIO_SETUP  (1<<7)
 
