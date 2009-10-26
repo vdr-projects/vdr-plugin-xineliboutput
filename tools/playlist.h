@@ -94,7 +94,6 @@ class cPlaylist : protected cList<cPlaylistItem>
   friend class cID3Scanner;
   friend class cPlaylistReader;
   void PlaylistChanged(const cPlaylistItem *Item);
-  cPlaylistItem *Last(void) { return cList<cPlaylistItem>::Last(); }
 
  public:
 
@@ -117,6 +116,7 @@ class cPlaylist : protected cList<cPlaylistItem>
   // access/iterate playlist items
   cPlaylistItem *First(void) { return Next(NULL); }
   cPlaylistItem *Next(const cPlaylistItem *i);
+  cPlaylistItem *Last(void) { return cList<cPlaylistItem>::Last(); }
 
   // get/set current (now playing) item
   cPlaylistItem *Current(void);
