@@ -89,7 +89,7 @@ class cPlaylist : protected cList<cPlaylistItem>
   int ReadPlaylist(const char *PlaylistFile);
   int ScanFolder(const char *FolderName, 
 		 bool Recursive = false,
-		 bool (config_t::*Filter)(const char *) = &config_t::IsAudioFile);
+		 bool (*Filter)(const char *) = &config_t::IsAudioFile);
 
   friend class cID3Scanner;
   friend class cPlaylistReader;
