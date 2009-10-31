@@ -1593,7 +1593,7 @@ static int sxfe_run(frontend_t *this_gen)
       .events = POLLIN,
     };
     if (poll(&pfd, 1, 50) < 1 || !(pfd.revents & POLLIN)) {
-      return 1;
+      return !this->x.fe.xine_is_finished((frontend_t*)this, 0);
     }
   }
 
