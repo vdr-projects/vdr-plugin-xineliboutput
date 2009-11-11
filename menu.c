@@ -223,7 +223,6 @@ void cMenuBrowseFiles::SetHelpButtons(void)
   }
 
   SetHelp(help[0], help[1], help[2], help[3]);
-  Display();
 }
 
 eOSState cMenuBrowseFiles::Delete(void)
@@ -478,7 +477,7 @@ eOSState cMenuBrowseFiles::ProcessKey(eKeys Key)
   if (state == osUnknown)
     state = osContinue;
 
-  if (!HasSubMenu())
+  if (!HasSubMenu() && Key != kNone)
     SetHelpButtons();
 
   return state;
