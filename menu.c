@@ -177,6 +177,7 @@ void cMenuBrowseFiles::Set(void)
   StoreConfig();
 
   SetHelpButtons();
+  Display();
 }
 
 void cMenuBrowseFiles::StoreConfig(void)
