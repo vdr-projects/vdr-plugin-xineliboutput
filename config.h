@@ -318,6 +318,7 @@ class config_t {
     int  dvb_subtitles;            // send DVB subtitles in data stream (decode+display using xine-lib or external media player)
 
     // Media player
+    char media_root_dir[4096];     // restrict file browser
     char browse_files_dir[4096];
     char browse_music_dir[4096];
     char browse_images_dir[4096];
