@@ -632,7 +632,7 @@ static FILE *open_http(const char *PlaylistFile)
 
 int cPlaylist::ScanFolder(const char *FolderName, 
 			  bool Recursive,
-			  bool (config_t::*Filter)(const char *))
+			  bool (*Filter)(const char *))
 {
   cMutexLock ml(&m_Lock);  
   static int depth = 0;
@@ -674,7 +674,7 @@ int cPlaylist::ScanFolder(const char *FolderName,
 	    if (stat(Buffer, &st) != 0)
 	      continue;
 	  }
-	  if((xc.*Filter)(Buffer)) {
+	  if((*Filter)(Buffer)) {
 	    /* TODO: Should ScanDir add contents of playlist files ... ? */
 	    if(Filter == &config_t::IsPlaylistFile || !xc.IsPlaylistFile(Buffer)) {
 	      n++;
