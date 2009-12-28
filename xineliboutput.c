@@ -320,6 +320,7 @@ cString cPluginXinelibOutput::SVDRPCommand(const char *Command, const char *Opti
       return cString("Playing video file");
     } else {
       ReplyCode = 550; // Requested action not taken
+      return cString("File name missing");
     }
   }
 
@@ -340,6 +341,7 @@ cString cPluginXinelibOutput::SVDRPCommand(const char *Command, const char *Opti
       return cString("Playing music file");
     } else {
       ReplyCode = 550; // Requested action not taken
+      return cString("Music file name missing");
     }
   }
 
@@ -353,6 +355,7 @@ cString cPluginXinelibOutput::SVDRPCommand(const char *Command, const char *Opti
       return cString("Showing image file");
     } else {
       ReplyCode = 550; // Requested action not taken
+      return cString("Image file name missing");
     }
   }
 
@@ -363,6 +366,7 @@ cString cPluginXinelibOutput::SVDRPCommand(const char *Command, const char *Opti
       return cString("Queueing music file");
     } else {
       ReplyCode = 550; // Requested action not taken
+      return cString("Music file name missing");
     }
   }
 
