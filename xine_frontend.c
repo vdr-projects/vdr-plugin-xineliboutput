@@ -1211,10 +1211,12 @@ static int fe_is_finished(frontend_t *this_gen, int slave_stream)
 {
   fe_t *this = (fe_t*)this_gen;
 
-  if(!this || this->playback_finished)
+  if (!this)
     return FE_XINE_ERROR;
   if (this->terminate_key_pressed)
     return FE_XINE_EXIT;
+  if (this->playback_finished)
+    return FE_XINE_ERROR;
 
   if (slave_stream) {
     if (!this->slave_stream || this->slave_playback_finished)
