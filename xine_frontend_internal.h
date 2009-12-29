@@ -82,6 +82,9 @@ typedef struct fe_s {
   uint8_t     playback_finished : 1;
   uint8_t     slave_playback_finished : 1;
 
+  char       *shutdown_cmd;
+  int         shutdown_timeout;
+  time_t      shutdown_time;
 } fe_t;
 
 /* setup function pointers */

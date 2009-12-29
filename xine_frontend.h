@@ -92,6 +92,8 @@ struct frontend_s {
   void (*xine_close)(frontend_t*);
   void (*xine_exit)(frontend_t*);
 
+  void (*shutdown_init)(frontend_t*, const char *cmd, int timeout);
+
   /* Execution control */
   int  (*fe_run)(frontend_t*);
   void (*fe_interrupt)(frontend_t*);
