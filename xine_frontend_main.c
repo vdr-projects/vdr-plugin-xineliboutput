@@ -203,7 +203,12 @@ static void *kbd_receiver_thread(void *fe_gen)
       if (code == 'f' || code == 'F') {
         fe->send_event(fe, "TOGGLE_FULLSCREEN");
         continue;
-      } else if (code == 'd' || code == 'D') {
+      }
+      if (code == 'p' || code == 'P') {
+        fe->send_event(fe, "POWER_OFF");
+        continue;
+      }
+      if (code == 'd' || code == 'D') {
         fe->send_event(fe, "TOGGLE_DEINTERLACE");
         continue;
       }

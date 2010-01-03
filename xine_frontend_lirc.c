@@ -212,6 +212,10 @@ static void *lirc_receiver_thread(void *fe_gen)
             fe->send_event(fe, "QUIT");
             break;
           }
+          if (!strcmp(KeyName, "PowerOff")) {
+            fe->send_event(fe, "POWER_OFF");
+            break;
+          }
           if (!strcmp(KeyName, "Fullscreen")) {
             if (!repeat)
               fe->send_event(fe, "TOGGLE_FULLSCREEN");

@@ -1426,6 +1426,11 @@ static void XKeyEvent_handler(sxfe_t *this, XKeyEvent *kev)
         if (this->gui_hotkeys)
           fe_event = "TOGGLE_DEINTERLACE";
         break;
+      case XK_p:
+      case XK_P:
+        if (this->gui_hotkeys)
+          fe_event = "POWER_OFF";
+        break;
       case XK_Escape:
         if (!this->x.keypress) /* ESC exits only in remote mode */
           fe_event = "QUIT";
