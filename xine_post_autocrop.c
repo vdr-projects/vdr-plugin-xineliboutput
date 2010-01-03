@@ -47,6 +47,9 @@
 #include <xine/xine_internal.h>
 #include <xine/post.h>
 
+#ifndef FABS
+#  define FABS(x) ((x) < 0.0 ? -(x) : (x))
+#endif
 
 /*
  *  Configuration
@@ -1363,13 +1366,13 @@ static vo_frame_t *autocrop_get_frame(xine_video_port_t *port_gen,
 
   /* Crop only SDTV 4:3 frames ... */
   int intercept = ((format == XINE_IMGFMT_YV12 || format == XINE_IMGFMT_YUY2 || this->has_driver_crop) &&
-       ratio == 4.0/3.0 &&
-       width  >= 480 && width  <= 768 &&
+       FABS(ratio - 4.0/3.0) < 0.1 &&
+       width  >= 240 && width  <= 768 &&
        height >= 288 && height <= 576);
 
   if(cropping_active && !intercept) {
     cropping_active = 0;
-    TRACE("get_frame: deactivate ratio %d width: %d height %d\n", (ratio == 4.0/3.0), width, height);
+    TRACE("get_frame: deactivate ratio: %lf width: %d height: %d\n", ratio, width, height);
   }
 
   /* reset when format changes */
