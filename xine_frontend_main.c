@@ -414,7 +414,7 @@ static const char help_str[] =
     "   --hotkeys                     Enable frontend GUI hotkeys\n"
     "   --shutdown=MIN[:CMD]          Shutdown after MIN minutes of inactivity\n"
     "                                 USe CMD to perform shutdown (default: /sbin/shutdown)\n"
-    "   --terminal=dev                Controlling tty"
+    "   --terminal=dev                Controlling tty\n"
     "   --daemon                      Run as daemon (disable keyboard,\n"
     "                                 log to syslog and fork to background)\n"
     "   --slave                       Enable slave mode (read commands from stdin)\n"
