@@ -53,7 +53,7 @@ class cXinelibThread : public cThread, public cListObject
     virtual void TrickSpeed(int Speed, bool Backwards);
 
     // Sync(): wait until all pending control messages have been processed by the client
-    virtual void Sync(void) { return Xine_Control("SYNC"); };
+    virtual void Sync(void) { Xine_Control("SYNC"); };
 
   protected:
     int  Xine_Control(const char *cmd, const char *p1);
