@@ -270,11 +270,12 @@ void cXinelibThread::SetVolume(int NewVolume)
   Xine_Control(str);
 }
 
-void cXinelibThread::TrickSpeed(int Speed)
+void cXinelibThread::TrickSpeed(int Speed, bool Backwards)
 {
   TRACEF("cXinelibThread::TrickSpeed");
 
-  Xine_Control("TRICKSPEED", Speed);
+  cString str = cString::sprintf("TRICKSPEED %d%s", Speed, Backwards ? " Backwards" : "");
+  Xine_Control(str);
 }
 
 void cXinelibThread::SetLiveMode(bool LiveModeOn)

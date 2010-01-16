@@ -39,7 +39,7 @@ class cXinelibServer : public cXinelibThread
 
   public:
     // Playback control
-    virtual void    TrickSpeed(int Speed);
+    virtual void    TrickSpeed(int Speed, bool Backwards);
 
     // Data transfer
     virtual int     Poll(cPoller &Poller, int TimeoutMs);

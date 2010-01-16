@@ -623,7 +623,7 @@ int cXinelibServer::Xine_Control_Sync(const char *cmd)
   return 1;
 }
 
-void cXinelibServer::TrickSpeed(int Speed)
+void cXinelibServer::TrickSpeed(int Speed, bool Backwards)
 {
   if(Speed == 0) {
     m_Scheduler->Pause(true);
@@ -632,7 +632,7 @@ void cXinelibServer::TrickSpeed(int Speed)
     m_Scheduler->TrickSpeed(Speed == -1 ? 1 : Speed);
   }
 
-  cXinelibThread::TrickSpeed(Speed);
+  cXinelibThread::TrickSpeed(Speed, Backwards);
 }
 
 bool cXinelibServer::EndOfStreamReached(void)

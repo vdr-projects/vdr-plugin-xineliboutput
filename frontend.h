@@ -42,13 +42,15 @@ class cXinelibThread : public cThread, public cListObject
   public:
     void PauseOutput(void)  { TrickSpeed(0); }
     void ResumeOutput(void) { TrickSpeed(1); }
-    virtual void TrickSpeed(int Speed);
+    void TrickSpeed(int Speed) { TrickSpeed(Speed, false); }
     void SetVolume(int NewVolume);
     void SetLiveMode(bool);
     void SetStillMode(bool);
     void SetNoVideo(bool bVal);
     void AudioStreamChanged(bool ac3, int StreamId);
     void SetSubtitleTrack(eTrackType Track);
+
+    virtual void TrickSpeed(int Speed, bool Backwards);
 
   protected:
     int  Xine_Control(const char *cmd, const char *p1);
