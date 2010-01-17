@@ -204,11 +204,11 @@ static void osdscaler_overlay_begin (vo_driver_t *self, vo_frame_t *frame, int c
     LOGOSD("osdscaler_overlay_begin: changed = 1");
     osd_data_clear(this->active_osds);
     this->active_osds = NULL;
-    this->unscaled_supported = (vo_def_get_capabilities(self) & VO_CAP_UNSCALED_OVERLAY);
+    this->unscaled_supported = !!(vo_def_get_capabilities(self) & VO_CAP_UNSCALED_OVERLAY);
     /* VO_CAP_OSDSCALING == VO_CAP_CUSTOM_EXTENT_OVERLAY */
-    this->custom_extent_supported = (vo_def_get_capabilities(self) & VO_CAP_OSDSCALING);
+    this->custom_extent_supported = !!(vo_def_get_capabilities(self) & VO_CAP_OSDSCALING);
     /* VO_CAP_ARGB == VO_CAP_ARGB_LAYER_OVERLAY */
-    this->argb_supported = (vo_def_get_capabilities(self) & VO_CAP_ARGB);
+    this->argb_supported = !!(vo_def_get_capabilities(self) & VO_CAP_ARGB);
   }
 
   /* redirect */
