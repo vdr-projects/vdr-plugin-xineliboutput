@@ -24,6 +24,8 @@ struct xvdr_metronom_s {
   void (*reset_frames)(xvdr_metronom_t *);
   void (*dispose)     (xvdr_metronom_t *);
 
+  void (*set_trickspeed)(xvdr_metronom_t *, int);
+
   /* accumulated frame data */
   volatile uint video_frames;
   volatile uint audio_frames;
@@ -40,6 +42,8 @@ struct xvdr_metronom_s {
   void *handle;
   void (*frame_decoded)(void *handle, uint video_count, uint audio_count);
 
+  /* current trick speed */
+  int             trickspeed;
 #endif
 };
 
