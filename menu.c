@@ -117,6 +117,11 @@ cMenuBrowseFiles::cMenuBrowseFiles(eMainMenuMode mode, bool OnlyQueue) :
 
 cMenuBrowseFiles::~cMenuBrowseFiles()
 {
+  cPlugin *p = cPluginManager::GetPlugin(PLUGIN_NAME_I18N);
+  if (p) {
+    p->SetupStore("Media.RootDir", xc.media_root_dir);
+  }
+
   Setup.Save();
   free(m_CurrentDir);
 }
@@ -190,18 +195,18 @@ void cMenuBrowseFiles::Set(void)
 
 void cMenuBrowseFiles::StoreConfig(void)
 {
-  cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("Media.BrowseMusicDir",  
-							  xc.browse_music_dir);
-  cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("Media.BrowseFilesDir",  
-							  xc.browse_files_dir);
-  cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("Media.BrowseImagesDir", 
-							  xc.browse_images_dir);
+  cPlugin *p = cPluginManager::GetPlugin(PLUGIN_NAME_I18N);
+  if (p) {
+    p->SetupStore("Media.BrowseMusicDir",  xc.browse_music_dir);
+    p->SetupStore("Media.BrowseFilesDir",  xc.browse_files_dir);
+    p->SetupStore("Media.BrowseImagesDir", xc.browse_images_dir);
 #if 1
-  // delete old keys (<1.0.0)
-  cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("BrowseMusicDir");
-  cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("BrowseFilesDir");
-  cPluginManager::GetPlugin(PLUGIN_NAME_I18N)->SetupStore("BrowseImagesDir");
+    // delete old keys (<1.0.0)
+    p->SetupStore("BrowseMusicDir");
+    p->SetupStore("BrowseFilesDir");
+    p->SetupStore("BrowseImagesDir");
 #endif
+  }
 }
 
 void cMenuBrowseFiles::SetHelpButtons(void)
