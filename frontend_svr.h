@@ -115,6 +115,7 @@ protected:
     int  m_MasterCli;      // Master client (controls playback speed)
 
     cString m_PipesDir;
+    cString m_AllowedHostsFile;
 
     cBackgroundWriterI *m_Writer[MAXCLIENTS]; // buffered output (pipe/tcp/http)
     cConnState         *m_State[MAXCLIENTS];  // connection state (http/rtsp)
