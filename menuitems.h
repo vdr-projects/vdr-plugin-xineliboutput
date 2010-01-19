@@ -13,6 +13,33 @@
 
 #include <vdr/menuitems.h>
 
+static inline cString Label_SubMenu(const char *Label)
+{
+  return cString::sprintf("%s >>", Label);
+}
+
+static inline cString Label_Ident(const char *Label)
+{
+  return cString::sprintf("  %s", Label);
+}
+
+static inline cString Label_Separator(const char *Label)
+{
+  return cString::sprintf("----- %s -----", Label);
+}
+
+static inline cOsdItem *SubMenuItem(const char *Label, eOSState state)
+{
+  return new cOsdItem(Label_SubMenu(Label), state);
+}
+
+static inline cOsdItem *SeparatorItem(const char *Label)
+{
+  cOsdItem *Item = new cOsdItem(Label_Separator(Label));
+  Item->SetSelectable(false);
+  return Item;
+}
+
 // --- cMenuEditTypedIntItem -------------------------------------------------
 
 class cMenuEditTypedIntItem : public cMenuEditIntItem 
