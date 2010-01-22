@@ -30,5 +30,7 @@ void ts_data_ts2es_init (ts_data_t **ts_data, fifo_buffer_t *video_fifo, fifo_bu
 void ts_data_flush      (ts_data_t *ts_data);
 void ts_data_dispose    (ts_data_t **ts_data);
 
+void ts_data_reset_audio(ts_data_t *ts_data, fifo_buffer_t *audio_fifo);
+
 
 #endif /* _DEMUX_XVDR_TSDATA_H_ */
