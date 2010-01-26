@@ -36,6 +36,7 @@
 #include "xine/vo_post.h"
 #include "xine/vo_osdscaler.h"
 #include "xine/vo_osdreorder.h"
+#include "xine/vo_lastpts.h"
 
 #undef  MIN
 #define MIN(a,b) ( (a) < (b) ? (a) : (b))
@@ -55,6 +56,12 @@ static void intercept_video_driver(xine_video_port_t *video_port)
   if (! wire_video_driver(video_port, osdreorder)) {
     LOGMSG("wire_video_driver() for osdreorder failed");
     osdreorder->dispose(osdreorder);
+  }
+
+  vo_driver_t *lastpts = vo_lastpts_init();
+  if (! wire_video_driver(video_port, lastpts)) {
+    LOGMSG("wire_video_driver() for vo_lastpts failed");
+    lastpts->dispose(lastpts);
   }
 }
 
