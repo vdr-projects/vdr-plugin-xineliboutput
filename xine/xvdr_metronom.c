@@ -24,16 +24,16 @@
 static void got_video_frame(metronom_t *metronom, vo_frame_t *frame)
 {
   xvdr_metronom_t *this = (xvdr_metronom_t *)metronom;
-  uint64_t          pts = frame->pts;
+  int64_t          pts  = frame->pts;
 
   this->video_frames++;
 
   if (this->frame_decoded)
     this->frame_decoded(this->handle, this->video_frames, this->audio_frames);
 
-  if (this->trickspeed < 0) {
+  if (this->trickspeed) {
     frame->pts       = 0;
-    frame->duration *= (-this->trickspeed);
+    frame->duration *= 12; /* GOP */
   }
 
   this->orig_metronom->got_video_frame (this->orig_metronom, frame);
