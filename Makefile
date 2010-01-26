@@ -204,7 +204,7 @@ OBJS_MPG = black_720x576.o nosignal_720x576.o vdrlogo_720x576.o
 
 # frontends
 OBJS_FE_SO = xine_frontend.o logdefs.o \
-             xine/post.o xine/vo_hook.o xine/vo_osdscaler.o xine/vo_osdreorder.o \
+             xine/post.o xine/vo_hook.o xine/vo_osdscaler.o xine/vo_osdreorder.o xine/vo_lastpts.o \
              tools/rle.o
 OBJS_FE    = $(OBJS_FE_SO) tools/vdrdiscovery.o xine_frontend_main.o xine_frontend_lirc.o
 
