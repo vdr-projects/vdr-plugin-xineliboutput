@@ -65,6 +65,9 @@ protected:
     virtual int     Xine_Control(const char *cmd);
     virtual int     Xine_Control_Sync(const char *cmd);
 
+    virtual int     Xine_Control_Result(const char *cmd, uint TimeoutMs);
+    virtual void    Sync(void);
+
 protected:
 
     // Handling of messages from client(s)
