@@ -3070,9 +3070,9 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
     else
       err = CONTROL_PARAM_ERROR;
 
-  } else if(!strncasecmp(cmd, "SYNC ", 5)) {
+  } else if(!strncasecmp(cmd, "SYNC", 4)) {
     if(this->fd_control >= 0)
-      write_control(this, cmd);
+      printf_control(this, "RESULT %d 1\r\n", this->token);
 
   } else if(!strncasecmp(cmd, "GETSTC", 6)) {
     int64_t pts = xine_get_current_vpts(stream) -
