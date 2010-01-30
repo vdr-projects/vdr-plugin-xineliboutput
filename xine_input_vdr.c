@@ -3075,9 +3075,15 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
       printf_control(this, "RESULT %d 1\r\n", this->token);
 
   } else if(!strncasecmp(cmd, "GETSTC", 6)) {
-    int64_t pts = xine_get_current_vpts(stream) -
-                  stream->metronom->get_option(stream->metronom, 
-					       METRONOM_VPTS_OFFSET);
+    int64_t pts = -1;
+    if (this->still_mode || this->is_trickspeed) {
+      pts = stream->metronom->get_option(stream->metronom, XVDR_METRONOM_LAST_VO_PTS);
+    }
+    if (pts <= 0) {
+      pts = xine_get_current_vpts(stream) -
+            stream->metronom->get_option(stream->metronom, METRONOM_VPTS_OFFSET);
+    }
+
     if(this->fd_control >= 0) {
       printf_control(this, "STC %" PRId64 "\r\n", pts);
     } else {
