@@ -233,6 +233,9 @@ class cXinelibDevice : public cDevice
     int PlayAny(const uchar *Data, int Length);
     int PlayTrickSpeed(const uchar *buf, int length);
 
+    bool AcceptVideoPacket(const uchar *Data, int Length);
+    bool AcceptAudioPacket(const uchar *Data, int Length);
+
   protected:
 
     virtual bool Poll(cPoller &Poller, int TimeoutMs = 0);
