@@ -89,7 +89,7 @@ class cXinelibThread : public cThread, public cListObject
     bool NoSignalDisplay(void);
 
     // Playback files
-    virtual bool PlayFile(const char *FileName, int Position, 
+    virtual bool PlayFile(const char *FileName, int Position = 0, 
 			  bool LoopPlay = false, ePlayMode PlayMode = pmAudioVideo,
 			  int TimeoutMs = -1);
     virtual int  PlayFileCtrl(const char *Cmd, int TimeoutMs=-1) { return Xine_Control(Cmd); }
