@@ -20,6 +20,14 @@ extern "C" {
 #define SC_PICTURE     0x00  /* picture atart code */
 #define SC_SEQUENCE    0xb3  /* sequence header    */
 
+#if defined(__i386__) || defined(__x86_64__)
+#  define IS_SC_PICTURE(buf)  (*(const uint32_t *)(buf) == 0x00010000U)
+#  define IS_SC_SEQUENCE(buf) (*(const uint32_t *)(buf) == 0xb3010000U)
+#else
+#  define IS_SC_PICTURE(buf)  ((buf)[0] == 0 && (buf)[1] == 0 && (buf)[2] == 1 && (buf)[3] == SC_PICTURE)
+#  define IS_SC_SEQUENCE(buf) ((buf)[0] == 0 && (buf)[1] == 0 && (buf)[2] == 1 && (buf)[3] == SC_SEQUENCE)
+#endif
+
 /* Picture types */
 #define NO_PICTURE  0
 #define I_FRAME     1
