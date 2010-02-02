@@ -157,7 +157,7 @@ int     ts_get_pcr_n(const uint8_t *pkt, int npkt, int64_t *pcr);
 typedef struct ts_state_s ts_state_t;
 struct video_size_s;
 
-ts_state_t *ts_state_init(int buffer_size);
+ts_state_t *ts_state_init(size_t buffer_size);
 void        ts_state_reset(ts_state_t *ts);
 void        ts_state_dispose(ts_state_t *ts);
 
