@@ -576,7 +576,7 @@ static int ts_add_payload(ts_state_t *ts, const uint8_t *data)
   if (ts->buf_len >= ts->buf_size - TS_SIZE) {
     LOGMSG("ts_add_payload: buffer full");
     ts->buf_len -= TS_SIZE;
-    memcpy(ts->buf, ts->buf+TS_SIZE, ts->buf_len);
+    memmove(ts->buf, ts->buf+TS_SIZE, ts->buf_len);
   }
 
   int len = ts_PAYLOAD_SIZE(data);
@@ -595,7 +595,7 @@ static void ts_skip_payload(ts_state_t *ts, unsigned int n)
 {
   if (n < ts->buf_len) {
     ts->buf_len -= n;
-    memcpy(ts->buf, ts->buf + n, ts->buf_len);
+    memmove(ts->buf, ts->buf + n, ts->buf_len);
   } else {
     ts->buf_len = 0;
   }
