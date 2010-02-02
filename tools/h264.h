@@ -24,9 +24,9 @@ extern "C" {
 
 
 #if defined(__i386__) || defined(__x86_64__)
-#  define IS_NAL_SPS(buf)     (*(uint32_t*)(buf) == 0x07010000U)
-#  define IS_NAL_AUD(buf)     (*(uint32_t*)(buf) == 0x09010000U)
-#  define IS_NAL_END_SEQ(buf) (*(uint32_t*)(buf) == 0x0a010000U)
+#  define IS_NAL_SPS(buf)     (*(const uint32_t *)(buf) == 0x07010000U)
+#  define IS_NAL_AUD(buf)     (*(const uint32_t *)(buf) == 0x09010000U)
+#  define IS_NAL_END_SEQ(buf) (*(const uint32_t *)(buf) == 0x0a010000U)
 #else
 #  define IS_NAL_SPS(buf)     ((buf)[0] == 0 && (buf)[1] == 0 && (buf)[2] == 1 && (buf)[3] == NAL_SPS)
 #  define IS_NAL_AUD(buf)     ((buf)[0] == 0 && (buf)[1] == 0 && (buf)[2] == 1 && (buf)[3] == NAL_AUD)
