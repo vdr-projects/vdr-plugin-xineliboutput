@@ -187,14 +187,6 @@ int h264_get_video_size(const uint8_t *buf, int len, video_size_t *size)
 {
   int i;
 
-  /* H.264 detection, search for NAL AUD */
-  while (!IS_NAL_AUD(buf)) {
-    if (len < 6)
-      return 0;
-    buf++;
-    len--;
-  }
-
   /* if I-frame, search for NAL SPS */
   if (h264_get_picture_type(buf, len) != I_FRAME)
     return 0;
