@@ -622,11 +622,11 @@ static size_t ts_scan_startcode(ts_state_t *ts)
     /* scan for PES or MPEG 00 00 01 */
     size_t i = 0, n = ts->buf_len - 2;
     while (i < n) {
-      if (ts->buf[i+2] != 1)
-        i += 3;
-      else if(ts->buf[i+1])
+      if (ts->buf[i+1])
         i += 2;
-      else if(ts->buf[i])
+      else if (ts->buf[i])
+        i++;
+      else if (ts->buf[i+2] != 1)
         i++;
       else
         break;
