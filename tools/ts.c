@@ -700,6 +700,9 @@ int ts_get_video_size(ts_state_t *ts, const uint8_t *data, video_size_t *size, i
     /* Skip PES header */
     ts_skip_payload(ts, PES_HEADER_LEN(ts->buf));
     ts->inside_pes = 1;
+
+    /* move to first ES header */
+    ts_scan_startcode(ts);
   }
 
   /* scan for start code */
