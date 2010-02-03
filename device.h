@@ -93,9 +93,11 @@ class cXinelibDevice : public cDevice
   private:
     ePlayMode m_PlayMode;
     int       m_TrickSpeed;
-    int64_t   m_TrickSpeedPts;
     int       m_TrickSpeedMode;
+#if VDRVERSNUM < 10705
+    int64_t   m_TrickSpeedPts;
     int       m_TrickSpeedDelay;
+#endif
 
   public:
     virtual bool SetPlayMode(ePlayMode PlayMode);
