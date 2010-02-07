@@ -139,7 +139,6 @@ const char cmdLineHelp[] =
 "  -p        --primary      Force xineliboutput to be primary device when\n"
 "                           there are active frontend(s)\n"
 "  -c        --exit-on-close  Exit vdr when local frontend window is closed\n"
-"  -C        --config=file  Use xine-lib config file\n"
 ;
 
 const char *cPluginXinelibOutput::CommandLineHelp(void)
