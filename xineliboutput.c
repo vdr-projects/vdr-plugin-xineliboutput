@@ -292,38 +292,6 @@ bool cPluginXinelibOutput::Service(const char *Id, void *Data)
       return true;
     }
 
-    else if(!strcmp(Id, "StartFrontend-1.0")) {
-      if(CData && *CData) {
-        LOGMSG("Service(%s, %s)", Id, CData);
-        int local_frontend = strstra(CData, xc.s_frontends, -1);
-        if (local_frontend >= 0 && local_frontend < FRONTEND_count && strcmp(CData, xc.local_frontend)) {
-          strn0cpy(xc.local_frontend, xc.s_frontends[local_frontend], sizeof(xc.local_frontend));
-          cXinelibDevice::Instance().ConfigureWindow(
-               xc.fullscreen, xc.width, xc.height, xc.modeswitch, xc.modeline,
-               xc.display_aspect, xc.scale_video, xc.field_order);
-        }
-        return true;
-      }
-      LOGMSG("Service(%s) -> true", Id);
-      return true;
-    }
-
-    else if(!strcmp(Id, "StartFrontend-1.0")) {
-      if(CData && *CData) {
-        LOGMSG("Service(%s, %s)", Id, CData);
-        int local_frontend = strstra(CData, xc.s_frontends, -1);
-        if (local_frontend >= 0 && local_frontend < FRONTEND_count && strcmp(CData, xc.local_frontend)) {
-          strn0cpy(xc.local_frontend, xc.s_frontends[local_frontend], sizeof(xc.local_frontend));
-          cXinelibDevice::Instance().ConfigureWindow(
-               xc.fullscreen, xc.width, xc.height, xc.modeswitch, xc.modeline,
-               xc.display_aspect, xc.scale_video, xc.field_order);
-        }
-        return true;
-      }
-      LOGMSG("Service(%s) -> true", Id);
-      return true;
-    }
-
   }
   return false;
 }
