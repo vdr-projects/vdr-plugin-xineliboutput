@@ -1531,9 +1531,7 @@ static char *fe_grab(frontend_t *this_gen, int *size, int jpeg,
   LOGDBG("fe_grab: grabbing %s %d %dx%d", 
 	 jpeg ? "JPEG" : "PNM", quality, width, height);
 
-  if (quality < 0)
-    quality = 0;
-  else if(quality > 100)
+  if ((quality < 0) || (quality > 100))
     quality = 100;
 
   this->stream->xine->port_ticket->acquire(this->stream->xine->port_ticket, 0);
