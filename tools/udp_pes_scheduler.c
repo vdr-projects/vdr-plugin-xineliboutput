@@ -823,7 +823,7 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
 
   struct {
     stream_udp_header_t hdr;
-    char                mem[64-sizeof(stream_udp_header_t)];
+    char                payload[64-sizeof(stream_udp_header_t)];
   } udp_ctrl = {{(uint64_t)INT64_C(-1), (uint16_t)-1}, {0}};
 
   // Handle buffer wrap
@@ -836,9 +836,9 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
     LOGDBG("cUdpScheduler::ReSend: requested range too large (%d-%d)",
 	   Seq1, Seq2);
 
-    sprintf((char*)udp_ctrl.hdr.payload,
-	    "UDP MISSING %d-%d %" PRIu64,
-	    Seq1, (Seq2 & UDP_BUFFER_MASK), Pos);
+    snprintf(udp_ctrl.payload, sizeof(udp_ctrl.payload),
+             "UDP MISSING %d-%d %" PRIu64,
+             Seq1, (Seq2 & UDP_BUFFER_MASK), Pos);
     send(fd, &udp_ctrl, sizeof(udp_ctrl), 0);
     return;
   }
@@ -887,9 +887,9 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
 	break;
     }
 
-    sprintf((char*)udp_ctrl.hdr.payload,
-	    "UDP MISSING %d-%d %" PRIu64,
-	    Seq0, (Seq1 & UDP_BUFFER_MASK), Pos);
+    snprintf(udp_ctrl.payload, sizeof(udp_ctrl.payload),
+             "UDP MISSING %d-%d %" PRIu64,
+             Seq0, (Seq1 & UDP_BUFFER_MASK), Pos);
 
     send(fd, &udp_ctrl, sizeof(udp_ctrl), 0);
   }
