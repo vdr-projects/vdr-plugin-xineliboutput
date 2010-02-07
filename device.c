@@ -800,6 +800,7 @@ void cXinelibDevice::Play(void)
   
   ForEach(m_clients, &cXinelibThread::SetLiveMode, false);
   TrickSpeed(-1);
+  cDevice::Play();
 }
 
 void cXinelibDevice::Freeze(void) 
@@ -808,6 +809,7 @@ void cXinelibDevice::Freeze(void)
 
   TsBufferFlush();
   TrickSpeed(0);
+  cDevice::Freeze();
 }
 
 int64_t cXinelibDevice::GetSTC(void)
