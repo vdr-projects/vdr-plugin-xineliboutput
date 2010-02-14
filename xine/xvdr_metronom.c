@@ -106,6 +106,12 @@ static int64_t get_option(metronom_t *metronom, int option)
   if (option == XVDR_METRONOM_LAST_VO_PTS) {
     return this->last_vo_pts;
   }
+  if (option == XVDR_METRONOM_TRICK_SPEED) {
+    return this->trickspeed;
+  }
+  if (option == XVDR_METRONOM_STILL_MODE) {
+    return this->still_mode;
+  }
 
   return this->orig_metronom->get_option(this->orig_metronom, option);
 }

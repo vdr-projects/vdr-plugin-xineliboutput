@@ -13,6 +13,8 @@
 
 
 #define XVDR_METRONOM_LAST_VO_PTS  0x1001
+#define XVDR_METRONOM_TRICK_SPEED  0x1002
+#define XVDR_METRONOM_STILL_MODE   0x1003
 
 
 typedef struct xvdr_metronom_s xvdr_metronom_t;
