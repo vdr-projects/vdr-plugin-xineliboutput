@@ -26,7 +26,7 @@ struct frontend_s;
 
 typedef struct vdr_input_plugin_funcs_s {
   /* VDR --> input plugin (only local mode) */
-  int  (*push_input_write)  (struct vdr_input_plugin_if_s *, const char *, int);
+  int  (*push_input_write)  (struct vdr_input_plugin_if_s *, int, uint64_t, const char *, int);
   int  (*push_input_control)(struct vdr_input_plugin_if_s *, const char *);
   int  (*push_input_osd)    (struct vdr_input_plugin_if_s *, struct osd_command_s *);
 

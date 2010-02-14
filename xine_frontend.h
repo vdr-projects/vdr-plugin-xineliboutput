@@ -104,7 +104,7 @@ struct frontend_s {
   /* Data transfer VDR -> frontend/xine */
   int  (*xine_osd_command)(frontend_t*, struct osd_command_s *cmd);
   int  (*xine_control)(frontend_t*, const char *cmd);
-  int  (*xine_queue_pes_packet)(frontend_t*, const char *data, int len);
+  int  (*xine_queue_pes_packet)(frontend_t*, int stream, uint64_t pos, const char *data, int len);
 
   char *(*grab)(frontend_t*, int *size, int jpeg, int quality,
                 int width, int height);
