@@ -192,9 +192,6 @@ cXinelibDevice::cXinelibDevice()
   if(xc.remote_mode && xc.listen_port>0)
     m_clients.Add(m_server = new cXinelibServer(xc.listen_port));
 
-  m_ac3Present  = false;
-  m_spuPresent  = false;
-
   memset(m_MetaInfo, 0, sizeof(m_MetaInfo));
     
   m_PlayMode = pmNone;
@@ -595,7 +592,6 @@ void cXinelibDevice::SetTvMode(cChannel *Channel)
   m_TrickSpeed = -1;
   m_SkipAudio  = false;
   m_AudioCount = 0;
-  m_spuPresent = false;
 
   Clear();
   ForEach(m_clients, &cXinelibThread::SetNoVideo, m_RadioStream);
@@ -641,9 +637,6 @@ bool cXinelibDevice::SetPlayMode(ePlayMode PlayMode)
       TRACE("cXinelibDevice::SetPlayMode this should be avoided"); break;
   }
 #endif
-
-  m_ac3Present = false;
-  m_spuPresent = false;
 
   m_PlayMode = PlayMode;
 

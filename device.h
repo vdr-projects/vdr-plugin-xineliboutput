@@ -225,8 +225,6 @@ class cXinelibDevice : public cDevice
   // Stream data
 
   private:
-    bool m_ac3Present;
-    bool m_spuPresent;
     bool m_RadioStream;
     int  m_AudioCount;
     bool m_SkipAudio;
