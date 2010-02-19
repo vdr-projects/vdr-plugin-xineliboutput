@@ -2887,6 +2887,7 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
   } else if(!strncasecmp(cmd, "NOVIDEO ", 8)) {
     if(1 == sscanf(cmd+8, "%d", &tmp32)) {
       pthread_mutex_lock(&this->lock);
+
       this->no_video = tmp32;
       if(this->no_video) {
         this->max_buffers = RADIO_MAX_BUFFERS;
@@ -2896,7 +2897,14 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
 	  this->max_buffers >>= 1;
         this->max_buffers -= 10;
       }
+
+      if (tmp32)
+        this->metronom->unwire(this->metronom);
+      else
+        this->metronom->wire(this->metronom);
+
       pthread_mutex_unlock(&this->lock);
+
     } else
       err = CONTROL_PARAM_ERROR;
 
