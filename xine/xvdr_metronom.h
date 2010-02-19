@@ -33,6 +33,9 @@ struct xvdr_metronom_s {
   void (*set_trickspeed)(xvdr_metronom_t *, int);
   void (*set_still_mode)(xvdr_metronom_t *, int);
 
+  void (*wire)          (xvdr_metronom_t *);
+  void (*unwire)        (xvdr_metronom_t *);
+
   /* accumulated frame data */
   volatile uint video_frames;
   volatile uint audio_frames;
@@ -52,6 +55,7 @@ struct xvdr_metronom_s {
   int     trickspeed;    /* current trick speed */
   int     still_mode;
   int64_t last_vo_pts;   /* last displayed video frame PTS */
+  int     wired;         /* true if currently wired to stream */
 #endif
 };
 

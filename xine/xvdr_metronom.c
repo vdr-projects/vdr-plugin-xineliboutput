@@ -171,6 +171,27 @@ static void xvdr_metronom_set_still_mode(xvdr_metronom_t *this, int still_mode)
   this->still_mode = still_mode;
 }
 
+static void xvdr_metronom_wire(xvdr_metronom_t *this)
+{
+  if (!this->wired) {
+    this->wired = 1;
+
+    /* attach to stream */
+    this->stream->metronom = &this->metronom;
+  }
+}
+
+static void xvdr_metronom_unwire(xvdr_metronom_t *this)
+{
+  if (this->wired) {
+    this->wired = 0;
+
+    /* detach from stream */
+    this->stream->metronom = this->orig_metronom;
+  }
+}
+
+
 /*
  * init
  */
@@ -186,6 +207,8 @@ xvdr_metronom_t *xvdr_metronom_init(xine_stream_t *stream)
   this->reset_frames   = xvdr_metronom_reset_frames;
   this->set_trickspeed = xvdr_metronom_set_trickspeed;
   this->set_still_mode = xvdr_metronom_set_still_mode;
+  this->wire           = xvdr_metronom_wire;
+  this->unwire         = xvdr_metronom_unwire;
   this->dispose        = xvdr_metronom_dispose;
 
   this->metronom.set_audio_rate    = set_audio_rate;
@@ -200,8 +223,7 @@ xvdr_metronom_t *xvdr_metronom_init(xine_stream_t *stream)
 
   this->metronom.exit = metronom_exit;
 
-  /* hook up to stream */
-  this->stream->metronom = &this->metronom;
+  xvdr_metronom_wire(this);
 
   return this;
 }
