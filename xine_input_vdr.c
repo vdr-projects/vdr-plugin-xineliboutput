@@ -1417,6 +1417,8 @@ static void set_still_mode(vdr_input_plugin_t *this, int still_mode)
 
   if (this->still_mode)
     reset_scr_tuning(this, this->speed_before_pause);
+
+  this->metronom->set_still_mode(this->metronom, still_mode);
 }
 
 static void queue_blank_yv12(vdr_input_plugin_t *this)
