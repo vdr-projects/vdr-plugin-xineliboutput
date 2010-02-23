@@ -1000,9 +1000,14 @@ eOSState cXinelibDvdPlayerControl::ProcessKey(eKeys Key)
 		     Show();
 		   }
 		   break;
-      case kBack:  xc.main_menu_mode = m_Mode;
-	           Hide(); 
-		   Close(); 
+      case kBack:  if (config_t::IsDvdImage(m_Player->File())) {
+                     xc.main_menu_mode = m_Mode;
+                   } else {
+                     xc.main_menu_mode = ShowMenu;
+                   }
+                   Hide();
+		   Close();
+                   BackToMenu();
 		   return osEnd;
       default:     break;
     }
