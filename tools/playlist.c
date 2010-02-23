@@ -154,7 +154,7 @@ static int extractor_callback_id3(void *priv,
         Item->Album = data;
         break;
       case EXTRACTOR_METATYPE_TRACK_NUMBER:
-        Item->Tracknumber = strlen(data) == 1 ? cString::sprintf("0%s", data) : data;
+        Item->Tracknumber = strlen(data) == 1 ? *cString::sprintf("0%s", data) : data;
         break;
       default:
         break;
