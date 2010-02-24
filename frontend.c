@@ -775,6 +775,8 @@ void cXinelibThread::Configure(void)
     Xine_Control(cString::sprintf("SCR %s %d", 
 				  xc.live_mode_sync ? "Sync"    : "NoSync",
 				  xc.scr_tuning     ? xc.scr_hz : 90000));
+
+    Xine_Control("CONFIG END");
 }
 
 int cXinelibThread::ConfigurePostprocessing(const char *deinterlace_method, 
