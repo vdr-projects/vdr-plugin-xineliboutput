@@ -319,6 +319,7 @@ typedef struct vdr_input_plugin_s {
   uint8_t             dvd_menu : 1;
   uint8_t             hd_stream : 1;        /* true if current stream is HD */
   uint8_t             sw_volume_control : 1;
+  uint8_t             config_ok : 1;
 
   /* metronom */
   xvdr_metronom_t    *metronom;
@@ -3235,6 +3236,9 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
     else
       err = CONTROL_PARAM_ERROR;
 
+  } else if(!strncasecmp(cmd, "CONFIG END", 10)) {
+    this->config_ok = 1;
+
   } else if(!strncasecmp(cmd, "GRAB ", 5)) {
     handle_control_grab(this, cmd);
 
@@ -4608,12 +4612,14 @@ static buf_element_t *vdr_plugin_read_block (input_plugin_t *this_gen,
 
   TRACE("vdr_plugin_read_block");
 
-  if (this->slave_stream) {
-    xine_usec_sleep(50*1000);
-    if (this->slave_stream) {
-      errno = EAGAIN;
-      return NULL;
+  if (this->slave_stream || !this->config_ok) {
+    if (!this->config_ok) {
+      LOGDBG("read_block waiting for configuration data");
+      xine_usec_sleep(100*1000);
     }
+    xine_usec_sleep(50*1000);
+    errno = EAGAIN;
+    return NULL;
   }
 
   do {
