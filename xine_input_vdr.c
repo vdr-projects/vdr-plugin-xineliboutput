@@ -2350,12 +2350,14 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
     LOGMSG("PLAYFILE <STOP>: Closing slave stream");
     this->loop_play = 0;
     if(this->slave_stream) {
-      xine_stop(this->slave_stream);
 
+      /* dispose event queue first to prevent processing of PLAYBACK FINISHED event */
       if (this->slave_event_queue) {
 	xine_event_dispose_queue (this->slave_event_queue);
 	this->slave_event_queue = NULL;
       }
+
+      xine_stop(this->slave_stream);
 
       if(this->funcs.fe_control) {
 	this->funcs.fe_control(this->funcs.fe_handle, "POST 0 Off\r\n");
@@ -2363,7 +2365,10 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
       }
       xine_close(this->slave_stream);
       xine_dispose(this->slave_stream);
+
+      pthread_mutex_lock(&this->lock);
       this->slave_stream = NULL;
+      pthread_mutex_unlock(&this->lock);
 
       if(this->funcs.fe_control)
 	this->funcs.fe_control(this->funcs.fe_handle, "SLAVE CLOSED\r\n");
@@ -3598,30 +3603,20 @@ static void vdr_event_cb (void *user_data, const xine_event_t *event)
 	  }
 	}
 #endif
-      } else if(event->stream == this->slave_stream) {
+      }
+
+      pthread_mutex_lock(&this->lock);
+      if (event->stream == this->slave_stream) {
 	LOGMSG("XINE_EVENT_UI_PLAYBACK_FINISHED (slave stream)");
-	if(this->fd_control >= 0) {
+	if (this->fd_control >= 0) {
 	  write_control(this, "ENDOFSTREAM\r\n");
 	} else {
-	  if(this->funcs.fe_control) 
+	  if (this->funcs.fe_control)
 	    this->funcs.fe_control(this->funcs.fe_handle, "ENDOFSTREAM\r\n");
-#if 0
-	  if(!this->loop_play) {
-	    /* forward to vdr-fe (listening only VDR stream events) */
-	    xine_event_t event = {
-	      .type        = XINE_EVENT_UI_PLAYBACK_FINISHED,
-	      .data_length = 0,
-	    };
-	    xine_event_send (this->stream, &event);
-	  } else {
-# if 0
-	    xine_usec_sleep(500*1000);
-	    xine_play(this->slave_stream, 0, 0);
-# endif
-	  }
-#endif
 	}
       }
+      pthread_mutex_unlock(&this->lock);
+
       break;
 
     default:
