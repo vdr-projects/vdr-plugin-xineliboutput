@@ -4532,13 +4532,13 @@ static buf_element_t *preprocess_buf(vdr_input_plugin_t *this, buf_element_t *bu
  */
 static void postprocess_buf(vdr_input_plugin_t *this, buf_element_t *buf, int need_pause)
 {
-  if (buf->type != BUF_DEMUX_BLOCK || DATA_IS_TS(buf->content))
-    return;
-
 #ifdef TEST_SCR_PAUSE
       if(need_pause)
 	scr_tuning_set_paused(this);
 #endif
+
+  if (buf->type != BUF_DEMUX_BLOCK || DATA_IS_TS(buf->content))
+    return;
 
   /* generated still images start with empty video PES, PTS = 0.
      Reset metronom pts so images will be displayed */
