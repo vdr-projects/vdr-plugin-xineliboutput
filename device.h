@@ -249,8 +249,6 @@ class cXinelibDevice : public cDevice
     virtual int  PlaySubtitle(const uchar *Data, int Length);
 
 #if VDRVERSNUM >= 10701
-    cPatPmtParser m_PatPmtParser;
-
     /* join multiple TS packets to xineliboutput transport packet */
     uint8_t       m_TsBuf[4096];
     uint          m_TsBufSize;
