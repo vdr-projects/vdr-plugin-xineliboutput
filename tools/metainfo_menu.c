@@ -19,6 +19,10 @@
 
 #include "metainfo_menu.h"
 
+#if defined(HAVE_LIBEXTRACTOR) && EXTRACTOR_VERSION >= 0x00060000
+#  undef HAVE_LIBEXTRACTOR
+#  warning metainfo menu: libextractor 0.6.0 API not supported
+#endif
 
 //
 // cMetainfoMenu
