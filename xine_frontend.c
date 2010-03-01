@@ -629,6 +629,7 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
 	      "/.xine/config_xineliboutput") < 0)
     return 0;
 
+  LOGDBG("Using xine-lib config file %s", this->configfile);
   make_dirs(this->configfile);
   xine_config_load (this->xine, this->configfile);
 
