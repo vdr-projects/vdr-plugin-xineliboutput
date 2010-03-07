@@ -5532,17 +5532,19 @@ static buf_element_t *preprocess_buf(vdr_input_plugin_t *this, buf_element_t *bu
   /* Update stream position and remove network headers */
   strip_network_headers(this, buf);
 
-  /* Update stream position */
-  this->curpos += buf->size;
-  this->curframe ++;
-
   /* Handle discard */
   if (this->discard_index > this->curpos && this->guard_index < this->curpos) {
     this->last_delivered_vid_pts = INT64_C(-1);
+    this->curpos += buf->size;
+    this->curframe ++;
     pthread_mutex_unlock(&this->lock);
     buf->free_buffer(buf);
     return NULL;
   }
+
+  /* Update stream position */
+  this->curpos += buf->size;
+  this->curframe ++;
 
   /* ignore UDP/RTP "idle" padding */
   if (!DATA_IS_TS(buf->content) && IS_PADDING_PACKET(buf->content)) {
