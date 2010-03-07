@@ -74,6 +74,7 @@ VDRINCDIR ?= $(VDRDIR)/include
 ### Allow user defined options to overwrite defaults:
 ###
 
+-include $(VDRDIR)/Make.global
 -include $(VDRDIR)/Make.config
 -include Make.config
 
