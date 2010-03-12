@@ -260,6 +260,7 @@ int cTcpWriter::Put(uint64_t StreamPos,
   stream_tcp_header_t header;
   header.pos = htonull(StreamPos);
   header.len = htonl(DataCount);
+  header.stream = 0;
   return Put((uchar*)&header, sizeof(header), Data, DataCount);
 }
 
