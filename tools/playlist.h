@@ -126,8 +126,6 @@ class cPlaylist : protected cList<cPlaylistItem>
 
   static cString BuildMrl(const char *proto, const char *s1,
                           const char *s2 = NULL, const char *s3 = NULL, const char *s4 = NULL);
-  static cString EscapeMrl(const char *name);
-
   static cString GetEntry(cPlaylistItem *i, bool isPlaylist = false, bool isCurrent = false);
 };
 
