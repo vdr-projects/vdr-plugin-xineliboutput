@@ -960,6 +960,8 @@ void cMenuSetupOSD::Set(void)
       new cMenuEditStraI18nItem(tr("Scaling method"), &newconfig.osd_scaling,
 	                        OSD_SCALING_count, xc.s_osdScalings));
 
+  Add(new cMenuEditBoolItem(tr("Scale subtitles"), &newconfig.osd_spu_scaling));
+
   Add(new cMenuEditStraI18nItem(tr("Show all layers"), &newconfig.osd_mixer,
                                 OSD_MIXER_count, xc.s_osdMixers));
 
@@ -1032,6 +1034,7 @@ void cMenuSetupOSD::Store(void)
   SetupStore("OSD.Width",           xc.osd_width);
   SetupStore("OSD.Height",          xc.osd_height);
   SetupStore("OSD.Scaling",         xc.osd_scaling);
+  SetupStore("OSD.ScalingSPU",      xc.osd_spu_scaling);
   SetupStore("OSD.HideMainMenu",    xc.hide_main_menu);
   SetupStore("OSD.LayersVisible",   xc.osd_mixer);
   SetupStore("OSD.Blending",        xc.osd_blending);

@@ -309,6 +309,7 @@ class config_t {
     int  osd_height_auto;
     int  osd_mixer;                // show multiple OSD layers
     int  osd_scaling;              // OSD scaling mode: off, nearest, bilinear
+    int  osd_spu_scaling;          // SPU OSD scaling mode: off, nearest, bilinear
     int  hud_osd;                  // head up display OSD
     int  osd_blending;             // OSD blending method
     int  osd_blending_lowresvideo; // Use hardware blending for low-resolution video
