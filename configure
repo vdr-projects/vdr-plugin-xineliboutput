@@ -343,7 +343,7 @@ test_library     XINE libxine      "xine.h"         "-lxine"      "xine_init(0)"
 if enabled libxine; then
 
   log -n "Checking for xine plugin directory ..."
-  if enabled pkgconfig && $PKG_CONFIG libxine --atleast-version 1.1.90; then
+  if enabled pkgconfig && $PKG_CONFIG libxine --atleast-version 1.1.17; then
     XINEPLUGINDIR=`$PKG_CONFIG libxine --variable=plugindir`
   else
     XINEPLUGINDIR=`xine-config --plugindir`
