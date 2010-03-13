@@ -228,12 +228,14 @@ static int check_for_scaling(osdscaler_hook_t *this, vo_frame_t *frame, vo_overl
 
   if (!overlay->rle)
     return 0;
-  if (!frame->stream || frame->stream == XINE_ANON_STREAM)
-    return 0;
 
   /* check for VDR OSD */
   if (overlay->hili_rgb_clut != VDR_OSD_MAGIC /* not from vdr */) {
     LOGOSD("overlay: source not VDR");
+
+    if (!frame->stream || frame->stream == XINE_ANON_STREAM)
+      return 0;
+
     return 0;
   }
 
@@ -259,7 +261,7 @@ static int check_for_scaling(osdscaler_hook_t *this, vo_frame_t *frame, vo_overl
 #endif
 
   if (extent_width < 128 || extent_height < 128) {
-    LOGOSD("overlay: invalid extent size %dx%d", extent_width, extent_height);
+    LOGMSG("VDR overlay: invalid extent size %dx%d", extent_width, extent_height);
     return 0;
   }
 
