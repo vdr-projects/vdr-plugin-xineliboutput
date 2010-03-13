@@ -61,6 +61,21 @@
 
 
 /*
+ * Substreams
+ */
+
+enum eStreamId {
+  sidVdr      = 0,    /* VDR primary video/audio (MPEG-PES or MPEG-TS) */
+
+  sidPipFirst = 1,    /* VDR PIP video, first (MPEG-TS PAT+PMT+video) */
+  sidPipLast  = 17,
+
+  sidPadding  = 0xfd, /* UDP/RTP padding */
+  sidOsd      = 0xfe, /* OSD */
+  sidControl  = 0xff, /* control messages */
+};
+
+/*
  * Network packet headers
  */
 
