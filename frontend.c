@@ -399,7 +399,7 @@ int cXinelibThread::Poll(cPoller& Poller, int TimeoutMs)
 
 int cXinelibThread::Play(const uchar *data, int len, eStreamId StreamId)
 {
-  if (StreamId == sidVdr) {
+  if (StreamId == sidVdr && len >= 0) {
     Lock();
     m_StreamPos += len;
     m_Frames++;
