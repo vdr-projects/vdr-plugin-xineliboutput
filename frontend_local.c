@@ -123,7 +123,7 @@ int cXinelibLocal::Play(const uchar *data, int len, eStreamId StreamId)
   {
     LOCK_FE;
     if (fe && Running()) {
-      int done = fe->xine_queue_pes_packet(fe, 0, m_StreamPos, (const char *)data, len);
+      int done = fe->xine_queue_pes_packet(fe, StreamId, m_StreamPos, (const char *)data, len);
       if (done >= 0)
         return cXinelibThread::Play(data, done, StreamId);
     }
