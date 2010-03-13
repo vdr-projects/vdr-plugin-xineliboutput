@@ -116,16 +116,16 @@ cXinelibLocal::~cXinelibLocal()
 // Data transfer
 //
 
-int cXinelibLocal::Play_PES(const uchar *data, int len)
+int cXinelibLocal::Play(const uchar *data, int len, eStreamId StreamId)
 {
-  TRACEF("cXinelibLocal::Play_PES");
+  TRACEF("cXinelibLocal::Play");
 
   {
     LOCK_FE;
     if (fe && Running()) {
       int done = fe->xine_queue_pes_packet(fe, 0, m_StreamPos, (const char *)data, len);
       if (done >= 0)
-        return cXinelibThread::Play_PES(data, len);
+        return cXinelibThread::Play(data, done, StreamId);
     }
   }
 

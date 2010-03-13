@@ -45,7 +45,7 @@ class cXinelibServer : public cXinelibThread
     virtual int     Poll(cPoller &Poller, int TimeoutMs);
     virtual bool    Flush(int TimeoutMs);
     virtual void    Clear(void);
-    virtual int     Play_PES(const uchar *buf, int len);
+    virtual int     Play(const uchar *buf, int len, eStreamId StreamId = sidVdr);
     virtual void    OsdCmd(void *cmd);
     virtual int64_t GetSTC();
     virtual void    SetHDMode(bool On);
