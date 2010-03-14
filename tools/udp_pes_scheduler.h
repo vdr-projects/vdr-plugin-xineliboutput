@@ -40,7 +40,7 @@ class cUdpScheduler : public cThread
 
     bool Clients(void) { return m_Handles[0] >= 0; }
     int  Poll(int TimeoutMs, bool Master);
-    bool Queue(uint64_t StreamPos, const uchar *Data, int Length);
+    bool Queue(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int Length);
     void QueuePadding(void);
     void ReSend(int fd, uint64_t Pos, int Seq1, int Seq2);
 
