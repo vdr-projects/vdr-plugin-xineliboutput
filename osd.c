@@ -483,7 +483,7 @@ void cXinelibOsd::Flush(void)
 
 #ifdef YAEPGHDVERSNUM
   if (vidWin.bpp)
-    SetVideoWindow(vidWin.x1, vidWin.y1, vidWin.x2, vidWin.y2);
+    CmdVideoWindow(vidWin.x1, vidWin.y1, vidWin.Width(), vidWin.Height());
 #endif
 
   for (int i = 0; (Bitmap = GetBitmap(i)) != NULL; i++) {
