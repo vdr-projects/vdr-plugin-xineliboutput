@@ -1151,7 +1151,7 @@ int cXinelibDevice::PlayTs(const uchar *Data, int Length, bool VideoOnly)
  * TS buffer
  */
 
-#define TS_BUFFER_LOCK cSectionLock(m_TsBufLock)
+#define TS_BUFFER_LOCK cSectionLock SectionLock(m_TsBufLock)
 
 int cXinelibDevice::TsBufferFlush(void)
 {
