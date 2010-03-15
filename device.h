@@ -245,12 +245,13 @@ class cXinelibDevice : public cDevice
 
     virtual void StillPicture(const uchar *Data, int Length);
 
+    // MPEG-PES
     virtual int  PlayVideo(const uchar *Data, int Length);
     virtual int  PlayAudio(const uchar *Data, int Length, uchar Id);
     virtual int  PlaySubtitle(const uchar *Data, int Length);
 
 #if VDRVERSNUM >= 10701
-    /* join multiple TS packets to xineliboutput transport packet */
+    // join multiple TS packets to xineliboutput transport packet
     cMutex        m_TsBufLock;
     uint8_t       m_TsBuf[4096];
     uint          m_TsBufSize;
@@ -260,6 +261,7 @@ class cXinelibDevice : public cDevice
 
     int           PlayTsAny(const uchar *Data, int Length);
 
+    // MPEG-TS
     virtual int PlayTsVideo(const uchar *Data, int Length);
     virtual int PlayTsAudio(const uchar *Data, int Length);
     virtual int PlayTsSubtitle(const uchar *Data, int Length);
