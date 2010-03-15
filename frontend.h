@@ -57,6 +57,9 @@ class cXinelibThread : public cThread, public cListObject
     // Sync(): wait until all pending control messages have been processed by the client
     virtual void Sync(void) { Xine_Control("SYNC"); };
 
+    void Pip_Config(int Index, int X = -1, int Y = -1, int W = -1, int H = -1);
+    void Pip_Close(int Index);
+
   protected:
     int  Xine_Control(const char *cmd, const char *p1);
     int  Xine_Control(const char *cmd, int p1);

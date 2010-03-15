@@ -37,6 +37,7 @@ typedef enum {
 #define ttXSubtitleAuto  (-1)
 
 #define MAX_METAINFO_LEN 63
+#define MAX_NUM_PIP      16
 
 class cXinelibDevice : public cDevice
 {
@@ -264,6 +265,17 @@ class cXinelibDevice : public cDevice
     void        TsBufferClear(void) {}
     void        TsBufferFlush(void) {}
 #endif
+
+  // Picture-In-Picture
+
+  protected:
+    uint16_t m_PipPid[MAX_NUM_PIP];
+
+  public:
+    int  Pip_Open   (void);
+    void Pip_Config (int Index, int X, int Y, int W, int H);
+    int  Pip_Play   (int Index, uint8_t *Data, int Length);
+    void Pip_Close  (int Index);
 };
 
 #endif // __XINELIB_DEVICE_H

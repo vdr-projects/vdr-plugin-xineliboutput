@@ -345,6 +345,16 @@ void cXinelibThread::SetSubtitleTrack(eTrackType Track)
   Xine_Control(buf);
 }
 
+void cXinelibThread::Pip_Config(int Index, int X, int Y, int W, int H)
+{
+  Xine_Control(cString::sprintf("PIP %d %d %d %d %d", Index, X, Y, W, H));
+}
+
+void cXinelibThread::Pip_Close(int Index)
+{
+  Xine_Control(cString::sprintf("PIP %d Close", Index));
+}
+
 void cXinelibThread::Clear(void)
 {
   TRACEF("cXinelibThread::Clear");
