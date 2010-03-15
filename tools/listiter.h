@@ -35,6 +35,13 @@ void ForEach(LIST& List, void (ITEM::*f)(ARG1,ARG2), ARG1 arg1, ARG2 arg2)
     (*it.*f)(arg1,arg2);
 }
 
+template <class LIST,class ITEM, class ARG1, class ARG2, class ARG3, class ARG4, class ARG5>
+  void ForEach(LIST& List, void (ITEM::*f)(ARG1,ARG2,ARG3,ARG4,ARG5), ARG1 arg1, ARG2 arg2, ARG3 arg3, ARG4 arg4, ARG5 arg5)
+{
+  for(ITEM *it = List.First(); it; it = List.Next(it))
+    (*it.*f)(arg1,arg2,arg3,arg4,arg5);
+}
+
 template <class LIST,class ITEM, class ARG1, class RESULT>
 RESULT ForEach(LIST& List, RESULT (ITEM::*f)(ARG1), ARG1 arg1, 
 	       RESULT (*combiner)(RESULT,RESULT), RESULT def)
