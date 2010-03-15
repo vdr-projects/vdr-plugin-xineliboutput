@@ -14,6 +14,7 @@
 #include <vdr/config.h>
 #include <vdr/device.h>
 #include <vdr/tools.h>
+#include <vdr/thread.h>
 
 class cXinelibStatusMonitor;
 class cXinelibThread;
@@ -250,10 +251,12 @@ class cXinelibDevice : public cDevice
 
 #if VDRVERSNUM >= 10701
     /* join multiple TS packets to xineliboutput transport packet */
+    cMutex        m_TsBufLock;
     uint8_t       m_TsBuf[4096];
     uint          m_TsBufSize;
+
     int           TsBufferFlush(void);
-    void          TsBufferClear(void) { m_TsBufSize = 0; };
+    void          TsBufferClear(void);
 
     int           PlayTsAny(const uchar *Data, int Length);
 
