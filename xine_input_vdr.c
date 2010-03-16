@@ -3028,7 +3028,7 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
 
   } else if(!strncasecmp(cmd, "TRICKSPEED ", 11)) {
     err = (1 == sscanf(cmd+11, "%d", &tmp32)) ? 
-      set_trick_speed(this, tmp32, !!strstr(cmd+13, "Back")) :
+      set_trick_speed(this, tmp32, !!strstr(cmd+11, "Back")) :
       CONTROL_PARAM_ERROR;    
 
   } else if(!strncasecmp(cmd, "STILL ", 6)) {
