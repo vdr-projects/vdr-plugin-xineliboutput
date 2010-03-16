@@ -588,7 +588,7 @@ static size_t ts_add_payload(ts_state_t *ts, const uint8_t *data)
     memmove(ts->buf, ts->buf+TS_SIZE, ts->buf_len);
   }
 
-  size_t len = ts_PAYLOAD_SIZE(data);
+  ssize_t len = ts_PAYLOAD_SIZE(data);
   if (len > 0) {
     memcpy(ts->buf + ts->buf_len, ts_GET_PAYLOAD(data), len);
     ts->buf_len += len;
