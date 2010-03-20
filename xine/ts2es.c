@@ -167,6 +167,16 @@ buf_element_t *ts2es_put(ts2es_t *this, uint8_t *data, fifo_buffer_t *src_fifo)
     }
   }
 
+  /* split large packets */
+  if (this->buf) {
+    if ((this->video && this->buf->size >= 2048) ||
+        this->buf->size >= this->buf->max_size-2*TS_SIZE) {
+
+      result = this->buf;
+      this->buf = NULL;
+    }
+  }
+
   /* need new buffer ? */
   if (!this->buf) {
     /* discard data until first payload start indicator */
@@ -197,14 +207,6 @@ buf_element_t *ts2es_put(ts2es_t *this, uint8_t *data, fifo_buffer_t *src_fifo)
   /* parse PES header */
   if (pusi) {
     ts2es_parse_pes(this);
-  }
-
-  /* split large packets */
-  if ((this->video && this->buf->size >= 2048+64-TS_SIZE) ||
-      this->buf->size >= this->buf->max_size-TS_SIZE) {
-
-    result = this->buf;
-    this->buf = NULL;
   }
 
   return result;
