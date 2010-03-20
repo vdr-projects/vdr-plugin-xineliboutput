@@ -615,13 +615,22 @@ static void vdr_adjust_realtime_speed(vdr_input_plugin_t *this)
       scr_tuning != SCR_TUNING_PAUSED &&
       !this->no_video && !this->still_mode && !this->is_trickspeed) {
 
+    int num_frames = this->stream->video_out->get_property(this->stream->video_out, VO_PROP_BUFS_IN_FIFO);
+
+    if (num_frames < 5) {
+      LOGSCR("SCR paused by adjust_speed, vbufs = %d", num_frames);
       scr_tuning_set_paused(this);
+      return;
+    }
+
+    LOGSCR("adjust_speed: no pause, enough vbufs queued (%d)", num_frames);
+  }
 
   /* SCR -> RESUME
    *  - If SCR (playback) is currently paused due to previous buffer underflow,
    *    revert to normal if buffer fill is > 66%
    */
-  } else if (scr_tuning == SCR_TUNING_PAUSED) {
+  if (scr_tuning == SCR_TUNING_PAUSED) {
     if (num_used/2 > num_free
         || (this->no_video && num_used > 5)
         || this->still_mode
