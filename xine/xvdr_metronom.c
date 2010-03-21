@@ -149,14 +149,6 @@ static void xvdr_metronom_set_cb(xvdr_metronom_t *this,
   this->frame_decoded = cb;
 }
 
-static void xvdr_metronom_dispose(xvdr_metronom_t *this)
-{
-  if (this->stream && this->orig_metronom)
-    this->stream->metronom = this->orig_metronom;
-
-  free(this);
-}
-
 static void xvdr_metronom_reset_frames(xvdr_metronom_t *this)
 {
   this->video_frames = this->audio_frames = 0;
@@ -202,6 +194,12 @@ static void xvdr_metronom_unwire(xvdr_metronom_t *this)
   }
 }
 
+static void xvdr_metronom_dispose(xvdr_metronom_t *this)
+{
+  xvdr_metronom_unwire(this);
+
+  free(this);
+}
 
 /*
  * init
