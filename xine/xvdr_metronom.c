@@ -130,10 +130,11 @@ static void metronom_exit(metronom_t *metronom)
 
   /* un-hook */
   this->stream->metronom = this->orig_metronom;
-  this->orig_metronom = NULL;
   this->stream = NULL;
 
   this->orig_metronom->exit(this->orig_metronom);
+
+  this->orig_metronom = NULL;
 }
 
 /*
