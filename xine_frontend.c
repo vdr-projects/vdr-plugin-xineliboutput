@@ -1744,7 +1744,9 @@ static char *frame_compress_jpeg(fe_t *this, int *size, int quality, vo_frame_t 
       jpeg_set_defaults(&cinfo);
       jpeg_set_quality(&cinfo, quality, TRUE);
       cinfo.raw_data_in = TRUE;
+#if JPEG_LIB_VERSION >= 70
       cinfo.do_fancy_downsampling = FALSE;
+#endif
 
       jpeg_set_colorspace(&cinfo, JCS_YCbCr);
       cinfo.comp_info[0].h_samp_factor =
