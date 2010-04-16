@@ -5027,6 +5027,14 @@ static int vdr_plugin_open(input_plugin_t *this_gen)
   if (this->class->num_buffers_hd != HD_BUF_NUM_BUFS)
     LOGMSG("Using non-default \"media." MRL_ID ".num_buffers_hd:%d\"", this->class->num_buffers_hd);
 
+  /* check stream audio fifo size and issue a warning if too small */
+  cfg_entry_t *e = this->class->xine->config->lookup_entry(this->class->xine->config,
+                                                           "engine.buffers.audio_num_buffers");
+  if (e && e->num_value < 500) {
+    LOGMSG("WARNING: xine-engine setting \"engine.buffers.audio_num_buffers\":%d is"
+           "too low for HD-playback! Please use values between 500-1000!", e->num_value);
+  }
+
   return 1;
 }
 
