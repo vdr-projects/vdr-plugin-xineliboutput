@@ -95,6 +95,7 @@ eOSState cEqualizer::ProcessKey(eKeys key)
       case kOk:
         memcpy(xc.audio_equalizer, m_Values, sizeof(xc.audio_equalizer));
 	return osEnd;
+      default:; // all other keys - do nothing.
     }
   }
 

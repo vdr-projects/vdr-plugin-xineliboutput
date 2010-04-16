@@ -1808,6 +1808,7 @@ eOSState cTestGrayscale::ProcessKey(eKeys key)
 	cXinelibDevice::Instance().ConfigureVideo(xc.hue, xc.saturation, br, xc.sharpness, xc.noise_reduction, co, xc.overscan, xc.vo_aspect_ratio);
 	m_Osd->Flush();
 	return osContinue;
+      default:; // all other keys - do nothing.
     }
   }
   return state;
