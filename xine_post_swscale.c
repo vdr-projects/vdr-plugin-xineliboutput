@@ -1300,22 +1300,8 @@ static int do_warp_yv12(uint8_t *dst, const uint8_t * const src,
 /*#define POST_SLICES*/
 #include "xine/post_util.h"
 
-
-/* plugin class initialization function */
-void *warp_init_plugin(xine_t *xine, void *);
-
-/* plugin class functions */
-static post_plugin_t *open_plugin(post_class_t *class_gen, int inputs,
-				  xine_audio_port_t **audio_target,
-				  xine_video_port_t **video_target);
-
 /* plugin instance functions */
 static void        warp_dispose(post_plugin_t *this_gen);
-
-/* vo_frame functions */
-static vo_frame_t *got_frame(vo_frame_t *frame);
-static void        draw_internal(vo_frame_t *frame, vo_frame_t *new_frame);
-
 
 /* parameter functions */
 static xine_post_api_descr_t *warp_get_param_descr(void);
