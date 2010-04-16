@@ -600,7 +600,7 @@ static void vdr_adjust_realtime_speed(vdr_input_plugin_t *this)
   /*int num_vbufs = 0;*/
 
   if (this->hd_stream && this->hd_buffer)
-    num_free += this->hd_buffer->num_free(this->hd_buffer);
+    num_free = this->hd_buffer->num_free(this->hd_buffer);
   if (this->stream->audio_fifo)
     num_used += this->stream->audio_fifo->size(this->stream->audio_fifo);
   num_free -= this->reserved_buffers;
