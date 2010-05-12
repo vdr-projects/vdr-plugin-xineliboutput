@@ -641,13 +641,14 @@ static void vdr_adjust_realtime_speed(vdr_input_plugin_t *this)
 
   if (scr_tuning == SCR_TUNING_PAUSED) {
     uint scr_treshold = 100 * num_used / (num_used + num_free);
-    LOGSCR("SCR-Treshold %2d%%", scr_treshold);
+    LOGSCR("SCR-T %2d%%, FB %d, UB %d", scr_treshold, num_free, num_used);
     uint audio_treshold = 100 * this->stream->audio_fifo->size
                           (this->stream->audio_fifo) / (this->stream->audio_fifo->size
                           (this->stream->audio_fifo) + 500);
-    LOGSCR("Audio-Treshold %2d%%", audio_treshold);
-    if (   (this->hd_stream  && scr_treshold > this->class->scr_treshold_hd && audio_treshold > 0)
-        || (!this->hd_stream && scr_treshold > this->class->scr_treshold_sd && audio_treshold > 0)
+    LOGSCR("Audio-T %2d%%, UB %d", audio_treshold, this->stream->audio_fifo->size
+                                                  (this->stream->audio_fifo));
+    if (   (this->hd_stream  && scr_treshold > this->class->scr_treshold_hd && (audio_treshold > 0 || scr_treshold > 65))
+        || (!this->hd_stream && scr_treshold > this->class->scr_treshold_sd && (audio_treshold > 0 || scr_treshold > 65))
         || (this->no_video && num_used > 5)
         || this->still_mode
         || this->is_trickspeed
