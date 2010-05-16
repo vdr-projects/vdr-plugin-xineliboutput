@@ -413,6 +413,8 @@ static int osdscaler_set_property(vo_driver_t *self, int prop, int val)
         this->enable = val?1:0;
       }
       return this->enable;
+
+    default:;
   }
 
   return vo_def_set_property(self, prop, val);
