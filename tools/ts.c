@@ -410,7 +410,7 @@ int ts_parse_pmt (pmt_data_t *pmt, uint program_no, const uint8_t *pkt)
 
               LOGPMT("parse_pmt: DVBSUB pid 0x%.4x: %s  page %d %d type %2.2x", pid,
                      pmt->spu_tracks[no].lang, pmt->spu_tracks[no].comp_page_id,
-                     pmt->spu_tracks[no].aux_page_id, stream[0]);
+                     pmt->spu_tracks[no].aux_page_id, STREAM_DVBSUB);
             }
           }
         }
