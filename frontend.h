@@ -142,6 +142,8 @@ class cXinelibThread : public cThread, public cListObject
     bool m_bNoVideo;
     bool m_bLiveMode;
     bool m_bHDMode;
+    int  m_TrickSpeed;
+    bool m_bTrickSpeedBack;
     bool m_bEndOfStreamReached;
     bool m_bPlayingFile;
     int  m_Volume;
