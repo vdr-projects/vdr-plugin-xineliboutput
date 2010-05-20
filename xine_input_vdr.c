@@ -3100,6 +3100,15 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
       if(sw != this->sw_volume_control) {
 	this->sw_volume_control = sw;
 	if(sw) {
+          /*
+           * XXX make sure libxine's internal copy of the mixer
+           * volume is initialized before using XINE_PARAM_AUDIO_MUTE...
+           * (this fixes mixer volume being reset to 45 here every time
+           *  at vdr-sxfe start when using software volume control.)
+           */
+          tmp32 = xine_get_param(stream, XINE_PARAM_AUDIO_VOLUME);
+          xine_set_param(stream, XINE_PARAM_AUDIO_VOLUME, tmp32);
+
 	  xine_set_param(stream, XINE_PARAM_AUDIO_MUTE, 0);
 	} else {
 	  xine_set_param(stream, XINE_PARAM_AUDIO_AMP_LEVEL, 100);
