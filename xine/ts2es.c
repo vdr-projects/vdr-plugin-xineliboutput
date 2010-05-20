@@ -279,6 +279,24 @@ ts2es_t *ts2es_init(fifo_buffer_t *dst_fifo, ts_stream_type stream_type, uint st
       data->xine_buf_type = BUF_AUDIO_A52;
       break;
 
+    /* EAC3 (xine-lib > 1.1.18.1) */
+#ifdef BUF_AUDIO_EAC3
+    case STREAM_AUDIO_EAC3:
+      data->xine_buf_type = BUF_AUDIO_EAC3;
+      break;
+#endif
+
+    /* DTS (PES stream 0xbd) */
+    case  STREAM_AUDIO_DTS:
+      data->xine_buf_type = BUF_AUDIO_DTS;
+      break;
+
+    /* AAC (PES stream 0xbd) */
+    case  STREAM_AUDIO_AAC:
+      data->xine_buf_type = BUF_AUDIO_AAC;
+      break;
+
+
     default:
       LOGMSG("ts2es: unknown stream type 0x%x", stream_type);
       break;
