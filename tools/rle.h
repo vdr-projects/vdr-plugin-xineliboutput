@@ -25,7 +25,7 @@ struct xine_rle_elem_s;
 struct xine_clut_s;
 
 
-int  rle_compress(struct xine_rle_elem_s **rle_data, const uint8_t *data, uint w, uint h);
+uint rle_compress(struct xine_rle_elem_s **rle_data, const uint8_t *data, uint w, uint h);
 
 void rle_uncompress_lut8(const struct xine_rle_elem_s *rle_data,
                          uint8_t *data, uint w, uint h);
