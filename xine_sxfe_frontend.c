@@ -1548,7 +1548,7 @@ static void XButtonEvent_handler(sxfe_t *this, XButtonEvent *bev)
       /* Double-click toggles between fullscreen and windowed mode */
       if(bev->time - this->prev_click_time < DOUBLECLICK_TIME) {
         /* Toggle fullscreen */
-        sxfe_toggle_fullscreen((fe_t*)this);
+        this->x.toggle_fullscreen_cb(&this->x);
         this->prev_click_time = 0; /* don't react to third click ... */
       } else {
         this->prev_click_time = bev->time;
