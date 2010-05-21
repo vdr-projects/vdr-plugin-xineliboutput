@@ -135,9 +135,11 @@ static uint64_t read_key_seq(void)
                     k |= key1 & 0xFF;
                   } while (key1 != 0x7E);
                   break;
+                default:;
               }
             }
             break;
+          default:;
         }
       }
     }
@@ -461,7 +463,7 @@ static const struct option long_options[] = {
   { "tcp",       no_argument,  NULL, 't' },
   { "udp",       no_argument,  NULL, 'u' },
   { "rtp",       no_argument,  NULL, 'r' },
-  { NULL }
+  { NULL,        no_argument,  NULL,  0  }
 };
 
 #define PRINTF(x...) do { if(SysLogLevel>1) printf(x); } while(0)
