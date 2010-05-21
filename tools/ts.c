@@ -28,13 +28,13 @@
 #ifdef LOG_PMT
 #  define LOGPMT LOGMSG
 #else
-#  define LOGPMT(x...)
+#  define LOGPMT(x...) do {} while (0)
 #endif
 
 #ifdef LOG_PCR
 #  define LOGPCR LOGMSG
 #else
-#  define LOGPCR(x...)
+#  define LOGPCR(x...) do {} while (0)
 #endif
 
 
@@ -483,10 +483,9 @@ int ts_parse_pmt (pmt_data_t *pmt, uint program_no, const uint8_t *pkt)
 
     if (pmt->pcr_pid == INVALID_PID) {
       LOGPMT("parse_pmt: pcr pid 0x%.4x", pid);
-      }
-    else {
+    } else {
       LOGPMT("parse_pmt: pcr pid changed 0x%.4x", pid);
-      }
+    }
     pmt->pcr_pid = pid;
   }
 
