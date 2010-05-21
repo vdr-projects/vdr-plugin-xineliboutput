@@ -1576,6 +1576,8 @@ static void XButtonEvent_handler(sxfe_t *this, XButtonEvent *bev)
         }
       }
       break;
+
+    default:; // ignore other buttons.
   }
 }
 
@@ -1659,6 +1661,7 @@ static int sxfe_run(frontend_t *this_gen)
         }
         break;
       }
+      default:; // ignore other events.
     }
 
     if (event.type == this->completion_event)
