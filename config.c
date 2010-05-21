@@ -696,8 +696,8 @@ bool config_t::ProcessArgs(int argc, char *argv[])
       { "post",         required_argument, NULL, 'P' },
       { "config",       required_argument, NULL, 'C' },
       { "primary",      no_argument,       NULL, 'p' },
-      { "exit-on-close",no_argument,     NULL, 'c' },
-      { NULL }
+      { "exit-on-close",no_argument,       NULL, 'c' },
+      { NULL,           no_argument,       NULL,  0  }
     };
 
   int c;

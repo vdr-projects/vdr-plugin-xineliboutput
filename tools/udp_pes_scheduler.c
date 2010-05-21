@@ -868,7 +868,7 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
   struct {
     stream_udp_header_t hdr;
     char                payload[64-sizeof(stream_udp_header_t)];
-  } udp_ctrl = {{(uint64_t)INT64_C(-1), (uint16_t)-1}, {0}};
+  } udp_ctrl = {{(uint64_t)INT64_C(-1), (uint16_t)-1, 0, {}}, {0}};
 
   // Handle buffer wrap
   if(Seq1 > Seq2)
