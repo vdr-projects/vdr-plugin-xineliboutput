@@ -15,6 +15,7 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <math.h>
+#include <float.h>  /* DBL_MIN */
 
 /* X11 */
 #include <X11/Xlib.h>
@@ -532,9 +533,9 @@ static void xrender_surf_blend(Display *dpy, Xrender_Surf *src, Xrender_Surf *ds
 {
   XTransform xf;
 
-  if(!scale_x)
+  if (scale_x <= 2.0 * DBL_MIN)
     scale_x = 1;
-  if(!scale_y)
+  if (scale_y <= 2.0 * DBL_MIN)
     scale_y = 1;
 
   xf.matrix[0][0] = XDoubleToFixed(1.0 / scale_x); xf.matrix[0][1] = 0; xf.matrix[0][2] = 0;
