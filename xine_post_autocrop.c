@@ -158,9 +158,9 @@ typedef struct autocrop_post_plugin_s
   int analyze_timer;
 
   /* Last seen frame */
-  int     prev_height;
-  int     prev_width;
-  int64_t prev_pts;
+  uint32_t prev_height;
+  uint32_t prev_width;
+  int64_t  prev_pts;
 
   /* eliminate jumping when there are subtitles inside bottom bar:
      - when cropping is active and one frame has larger end_line
@@ -1386,7 +1386,7 @@ static vo_frame_t *autocrop_get_frame(xine_video_port_t *port_gen,
   if (cropping_active && this->use_driver_crop) {
     if (this->autodetect) {
       int new_height = this->end_line - this->start_line;
-      if (new_height > 1 && new_height != height)
+      if (new_height > 1 && new_height != (int)height)
         ratio *= (double)height / (double)new_height;
     } else {
       ratio *= 4.0 / 3.0;
