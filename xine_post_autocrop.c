@@ -878,6 +878,7 @@ static void analyze_frame(vo_frame_t *frame, int *crop_top, int *crop_bottom)
             if(end_line >= frame->height)
               end_line = frame->height-1;
             TRACE2("        wide -> center bottom\n");
+    default:;
     }
 
   } else {
@@ -1518,6 +1519,7 @@ static int32_t autocrop_overlay_add_event(video_overlay_manager_t *this_gen, voi
 	  }
 	}
 	break;
+      default:;
       }
     }
   }
