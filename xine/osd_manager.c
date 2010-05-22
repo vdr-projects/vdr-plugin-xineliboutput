@@ -615,13 +615,19 @@ static int exec_osd_command_internal(osd_manager_impl_t *this, struct osd_comman
   case OSD_Set_RLE:    return exec_osd_set_rle(this, cmd);
   case OSD_Close:      return exec_osd_close(this, cmd);
   case OSD_VideoWindow:return exec_osd_video_window(this, cmd);
+  case OSD_Commit:
+    /* All OSD areas have been updated, commit changes to display */
+    /* - not used with traditional xine-lib OSD */
+    return CONTROL_OK;
   case OSD_Set_YUV:
     /* TODO */
     LOGMSG("OSD_Set_YUV not implemented !");
     return CONTROL_PARAM_ERROR;
+  default:;
+    LOGMSG("Unknown OSD command %d", cmd->cmd);
+    return CONTROL_PARAM_ERROR;
   }
 
-  LOGMSG("Unknown OSD command %d", cmd->cmd);
   return CONTROL_PARAM_ERROR;
 }
 
