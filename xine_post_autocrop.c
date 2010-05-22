@@ -1684,7 +1684,7 @@ static post_plugin_t *autocrop_open_plugin(post_class_t *class_gen,
       this->soft_start_step = DEFAULT_SOFT_START_STEP;
       this->stabilize   = 1;
 
-      int caps = port->original_port->get_capabilities(port->original_port);
+      uint64_t caps = port->original_port->get_capabilities(port->original_port);
       this->has_driver_crop = caps & VO_CAP_CROP;
       this->has_unscaled_overlay = caps & VO_CAP_UNSCALED_OVERLAY;
 
