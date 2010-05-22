@@ -481,7 +481,7 @@ typedef union {
 
 static int do_warp_yuy2(uint8_t *dst, const uint8_t *src,
 			const int dst_pitch, const int src_pitch,
-			const int dst_width, const int dst_height,			 
+			const int dst_width, const int dst_height,
 			const int src_width, const int src_height,
 			const int Interlaced, const uint32_t * const hControl, 
 			const uint32_t * const vOffsets, const uint32_t * const vWeights,
@@ -517,7 +517,7 @@ static int do_warp_yuy2(uint8_t *dst, const uint8_t *src,
 
   for (y = dst_start; y < dst_height; y++) {
 
-    if(vOffsets[y] >= src_height) {
+    if((int)vOffsets[y] >= src_height) {
       /* slice completed */
       /*DBG("do_warp_yuy2: max input height reached: need line %d, height %d\n -> Returning next output line: %d\n",
 	vOffsets[y], src_height, y);*/
@@ -859,7 +859,7 @@ static int do_warp_yv12(uint8_t *dst, const uint8_t * const src,
    */
 
   for (y = dst_start; y < dst_height; y++) {
-    if(vOffsets[y] >= src_height) {
+    if((int)vOffsets[y] >= src_height) {
       /* slice completed */
       /*DBG("do_warp_yv12: max input height reached: need line %d, height %d\n -> Returning next output line: %d , start was %d\n",
 	(int)vOffsets[y], (int)src_height, (int)y, (int)dst_start);*/
