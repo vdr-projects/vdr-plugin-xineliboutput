@@ -40,6 +40,24 @@
 #include <xine/xine_internal.h>
 #include <xine/post.h>
 
+/*
+ * tools
+ */
+
+#ifndef ALIGN
+#  define ALIGN(b,p) ((void*)((((unsigned long)(p)) + (b)-1) & (~((b)-1))))
+#endif
+#ifndef MIN
+#  define MIN(a,b) ((a) < (b) ? (a) : (b))
+#endif
+#ifndef MAX
+#  define MAX(a,b) ((a) > (b) ? (a) : (b))
+#endif
+#ifndef FABS
+#  define FABS(x) ((x) < 0.0 ? -(x) : (x))
+#endif
+
+
 /*#define DBG(x...)*/
 #define DBG(x...) fprintf(stderr, "post_warp: " x)
 
@@ -1271,23 +1289,6 @@ static int do_warp_yv12(uint8_t *dst, const uint8_t * const src,
 #endif
   return 0; 
 }
-
-/*
- * tools
- */
-
-#ifndef ALIGN
-#  define ALIGN(b,p) ((void*)((((unsigned long)(p)) + (b)-1) & (~((b)-1))))
-#endif
-#ifndef MIN
-#  define MIN(a,b) ((a) < (b) ? (a) : (b))
-#endif
-#ifndef MAX
-#  define MAX(a,b) ((a) > (b) ? (a) : (b))
-#endif
-#ifndef FABS
-#  define FABS(x) ((x) < 0.0 ? -(x) : (x))
-#endif
 
 /*
  * xine plugin
