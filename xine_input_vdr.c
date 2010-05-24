@@ -933,7 +933,7 @@ static ssize_t write_control_data(vdr_input_plugin_t *this, const void *str, siz
       return -1;
     }
     len -= ret;
-    str += ret;
+    str  = (uint8_t*)str + ret;
   }
 
   return result;
