@@ -886,7 +886,7 @@ static ssize_t write_control_data(vdr_input_plugin_t *this, const void *str, siz
   while (len > 0) {
 
     if (!this->control_running) {
-      LOGERR("write_control aborted");
+      LOGMSG("write_control aborted");
       return -1;
     }
 
