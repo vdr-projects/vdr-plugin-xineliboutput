@@ -311,6 +311,8 @@ class config_t {
     int  osd_scaling;              // OSD scaling mode: off, nearest, bilinear
     int  osd_spu_scaling;          // SPU OSD scaling mode: off, nearest, bilinear
     int  hud_osd;                  // head up display OSD
+    int  opengl_always;            // use opengl acceleration for video and HUD OSD
+    int  opengl_hud;               // use opengl acceleration for HUD OSD only
     int  osd_blending;             // OSD blending method
     int  osd_blending_lowresvideo; // Use hardware blending for low-resolution video
     int  alpha_correction;
