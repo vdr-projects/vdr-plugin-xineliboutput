@@ -871,7 +871,7 @@ bool cXinelibDevice::Flush(int TimeoutMs)
 
 int cXinelibDevice::PlayFileCtrl(const char *Cmd, int TimeoutMs)
 {
-  TRACEF("cXinelibDevice::PlayFile");
+  TRACEF("cXinelibDevice::PlayFileCtrl");
   int result = -1;
 
   /*if(m_PlayingFile != pmNone)*/ {
