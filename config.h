@@ -119,7 +119,8 @@
 
 #define AUDIO_VIS_NONE   0
 #define AUDIO_VIS_GOOM   1
-#define AUDIO_VIS_count  5
+#define AUDIO_VIS_IMAGE  5
+#define AUDIO_VIS_count  6
 
 /* speaker arrangements: xine, audio_out_alsa.c */
 #define SPEAKERS_MONO          0
@@ -337,6 +338,7 @@ class config_t {
     // Audio visualization
     char audio_visualization[64];
     char audio_vis_goom_opts[256];
+    char audio_vis_image_opts[4096];
 
     // deinterlacing post plugin
     char deinterlace_method[32];
