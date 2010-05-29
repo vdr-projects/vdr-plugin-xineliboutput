@@ -2625,7 +2625,7 @@ static int handle_control_osdcmd(vdr_input_plugin_t *this)
   if (err == CONTROL_OK && osdcmd.data && osdcmd.datalen>0) {
     osdcmd.data = (xine_rle_elem_t*)malloc(osdcmd.datalen);
     if(read_control(this, (unsigned char *)osdcmd.data, osdcmd.datalen)
-       != osdcmd.datalen) {
+       != (ssize_t)osdcmd.datalen) {
       LOGMSG("control: error reading OSDCMD bitmap");
       err = CONTROL_DISCONNECTED;
     } else {
