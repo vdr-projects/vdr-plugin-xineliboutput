@@ -1258,11 +1258,13 @@ static int sxfe_display_open(frontend_t *this_gen,
   set_fullscreen_props(this);
 
   XUnlockDisplay (this->display);
+
 #ifdef HAVE_XRENDER
-  return hud_osd_open(this);
-#else
-  return 1;
+  if (!hud_osd_open(this))
+    return 0;
 #endif
+
+  return 1;
 }
 
 /*
