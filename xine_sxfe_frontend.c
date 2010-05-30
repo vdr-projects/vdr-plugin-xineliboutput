@@ -739,6 +739,10 @@ static int hud_osd_command(frontend_t *this_gen, struct osd_command_s *cmd)
       LOGDBG("HUD osd set YUV");
       break;
 
+    case OSD_VideoWindow:
+      LOGDBG("HUD osd VideoWindow");
+      break;
+
     case OSD_Close: /* Close OSD window */
       LOGDBG("HUD osd Close");
       if (!(cmd->flags & OSDFLAG_TOP_LAYER))
