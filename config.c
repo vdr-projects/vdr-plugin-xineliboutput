@@ -243,6 +243,7 @@ const char * const config_t::s_osdSizes[] = {
   "1280x720",
   "1920x1080",
   trNOOP("custom"),
+  trNOOP("video stream"),
   NULL
 };
 
