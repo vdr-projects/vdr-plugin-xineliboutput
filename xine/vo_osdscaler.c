@@ -258,7 +258,7 @@ static int check_for_scaling(osdscaler_hook_t *this, vo_frame_t *frame, vo_overl
   extent_width  = data->extent_width;
   extent_height = data->extent_height;
 
-  if (data->scaling < 1)
+  if (data->scaling < 1) {
     return 0;
   }
 
