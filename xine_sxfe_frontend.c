@@ -667,7 +667,7 @@ static int hud_osd_command(frontend_t *this_gen, struct osd_command_s *cmd)
       XFlush(this->display);
       break;
 
-    case OSD_Set_RLE: { /* Create/update OSD window. Data is rle-compressed. */
+    case OSD_Set_RLE: /* Create/update OSD window. Data is rle-compressed. */
       LOGDBG("HUD Set RLE");
 
       if (!(cmd->flags & OSDFLAG_TOP_LAYER))
