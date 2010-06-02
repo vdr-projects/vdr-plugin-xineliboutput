@@ -81,7 +81,7 @@ class cXinelibDevice : public cDevice
 
   public:
     virtual void MakePrimaryDevice(bool On);
-    void ForcePrimaryDevice(bool On);
+    bool ForcePrimaryDevice(bool On);
 
   // Device capabilities
 

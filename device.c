@@ -333,13 +333,16 @@ void cXinelibDevice::MakePrimaryDevice(bool On)
     new cXinelibOsdProvider(this);
 }
 
-void cXinelibDevice::ForcePrimaryDevice(bool On)
+bool cXinelibDevice::ForcePrimaryDevice(bool On)
 {
   TRACEF("cXinelibDevice::ForcePrimaryDevice");
 
   m_MainThreadLock.Lock();
   m_MainThreadFunctors.Add(CreateFunctor(this, &cXinelibDevice::ForcePrimaryDeviceImpl, On));
   m_MainThreadLock.Unlock();
+
+  return xc.force_primary_device ||
+         (cDevice::PrimaryDevice() && this == cDevice::PrimaryDevice());
 }
 
 void cXinelibDevice::ForcePrimaryDeviceImpl(bool On)
