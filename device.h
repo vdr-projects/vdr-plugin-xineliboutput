@@ -250,7 +250,7 @@ class cXinelibDevice : public cDevice
     virtual int  PlayAudio(const uchar *Data, int Length, uchar Id);
     virtual int  PlaySubtitle(const uchar *Data, int Length);
 
-#if VDRVERSNUM >= 10701
+#if VDRVERSNUM >= 10701 || defined(TSPLAY_PATCH_VERSION)
     // join multiple TS packets to xineliboutput transport packet
     cMutex        m_TsBufLock;
     uint8_t       m_TsBuf[4096];
