@@ -1057,24 +1057,33 @@ static double detect_display_ratio(Display *dpy, int screen)
  */
 static void create_windows(sxfe_t *this)
 {
+  XSetWindowAttributes xswa;
+
+  xswa.background_pixel = 0x00000000;
+  xswa.border_pixel     = 0;
+  xswa.backing_store    = WhenMapped;
+
   XLockDisplay(this->display);
+
   /* create and display our video window */
-  this->window[0] = XCreateSimpleWindow (this->display,
-                                         DefaultRootWindow(this->display),
-                                         this->x.xpos, this->x.ypos,
-                                         this->x.width, this->x.height,
-                                         1, 0, 0);
-  this->window[1] = XCreateSimpleWindow(this->display, XDefaultRootWindow(this->display),
-                                        this->xinerama_x, this->xinerama_y,
-                                        this->x.width, this->x.height,
-                                        0, 0, 0);
+
+  this->window[0] = XCreateWindow (this->display, DefaultRootWindow(this->display),
+                                   this->x.xpos, this->x.ypos,
+                                   this->x.width, this->x.height, 1,
+                                   CopyFromParent, InputOutput, CopyFromParent,
+                                   (CWBackPixel | CWBorderPixel | CWBackingStore), &xswa);
+  this->window[1] = XCreateWindow (this->display, DefaultRootWindow(this->display),
+                                   this->xinerama_x, this->xinerama_y,
+                                   this->x.width, this->x.height, 0,
+                                   CopyFromParent, InputOutput, CopyFromParent,
+                                   (CWBackPixel | CWBorderPixel | CWBackingStore), &xswa);
 
   /* full-screen window */
   set_fullscreen_props(this);
 
   /* Window hint */
   XClassHint *classHint = XAllocClassHint();
-  if(classHint) {
+  if (classHint) {
     classHint->res_name = "VDR";
     classHint->res_class = "VDR";
     XSetClassHint(this->display, this->window[0], classHint);
