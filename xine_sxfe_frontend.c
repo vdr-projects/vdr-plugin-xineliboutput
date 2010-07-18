@@ -950,7 +950,7 @@ static int hud_osd_open(sxfe_t *this)
     return 1;
   }
 
-  return 0;
+  return 1;
 }
 
 /*
