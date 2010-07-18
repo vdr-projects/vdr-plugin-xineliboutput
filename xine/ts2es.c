@@ -221,6 +221,9 @@ void ts2es_flush(ts2es_t *this)
 
     this->buf->decoder_flags |= BUF_FLAG_FRAME_END;
 
+    /* clear PTS (frame is bypassing demuxer timestamp checks) */
+    this->buf->pts = 0;
+
     this->fifo->put (this->fifo, this->buf);
     this->buf = NULL;
   }
