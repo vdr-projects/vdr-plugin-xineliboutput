@@ -11,7 +11,7 @@
 #ifndef XINELIBOUTPUT_RTCP_H_
 #define XINELIBOUTPUT_RTCP_H_
 
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__FreeBSD__)
 # include <machine/endian.h>
 #else
 # include <endian.h>

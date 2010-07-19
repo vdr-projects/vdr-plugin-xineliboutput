@@ -14,6 +14,9 @@
 #include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef __FreeBSD__
+#include <sys/types.h>
+#endif
 
 #ifndef LOG_MODULENAME
 #  define LOG_MODULENAME "[mpeg-ts  ] "

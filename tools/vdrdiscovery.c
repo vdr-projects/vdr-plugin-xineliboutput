@@ -13,6 +13,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#ifdef __FreeBSD__
+#include <string.h>
+#endif
 #include <poll.h>
 #include <unistd.h>
 #include <netinet/in.h>

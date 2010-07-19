@@ -10,6 +10,9 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#ifdef __FreeBSD__
+#include <sys/types.h>
+#endif
 
 #include "../xine_osd_command.h"
 

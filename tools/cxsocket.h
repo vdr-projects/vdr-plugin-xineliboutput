@@ -14,6 +14,9 @@
 #include <inttypes.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#ifdef __FreeBSD__
+#include <netinet/in.h>
+#endif
 
 #define CLOSESOCKET(fd) do { if(fd>=0) { ::close(fd); fd=-1; } } while(0)
 
