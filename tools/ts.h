@@ -103,9 +103,20 @@ typedef enum {
 #define TS_MAX_SPU_TRACKS   32
 
 typedef struct {
-  int      program_number[TS_MAX_PROGRAMS];
+  uint16_t program_number[TS_MAX_PROGRAMS];
   uint16_t pmt_pid[TS_MAX_PROGRAMS];
+
+  uint8_t  version;
+  uint32_t crc32;
+  uint8_t  pat_changed_flag;
 } pat_data_t;
+
+/*
+ * ts_parse_pat()
+ *
+ * returns n : number of programs in PAT
+ *         0 : error or unchanged PAT
+ */
 
 int ts_parse_pat(pat_data_t *pat_data, const uint8_t *ts_data);
 
@@ -146,10 +157,10 @@ typedef struct {
 } pmt_data_t;
 
 /*
- * parse_pmt()
+ * ts_parse_pmt()
  *
  * returns 1 : PMT parsed and changed
- *         0 : error or unchanged pmt
+ *         0 : error or unchanged PMT
  */
 int ts_parse_pmt(pmt_data_t *pmt, uint program_no, const uint8_t *ts_data);
 
