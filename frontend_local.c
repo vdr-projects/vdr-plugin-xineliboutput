@@ -284,9 +284,8 @@ frontend_t *cXinelibLocal::load_frontend(const char *fe_name)
     }
 
     if( !(lib = dlopen (libname, RTLD_LAZY | RTLD_GLOBAL))) {
-      char *dl_error_msg = dlerror();
-      LOGERR("load_frontend: cannot dlopen file %s: %s", 
-	     libname, dl_error_msg);
+      LOGERR("load_frontend: cannot dlopen file %s: %s", libname, dlerror());
+
     } else if ( (fe_creator = (fe_creator_f*)dlsym(lib, "fe_creator"))) {
       LOGDBG("load_frontend: entry at %p", fe_creator);
       frontend_t *fe = (**fe_creator)();
