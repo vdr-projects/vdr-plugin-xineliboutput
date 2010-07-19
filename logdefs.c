@@ -15,7 +15,7 @@
 #include <sys/syscall.h>
 #include <stdarg.h>
 
-#ifndef __APPLE__
+#if !defined(__APPLE__) && !defined(__FreeBSD__)
 #  include <linux/unistd.h> /* syscall(__NR_gettid) */
 #endif
 
@@ -31,7 +31,7 @@ void x_syslog(int level, const char *module, const char *fmt, ...)
   vsnprintf(buf, 512, fmt, argp);
   buf[sizeof(buf)-1] = 0;
 
-#ifndef __APPLE__
+#if !defined(__APPLE__) && !defined(__FreeBSD__)
   if(!LogToSysLog) {
     fprintf(stderr,"[%ld] %s%s\n", (long int)syscall(__NR_gettid), module, buf);
   } else {

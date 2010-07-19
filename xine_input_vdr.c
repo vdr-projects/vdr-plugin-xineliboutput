@@ -30,7 +30,7 @@
 #include <sys/stat.h>
 #include <syslog.h>
 
-#ifndef __APPLE__
+#if !defined(__APPLE__) && !defined(__FreeBSD__)
 # define DVD_STREAMING_SPEED
 #endif
 
@@ -130,7 +130,7 @@ typedef struct {
 
 /******************************* LOG ***********************************/
 
-#ifndef __APPLE__
+#if !defined(__APPLE__) && !defined(__FreeBSD__)
 #  include <linux/unistd.h> /* syscall(__NR_gettid) */
 #endif
 
@@ -152,7 +152,7 @@ void x_syslog(int level, const char *module, const char *fmt, ...)
   va_start(argp, fmt);
   vsnprintf(buf, sizeof(buf), fmt, argp);
   buf[sizeof(buf)-1] = 0;
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__FreeBSD__)
   if(!bLogToSysLog) {
     fprintf(stderr, "%s%s\n", module, buf);
   } else {

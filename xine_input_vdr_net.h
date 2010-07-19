@@ -12,7 +12,7 @@
 #define __XINE_INPUT_VDR_NET_H_
 
 #include <arpa/inet.h>
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__FreeBSD__)
 # include <machine/endian.h>
 #else
 # include <endian.h>

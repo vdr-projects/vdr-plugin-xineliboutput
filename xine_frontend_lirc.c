@@ -25,6 +25,9 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#ifdef __FreeBSD__
+#include <string.h>
+#endif
 #include <unistd.h>
 #include <pthread.h>
 #include <netinet/in.h>
