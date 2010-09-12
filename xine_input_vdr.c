@@ -3449,6 +3449,13 @@ static void *vdr_control_thread(void *this_gen)
 
 /**************************** Control to VDR ********************************/
 
+static const char *trim_str(const char *s)
+{
+  while (*s == ' ' || *s == '\r' || *s == '\n')
+    s++;
+  return s;
+}
+
 static void slave_track_maps_changed(vdr_input_plugin_t *this)
 {
   char tracks[1024], lang[128];
@@ -3477,9 +3484,8 @@ static void slave_track_maps_changed(vdr_input_plugin_t *this)
   current = xine_get_param(this->slave_stream, XINE_PARAM_AUDIO_CHANNEL_LOGICAL);
   for(i=0; i<32 && cnt<sizeof(tracks)-32; i++)
     if(xine_get_audio_lang(this->slave_stream, i, lang)) {
-      while(lang[0]==' ') strcpy(lang, lang+1);
       cnt += snprintf(tracks+cnt, sizeof(tracks)-cnt-32, 
-		      "%s%d:%s ", i==current?"*":"", i, lang);
+		      "%s%d:%s ", i==current?"*":"", i, trim_str(lang));
       n++;
     }
   tracks[sizeof(tracks)-1] = 0;
@@ -3512,9 +3518,8 @@ static void slave_track_maps_changed(vdr_input_plugin_t *this)
   }
   for(i=0; i<32 && cnt<sizeof(tracks)-32; i++)
     if(xine_get_spu_lang(this->slave_stream, i, lang)) {
-      while(lang[0]==' ') strcpy(lang, lang+1);
       cnt += snprintf(tracks+cnt, sizeof(tracks)-cnt-32,
-		      "%s%d:%s ", i==current?"*":"", i, lang);
+		      "%s%d:%s ", i==current?"*":"", i, trim_str(lang));
       n++;
     }
   tracks[sizeof(tracks)-1] = 0;
