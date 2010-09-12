@@ -1244,7 +1244,7 @@ void cXinelibImagesControl::Seek(int Rel)
   free(m_File);
   m_File = strdup(m_Files[m_Index]);
   if(NULL != (pt=strrchr(m_File, '/')))
-    strcpy(m_File, pt+1); 
+    memmove(m_File, pt+1, strlen(pt));
   if(NULL != (pt=strrchr(m_File, '.')))
     *pt = 0;
 
