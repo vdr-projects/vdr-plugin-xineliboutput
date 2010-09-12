@@ -324,7 +324,7 @@ eOSState cMenuBrowseFiles::Open(bool ForceOpen, bool Queue, bool Rewind)
     char *buffer = NULL;
     if (asprintf(&buffer, "%s/%s", m_CurrentDir, d) >= 0) {
       while (buffer[0] == '/' && buffer[1] == '/')
-        strcpy(buffer, buffer+1);
+        memmove(buffer, buffer+1, strlen(buffer));
       free(m_CurrentDir);
       m_CurrentDir = buffer;
     }
