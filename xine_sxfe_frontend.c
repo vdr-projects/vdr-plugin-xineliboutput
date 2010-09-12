@@ -183,7 +183,7 @@ typedef struct sxfe_s {
 #define OSD_DEF_WIDTH      720
 #define OSD_DEF_HEIGHT     576
 #define HUD_MAX_WIDTH      1920
-#define HUD_MAX_HEIGHT     1080
+#define HUD_MAX_HEIGHT     1200
 
 static void sxfe_dest_size_cb (void *data,
                                int video_width, int video_height, double video_pixel_aspect,
