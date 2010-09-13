@@ -501,7 +501,7 @@ void cXinelibPlayerControl::Queue(const char *File)
       m_Player->Playlist().Read(File);
   }
 
-  Skins.Message(mtInfo, tr("Queued to playlist"));
+  cRemote::Put(Skins.Message(mtInfo, tr("Queued to playlist")), true);
 
   m_Lock.Unlock();
 
