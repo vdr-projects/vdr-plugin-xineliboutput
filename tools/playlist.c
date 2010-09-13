@@ -491,6 +491,17 @@ void cPlaylist::Del(cPlaylistItem *it)
   m_Version++;
 }
 
+void cPlaylist::Move(int From, int To)
+{
+  cMutexLock ml(&m_Lock);
+
+  if (Count() < 3)
+    return;
+
+  cListBase::Move(From, To);
+  m_Version++;
+}
+
 void cPlaylist::SetCurrent(cPlaylistItem *current) 
 {
   cMutexLock ml(&m_Lock);

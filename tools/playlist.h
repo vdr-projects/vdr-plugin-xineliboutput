@@ -109,6 +109,7 @@ class cPlaylist : protected cList<cPlaylistItem>
   bool Read(const char *PlaylistFile, bool Recursive = false);
   void StartScanner(void);
   void Del(cPlaylistItem *it);
+  void Move(int From, int To);
 
   void Sort(void);
   int  Count(void) const;
