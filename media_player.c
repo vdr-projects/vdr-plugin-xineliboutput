@@ -420,7 +420,7 @@ void cPlaylistMenu::SetHelpButtons(void)
   SetHelp(!m_RandomPlay ? tr("Button$Random") : tr("Button$Normal"),
 	  tr("Button$Add files"),
 	  m_Playlist.Count()>1 ? tr("Button$Remove") : NULL,
-	  tr("Button$Sort"));
+	  tr("Button$Mark"));
   Display();
 }
 
