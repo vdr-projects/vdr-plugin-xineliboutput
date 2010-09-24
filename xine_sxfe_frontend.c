@@ -1589,6 +1589,7 @@ static void XKeyEvent_handler(sxfe_t *this, XKeyEvent *kev)
       this->x.fe.send_event((frontend_t*)this, fe_event);
     else if (!this->no_x_kbd) {
       if (ks_name) {
+        if (kev->state & (Mod1Mask|ControlMask)) {
       char keyname[40] = "";
       if (kev->state & Mod1Mask) {
         strcat(keyname, "Alt+");
@@ -1597,7 +1598,9 @@ static void XKeyEvent_handler(sxfe_t *this, XKeyEvent *kev)
         strcat(keyname, "Ctrl+");
       }
       strncat(keyname, ks_name, sizeof(keyname) - 11);
-      this->x.fe.send_input_event((frontend_t*)this, "XKeySym", keyname, 0, 0);
+          ks_name = keyname;
+        }
+        this->x.fe.send_input_event((frontend_t*)this, "XKeySym", ks_name, 0, 0);
       }
     }
   }
