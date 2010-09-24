@@ -1586,6 +1586,8 @@ static void XKeyEvent_handler(sxfe_t *this, XKeyEvent *kev)
     if (fe_event)
       this->x.fe.send_event((frontend_t*)this, fe_event);
     else if (!this->no_x_kbd) {
+      const char *ks_name = XKeysymToString(ks);
+      if (ks_name) {
       char keyname[40] = "";
       if (kev->state & Mod1Mask) {
         strcat(keyname, "Alt+");
@@ -1593,8 +1595,9 @@ static void XKeyEvent_handler(sxfe_t *this, XKeyEvent *kev)
       if (kev->state & ControlMask) {
         strcat(keyname, "Ctrl+");
       }
-      strncat(keyname, XKeysymToString(ks), sizeof(keyname) - 11);
+      strncat(keyname, ks_name, sizeof(keyname) - 11);
       this->x.fe.send_input_event((frontend_t*)this, "XKeySym", keyname, 0, 0);
+      }
     }
   }
 }
