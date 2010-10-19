@@ -257,7 +257,7 @@ DEFINES += -Wall
 ###
 
 mpg2c: mpg2c.c
-	$(CC) mpg2c.c -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) mpg2c.c -o $@
 
 # data
 black_720x576.c: mpg2c black_720x576.mpg
