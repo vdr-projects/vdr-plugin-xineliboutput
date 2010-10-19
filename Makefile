@@ -53,7 +53,8 @@ ifeq ($(ARCH_APPLE_DARWIN), yes)
 else
     CXXFLAGS   ?= -O3 -pipe -Wall -Woverloaded-virtual -fPIC -g
     CFLAGS     ?= -O3 -pipe -Wall -fPIC -g
-    LDFLAGS_SO ?= -shared -fvisibility=hidden
+    LDFLAGS_SO ?= -fvisibility=hidden
+    LDFLAGS_SO += -shared
 endif
 
 ###
