@@ -290,8 +290,8 @@ bool cXinelibThread::IsReady(void)
 void cXinelibThread::SetVolume(int NewVolume)
 {
   m_Volume = NewVolume;
-  cString str = cString::sprintf("VOLUME %d%s", NewVolume * 100 / 255, 
-				 xc.sw_volume_control ? " SW" : "");
+  cString str = cString::sprintf("VOLUME %d%s", NewVolume * 100 / 255,
+                                 xc.sw_volume_control ? " SW" : "");
   Xine_Control(str);
 }
 
