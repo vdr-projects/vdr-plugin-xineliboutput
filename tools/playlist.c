@@ -975,7 +975,7 @@ static cString EscapeString(const char *s)
   int size = strlen(s) + 16;
   char *buf = (char *)malloc(size);
   int i = 0;
-  LOGVERBOSE("cPlaylist::EscapeMrl('%s')", fn);
+  LOGVERBOSE("EscapeString('%s')", fn);
 
   while (*fn) {
     if(size-7 < i)
