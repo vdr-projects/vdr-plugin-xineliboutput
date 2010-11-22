@@ -448,6 +448,8 @@ void cXinelibLocal::Action(void)
   }
 
   if(curr_fe) {
+    LOCK_FE_WR;
+    fe = NULL;
     curr_fe->xine_exit(fe);
     curr_fe->fe_display_close(curr_fe);
     curr_fe->fe_free(curr_fe);
