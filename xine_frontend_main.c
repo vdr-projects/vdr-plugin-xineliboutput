@@ -611,7 +611,7 @@ int main(int argc, char *argv[])
                 PRINTF("Can't access terminal: %s\n", tty);
                 return -2;
               }
-              PRINTF("Terminal: %s", tty);
+              PRINTF("Terminal: %s\n", tty);
               break;
     case 'n': scale_video = 0;
               PRINTF("Video scaling disabled\n");
