@@ -275,7 +275,7 @@ $(sort $(OBJS_SXFE) $(OBJS_FBFE) $(OBJS_XINE)):
 ### Internationalization (I18N):
 
 PODIR     = po
-LOCALEDIR ?= $(VDRDIR)/locale
+LOCALEDIR ?= $(DESTDIR)$(VDRDIR)/locale
 I18Npo    = $(wildcard $(PODIR)/*.po)
 I18Nmsgs  = $(addprefix $(LOCALEDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
 I18Npot   = $(PODIR)/$(PLUGIN).pot
