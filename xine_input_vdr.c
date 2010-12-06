@@ -3794,6 +3794,9 @@ static void vdr_event_cb (void *user_data, const xine_event_t *event)
 	  if (this->funcs.fe_control)
 	    this->funcs.fe_control(this->funcs.fe_handle, "ENDOFSTREAM\r\n");
 	}
+      } else if(event->stream == this->bg_stream.stream) {
+        LOGMSG("XINE_EVENT_UI_PLAYBACK_FINISHED (background stream)");
+        xine_play(this->bg_stream.stream, 0, 0);
       }
       pthread_mutex_unlock(&this->lock);
 
