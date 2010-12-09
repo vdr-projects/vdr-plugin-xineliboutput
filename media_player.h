@@ -125,5 +125,24 @@ class cXinelibImagesControl : public cControl
     static bool IsOpen(void) { return m_Player != NULL; }
 };
 
-#endif // __XINELIB_PLAYER_H
 
+class cPlaylist;
+
+class cPlayerFactory
+{
+  public:
+
+    // interact with current player
+
+    static bool IsOpen(void);
+    static void Queue (const char *Mrl);
+
+    // launch new media player
+
+    static bool Launch(const char *Mrl, const char *SubFile = NULL) { return Launch(pmNone, Mrl, SubFile); };
+
+    static bool Launch(ePlayMode PlayMode, const char *Mrl, const char *SubFile = NULL, bool BackToMenu = false);
+    static bool Launch(ePlayMode PlayMode, cPlaylist *Playlist, bool BackToMenu = false);
+};
+
+#endif // __XINELIB_PLAYER_H
