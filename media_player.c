@@ -1411,6 +1411,9 @@ cControl *CreateControl(cXinelibDevice *Dev,
   if (xc.IsDvdImage(Mrl))
     return new cXinelibDvdPlayerControl(Mrl);
 
+  if (!strncmp(Mrl, "bluray:/", 8))
+    return new cXinelibDvdPlayerControl(Mrl);
+
   if (!strncmp(Mrl, "cdda:/", 6))
     return new cXinelibPlayerControl(ShowMusic, Mrl);
 
