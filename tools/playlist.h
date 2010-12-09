@@ -124,6 +124,7 @@ class cPlaylist : protected cList<cPlaylistItem>
   void           SetCurrent(cPlaylistItem *current);
   cPlaylistItem *Next(void);
   cPlaylistItem *Prev(void);
+  cPlaylistItem *Seek(int Rel);
 
   static cString BuildMrl(const char *proto, const char *s1,
                           const char *s2 = NULL, const char *s3 = NULL, const char *s4 = NULL);

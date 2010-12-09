@@ -524,6 +524,23 @@ cPlaylistItem *cPlaylist::Prev(void)
   return NULL;
 }
 
+cPlaylistItem *cPlaylist::Seek(int Rel)
+{
+  cMutexLock ml(&m_Lock);
+  if (!Current())
+    return NULL;
+
+  if (Rel > 0)
+    while (Rel--)
+      m_Current = (cList<cPlaylistItem>::Next(Current()) ?: Last());
+
+  if (Rel < 0)
+    while (Rel++)
+      m_Current = (cList<cPlaylistItem>::Prev(Current()) ?: First());
+
+  return Current();
+}
+
 bool cPlaylist::StoreCache(void) 
 {
   if(!xc.cache_implicit_playlists ||
