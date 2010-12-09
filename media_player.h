@@ -67,11 +67,10 @@ class cXinelibPlayerControl : public cControl
 
 // --- DVD player -----------------------------------------------------------
 
-class cDvdMenu;
 class cXinelibDvdPlayerControl : public cXinelibPlayerControl
 {
   private:
-    cDvdMenu *m_DvdMenu;
+    cOsdMenu *m_DvdMenu;
 
     void      CloseDvdMenu(void);
 
