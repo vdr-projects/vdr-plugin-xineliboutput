@@ -72,7 +72,6 @@ class cXinelibDvdPlayerControl : public cXinelibPlayerControl
 {
   private:
     cDvdMenu *m_DvdMenu;
-    char      m_CurrentDVDTitle[63];
 
     void      CloseDvdMenu(void);
 
