@@ -65,7 +65,7 @@ VDRDIR  ?= ../../..
 LIBDIR  ?= ../../lib
 TMPDIR  ?= /tmp
 BINDIR  ?= /usr/bin
-DESTDIR ?= /
+#DESTDIR ?= /
 
 INSTALL ?= install
 
