@@ -405,17 +405,41 @@ ifeq ($(XINELIBOUTPUT_XINEPLUGIN), yes)
 	@-rm -rf $(DESTDIR)/$(XINEPLUGINDIR)/post/$(XINEPOSTAUDIOCHANNEL)
 	@$(INSTALL) -m 0644 $(XINEPOSTAUDIOCHANNEL) $(DESTDIR)/$(XINEPLUGINDIR)/post/$(XINEPOSTAUDIOCHANNEL)
 endif
+ifeq ($(XINELIBOUTPUT_VDRPLUGIN), yes)
+  ifeq ($(VDR_TREE), no)
+	@echo Installing $(DESTDIR)$(LIBDIR)/$(VDRPLUGIN)
+	@mkdir -p $(DESTDIR)$(LIBDIR)
+	@-rm -rf $(DESTDIR)$(LIBDIR)/$(VDRPLUGIN)
+	@$(INSTALL) -D -m 0755 $(VDRPLUGIN) $(DESTDIR)$(LIBDIR)/$(VDRPLUGIN)
+  endif
+endif
 ifeq ($(XINELIBOUTPUT_FB), yes)
 	@echo Installing $(DESTDIR)/$(BINDIR)/vdr-fbfe
 	@mkdir -p $(DESTDIR)/$(BINDIR)
 	@-rm -rf $(DESTDIR)/$(BINDIR)/vdr-fbfe
 	@$(INSTALL) -m 0755 vdr-fbfe $(DESTDIR)/$(BINDIR)/vdr-fbfe
+  ifeq ($(XINELIBOUTPUT_VDRPLUGIN), yes)
+    ifeq ($(VDR_TREE), no)
+	@echo Installing $(DESTDIR)$(LIBDIR)/$(VDRPLUGIN_FBFE)
+	@mkdir -p $(DESTDIR)$(LIBDIR)
+	@-rm -rf $(DESTDIR)$(LIBDIR)/$(VDRPLUGIN_FBFE)
+	@$(INSTALL) -m 0755 $(VDRPLUGIN_FBFE) $(DESTDIR)$(LIBDIR)/$(VDRPLUGIN_FBFE)
+    endif
+  endif
 endif
 ifeq ($(XINELIBOUTPUT_X11), yes)
 	@echo Installing $(DESTDIR)/$(BINDIR)/vdr-sxfe
 	@mkdir -p $(DESTDIR)/$(BINDIR)
 	@-rm -rf $(DESTDIR)/$(BINDIR)/vdr-sxfe
 	@$(INSTALL) -m 0755 vdr-sxfe $(DESTDIR)/$(BINDIR)/vdr-sxfe
+  ifeq ($(XINELIBOUTPUT_VDRPLUGIN), yes)
+    ifeq ($(VDR_TREE), no)
+	@echo Installing $(DESTDIR)$(LIBDIR)/$(VDRPLUGIN_SXFE)
+	@mkdir -p $(DESTDIR)$(LIBDIR)
+	@-rm -rf $(DESTDIR)$(LIBDIR)/$(VDRPLUGIN_SXFE)
+	@$(INSTALL) -m 0755 $(VDRPLUGIN_SXFE) $(DESTDIR)$(LIBDIR)/$(VDRPLUGIN_SXFE)
+    endif
+  endif
 endif
 
 dist: clean
