@@ -339,7 +339,7 @@ class config_t {
     // Audio visualization
     char audio_visualization[64];
     char audio_vis_goom_opts[256];
-    char audio_vis_image_opts[4096];
+    char audio_vis_image_mrl[4096];
 
     // deinterlacing post plugin
     char deinterlace_method[32];
