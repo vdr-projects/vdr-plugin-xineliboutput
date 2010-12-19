@@ -11,8 +11,6 @@
 #ifndef __XINELIB_PLAYER_H
 #define __XINELIB_PLAYER_H
 
-// --- Image player ---------------------------------------------------------
-
 class cPlaylist;
 
 class cPlayerFactory
