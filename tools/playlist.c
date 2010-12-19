@@ -530,13 +530,14 @@ cPlaylistItem *cPlaylist::Seek(int Rel)
   if (!Current())
     return NULL;
 
-  if (Rel > 0)
+  if (Rel > 0) {
     while (Rel--)
       m_Current = (cList<cPlaylistItem>::Next(Current()) ?: Last());
 
-  if (Rel < 0)
+  } else if (Rel < 0) {
     while (Rel++)
       m_Current = (cList<cPlaylistItem>::Prev(Current()) ?: First());
+  }
 
   return Current();
 }
