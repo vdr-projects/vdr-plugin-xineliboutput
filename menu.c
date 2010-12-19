@@ -363,7 +363,7 @@ eOSState cMenuBrowseFiles::Open(bool ForceOpen, bool Queue, bool Rewind)
       cPlaylist *Playlist = new cPlaylist();
       for (cFileListItem *it = (cFileListItem*)First(); it; it=(cFileListItem*)Next(it)) {
         if (!it->IsDir())
-          Playlist->Read(cString::sprintf("%s/%s", *m_CurrentDir, it->Name()));
+          Playlist->Read(cString::sprintf("%s/%s", m_CurrentDir, it->Name()));
         if (it == Get(Current()))
           Playlist->SetCurrent(Playlist->Last());
       }
