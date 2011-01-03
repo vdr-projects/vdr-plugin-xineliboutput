@@ -666,10 +666,9 @@ static int blank_line_YUY2_INIT(uint8_t *data, int length)
 int dbg_top=0, dbg_bottom=0;
 #endif
 
-static int analyze_frame_yv12(vo_frame_t *frame, int *crop_top, int *crop_bottom)
+static int analyze_frame_yv12(autocrop_post_plugin_t *this, vo_frame_t *frame,
+                              int *crop_top, int *crop_bottom)
 {
-  post_video_port_t *port = (post_video_port_t *)frame->port;
-  autocrop_post_plugin_t *this = (autocrop_post_plugin_t *)port->post;
   int y;
   int ypitch = frame->pitches[0];
   int upitch = frame->pitches[1];
@@ -738,10 +737,9 @@ static int analyze_frame_yv12(vo_frame_t *frame, int *crop_top, int *crop_bottom
   return 1;
 }
 
-static int analyze_frame_yuy2(vo_frame_t *frame, int *crop_top, int *crop_bottom)
+static int analyze_frame_yuy2(autocrop_post_plugin_t *this, vo_frame_t *frame,
+                              int *crop_top, int *crop_bottom)
 {
-  post_video_port_t *port = (post_video_port_t *)frame->port;
-  autocrop_post_plugin_t *this = (autocrop_post_plugin_t *)port->post;
   int y;
   int pitch = frame->pitches[0];
   uint8_t *data = frame->base[0];
@@ -828,9 +826,9 @@ static void analyze_frame(vo_frame_t *frame, int *crop_top, int *crop_bottom)
   int result = 0;
 
   if(frame->format == XINE_IMGFMT_YV12)
-    result = analyze_frame_yv12(frame, &start_line, &end_line);
+    result = analyze_frame_yv12(this, frame, &start_line, &end_line);
   else if(frame->format == XINE_IMGFMT_YUY2)
-    result = analyze_frame_yuy2(frame, &start_line, &end_line);
+    result = analyze_frame_yuy2(this, frame, &start_line, &end_line);
 
 #if defined(__MMX__)
   _mm_empty();
