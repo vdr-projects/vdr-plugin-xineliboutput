@@ -273,7 +273,10 @@ static void *slave_receiver_thread(void *fe_gen)
       break;
     }
     if (!strncasecmp(str, "FULLSCREEN", 10)) {
-      fe->send_event(fe, "TOGGLE_FULLSCREEN");
+      if (strpbrk(str + 10, "01"))
+        fe->send_event(fe, str);
+      else
+        fe->send_event(fe, "TOGGLE_FULLSCREEN");
       continue;
     }
     if (!strncasecmp(str, "DEINTERLACE ", 12)) {

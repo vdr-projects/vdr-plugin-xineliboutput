@@ -1405,13 +1405,17 @@ static int fe_send_event(frontend_t *this_gen, const char *data)
 
   if (!strcmp(data, "TOGGLE_FULLSCREEN")) {
     if(this->toggle_fullscreen_cb)
-      this->toggle_fullscreen_cb(this);
+      this->toggle_fullscreen_cb(this, -1);
+
+  } else if (!strncasecmp(data, "FULLSCREEN ", 11)) {
+    if(this->toggle_fullscreen_cb)
+      this->toggle_fullscreen_cb(this, atoi(data+11) ? 1: 0);
 
   } else if (!strcmp(data, "QUIT")) {
     this->terminate_key_pressed = 1;
 
   } else if(!strcmp(data, "TOGGLE_DEINTERLACE")) {
-    xine_set_param(this->stream, XINE_PARAM_VO_DEINTERLACE, 
+    xine_set_param(this->stream, XINE_PARAM_VO_DEINTERLACE,
 		   xine_get_param(this->stream, XINE_PARAM_VO_DEINTERLACE) ? 0 : 1);
 
   } else if(!strncasecmp(data, "DEINTERLACE ", 12)) {

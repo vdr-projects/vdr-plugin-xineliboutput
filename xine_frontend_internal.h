@@ -36,7 +36,7 @@ typedef struct fe_s {
 
   /* called from xine_frontend.c */
   void   (*update_display_size_cb) (struct fe_s *);
-  void   (*toggle_fullscreen_cb)   (struct fe_s *);
+  void   (*toggle_fullscreen_cb)   (struct fe_s *, int);
 
   /* vdr callbacks */
   fe_keypress_f       keypress;
