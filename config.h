@@ -353,9 +353,19 @@ class config_t {
     // automatic 4:3 letterbox -> 16:9 cropping post plugin
     int  autocrop;            // enable / disable
     int  autocrop_autodetect;
+    int  autocrop_autodetect_rate;
     int  autocrop_soft;
+    int  autocrop_soft_start_step;
     int  autocrop_fixedsize;
+    int  autocrop_stabilize_time;
     int  autocrop_subs;
+    int  autocrop_subs_detect_lifetime;
+    int  autocrop_subs_detect_stabilize_time;
+    int  autocrop_logo_width;
+    int  autocrop_use_driver_crop;
+    int  autocrop_use_avards_analysis;
+    int  autocrop_overscan_compensate;
+    int  autocrop_bar_tone_tolerance;
 
     // (video) software scaling
     int  swscale;               // enable/disable
