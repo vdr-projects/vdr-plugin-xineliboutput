@@ -33,6 +33,9 @@ typedef enum  {
   OSD_Commit      = 7,    /* All OSD areas have been updated, commit changes to display */
   OSD_Flush       = 8,    /* Flush all pending OSD operations immediately */
   OSD_VideoWindow = 9,    /* Set video window inside OSD */
+  OSD_Set_HDMV    = 10,   /* Create/update OSD window. Data is RLE compressed. */
+  OSD_Set_LUT8    = 11,   /* Create/update OSD window. Data is uncompressed. */
+  OSD_Set_ARGB    = 12,   /* Create/update OSD window. Data is uncompressed. */
 } osd_command_id_t;
 
 #define OSDFLAG_YUV_CLUT        0x01 /* palette is in YUV format */
