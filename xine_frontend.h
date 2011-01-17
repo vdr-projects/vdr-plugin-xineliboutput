@@ -59,12 +59,17 @@ struct frontend_config_s {
 #define FE_OK     1
 #define FE_ERROR  0
 
+/* HUD OSD */
+#define HUD_COMPOSITE 1
+#define HUD_XSHAPE    2
+#define HUD_OPENGL    3
+
 struct frontend_s {
   /* Display */
   int (*fe_display_open)(frontend_t*,
                          int xpos, int ypos,
                          int winwidth, int winheight,
-                         int fullscreen, int hud, int opengl_always, int opengl_hud, 
+                         int fullscreen, int hud, int opengl,
                          int modeswitch, const char *modeline,
                          int aspect, fe_keypress_f keypresshandler,
                          int no_x_kbd, int gui_hotkeys,
