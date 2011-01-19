@@ -59,10 +59,10 @@ struct frontend_config_s {
 #define FE_OK     1
 #define FE_ERROR  0
 
-/* HUD OSD */
-#define HUD_COMPOSITE 1
-#define HUD_XSHAPE    2
-#define HUD_OPENGL    3
+/* HUD OSD bitmask values */
+#define HUD_COMPOSITE 0x1
+#define HUD_XSHAPE    0x2
+#define HUD_OPENGL    0x4
 
 struct frontend_s {
   /* Display */
