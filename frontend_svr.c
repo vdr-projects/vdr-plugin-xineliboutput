@@ -269,7 +269,7 @@ static int write_osd_command(cxSocket& s, osd_command_t *cmd)
                  (ssize_t)(sizeof(xine_clut_t) * ntohl(cmd->colors)) +
                  (ssize_t)(ntohl(cmd->datalen));
 
-  if(max > 0 && max < MIN(size, 32768)) {
+  if(max > 0 && max < MIN(size, 1024)) {
 /* #warning TODO: buffer latest failed OSD and retry
                   -> skipped OSDs can be left out but
                   latest will be always delivered */
