@@ -1025,6 +1025,7 @@ void cXinelibServer::Handle_Control_DATA(int cli, const char *arg)
     return;
   }
 
+#if 0
   /* check client IP's */
   struct sockaddr_in sinc, sind;
   socklen_t len = sizeof(sinc);
@@ -1048,6 +1049,7 @@ void cXinelibServer::Handle_Control_DATA(int cli, const char *arg)
     CloseConnection(cli);
     return;
   }
+#endif
 
   /* close old data connection */
   CloseDataConnection(clientId);
