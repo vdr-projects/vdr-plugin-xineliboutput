@@ -106,12 +106,12 @@ static const char help_str[] =
     "   -f, --fullscreen              Fullscreen mode\n"
 #ifdef HAVE_XRENDER
     "   -D, --hud[=flag[,flag]]       Head Up Display OSD mode using compositing\n"
-    "                                 flags:\n"
+    "                                 Optional flags:\n"
 #  ifdef HAVE_XSHAPE
-    "                                 xshape  Use XShape instead of compositing"
+    "                                 xshape  Use XShape instead of compositing\n"
 #  endif
 #  ifdef HAVE_OPENGL
-    "                                 opengl  Use OpenGL instead of compositing"
+    "                                 opengl  Use OpenGL instead of compositing\n"
 #  endif
 #endif
 #ifdef HAVE_OPENGL
