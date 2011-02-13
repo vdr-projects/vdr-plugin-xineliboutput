@@ -112,6 +112,9 @@ static int64_t get_option(metronom_t *metronom, int option)
   if (option == XVDR_METRONOM_STILL_MODE) {
     return this->still_mode;
   }
+  if (option == XVDR_METRONOM_ID) {
+    return XVDR_METRONOM_ID;
+  }
 
   return this->orig_metronom->get_option(this->orig_metronom, option);
 }
