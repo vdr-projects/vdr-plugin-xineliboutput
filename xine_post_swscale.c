@@ -588,10 +588,10 @@ static int do_warp_yuy2(uint8_t *dst, const uint8_t *src,
 	    
 	    ".align 16                   \n\t"
 
-	    "movdqa "_FPround1", %%xmm0  \n\t"
-	    "movdqa "_vWeight1", %%xmm5  \n\t"
-	    "movdqa "_vWeight2", %%xmm6  \n\t"
-	    "movdqa "_YMask",    %%xmm7  \n"
+	    "movdqu "_FPround1", %%xmm0  \n\t"
+	    "movdqu "_vWeight1", %%xmm5  \n\t"
+	    "movdqu "_vWeight2", %%xmm6  \n\t"
+	    "movdqu "_YMask",    %%xmm7  \n"
 
 	    ""vLoopSSE2_Fetch":          \n\t"
 #ifdef PREFETCH
@@ -929,9 +929,9 @@ static int do_warp_yv12(uint8_t *dst, const uint8_t * const src,
 	     "shr   $1, %%"REGC"          \n\t"  /* do 16 bytes at a time instead */
 	     "dec   %%"REGC"              \n\t"  /* jigger loop ct */
 			 
-	     "movdqa "_FPround1", %%xmm0  \n\t"
-	     "movdqa "_vWeight1", %%xmm5  \n\t"
-	     "movdqa "_vWeight2", %%xmm6  \n\t"
+	     "movdqu "_FPround1", %%xmm0  \n\t"
+	     "movdqu "_vWeight1", %%xmm5  \n\t"
+	     "movdqu "_vWeight2", %%xmm6  \n\t"
 	     "pxor        %%xmm7, %%xmm7  \n"
 
 	     ".align 16                   \n"
