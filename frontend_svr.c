@@ -525,6 +525,9 @@ int cXinelibServer::Poll(cPoller &Poller, int TimeoutMs)
 
 bool cXinelibServer::Flush(int TimeoutMs)
 {
+  if (!HasClients())
+    return true;
+
   int  result = true;
 
   if(m_Scheduler)
