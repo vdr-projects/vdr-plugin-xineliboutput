@@ -111,7 +111,7 @@ class cUdpBackLog
 
       // RTP header
       header->rtp_hdr.raw[0] = RTP_VERSION_BYTE | RTP_HDREXT_BIT;
-#if VDRVERSNUM >= 10701
+#if VDRVERSNUM >= 10701 || defined(TSPLAY_PATCH_VERSION)
       if (DATA_IS_TS(Data))
         header->rtp_hdr.raw[1] = RTP_PAYLOAD_TYPE_TS;
       else
