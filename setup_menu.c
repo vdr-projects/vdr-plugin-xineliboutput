@@ -99,17 +99,6 @@ static int INDEX_TO_CONTROL(int ind)
 }
 #endif
 
-static cOsdItem *NewTitle(const char *s)
-{
-  char str[128];
-  cOsdItem *tmp;
-  snprintf(str, sizeof(str), "----- %s -----", s);
-  str[sizeof(str)-1] = 0;
-  tmp = new cOsdItem(str);
-  tmp->SetSelectable(false);
-  return tmp;
-}
-
 //--- cMenuSetupAudio --------------------------------------------------------
 
 class cMenuSetupAudio : public cMenuSetupPage 
@@ -1069,7 +1058,7 @@ void cMenuSetupOSD::Set(void)
 				tr("Off")));
   
 #if VDRVERSNUM < 10515
-  Add(NewTitle(tr("Subtitles")));
+  Add(SeparatorItem(tr("Subtitles")));
   Add(new cMenuEditBoolItem(trVDR("Setup.EPG$Preferred languages"), 
 			    &newconfig.spu_autoshow));
   if(newconfig.spu_autoshow) {
