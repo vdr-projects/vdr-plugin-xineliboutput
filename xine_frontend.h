@@ -64,6 +64,11 @@ struct frontend_config_s {
 #define HUD_XSHAPE    0x2
 #define HUD_OPENGL    0x4
 
+/* Special window_id's */
+#define WINDOW_ID_NONE  -1
+#define WINDOW_ID_ROOT  -2
+
+
 struct frontend_s {
   /* Display */
   int (*fe_display_open)(frontend_t*,
