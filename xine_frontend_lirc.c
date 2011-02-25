@@ -35,7 +35,6 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
-#define LOG_MODULENAME "[lirc]      "
 #include "logdefs.h"
 
 #include "xine_frontend.h"
