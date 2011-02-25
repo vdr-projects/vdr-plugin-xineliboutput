@@ -660,7 +660,7 @@ cMenuXinelib::cMenuXinelib()
 
 #if VDRVERSNUM < 10515
   if(cXinelibDevice::Instance().NumDvdSpuTracks() > 0)
-    Add(new cOsdItem(tr("Select subtitle track >>"), osUser5));
+    Add(SubMenuItem(tr("Select subtitle track"), osUser5));
 #endif
  
   if (xc.media_menu_items & MEDIA_MENU_VIDEO_SETUP) {
