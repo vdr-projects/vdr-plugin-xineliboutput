@@ -216,6 +216,9 @@ typedef struct sxfe_s {
   double    video_aspect;
   char     *aspect_controller;
   char     *video_port_name;
+  char     *shutdown_cmd;
+  int       shutdown_timeout;
+  time_t    shutdown_time;
   int       xpos, ypos;
   uint16_t  video_width, video_height;
   uint16_t  width, height;
