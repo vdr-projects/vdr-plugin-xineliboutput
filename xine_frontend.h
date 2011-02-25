@@ -59,6 +59,11 @@ struct frontend_config_s {
 #define FE_OK     1
 #define FE_ERROR  0
 
+/* Special window_id's */
+#define WINDOW_ID_NONE  -1
+#define WINDOW_ID_ROOT  -2
+
+
 struct frontend_s {
   /* Display */
   int (*fe_display_open)(frontend_t*,
