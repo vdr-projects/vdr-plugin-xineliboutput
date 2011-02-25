@@ -1409,13 +1409,6 @@ void cMenuSetupLocal::Set(void)
     Add(ctrl_scale =
 	new cMenuEditBoolItem(tr("Scale to window size"), &newconfig.scale_video));
 
-#ifdef HAVE_XV_FIELD_ORDER
-    Add(ctrl_interlace_order = 
-	new cMenuEditStraI18nItem(tr("Interlaced Field Order"), 
-				  &newconfig.field_order, FIELD_ORDER_count, 
-				  xc.s_fieldOrder));
-#endif
-
     Add(SeparatorItem(tr("Audio")));
 
     Add(ctrl_audio_driver = 
