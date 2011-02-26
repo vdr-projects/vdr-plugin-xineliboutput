@@ -125,11 +125,11 @@ OPTFLAGS ?=
 ifeq ($(APPLE_DARWIN), 1)
     CXXFLAGS   ?= -O3 -pipe -Wall -Woverloaded-virtual -fPIC -g -fno-common -bundle -flat_namespace -undefined suppress
     CFLAGS     ?= -O3 -pipe -Wall -fPIC -g -fno-common -bundle -flat_namespace -undefined suppress
-    LDFLAGS_SO ?= -fvisibility=hidden
+    LDFLAGS_SO ?= $(LDFLAGS) -fvisibility=hidden
 else
     CXXFLAGS   ?= -O3 -pipe -Wall -Woverloaded-virtual -fPIC -g
     CFLAGS     ?= -O3 -pipe -Wall -fPIC -g
-    LDFLAGS_SO ?= -shared -fvisibility=hidden
+    LDFLAGS_SO ?= $(LDFLAGS) -shared -fvisibility=hidden
 endif
 LIBS_VDR ?=
 
@@ -506,7 +506,7 @@ $(VDRPLUGIN_SXFE_SO): $(OBJS_SXFE_SO)
 	@-rm -rf $(LIBDIR)/$(VDRPLUGIN_SXFE_SO).$(VERSION)
 	@cp $@ $(LIBDIR)/$(VDRPLUGIN_SXFE_SO).$(VERSION)
 $(VDRSXFE): $(OBJS_SXFE)
-	$(CC) -g $(OBJS_SXFE) $(LIBS_X11) -ljpeg $(LIBS_XINE) -o $@
+	$(CC) -g $(LDFLAGS) $(OBJS_SXFE) $(LIBS_X11) -ljpeg $(LIBS_XINE) -o $@
 endif
 
 ifeq ($(XINELIBOUTPUT_FB), 1)
@@ -515,7 +515,7 @@ $(VDRPLUGIN_FBFE_SO): $(OBJS_FBFE_SO)
 	@-rm -rf $(LIBDIR)/$(VDRPLUGIN_FBFE_SO).$(VERSION)
 	@cp $@ $(LIBDIR)/$(VDRPLUGIN_FBFE_SO).$(VERSION)
 $(VDRFBFE): $(OBJS_FBFE)
-	$(CC) -g $(OBJS_FBFE) $(LIBS_XINE) -ljpeg -o $@
+	$(CC) -g $(LDFLAGS) $(OBJS_FBFE) $(LIBS_XINE) -ljpeg -o $@
 endif
 
 ifeq ($(XINELIBOUTPUT_XINEPLUGIN), 1)
