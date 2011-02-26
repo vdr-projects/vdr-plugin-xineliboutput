@@ -43,7 +43,7 @@
 
 #ifdef HAVE_OPENGL
 #  include <GL/glx.h>
-#  ifdef HAVE_DLFCN
+#  ifdef HAVE_VDR // HAVE_DLFCN
 #    include <dlfcn.h>
 #  endif
 #  ifdef HAVE_PTHREAD
