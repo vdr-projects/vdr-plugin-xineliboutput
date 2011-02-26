@@ -1454,6 +1454,10 @@ static int sxfe_display_open(frontend_t *this_gen,
     update_screen_size(this);
 
   /* Output to existing window ? (embedded to another app) */
+
+  if (this->window_id == WINDOW_ID_ROOT) {
+    this->window_id = DefaultRootWindow(this->display);
+  }
   if(this->window_id > 0) {
     LOGMSG("sxfe_display_open(): Using X11 window %d for output", this->window_id);
     this->window[0] = this->window[1] = (Window)this->window_id;
