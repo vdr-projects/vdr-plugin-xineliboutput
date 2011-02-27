@@ -1791,7 +1791,8 @@ void cXinelibServer::Action(void)
   pollfd pfd[MAXCLIENTS];
 
   /* higher priority */
-  SetPriority(-1);
+  if (geteuid() == 0)
+    SetPriority(-1);
 
   sched_param temp;
   temp.sched_priority = 2;

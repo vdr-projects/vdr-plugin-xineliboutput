@@ -737,7 +737,8 @@ void cUdpScheduler::Action(void)
 {
   /* UDP Scheduler needs high priority */
   const int priority = -5;
-  SetPriority(priority);
+  if (geteuid() == 0)
+    SetPriority(priority);
   errno = 0;
   if ((nice(priority) == -1) && errno)
     LOGDBG("cUdpScheduler: Can't nice to value: %d", priority);
