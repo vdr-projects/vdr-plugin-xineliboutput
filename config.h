@@ -273,11 +273,14 @@ class config_t {
     int  modeswitch;
     int  width;
     int  height;
+    int  xpos;
+    int  ypos;
     int  display_aspect;
     int  scale_video;
     int  field_order;
     int  exit_on_close;    // Terminate VDR when local frontend is closed
     int  use_x_keyboard;   // Use X11 keyboard to control VDR (console kbd is handled by VDR)
+    int  window_id;        // use existing X11 window
 
     // Audio settings
     int  speaker_type;

@@ -140,8 +140,11 @@ const char cmdLineHelp[] =
 #endif
 "  -w        --width=x      Window width\n"
 "  -h        --height=x     Window width\n"
+"  -g,       --geometry=WxH[+X+Y] Set output window geometry (X style)\n"
 "  -d DISP   --display=DISP Use X11 display DISP\n"
 "                           (or framebuffer device name)\n"
+"  -W ID     --wid=ID       Use existing X11 window\n"
+"                           Special ID for root window: --wid=root\n"
 "  -P NAME   --post=NAME    Use xine post plugin NAME\n"
 "                           format: pluginname[:arg=val[,arg=val]][,...]\n"
 "                           example: \n"

@@ -337,14 +337,17 @@ void cXinelibLocal::Action(void)
       Cancel(-1);
     } else {
       LOGDBG("cXinelibLocal::Action - fe created");
-      if(!curr_fe->fe_display_open(curr_fe, 0, 0, xc.width, xc.height, xc.fullscreen, xc.hud_osd,
+      if(!curr_fe->fe_display_open(curr_fe,
+                                   xc.xpos, xc.ypos, xc.width, xc.height, xc.fullscreen,
+                                   xc.hud_osd,
                                    xc.opengl,
                                    xc.modeswitch, xc.modeline, xc.display_aspect,
                                    keypress_handler, 0/*no_x_kbd*/, 0/*gui_hotkeys*/,
                                    xc.video_port,
                                    xc.scale_video,
                                    xc.field_order,
-                                   NULL, -1)) {
+                                   NULL,
+                                   xc.window_id)) {
 	LOGMSG("cXinelibLocal: Error initializing display");
         Cancel(-1);
       } else {
