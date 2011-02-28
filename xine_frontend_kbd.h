@@ -13,7 +13,7 @@
 
 struct frontend_s;
 
-void kbd_start(frontend_t *fe, int slave_mode);
+void kbd_start(struct frontend_s *fe, int slave_mode);
 void kbd_stop(void);
 
 #endif /* XINE_FRONTEND_KBD_H */
