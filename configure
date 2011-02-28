@@ -332,6 +332,8 @@ check_deps(){
   disabled libxine && disable x11 fb libavutil libjpeg
   disabled x11     && disable dbus-glib-1 xshm xrender xshape opengl xrandr xdpms xinerama vdpau
   disabled vdr     && disable libextractor libcap
+  disabled dlfcn   && disable opengl
+  disabled pthread && disable opengl
   disabled xrender && disable opengl
   disabled xshape  && disable opengl
 }
