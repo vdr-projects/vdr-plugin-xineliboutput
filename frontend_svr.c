@@ -43,6 +43,7 @@
 #include "tools/vdrdiscovery.h"
 #include "tools/sdp.h"
 #include "tools/rle.h"
+#include "tools/sys_cap.h"
 
 #include "frontend_svr.h"
 #include "device.h"
@@ -1791,7 +1792,7 @@ void cXinelibServer::Action(void)
   pollfd pfd[MAXCLIENTS];
 
   /* higher priority */
-  if (geteuid() == 0)
+  if (have_cap_sys_nice())
     SetPriority(-1);
 
   sched_param temp;
