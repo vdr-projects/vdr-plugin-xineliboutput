@@ -241,7 +241,7 @@ int udp_discovery_find_server(int *port, char *address)
 	    uint32_t svraddr;
 	    iploc += strlen("Server address: ");
 	    svraddr = inet_addr(iploc);
-	    if(svraddr == INADDR_NONE) {
+	    if(svraddr == INADDR_NONE || svraddr == INADDR_ANY) {
 	      LOGMSG("Server provided invalid address !");
 	    } else {
 	      svraddr = ntohl(svraddr);
