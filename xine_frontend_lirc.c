@@ -53,7 +53,7 @@
 
 /* static data */
 static pthread_t lirc_thread;
-static volatile char *lirc_device_name = NULL;
+static volatile const char *lirc_device_name = NULL;
 static volatile int fd_lirc = -1;
 static int lirc_repeat_emu = 0;
 
@@ -258,7 +258,7 @@ static void *lirc_receiver_thread(void *fe_gen)
   return NULL; /* never reached */
 }
 
-void lirc_start(struct frontend_s *fe, char *lirc_dev, int repeat_emu)
+void lirc_start(struct frontend_s *fe, const char *lirc_dev, int repeat_emu)
 {
   if (lirc_dev) {
     int err;
