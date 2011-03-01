@@ -39,6 +39,7 @@
 #include "sap.h"  // SAP  - Session Announcement Protocol
 #include "sdp.h"  // SDP  - Session Description Protocol
 #include "rtcp.h" // RTCP
+#include "sys_cap.h"
 
 #include "udp_pes_scheduler.h"
 
@@ -737,7 +738,8 @@ void cUdpScheduler::Action(void)
 {
   /* UDP Scheduler needs high priority */
   const int priority = -5;
-  SetPriority(priority);
+  if (have_cap_sys_nice())
+    SetPriority(priority);
   errno = 0;
   if ((nice(priority) == -1) && errno)
     LOGDBG("cUdpScheduler: Can't nice to value: %d", priority);
