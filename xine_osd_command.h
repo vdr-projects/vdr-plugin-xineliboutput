@@ -14,7 +14,9 @@
 #ifndef PACKED
 #  define PACKED  __attribute__((packed))
 #endif
-
+#ifndef ALIGNED
+#  define ALIGNED __attribute__((aligned))
+#endif
 
 #define MAX_OSD_OBJECT 50
 
@@ -106,7 +108,7 @@ typedef struct osd_command_s {
   uint8_t    flags;
   uint8_t    scaling;
 
-} PACKED osd_command_t;
+} PACKED osd_command_t ALIGNED;
 
 
 #if __BYTE_ORDER == __LITTLE_ENDIAN
