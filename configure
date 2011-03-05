@@ -431,7 +431,7 @@ echo "" >> $header
 echo "#endif /* XINELIBOUTPUT_FEATURES_H */" >> $header
 
 #
-# create features.mak
+# create config.mak
 #
 
 log "Creating $makefile ..."
