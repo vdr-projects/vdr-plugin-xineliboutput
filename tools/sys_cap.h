@@ -31,7 +31,7 @@ static inline cap_flag_value_t get_cap_flag(cap_value_t cap)
   }
 
   if (cap_get_flag(caps, cap, CAP_EFFECTIVE, &val)) {
-    LOGDBG("cap_get_flag(CAP_SYS_NICE) failed");
+    LOGDBG("cap_get_flag(%d) failed", cap);
   }
 
   cap_free(caps);
