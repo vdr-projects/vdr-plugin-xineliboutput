@@ -78,6 +78,9 @@ DEF_HANDLER2(int,  set_property,         int, int);
 DEF_HANDLER3(void, get_property_min_max, int, int*, int*);
 DEF_HANDLER2(int,  gui_data_exchange,    int, void * );
 DEF_HANDLER0(int,  redraw_needed );
+#ifdef HAVE_XINE_GRAB_VIDEO_FRAME
+DEF_HANDLER0(xine_grab_video_frame_t*,  new_grab_video_frame );
+#endif
 
 void vo_def_dispose(vo_driver_t *self)
 {
@@ -106,6 +109,11 @@ static void vo_proxy_hooks_init(vo_driver_t *drv, vo_driver_t *next_driver)
   drv->gui_data_exchange    = drv->gui_data_exchange    ?: vo_def_gui_data_exchange;
   drv->redraw_needed        = drv->redraw_needed        ?: vo_def_redraw_needed;
   drv->dispose              = drv->dispose              ?: vo_def_dispose;
+
+#ifdef HAVE_XINE_GRAB_VIDEO_FRAME
+  if (!drv->new_grab_video_frame && next_driver->new_grab_video_frame)
+    drv->new_grab_video_frame = vo_def_new_grab_video_frame;
+#endif
 
   /* drop old default handlers for OSD (OSD handlers are optional) */
   if (drv->overlay_begin == vo_def_overlay_begin)
