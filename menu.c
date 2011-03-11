@@ -389,7 +389,8 @@ bool cMenuBrowseFiles::ScanDir(const char *DirName)
   if (d) {
     struct dirent *e;
     while ((e = readdir(d)) != NULL) {
-      if (strcmp(e->d_name, ".") && strcmp(e->d_name, "..")) {
+      if (strcmp(e->d_name, ".") && strcmp(e->d_name, "..") &&
+          (e->d_name[0] != '.' || xc.show_hidden_files)) {
         cString buffer = cString::sprintf("%s/%s", DirName, e->d_name);
         struct stat st;
         if (stat(buffer, &st) == 0) {
