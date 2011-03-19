@@ -777,6 +777,7 @@ bool cXinelibThread::PlayFile(const char *FileName, int Position,
 	strn0cpy(lang1, langs, 4); /* truncate */
 	const char *spu_lang = iso639_2_to_iso639_1(lang1);
 	LOGMSG("Preferred SPU language: %s (%s)", lang1, spu_lang);
+        Xine_Control(cString::sprintf("SPUSTREAM %s", lang1));
 	if (spu_lang && spu_lang[0] && spu_lang[1] && !spu_lang[2])
 	  Xine_Control(cString::sprintf("SPUSTREAM %s", spu_lang));
       }
