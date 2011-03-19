@@ -2712,13 +2712,13 @@ static int handle_control_osdcmd(vdr_input_plugin_t *this)
           LOGMSG("HDMV mode OSD uncompress error");
           osdcmd.raw_data = raw;
         } else {
-          osdcmd.cmd == OSD_Set_RLE;
+          osdcmd.cmd     = OSD_Set_RLE;
           osdcmd.datalen = osdcmd.num_rle*4;
           free(raw);
         }
       } else if (osdcmd.cmd == OSD_Set_RLE) {
         uint8_t *raw = osdcmd.raw_data;
-        osdcmd.data = uncompress_osd_net(raw, osdcmd.num_rle, osdcmd.datalen);
+        osdcmd.data    = uncompress_osd_net(raw, osdcmd.num_rle, osdcmd.datalen);
         osdcmd.datalen = osdcmd.num_rle*4;
         free(raw);
       }
