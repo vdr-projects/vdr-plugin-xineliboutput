@@ -72,6 +72,7 @@
 #include "tools/mpeg.h"
 #include "tools/pes.h"
 #include "tools/ts.h"
+#include "tools/rle.h"
 
 /***************************** DEFINES *********************************/
 
@@ -2702,10 +2703,25 @@ static int handle_control_osdcmd(vdr_input_plugin_t *this)
       LOGMSG("control: error reading OSDCMD bitmap");
       err = CONTROL_DISCONNECTED;
     } else {
-      uint8_t *raw = osdcmd.raw_data;
-      osdcmd.data = uncompress_osd_net(raw, osdcmd.num_rle, osdcmd.datalen);
-      osdcmd.datalen = osdcmd.num_rle*4;
-      free(raw);
+      if (osdcmd.cmd == OSD_Set_HDMV) {
+        uint8_t *raw = osdcmd.raw_data;
+        int n = rle_uncompress_hdmv(&osdcmd.data,
+                                    osdcmd.w, osdcmd.h,
+                                    raw, osdcmd.num_rle, osdcmd.datalen);
+        if (n < 1) {
+          LOGMSG("HDMV mode OSD uncompress error");
+          osdcmd.raw_data = raw;
+        } else {
+          osdcmd.cmd == OSD_Set_RLE;
+          osdcmd.datalen = osdcmd.num_rle*4;
+          free(raw);
+        }
+      } else if (osdcmd.cmd == OSD_Set_RLE) {
+        uint8_t *raw = osdcmd.raw_data;
+        osdcmd.data = uncompress_osd_net(raw, osdcmd.num_rle, osdcmd.datalen);
+        osdcmd.datalen = osdcmd.num_rle*4;
+        free(raw);
+      }
     }
   } else {
     osdcmd.data = NULL;
