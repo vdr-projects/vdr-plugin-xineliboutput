@@ -1317,7 +1317,7 @@ static void disable_DPMS(sxfe_t *this)
  */
 static int open_display(sxfe_t *this, const char *video_port)
 {
-  if (video_port && strlen(video_port)>2) {
+  if (video_port && *video_port) {
     if (!(this->display = XOpenDisplay(video_port)))
       LOGERR("sxfe_display_open: failed to connect to X server (%s)",
              video_port);
