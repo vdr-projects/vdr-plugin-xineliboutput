@@ -60,6 +60,8 @@ class cXinelibServer : public cXinelibThread
     // Configuration
     virtual bool    Listen(int port);
 
+    virtual int     SupportsTrueColorOSD(void);
+
 protected:
     // Playback control
     virtual int     Xine_Control(const char *cmd);
@@ -114,6 +116,7 @@ protected:
     bool m_bUdp       [MAXCLIENTS];  // Client uses UDP transport
     bool m_bMulticast [MAXCLIENTS];  // Client uses multicast RTP
     bool m_bConfigOk  [MAXCLIENTS];  // Client has been configured
+    bool m_bArgbOSD   [MAXCLIENTS];  // Client supports ARGB OSD
     int  m_iMulticastMask; // bit [cli] is 1 or 0. 1 == multicast in use.
     int  m_MasterCli;      // Master client (controls playback speed)
 

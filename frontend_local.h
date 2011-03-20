@@ -49,6 +49,8 @@ class cXinelibLocal : public cXinelibThread
 				 int aspect, int scale_video, int field_order);
     virtual void ConfigureDecoder(int pes_buffers);
 
+    virtual int  SupportsTrueColorOSD(void);
+
   protected:
 
     // Playback control

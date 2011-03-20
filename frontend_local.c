@@ -218,6 +218,11 @@ void cXinelibLocal::ConfigureDecoder(int pes_buffers)
   cCondWait::SleepMs(100);
 }
 
+int cXinelibLocal::SupportsTrueColorOSD(void)
+{
+  return !!xc.hud_osd;
+}
+
 //
 // Xine control
 //

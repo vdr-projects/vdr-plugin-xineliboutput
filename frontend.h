@@ -133,6 +133,8 @@ class cXinelibThread : public cThread, public cListObject
     // Remote frontend server:
     virtual bool Listen(int port) { return false; }
 
+    virtual int  SupportsTrueColorOSD(void) { return 0; } /* 0: no, 1: yes, -1: unknown */
+
   //
   // Data
   //
