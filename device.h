@@ -90,6 +90,8 @@ class cXinelibDevice : public cDevice
     virtual bool CanReplay(void) const { return true; };
     virtual bool HasIBPTrickSpeed(void) { return xc.ibp_trickspeed; }
 
+    bool SupportsTrueColorOSD(void);
+
   // Playback control
 
   private:

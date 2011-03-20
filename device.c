@@ -1640,6 +1640,30 @@ void cXinelibDevice::GetOsdSize(int &Width, int &Height, double &PixelAspect)
   PixelAspect = 16.0 / 9.0 / (double)Width * (double)Height;
 }
 
+bool cXinelibDevice::SupportsTrueColorOSD(void)
+{
+  switch (xc.osd_color_depth) {
+    default:
+    case OSD_DEPTH_LUT8:      return false;
+    case OSD_DEPTH_TRUECOLOR: return true;
+    case OSD_DEPTH_auto:;
+  }
+
+  // Automatic mode:
+  // Use TrueColor if all clients support it.
+  // Special handling when no remote clients:
+  //  - local frontend supports TrueColor --> use TrueColor
+  //  - no local frontend --> use LUT8
+
+  if (m_local) {
+    if (!m_local->SupportsTrueColorOSD())
+      return false;
+    return !m_server || !!m_server->SupportsTrueColorOSD();
+  }
+
+  return m_server && (m_server->SupportsTrueColorOSD() == 1);
+}
+
 //
 // SPU decoder
 //
