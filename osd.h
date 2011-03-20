@@ -20,11 +20,12 @@ class cXinelibOsdProvider : public cOsdProvider
   protected:
     cXinelibDevice *m_Device;
 
+    virtual bool ProvidesTrueColor(void);
+    virtual cOsd *CreateOsd(int Left, int Top, uint Level);
+
   public:
     cXinelibOsdProvider(cXinelibDevice *Device);
     virtual ~cXinelibOsdProvider();
-
-    virtual cOsd *CreateOsd(int Left, int Top, uint Level);
 
     static void RefreshOsd(void);
 
