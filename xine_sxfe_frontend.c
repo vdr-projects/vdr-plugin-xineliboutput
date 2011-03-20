@@ -2727,6 +2727,8 @@ static int sxfe_xine_play(frontend_t *this_gen)
     LOGDBG("sxfe_xine_play: Enabling HUD OSD");
     this->x.input_plugin->f.fe_handle     = this_gen;
     this->x.input_plugin->f.intercept_osd = hud_osd_command;
+
+    this->x.fe.send_event((frontend_t*)this, "INFO ARGBOSD");
   }
 #endif /* HAVE_XRENDER */
 
