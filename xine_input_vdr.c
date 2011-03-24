@@ -3274,7 +3274,9 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
 
     if (this->slave_stream && this->slave_stream->input_plugin) {
       const char *mrl = this->slave_stream->input_plugin->get_mrl(this->slave_stream->input_plugin);
-      is_dvd = !strncmp(mrl, "dvd:/", 5);
+      is_dvd = !strncmp(mrl, "dvd:/", 5) ||
+               !strncmp(mrl, "bd:/", 4) ||
+               !strncmp(mrl, "bluray:/", 8);
     }
 
     if(strstr(cmd+10, "NEXT"))
