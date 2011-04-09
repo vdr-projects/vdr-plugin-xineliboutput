@@ -23,7 +23,7 @@
 #include <stdarg.h>
 #include <string.h>
 
-#define LOG_MODULENAME "[scrnsaver] "
+#define LOG_MODULENAME "[vdr-fe]    "
 #include "../logdefs.h"
 
 #include "gnome_screensaver.h"
@@ -58,7 +58,7 @@ void gnome_screensaver_control(int enable)
   error = NULL;
   connection = dbus_g_bus_get(DBUS_BUS_SESSION, &error);
   if (!connection) {
-    LOGMSG(MSG_OpenBusConnectionError, error ? error->message : "<null>");
+    LOGERR(MSG_OpenBusConnectionError, error ? error->message : "<null>");
     g_error_free(error);
     return;
   }
@@ -83,7 +83,7 @@ void gnome_screensaver_control(int enable)
     /* If this fails, try the GNOME screensaver 2.14 API */
     if (!ret && error->domain == DBUS_GERROR
         && error->code == DBUS_GERROR_UNKNOWN_METHOD) {
-      LOGMSG(MSG_GnomeAPI215Failed);
+      LOGERR(MSG_GnomeAPI215Failed);
       g_error_free(error);
       error = NULL;
       ret =
@@ -106,7 +106,7 @@ void gnome_screensaver_control(int enable)
     /* If this fails, try the GNOME screensaver 2.14 API */
     if (!ret && error->domain == DBUS_GERROR
         && error->code == DBUS_GERROR_UNKNOWN_METHOD) {
-      LOGMSG(MSG_GnomeAPI215Failed);
+      LOGERR(MSG_GnomeAPI215Failed);
       g_error_free(error);
       error = NULL;
       ret =
@@ -120,10 +120,10 @@ void gnome_screensaver_control(int enable)
     /* Check if it's a remote exception or a regular GError */
     if (error->domain == DBUS_GERROR
         && error->code == DBUS_GERROR_REMOTE_EXCEPTION) {
-      LOGMSG(MSG_RemoteMethodException, dbus_g_error_get_name(error), error->message);
+      LOGERR(MSG_RemoteMethodException, dbus_g_error_get_name(error), error->message);
     }
     else {
-      LOGMSG(MSG_GError, error->message);
+      LOGERR(MSG_GError, error->message);
     }
     g_error_free(error);
   }

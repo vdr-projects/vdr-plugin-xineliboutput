@@ -11,7 +11,7 @@
 #ifndef _XINELIBOUTPUT_SYS_CAP_H_
 #define _XINELIBOUTPUT_SYS_CAP_H_
 
-#include "../features.h"
+#include "features.h"
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -31,7 +31,7 @@ static inline cap_flag_value_t get_cap_flag(cap_value_t cap)
   }
 
   if (cap_get_flag(caps, cap, CAP_EFFECTIVE, &val)) {
-    LOGDBG("cap_get_flag(%d) failed", cap);
+    LOGDBG("cap_get_flag(CAP_SYS_NICE) failed");
   }
 
   cap_free(caps);
