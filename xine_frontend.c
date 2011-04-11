@@ -2025,8 +2025,10 @@ static char *fe_grab(frontend_t *this_gen, int *size, int jpeg,
   return img;
 #else
   vo_frame_t *frame = this->stream->video_out->get_last_frame (this->stream->video_out);
+#if XINE_VERSION_CODE < 10190
   if(frame)
     frame->lock(frame);
+#endif
   this->stream->xine->port_ticket->release(this->stream->xine->port_ticket, 0);
 
   if(!frame) {
