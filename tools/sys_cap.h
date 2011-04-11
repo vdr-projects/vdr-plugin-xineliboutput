@@ -11,7 +11,7 @@
 #ifndef _XINELIBOUTPUT_SYS_CAP_H_
 #define _XINELIBOUTPUT_SYS_CAP_H_
 
-#include "../features.h"
+#define HAVE_LIBCAP
 
 #include <unistd.h>
 #include <sys/types.h>
