@@ -125,14 +125,14 @@ const char cmdLineHelp[] =
 #endif
 "  -f        --fullscreen   Fullscreen mode (X11)\n"
 #ifdef HAVE_XRENDER
-"  -D        --hud[=flag[,flag]]"
+"  -D        --hud[=flag[,flag]]\n"
 "                           Head Up Display OSD (X11)\n"
 "                           flags:\n"
 #  ifdef HAVE_XSHAPE
-"                           xshape  Use XShape instead of compositing"
+"                           xshape  Use XShape instead of compositing\n"
 #  endif
 #  ifdef HAVE_OPENGL
-"                           opengl  Use OpenGL instead of compositing"
+"                           opengl  Use OpenGL instead of compositing\n"
 #  endif
 #endif
 #ifdef HAVE_OPENGL
