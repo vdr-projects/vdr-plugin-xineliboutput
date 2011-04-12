@@ -6694,14 +6694,14 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
       if((this->fd_data = connect_pipe_data_stream(this)) < 0) {
 	LOGMSG("Data stream connection failed (PIPE)");
       } else {
-	this->tcp = this->udp = this->tcp = 0;
+	this->tcp = this->udp = this->rtp = 0;
 	LOGMSG("Data stream connected (PIPE)");
       }
     }
 
     /* try RTP ? */
 
-    if(this->fd_data < 0 && !this->udp && !this->tcp) {
+    if(this->fd_data < 0 && this->rtp) {
       /* flush control buffer (if PIPE was tried first) */
       while(0 < read(this->fd_control, tmpbuf, 255)) ;
       if((this->fd_data = connect_rtp_data_stream(this)) < 0) {
