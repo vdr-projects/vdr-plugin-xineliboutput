@@ -3050,12 +3050,16 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
       *pt = 0;
       this->class->xine->config->update_num(this->class->xine->config,
 					    "media.dvd.skip_behaviour", 1);
+      this->class->xine->config->update_num(this->class->xine->config,
+					    "media.bluray.skip_behaviour", 0);
     }
     pt = strstr(cmd+6, " TITLE");
     if(pt) {
       *pt = 0;
       this->class->xine->config->update_num(this->class->xine->config,
 					    "media.dvd.skip_behaviour", 2);
+      this->class->xine->config->update_num(this->class->xine->config,
+					    "media.bluray.skip_behaviour", 1);
     }
     for(i=0; i<sizeof(eventmap)/sizeof(eventmap[0]); i++)
       if(!strcmp(cmd+6, eventmap[i].name)) {
