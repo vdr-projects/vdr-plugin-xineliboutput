@@ -384,6 +384,7 @@ eOSState cMenuBrowseFiles::Open(bool ForceOpen, bool Queue, bool Rewind)
     if (asprintf(&buffer, "%s/%s", *m_CurrentDir, d) >= 0) {
       while (buffer[0] == '/' && buffer[1] == '/')
         memmove(buffer, buffer+1, strlen(buffer));
+      m_CurrentDir = cString(buffer, true);
     }
     Set();
     return osContinue;
