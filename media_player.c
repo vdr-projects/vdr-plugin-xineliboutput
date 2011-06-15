@@ -1211,8 +1211,8 @@ eOSState cBdMenu::ProcessKey(eKeys Key)
   switch (state) {
     case osUser1: m_Player->Control("EVENT XINE_EVENT_INPUT_MENU1");    return osEnd;
     case osUser2: m_Player->Control("EVENT XINE_EVENT_INPUT_MENU2");    return osEnd;
-    case osUser3: m_Player->Control("EVENT XINE_EVENT_INPUT_NEXT");     return osEnd;
-    case osUser4: m_Player->Control("EVENT XINE_EVENT_INPUT_PREVIOUS"); return osEnd;
+    case osUser3: m_Player->Control("EVENT XINE_EVENT_INPUT_NEXT TITLE");     return osEnd;
+    case osUser4: m_Player->Control("EVENT XINE_EVENT_INPUT_PREVIOUS TITLE"); return osEnd;
     case osBack:
     case osEnd:   return osEnd;
     default:      break;
@@ -1279,6 +1279,10 @@ eOSState cXinelibBdPlayerControl::ProcessKey(eKeys Key)
     Hide();
     return osEnd;
   }
+
+  // Check for changed title
+  if (m_Player->UpdateMetaInfo())
+    MsgReplaying(*m_Player->Playlist().Current()->Title, NULL);
 
   // Handle menu
   if (m_BdMenu) {
