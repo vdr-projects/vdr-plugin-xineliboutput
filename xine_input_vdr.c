@@ -2135,10 +2135,10 @@ static void send_meta_info(vdr_input_plugin_t *this)
 
     /* send stream meta info */
     char *meta        = NULL;
-    char *title       = (char *)xine_get_meta_info(this->slave.stream, XINE_META_INFO_TITLE);
-    char *artist      = (char *)xine_get_meta_info(this->slave.stream, XINE_META_INFO_ARTIST);
-    char *album       = (char *)xine_get_meta_info(this->slave.stream, XINE_META_INFO_ALBUM);
-    char *tracknumber = (char *)xine_get_meta_info(this->slave.stream, XINE_META_INFO_TRACK_NUMBER);
+    const char *title       = xine_get_meta_info(this->slave.stream, XINE_META_INFO_TITLE);
+    const char *artist      = xine_get_meta_info(this->slave.stream, XINE_META_INFO_ARTIST);
+    const char *album       = xine_get_meta_info(this->slave.stream, XINE_META_INFO_ALBUM);
+    const char *tracknumber = xine_get_meta_info(this->slave.stream, XINE_META_INFO_TRACK_NUMBER);
 
     if (asprintf(&meta,
                  "INFO METAINFO title=@%s@ artist=@%s@ album=@%s@ tracknumber=@%s@\r\n",
