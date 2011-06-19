@@ -2502,10 +2502,9 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
           has_video = _x_stream_info_get(this->slave.stream, XINE_STREAM_INFO_HAS_VIDEO);
 
           /* Play background image */
-          if(!has_video && !mix_streams && *av && !strncmp(av, "image", 5)) {
+          if(!has_video && !mix_streams && *av && !strncmp(av, "image:", 6)) {
 
-            char bgimage[4096];
-            sprintf(bgimage,"%s",av+6);
+            const char *bgimage = av + 6;
 
             /* background image stream init */
             if (!this->bg_stream.stream) {
