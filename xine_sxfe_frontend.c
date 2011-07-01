@@ -553,8 +553,13 @@ static void update_xinerama_info(sxfe_t *this)
  */
 static void update_screen_size(sxfe_t *this)
 {
-  this->x.width = DisplayWidth(this->display, this->screen);
+  XLockDisplay (this->display);
+
+  this->x.width  = DisplayWidth(this->display, this->screen);
   this->x.height = DisplayHeight(this->display, this->screen);
+
+  XUnlockDisplay(this->display);
+
   update_xinerama_info(this);
 }
 
