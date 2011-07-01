@@ -160,7 +160,7 @@ typedef struct sxfe_s {
   uint8_t  no_border : 1;
   uint8_t  check_move : 1;
   uint8_t  dragging : 1;
-  uint8_t  hud : 1;
+  uint8_t  hud;
   uint8_t  xshape_hud : 1;
   uint8_t  opengl_always : 1;
   uint8_t  opengl_hud : 1;
