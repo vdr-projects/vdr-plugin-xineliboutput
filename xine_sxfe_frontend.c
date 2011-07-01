@@ -2430,8 +2430,8 @@ static void XConfigureEvent_handler(sxfe_t *this, XConfigureEvent *cev)
     }
   }
 
-  if ((cev->x == 0) && (cev->y == 0)) {
-    if(!this->fullscreen) {
+  if (!this->fullscreen) {
+    if ((cev->x == 0) && (cev->y == 0)) {
       int tmp_x, tmp_y;
       Window tmp_win;
       XLockDisplay(this->display);
@@ -2442,9 +2442,7 @@ static void XConfigureEvent_handler(sxfe_t *this, XConfigureEvent *cev)
         this->x.ypos = tmp_y;
       }
       XUnlockDisplay(this->display);
-    }
-  } else {
-    if(!this->fullscreen) {
+    } else {
       /* update video window position */
       this->x.xpos = cev->x;
       this->x.ypos = cev->y;
