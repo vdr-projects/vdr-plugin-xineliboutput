@@ -1426,7 +1426,8 @@ static void create_windows(sxfe_t *this)
   xswa.border_pixel     = 0;
   xswa.backing_store    = WhenMapped;
 
-  xswa_mask = CWBackPixel | CWBorderPixel | CWBackingStore;
+  //xswa_mask = CWBackPixel | CWBorderPixel | CWBackingStore;
+  xswa_mask = CWBorderPixel | CWBackingStore;
 
   XLockDisplay(this->display);
 
