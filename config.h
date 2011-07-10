@@ -142,6 +142,12 @@
 #define OSD_BLENDING_HARDWARE   1  // xine-lib "unscaled osd"
 #define OSD_BLENDING_count      2
 
+// OSD depth
+#define OSD_DEPTH_auto          0
+#define OSD_DEPTH_LUT8          1
+#define OSD_DEPTH_TRUECOLOR     2
+#define OSD_DEPTH_count         3
+
 // OSD layers mixing
 #define OSD_MIXER_NONE          0
 #define OSD_MIXER_GRAY          1
@@ -247,6 +253,7 @@ class config_t {
     static const char * const s_osdMixers              [OSD_MIXER_count     + 1];
     static const char * const s_osdScalings            [OSD_SCALING_count   + 1];
     static const char * const s_osdSizes               [OSD_SIZE_count      + 1];
+    static const char * const s_osdColorDepths         [OSD_DEPTH_count     + 1];
     static const char * const s_decoders_MPEG2         [DECODER_MPEG2_count + 1];
     static const char * const s_decoders_H264          [DECODER_H264_count  + 1];
     static const char * const s_ff_skip_loop_filters   [FF_H264_SKIP_LOOPFILTER_count + 1];
@@ -274,11 +281,14 @@ class config_t {
     int  modeswitch;
     int  width;
     int  height;
+    int  xpos;
+    int  ypos;
     int  display_aspect;
     int  scale_video;
     int  field_order;
     int  exit_on_close;    // Terminate VDR when local frontend is closed
     int  use_x_keyboard;   // Use X11 keyboard to control VDR (console kbd is handled by VDR)
+    int  window_id;        // use existing X11 window
 
     // Audio settings
     int  speaker_type;
@@ -310,6 +320,7 @@ class config_t {
     int  osd_height;
     int  osd_width_auto;
     int  osd_height_auto;
+    int  osd_color_depth;
     int  osd_mixer;                // show multiple OSD layers
     int  osd_scaling;              // OSD scaling mode: off, nearest, bilinear
     int  osd_spu_scaling;          // SPU OSD scaling mode: off, nearest, bilinear
@@ -331,6 +342,7 @@ class config_t {
     char browse_files_dir[4096];
     char browse_music_dir[4096];
     char browse_images_dir[4096];
+    int  show_hidden_files;
     int  cache_implicit_playlists; // used in playlist.c
     int  enable_id3_scanner;       // used in playlist.c
     int  subtitle_vpos;            // used in media player. Not saved !
