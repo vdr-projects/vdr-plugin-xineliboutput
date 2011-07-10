@@ -453,6 +453,7 @@ class config_t {
     static bool IsDvdFolder(const char *);
     static bool IsBluRayFolder(const char *);
     static bool IsDvdImage(const char *);
+    static bool IsBluRayImage(const char *);
 
     cString AutocropOptions(void);
     cString SwScaleOptions(void);

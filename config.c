@@ -421,6 +421,17 @@ bool config_t::IsDvdImage(const char *fname)
   return (ext && !strcasecmp(ext, "iso")) ? true : false;
 }
 
+bool config_t::IsBluRayImage(const char *fname)
+{
+  if (IsDvdImage(fname)) {
+    struct stat st;
+    if (!stat(fname, &st)) {
+      return st.st_size > 10*1024*1024*1024ll;
+    }
+  }
+  return false;
+}
+
 bool config_t::IsDvdFolder(const char *fname)
 {
   struct stat st;
