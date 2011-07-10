@@ -19,6 +19,7 @@
 
 #include "logdefs.h"
 #include "config.h"
+#include "xine_frontend.h"
 #include "i18n.h"
 
 #define STRN0CPY(dst, src) \
