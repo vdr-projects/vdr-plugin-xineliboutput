@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xineliboutput 1.0.6\n"
 "Report-Msgid-Bugs-To: <phintuka@users.sourceforge.net>\n"
-"POT-Creation-Date: 2011-02-25 23:46+0200\n"
+"POT-Creation-Date: 2011-07-10 22:31+0300\n"
 "PO-Revision-Date: 2009-09-21 23:32+0800\n"
 "Last-Translator: NanFeng <nfgx@21cn.com>\n"
 "Language-Team: Chinese (simplified) <vdr@linuxtv.org>\n"
@@ -154,6 +154,12 @@ msgstr "最近"
 msgid "bilinear"
 msgstr "双线性"
 
+msgid "LUT8"
+msgstr ""
+
+msgid "TrueColor"
+msgstr ""
+
 msgid "video stream"
 msgstr ""
 
@@ -171,63 +177,6 @@ msgstr "nonkey"
 
 msgid "all"
 msgstr "所有"
-
-msgid "Frontend initialization failed"
-msgstr "前端初始化失败"
-
-msgid "Server initialization failed"
-msgstr "服务器初始化失败"
-
-msgid "Playlist"
-msgstr "播放列表"
-
-msgid "Button$Random"
-msgstr "按钮$随机"
-
-msgid "Button$Normal"
-msgstr "按钮$正常"
-
-msgid "Button$Add files"
-msgstr "按钮$添加文件"
-
-msgid "Button$Remove"
-msgstr "按钮$删除"
-
-msgid "Button$Sort"
-msgstr "按钮$排序"
-
-msgid "Queued to playlist"
-msgstr "选择队列到播放列表"
-
-msgid "Random play"
-msgstr "随机播放"
-
-msgid "Normal play"
-msgstr "正常播放"
-
-msgid "DVD Menu"
-msgstr ""
-
-msgid "Exit DVD menu"
-msgstr ""
-
-msgid "DVD Root menu"
-msgstr ""
-
-msgid "DVD Title menu"
-msgstr ""
-
-msgid "DVD SPU menu"
-msgstr ""
-
-msgid "DVD Audio menu"
-msgstr ""
-
-msgid "Close menu"
-msgstr ""
-
-msgid "Delete image ?"
-msgstr "是否删除图片?"
 
 msgid "Images"
 msgstr "图片"
@@ -680,6 +629,9 @@ msgstr "缓存信息"
 msgid "Arrow keys control DVD playback"
 msgstr "允许按键控制DVD回放"
 
+msgid "Show hidden files"
+msgstr ""
+
 msgid "Media Player"
 msgstr "媒体播放器"
 
@@ -697,6 +649,63 @@ msgstr "测试图像"
 
 msgid "X11/xine-lib output plugin"
 msgstr "X11/xine-lib 视频输出插件 by NFVDR-HD"
+
+msgid "Frontend initialization failed"
+msgstr "前端初始化失败"
+
+msgid "Server initialization failed"
+msgstr "服务器初始化失败"
+
+msgid "Playlist"
+msgstr "播放列表"
+
+msgid "Button$Random"
+msgstr "按钮$随机"
+
+msgid "Button$Normal"
+msgstr "按钮$正常"
+
+msgid "Button$Add files"
+msgstr "按钮$添加文件"
+
+msgid "Button$Remove"
+msgstr "按钮$删除"
+
+msgid "Button$Sort"
+msgstr "按钮$排序"
+
+msgid "Queued to playlist"
+msgstr "选择队列到播放列表"
+
+msgid "Random play"
+msgstr "随机播放"
+
+msgid "Normal play"
+msgstr "正常播放"
+
+msgid "DVD Menu"
+msgstr ""
+
+msgid "Exit DVD menu"
+msgstr ""
+
+msgid "DVD Root menu"
+msgstr ""
+
+msgid "DVD Title menu"
+msgstr ""
+
+msgid "DVD SPU menu"
+msgstr ""
+
+msgid "DVD Audio menu"
+msgstr ""
+
+msgid "Close menu"
+msgstr ""
+
+msgid "Delete image ?"
+msgstr "是否删除图片?"
 
 #~ msgid "Headphone audio mode"
 #~ msgstr "耳机音频模式"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xineliboutput 1.0.6\n"
 "Report-Msgid-Bugs-To: <phintuka@users.sourceforge.net>\n"
-"POT-Creation-Date: 2011-02-25 23:46+0200\n"
+"POT-Creation-Date: 2011-07-10 22:31+0300\n"
 "PO-Revision-Date: 2008-10-06 11:19+0200\n"
 "Last-Translator: Arthur Konovalov\n"
 "Language-Team: Estonian <vdr@linuxtv.org>\n"
@@ -154,6 +154,12 @@ msgstr "lähim"
 msgid "bilinear"
 msgstr "bilineaarne"
 
+msgid "LUT8"
+msgstr ""
+
+msgid "TrueColor"
+msgstr ""
+
 msgid "video stream"
 msgstr ""
 
@@ -171,63 +177,6 @@ msgstr ""
 
 msgid "all"
 msgstr "kõik"
-
-msgid "Frontend initialization failed"
-msgstr "Liidese lähtestamine nurjus"
-
-msgid "Server initialization failed"
-msgstr "Serveri lätestamine nurjus"
-
-msgid "Playlist"
-msgstr "Esitusnimekiri"
-
-msgid "Button$Random"
-msgstr "Juhuslik"
-
-msgid "Button$Normal"
-msgstr "Normaalne"
-
-msgid "Button$Add files"
-msgstr "Lisada"
-
-msgid "Button$Remove"
-msgstr "Eemaldada"
-
-msgid "Button$Sort"
-msgstr "Sorteerimine"
-
-msgid "Queued to playlist"
-msgstr "Lisatud esitusnimekirja"
-
-msgid "Random play"
-msgstr "Juhuesitus"
-
-msgid "Normal play"
-msgstr "Normaalne esitus"
-
-msgid "DVD Menu"
-msgstr "DVD menüü"
-
-msgid "Exit DVD menu"
-msgstr "Väljumine DVD menüüst"
-
-msgid "DVD Root menu"
-msgstr "DVD juurmenüü"
-
-msgid "DVD Title menu"
-msgstr "DVD peamemüü"
-
-msgid "DVD SPU menu"
-msgstr "DVD SPU menüü"
-
-msgid "DVD Audio menu"
-msgstr "DVD audio menüü"
-
-msgid "Close menu"
-msgstr "Menüü sulgemine"
-
-msgid "Delete image ?"
-msgstr "Kustutada pilt ?"
 
 msgid "Images"
 msgstr "Pildid"
@@ -680,6 +629,9 @@ msgstr "Metaandmete vahemälu"
 msgid "Arrow keys control DVD playback"
 msgstr "Noolte kasutamine DVD juhtimisel"
 
+msgid "Show hidden files"
+msgstr ""
+
 msgid "Media Player"
 msgstr "Meediapleier"
 
@@ -697,6 +649,63 @@ msgstr "Testipildid"
 
 msgid "X11/xine-lib output plugin"
 msgstr "X11/xine-lib kuvar"
+
+msgid "Frontend initialization failed"
+msgstr "Liidese lähtestamine nurjus"
+
+msgid "Server initialization failed"
+msgstr "Serveri lätestamine nurjus"
+
+msgid "Playlist"
+msgstr "Esitusnimekiri"
+
+msgid "Button$Random"
+msgstr "Juhuslik"
+
+msgid "Button$Normal"
+msgstr "Normaalne"
+
+msgid "Button$Add files"
+msgstr "Lisada"
+
+msgid "Button$Remove"
+msgstr "Eemaldada"
+
+msgid "Button$Sort"
+msgstr "Sorteerimine"
+
+msgid "Queued to playlist"
+msgstr "Lisatud esitusnimekirja"
+
+msgid "Random play"
+msgstr "Juhuesitus"
+
+msgid "Normal play"
+msgstr "Normaalne esitus"
+
+msgid "DVD Menu"
+msgstr "DVD menüü"
+
+msgid "Exit DVD menu"
+msgstr "Väljumine DVD menüüst"
+
+msgid "DVD Root menu"
+msgstr "DVD juurmenüü"
+
+msgid "DVD Title menu"
+msgstr "DVD peamemüü"
+
+msgid "DVD SPU menu"
+msgstr "DVD SPU menüü"
+
+msgid "DVD Audio menu"
+msgstr "DVD audio menüü"
+
+msgid "Close menu"
+msgstr "Menüü sulgemine"
+
+msgid "Delete image ?"
+msgstr "Kustutada pilt ?"
 
 #~ msgid "Headphone audio mode"
 #~ msgstr "Kuulari helimudel"

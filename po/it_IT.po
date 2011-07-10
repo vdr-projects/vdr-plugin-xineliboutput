@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xineliboutput 1.0.6\n"
 "Report-Msgid-Bugs-To: <phintuka@users.sourceforge.net>\n"
-"POT-Creation-Date: 2011-02-25 23:46+0200\n"
+"POT-Creation-Date: 2011-07-10 22:31+0300\n"
 "PO-Revision-Date: 2011-07-10 02:27+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: Italian <vdr@linuxtv.org>\n"
@@ -156,6 +156,12 @@ msgstr "più vicino"
 msgid "bilinear"
 msgstr "bilineare"
 
+msgid "LUT8"
+msgstr ""
+
+msgid "TrueColor"
+msgstr ""
+
 msgid "video stream"
 msgstr "flusso video"
 
@@ -173,63 +179,6 @@ msgstr "nessuna chiave"
 
 msgid "all"
 msgstr "tutti"
-
-msgid "Frontend initialization failed"
-msgstr "Inizializzazione frontend fallita"
-
-msgid "Server initialization failed"
-msgstr "Inizializzazione server fallita"
-
-msgid "Playlist"
-msgstr "Lista esecuzione"
-
-msgid "Button$Random"
-msgstr "Casuale"
-
-msgid "Button$Normal"
-msgstr "Normale"
-
-msgid "Button$Add files"
-msgstr "Aggiungi files"
-
-msgid "Button$Remove"
-msgstr "Rimuovi"
-
-msgid "Button$Sort"
-msgstr "Ordina"
-
-msgid "Queued to playlist"
-msgstr "Accoda alla lista esecuzione"
-
-msgid "Random play"
-msgstr "Riproduzione casuale"
-
-msgid "Normal play"
-msgstr "Riproduzione normale"
-
-msgid "DVD Menu"
-msgstr "Menu DVD"
-
-msgid "Exit DVD menu"
-msgstr "Esci dal menu DVD"
-
-msgid "DVD Root menu"
-msgstr "Menu principale DVD"
-
-msgid "DVD Title menu"
-msgstr "Titolo menu DVD"
-
-msgid "DVD SPU menu"
-msgstr "SPU menu DVD"
-
-msgid "DVD Audio menu"
-msgstr "Audio menu DVD"
-
-msgid "Close menu"
-msgstr "Chiudi menu"
-
-msgid "Delete image ?"
-msgstr "Eliminare immagine ?"
 
 msgid "Images"
 msgstr "Immagini"
@@ -682,6 +631,9 @@ msgstr "Cache metainfo"
 msgid "Arrow keys control DVD playback"
 msgstr "Riproduzione DVD con tasti freccia"
 
+msgid "Show hidden files"
+msgstr ""
+
 msgid "Media Player"
 msgstr "Lettore multimediale"
 
@@ -699,6 +651,63 @@ msgstr "Prova immagini"
 
 msgid "X11/xine-lib output plugin"
 msgstr "Plugin uscita X11/xine-lib"
+
+msgid "Frontend initialization failed"
+msgstr "Inizializzazione frontend fallita"
+
+msgid "Server initialization failed"
+msgstr "Inizializzazione server fallita"
+
+msgid "Playlist"
+msgstr "Lista esecuzione"
+
+msgid "Button$Random"
+msgstr "Casuale"
+
+msgid "Button$Normal"
+msgstr "Normale"
+
+msgid "Button$Add files"
+msgstr "Aggiungi files"
+
+msgid "Button$Remove"
+msgstr "Rimuovi"
+
+msgid "Button$Sort"
+msgstr "Ordina"
+
+msgid "Queued to playlist"
+msgstr "Accoda alla lista esecuzione"
+
+msgid "Random play"
+msgstr "Riproduzione casuale"
+
+msgid "Normal play"
+msgstr "Riproduzione normale"
+
+msgid "DVD Menu"
+msgstr "Menu DVD"
+
+msgid "Exit DVD menu"
+msgstr "Esci dal menu DVD"
+
+msgid "DVD Root menu"
+msgstr "Menu principale DVD"
+
+msgid "DVD Title menu"
+msgstr "Titolo menu DVD"
+
+msgid "DVD SPU menu"
+msgstr "SPU menu DVD"
+
+msgid "DVD Audio menu"
+msgstr "Audio menu DVD"
+
+msgid "Close menu"
+msgstr "Chiudi menu"
+
+msgid "Delete image ?"
+msgstr "Eliminare immagine ?"
 
 #~ msgid "Headphone audio mode"
 #~ msgstr "Modalità cuffie audio"

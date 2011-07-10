@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xineliboutput 1.0.6\n"
 "Report-Msgid-Bugs-To: <phintuka@users.sourceforge.net>\n"
-"POT-Creation-Date: 2011-02-25 23:46+0200\n"
+"POT-Creation-Date: 2011-07-10 22:31+0300\n"
 "PO-Revision-Date: 2007-11-23 10:17+0200\n"
 "Last-Translator: Vladimir Monchenko\n"
 "Language-Team: Russian <vdr@linuxtv.org>\n"
@@ -154,6 +154,12 @@ msgstr ""
 msgid "bilinear"
 msgstr ""
 
+msgid "LUT8"
+msgstr ""
+
+msgid "TrueColor"
+msgstr ""
+
 msgid "video stream"
 msgstr ""
 
@@ -171,63 +177,6 @@ msgstr ""
 
 msgid "all"
 msgstr ""
-
-msgid "Frontend initialization failed"
-msgstr ""
-
-msgid "Server initialization failed"
-msgstr ""
-
-msgid "Playlist"
-msgstr ""
-
-msgid "Button$Random"
-msgstr ""
-
-msgid "Button$Normal"
-msgstr ""
-
-msgid "Button$Add files"
-msgstr ""
-
-msgid "Button$Remove"
-msgstr ""
-
-msgid "Button$Sort"
-msgstr ""
-
-msgid "Queued to playlist"
-msgstr ""
-
-msgid "Random play"
-msgstr ""
-
-msgid "Normal play"
-msgstr ""
-
-msgid "DVD Menu"
-msgstr ""
-
-msgid "Exit DVD menu"
-msgstr ""
-
-msgid "DVD Root menu"
-msgstr ""
-
-msgid "DVD Title menu"
-msgstr ""
-
-msgid "DVD SPU menu"
-msgstr ""
-
-msgid "DVD Audio menu"
-msgstr ""
-
-msgid "Close menu"
-msgstr ""
-
-msgid "Delete image ?"
-msgstr "Удалить картинку ?"
 
 msgid "Images"
 msgstr "Изображения"
@@ -680,6 +629,9 @@ msgstr ""
 msgid "Arrow keys control DVD playback"
 msgstr ""
 
+msgid "Show hidden files"
+msgstr ""
+
 msgid "Media Player"
 msgstr "Xine-lib"
 
@@ -697,3 +649,60 @@ msgstr "Тестовые изображения"
 
 msgid "X11/xine-lib output plugin"
 msgstr "X11/xine-lib видео модуль"
+
+msgid "Frontend initialization failed"
+msgstr ""
+
+msgid "Server initialization failed"
+msgstr ""
+
+msgid "Playlist"
+msgstr ""
+
+msgid "Button$Random"
+msgstr ""
+
+msgid "Button$Normal"
+msgstr ""
+
+msgid "Button$Add files"
+msgstr ""
+
+msgid "Button$Remove"
+msgstr ""
+
+msgid "Button$Sort"
+msgstr ""
+
+msgid "Queued to playlist"
+msgstr ""
+
+msgid "Random play"
+msgstr ""
+
+msgid "Normal play"
+msgstr ""
+
+msgid "DVD Menu"
+msgstr ""
+
+msgid "Exit DVD menu"
+msgstr ""
+
+msgid "DVD Root menu"
+msgstr ""
+
+msgid "DVD Title menu"
+msgstr ""
+
+msgid "DVD SPU menu"
+msgstr ""
+
+msgid "DVD Audio menu"
+msgstr ""
+
+msgid "Close menu"
+msgstr ""
+
+msgid "Delete image ?"
+msgstr "Удалить картинку ?"
