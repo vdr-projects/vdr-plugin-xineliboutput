@@ -154,9 +154,9 @@ void cXinelibThread::InfoHandler(const char *info)
 	while(*map && *map != ' ') map++;
 	if(*map == ' ') { *map = 0; map++; };
 #if VDRVERSNUM < 10515 && !defined(VDRSPUPATCH)
-	cXinelibDevice::Instance().SetAvailableDvdSpuTrack(id, iso639_2_to_iso639_1(lang), Current);
+	cXinelibDevice::Instance().SetAvailableDvdSpuTrack(id, iso639_1_to_iso639_2(lang), Current);
 #else
-	cXinelibDevice::Instance().SetAvailableTrack(ttSubtitle, id, id+1, iso639_2_to_iso639_1(lang) ?: *cString::sprintf("%03d", id+1));
+	cXinelibDevice::Instance().SetAvailableTrack(ttSubtitle, id, id+1, iso639_1_to_iso639_2(lang) ?: *cString::sprintf("%03d", id+1));
 	if (Current)
 	  CurrentTrack = id;
 #endif
@@ -190,7 +190,7 @@ void cXinelibThread::InfoHandler(const char *info)
       char *lang = map;
       while(*map && *map != ' ') map++;
       if(*map == ' ') { *map = 0; map++; };
-      cXinelibDevice::Instance().SetAvailableTrack(ttDolby, id, ttDolby+id, iso639_2_to_iso639_1(lang) ?: *cString::sprintf("%03d", id+1));
+      cXinelibDevice::Instance().SetAvailableTrack(ttDolby, id, ttDolby+id, iso639_1_to_iso639_2(lang) ?: *cString::sprintf("%03d", id+1));
       if(Current)
 	cXinelibDevice::Instance().SetCurrentAudioTrack((eTrackType)(ttDolby+id));
     }
@@ -783,8 +783,9 @@ bool cXinelibThread::PlayFile(const char *FileName, int Position,
       if (langs) {
 	char lang1[5];
 	strn0cpy(lang1, langs, 4); /* truncate */
-	const char *spu_lang = iso639_1_to_iso639_2(lang1);
+	const char *spu_lang = iso639_2_to_iso639_1(lang1);
 	LOGMSG("Preferred SPU language: %s (%s)", lang1, spu_lang);
+        Xine_Control(cString::sprintf("SPUSTREAM %s", lang1));
 	if (spu_lang && spu_lang[0] && spu_lang[1] && !spu_lang[2])
 	  Xine_Control(cString::sprintf("SPUSTREAM %s", spu_lang));
       }
