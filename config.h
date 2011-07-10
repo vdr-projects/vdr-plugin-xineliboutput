@@ -361,6 +361,12 @@ class config_t {
     int  ffmpeg_pp_quality;   // 0...6
     char ffmpeg_pp_mode[256];
 
+#if 1
+    int autocrop_method;
+    int autocrop_output_aspect;
+    int autocrop_overscan;
+#endif
+
     // automatic 4:3 letterbox -> 16:9 cropping post plugin
     int  autocrop;            // enable / disable
     int  autocrop_autodetect;
