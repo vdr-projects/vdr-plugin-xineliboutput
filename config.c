@@ -234,6 +234,13 @@ const char * const config_t::s_osdScalings[] = {
   NULL
 };
 
+const char * const config_t::s_osdColorDepths[] = {
+  trNOOP("automatic"),
+  trNOOP("LUT8"),
+  trNOOP("TrueColor"),
+  NULL
+};
+
 const char * const config_t::s_osdSizes[] = {
   trNOOP("automatic"),
   "720x576",
@@ -576,6 +583,7 @@ config_t::config_t() {
   osd_height           = 576;
   osd_width_auto       = 0;
   osd_height_auto      = 0;
+  osd_color_depth      = OSD_DEPTH_auto;
   osd_mixer            = OSD_MIXER_FULL;
   osd_scaling          = OSD_SCALING_NEAREST;
   osd_spu_scaling      = OSD_SCALING_NEAREST;
@@ -600,7 +608,7 @@ config_t::config_t() {
   alpha_correction_abs = 0;
 
   fullscreen     = 0;
-  modeswitch     = 1;
+  modeswitch     = 0;
   width          = 720;
   height         = 576;
   scale_video    = 0;
@@ -658,6 +666,7 @@ config_t::config_t() {
   remote_local_ip[0] = 0;   // bind locally to this IP - undefined -> any/all
 
   use_x_keyboard = 1;
+  window_id      = WINDOW_ID_NONE;
 
   // video settings
 #ifdef DEVICE_SUPPORTS_IBP_TRICKSPEED
@@ -688,6 +697,7 @@ config_t::config_t() {
   strn0cpy(browse_files_dir,  VideoDirectory, sizeof(browse_files_dir));
   strn0cpy(browse_music_dir,  VideoDirectory, sizeof(browse_music_dir));
   strn0cpy(browse_images_dir, VideoDirectory, sizeof(browse_images_dir));
+  show_hidden_files = 0;
   cache_implicit_playlists = 1;
   enable_id3_scanner = 1;
   dvd_arrow_keys_control_playback = 1;
@@ -714,13 +724,14 @@ bool config_t::ProcessArg(const char *Name, const char *Value)
 
 bool config_t::ProcessArgs(int argc, char *argv[])
 {
-  static const char short_options[] = "fDw:h:l:r:A:V:d:P:C:pc";
+  static const char short_options[] = "fDw:h:l:mr:A:V:d:P:C:pc";
 
   static const struct option long_options[] = {
       { "fullscreen",   no_argument,       NULL, 'f' },
       { "hud",          no_argument,       NULL, 'D' },
       { "width",        required_argument, NULL, 'w' },
       { "height",       required_argument, NULL, 'h' },
+      { "geometry",     required_argument, NULL, 'g' },
       //{ "xkeyboard",    no_argument,       NULL, 'k' },
       //{ "noxkeyboard",  no_argument,       NULL, 'K' },
       { "local",        required_argument, NULL, 'l' },
@@ -729,6 +740,8 @@ bool config_t::ProcessArgs(int argc, char *argv[])
       { "audio",        required_argument, NULL, 'A' },
       { "video",        required_argument, NULL, 'V' },
       { "display",      required_argument, NULL, 'd' },
+      { "window",       required_argument, NULL, 'W' },
+      { "modeswitch",   no_argument,       NULL, 'm' },
       { "post",         required_argument, NULL, 'P' },
       { "config",       required_argument, NULL, 'C' },
       { "primary",      no_argument,       NULL, 'p' },
@@ -741,6 +754,13 @@ bool config_t::ProcessArgs(int argc, char *argv[])
     switch (c) {
     case 'd': ProcessArg("Video.Port", optarg);
               break;
+    case 'W': ProcessArg("X11.WindowId", optarg);
+              break;
+    case 'm': ProcessArg("VideoModeSwitching", "1");
+#ifndef HAVE_XRANDR
+              LOGMSG("Video mode switching not supported");
+#endif
+              break;
     case 'f': ProcessArg("Fullscreen", "1");
               break;
     case 'D': ProcessArg("X11.HUDOSD", "1");
@@ -748,11 +768,20 @@ bool config_t::ProcessArgs(int argc, char *argv[])
               LOGMSG("HUD OSD not supported\n");
 #endif
               break;
-    case 'w': ProcessArg("Fullscreen", "0");
+    case 'w': //ProcessArg("Fullscreen", "0");
               ProcessArg("X11.WindowWidth", optarg);
               break;
-    case 'h': ProcessArg("Fullscreen", "0");
+    case 'h': //ProcessArg("Fullscreen", "0");
               ProcessArg("X11.WindowHeight", optarg);
+              break;
+    case 'g': {
+                int _width = width, _height = height, _xpos = 0, _ypos = 0;
+                sscanf (optarg, "%dx%d+%d+%d", &_width, &_height, &_xpos, &_ypos);
+                ProcessArg("X11.WindowWidth",  *cString::sprintf("%d", _width));
+                ProcessArg("X11.WindowHeight", *cString::sprintf("%d", _height));
+                ProcessArg("X11.XPos",         *cString::sprintf("%d", _xpos));
+                ProcessArg("X11.YPos",         *cString::sprintf("%d", _ypos));
+              }
               break;
     //case 'k': ProcessArg("X11.UseKeyboard", "1");
     //          break;
@@ -824,8 +853,11 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "DisplayAspect"))      display_aspect = strstra(Value, s_aspects, 0);
   else if (!strcasecmp(Name, "ForcePrimaryDevice")) force_primary_device = atoi(Value);
 
+  else if (!strcasecmp(Name, "X11.WindowId"))     window_id = (!strcmp(Value, "root")) ? WINDOW_ID_ROOT : atoi(Value);
   else if (!strcasecmp(Name, "X11.WindowWidth"))  width = atoi(Value);
   else if (!strcasecmp(Name, "X11.WindowHeight")) height = atoi(Value);
+  else if (!strcasecmp(Name, "X11.XPos"))         xpos = atoi(Value);
+  else if (!strcasecmp(Name, "X11.YPos"))         ypos = atoi(Value);
   else if (!strcasecmp(Name, "X11.UseKeyboard"))  use_x_keyboard = atoi(Value);
   else if (!strcasecmp(Name, "X11.HUDOSD"))       hud_osd = atoi(Value);
 
@@ -847,6 +879,7 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "OSD.Size"))           osd_size = strstra(Value, s_osdSizes, 0);
   else if (!strcasecmp(Name, "OSD.Width"))          osd_width = atoi(Value);
   else if (!strcasecmp(Name, "OSD.Height"))         osd_height = atoi(Value);
+  else if (!strcasecmp(Name, "OSD.ColorDepth"))     osd_color_depth = strstra(Value, s_osdColorDepths, 0);
   else if (!strcasecmp(Name, "OSD.LayersVisible"))  osd_mixer = atoi(Value);
   else if (!strcasecmp(Name, "OSD.Scaling"))        osd_scaling = atoi(Value);
   else if (!strcasecmp(Name, "OSD.ScalingSPU"))     osd_spu_scaling = atoi(Value);
@@ -899,6 +932,7 @@ bool config_t::SetupParse(const char *Name, const char *Value)
 
   else if (!strcasecmp(Name, "Video.Driver"))      STRN0CPY(video_driver, Value);
   else if (!strcasecmp(Name, "Video.Port"))        STRN0CPY(video_port, Value);
+
   else if (!strcasecmp(Name, "Video.Scale"))       scale_video = atoi(Value);
   else if (!strcasecmp(Name, "Video.DeinterlaceOptions")) STRN0CPY(deinterlace_opts, Value);
   else if (!strcasecmp(Name, "Video.Deinterlace")) STRN0CPY(deinterlace_method, Value);
@@ -964,6 +998,7 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "Media.BrowseFilesDir"))    STRN0CPY(browse_files_dir, Value);
   else if (!strcasecmp(Name, "Media.BrowseMusicDir"))    STRN0CPY(browse_music_dir, Value);
   else if (!strcasecmp(Name, "Media.BrowseImagesDir"))   STRN0CPY(browse_images_dir, Value);
+  else if (!strcasecmp(Name, "Media.ShowHiddenFiles"))   show_hidden_files = atoi(Value);
   else if (!strcasecmp(Name, "Media.CacheImplicitPlaylists")) cache_implicit_playlists = atoi(Value);
   else if (!strcasecmp(Name, "Media.EnableID3Scanner"))  enable_id3_scanner = atoi(Value);
   else if (!strcasecmp(Name, "Media.DVD.ArrowKeysControlPlayback")) dvd_arrow_keys_control_playback = atoi(Value);
