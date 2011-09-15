@@ -264,8 +264,12 @@ ts2es_t *ts2es_init(fifo_buffer_t *dst_fifo, ts_stream_type stream_type, uint st
     case  ISO_13818_AUDIO:
       data->xine_buf_type = BUF_AUDIO_MPEG;
       break;
-    case  ISO_13818_PART7_AUDIO:
     case  ISO_14496_PART3_AUDIO:
+#ifdef BUF_AUDIO_AAC_LATM
+      data->xine_buf_type = BUF_AUDIO_AAC_LATM;
+      break;
+#endif
+    case  ISO_13818_PART7_AUDIO:
       data->xine_buf_type = BUF_AUDIO_AAC;
       break;
 
