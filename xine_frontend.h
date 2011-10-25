@@ -60,9 +60,10 @@ struct frontend_config_s {
 #define FE_ERROR  0
 
 /* HUD OSD bitmask values */
-#define HUD_COMPOSITE 0x1
-#define HUD_XSHAPE    0x2
-#define HUD_OPENGL    0x4
+#define HUD_COMPOSITE 0x1  /* hud in transparent window */
+#define HUD_XSHAPE    0x2  /* use XShape */
+#define HUD_OPENGL    0x4  /* draw OSD and video using OpenGL */
+#define HUD_XRENDER   0x8  /* draw OSD and video using Xrender */
 
 /* Special window_id's */
 #define WINDOW_ID_NONE  -1
