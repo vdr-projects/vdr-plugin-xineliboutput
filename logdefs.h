@@ -116,6 +116,15 @@
       } while(0)
 #endif
 
+#define ASSERT_RET(expr,ret) \
+      do { \
+        if(!(expr)) { \
+          LOGMSG("Asseretion failed: %s at %s:%d (%s)", \
+                 #expr, __FILE__, __LINE__, __FUNCTION__); \
+          ret; \
+        } \
+      } while(0)
+
 
 /*
  * Plugin (call)trace
