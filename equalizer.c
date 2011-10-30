@@ -25,7 +25,7 @@ cEqualizer::cEqualizer() : cOsdObject()
 cEqualizer::~cEqualizer()
 {
   delete m_Osd;
-  delete m_Values;
+  delete[] m_Values;
 }
 
 #define OSD_W (220)
