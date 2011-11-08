@@ -416,7 +416,7 @@ void rle_uncompress_argb(uint32_t *dst,
   uint i, pixelcounter = 0;
   uint idx = 0, line = 0;
 
-  if (palette_entries > 255)
+  if (palette_entries > 256)
     return;
 
   rle_palette_to_argb(lut, palette, palette_entries);
