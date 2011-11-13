@@ -612,6 +612,7 @@ void cXinelibDevice::SetReplayMode(void)
   m_RadioStream = true; // first seen replayed video packet resets this
   m_AudioCount  = 15;
   m_StreamStart = true;
+  m_TrickSpeed = -1;
 
   ForEach(m_clients, &cXinelibThread::SetLiveMode, false);
   Clear();
