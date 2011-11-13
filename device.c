@@ -827,8 +827,9 @@ void cXinelibDevice::Play(void)
   TRACEF("cXinelibDevice::Play");
 
   m_SkipAudio  = false;
-  
+
   ForEach(m_clients, &cXinelibThread::SetLiveMode, false);
+  ForEach(m_clients, &cXinelibThread::SetStillMode, false);
   TrickSpeed(-1);
   cDevice::Play();
 }
