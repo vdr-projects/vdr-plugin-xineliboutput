@@ -1149,6 +1149,16 @@ int cXinelibDevice::PlayTs(const uchar *Data, int Length, bool VideoOnly)
         LOGMSG("Lost PAT/PMT fragment !");
 
       TsBufferFlush();
+
+      /* detect radio streams */
+      int patv, pmtv;
+      if (PatPmtParser()->GetVersions(patv, pmtv)) {
+        if (!PatPmtParser()->Vpid() && PatPmtParser()->Apid(0)) {
+          m_RadioStream = true;
+          m_AudioCount  = 0;
+          ForEach(m_clients, &cXinelibThread::SetNoVideo, m_RadioStream);
+        }
+      }
     }
   }
 
