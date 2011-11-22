@@ -3188,12 +3188,12 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
 
       this->no_video = tmp32;
       set_buffer_limits(this);
-
+#if 0
       if (tmp32)
         this->metronom->unwire(this->metronom);
       else
         this->metronom->wire(this->metronom);
-
+#endif
       pthread_mutex_unlock(&this->lock);
 
     } else
