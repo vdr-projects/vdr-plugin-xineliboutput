@@ -3319,6 +3319,7 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
 
   } else if(!strncasecmp(cmd, "SPEAKERS ",9)) {
     if(1 == sscanf(cmd+9, "%d", &tmp32)) {
+      if (this->fd_control < 0)
       this->class->xine->config->update_num(this->class->xine->config,
 					    "audio.output.speaker_arrangement", tmp32);
     } else
