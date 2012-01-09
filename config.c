@@ -211,8 +211,8 @@ const char * const config_t::s_subtitleSizes[ SUBTITLESIZE_count+1 ] = {
 };
 
 const char * const config_t::s_subExts[] = {
-  ".sub", ".srt", ".txt", ".ssa",
-  ".SUB", ".SRT", ".TXT", ".SSA", 
+  ".sub", ".srt", ".txt", ".ssa", "ass",
+  ".SUB", ".SRT", ".TXT", ".SSA", "ASS",
   NULL
 };
 
