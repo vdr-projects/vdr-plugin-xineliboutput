@@ -123,7 +123,7 @@ endif
 
 config.mak: Makefile configure
 	@echo Running configure
-	@sh configure --cc=$(CC) --cxx=$(CXX) $(CONFIGURE_OPTS) $(XINELIBOUTPUT_CONFIGURE_OPTS)
+	@sh configure --cc="$(CC)" --cxx="$(CXX)" $(CONFIGURE_OPTS) $(XINELIBOUTPUT_CONFIGURE_OPTS)
 -include config.mak
 
 ###
