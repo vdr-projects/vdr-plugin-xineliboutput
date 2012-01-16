@@ -346,6 +346,7 @@ class config_t {
     int  playlist_album;
     int  dvd_arrow_keys_control_playback;
     uint media_menu_items;         // enabled items in media player menu (bitmask)
+    int  media_enable_delete;      // enable Delete in file browser
 
     // Audio visualization
     char audio_visualization[64];

@@ -1587,6 +1587,11 @@ void cXinelibImagesControl::Close(void)
 
 void cXinelibImagesControl::Delete(void)
 {
+  if (!xc.media_enable_delete) {
+    LOGMSG("Deleting files disabled in config");
+    return;
+  }
+
   if(Interface->Confirm(tr("Delete image ?"))) {
     if(!unlink(m_Playlist->Current()->Filename)) {
       m_Playlist->Del(m_Playlist->Current());

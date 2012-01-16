@@ -270,18 +270,19 @@ void cMenuBrowseFiles::SetHelpButtons(void)
 {
   bool isDir  = !GetCurrent() || GetCurrent()->IsDir();
   bool isFile = !isDir;
+  bool bDel   = isFile && xc.media_enable_delete;
 
   if (isDir && !strcmp("..", GetCurrent()->Name())) {
     help[0] = help[1] = help[2] = help[3] = NULL;
   } else if (m_Mode == ShowMusic) {
     help[0] = isDir  ? trVDR("Button$Play")   : NULL;
     help[1] =          tr   ("Button$Queue");
-    help[2] = isFile ? trVDR("Button$Delete") : NULL;
+    help[2] = bDel   ? trVDR("Button$Delete") : NULL;
     help[3] = isFile ? trVDR("Button$Info")   : NULL;
   } else if (m_Mode == ShowImages) {
     help[0] = isDir  ? trVDR("Button$Play")   : NULL;
     help[1] =                                   NULL;
-    help[2] = isFile ? trVDR("Button$Delete") : NULL;
+    help[2] = bDel   ? trVDR("Button$Delete") : NULL;
     help[3] = isFile ? trVDR("Button$Info")   : NULL;
   } else {
     bool isDvd     = GetCurrent() && (GetCurrent()->IsDvd() || GetCurrent()->IsBluRay());
@@ -289,7 +290,7 @@ void cMenuBrowseFiles::SetHelpButtons(void)
 
     help[0] = isDir && isDvd  ? trVDR("Button$Open")   : NULL;
     help[1] = hasResume       ? trVDR("Button$Rewind") : NULL;
-    help[2] = isFile          ? trVDR("Button$Delete") : NULL;
+    help[2] = bDel            ? trVDR("Button$Delete") : NULL;
     help[3] = isFile          ? trVDR("Button$Info")   : NULL;
   }
 
