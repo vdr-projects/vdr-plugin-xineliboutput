@@ -32,7 +32,7 @@ static void got_video_frame(metronom_t *metronom, vo_frame_t *frame)
     this->frame_decoded(this->handle, this->video_frames, this->audio_frames);
 
   if (this->still_mode) {
-    LOGMSG("Still frame, type %d", frame->picture_coding_type);
+    LOGVERBOSE("Still frame, type %d", frame->picture_coding_type);
     frame->pts       = 0;
   }
 
