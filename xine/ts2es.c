@@ -143,7 +143,7 @@ buf_element_t *ts2es_put(ts2es_t *this, uint8_t *data, fifo_buffer_t *src_fifo)
     return NULL;
   }
   if (!ts_HAS_PAYLOAD(data)) {
-    LOGDBG("ts2es: no payload, size %d", bytes);
+    LOGVERBOSE("ts2es: no payload, size %d", bytes);
     return NULL;
   }
 
