@@ -289,7 +289,7 @@ void cMenuBrowseFiles::SetHelpButtons(void)
 
     help[0] = isDir && isDvd  ? trVDR("Button$Open")   : NULL;
     help[1] = hasResume       ? trVDR("Button$Rewind") : NULL;
-    help[2] = isFile || isDvd ? trVDR("Button$Delete") : NULL;
+    help[2] = isFile          ? trVDR("Button$Delete") : NULL;
     help[3] = isFile          ? trVDR("Button$Info")   : NULL;
   }
 
