@@ -40,9 +40,9 @@ class cBackgroundWriterI : public cThread
 
   public:
 #if VDRVERSNUM >= 10708
-    cBackgroundWriterI(int fd, int Size = KILOBYTE(512), int Margin = 0);
-#else
     cBackgroundWriterI(int fd, int Size = KILOBYTE(2048), int Margin = 0);
+#else
+    cBackgroundWriterI(int fd, int Size = KILOBYTE(512), int Margin = 0);
 #endif
     virtual ~cBackgroundWriterI();
 
