@@ -75,7 +75,12 @@ class cTcpWriter : public cBackgroundWriterI
 	    const uchar *Data,   int DataCount);
 
   public:
+#if VDRVERSNUM >= 10708
+    cTcpWriter(int fd, int Size = KILOBYTE(2048));
+#else
     cTcpWriter(int fd, int Size = KILOBYTE(512));
+#endif
+
     virtual ~cTcpWriter() {};
 
     virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int DataCount);
