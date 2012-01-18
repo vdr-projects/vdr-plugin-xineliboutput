@@ -4837,6 +4837,9 @@ static void postprocess_buf(vdr_input_plugin_t *this, buf_element_t *buf, int ne
   if (buf->type != BUF_DEMUX_BLOCK || DATA_IS_TS(buf->content))
     return;
 
+#if 0
+  /* this is done in demux */
+
   /* generated still images start with empty video PES, PTS = 0.
      Reset metronom pts so images will be displayed */
   if(this->still_mode && buf->size == 14) {
@@ -4847,6 +4850,7 @@ static void postprocess_buf(vdr_input_plugin_t *this, buf_element_t *buf, int ne
       /*buf->content[12] = (uint8_t)((10*90) >> 7);*/
     }
   }
+#endif
 
   /* Count video frames for SCR tuning algorithm */
   if(this->live_mode && this->I_frames < 4)
