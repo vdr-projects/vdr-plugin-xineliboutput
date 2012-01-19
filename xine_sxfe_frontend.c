@@ -1842,7 +1842,6 @@ static void *opengl_draw_frame_thread(void *arg)
   static int unsigned count = 0;
   int16_t win_width = -1, win_height = -1;
   int16_t win_x = -1, win_y = -1;
-  XRectangle xrect;
   XDouble video_tex_width, video_tex_height;
   int first_frame = 1;
   //struct timeval t;
@@ -1878,10 +1877,6 @@ static void *opengl_draw_frame_thread(void *arg)
       win_y = this->x.ypos;
       win_width = this->x.width;
       win_height = this->x.height;
-      xrect.x = win_x;
-      xrect.y = win_y;
-      xrect.width = win_width;
-      xrect.height = win_height;
     }
     LOGVERBOSE("win_x=%d win_y=%d win_width=%d win_height=%d", win_x, win_y, win_width, win_height);
     // Update the global alpha value of the OSD
