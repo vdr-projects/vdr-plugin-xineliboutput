@@ -115,7 +115,18 @@ const char * const config_t::s_audioDriverNames[ AUDIO_DRIVER_count+1 ] = {
 };
 
 const char * const config_t::s_videoDriversX11[ X11_DRIVER_count+1 ] =  {
-  "auto", "xshm", "xv", "xvmc", "xxmc", "vidix", "XDirectFB", "opengl", "sdl", "none",
+  "auto",
+  "xshm",
+  "xv",
+  "vaapi",
+  "vdpau",
+  "opengl",
+  "xvmc",
+  "xxmc",
+  "sdl",
+  "XDirectFB",
+  "vidix",
+  "none",
   NULL
 };
 
@@ -123,12 +134,14 @@ const char * const config_t::s_videoDriverNamesX11[ X11_DRIVER_count+1 ] =  {
   trNOOP("automatic"),
   "XShm",
   "Xv",
+  "VAAPI",
+  "VDPAU",
+  "OpenGL",
   "XvMC",
   "XvMC+VLD",
-  "Vidix",
-  "XDirectFB",
-  "OpenGL",
   "SDL",
+  "XDirectFB",
+  "Vidix",
   trNOOP("no video"),
   NULL
 };
