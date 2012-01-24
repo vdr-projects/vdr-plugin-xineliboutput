@@ -406,20 +406,24 @@ void rle_palette_to_argb(uint32_t *argb, const struct xine_clut_s *palette, uint
   }
 }
 
-
-void rle_uncompress_argb(uint32_t *dst,
-                         uint w, uint h, uint stride,
-                         const struct xine_rle_elem_s *rle_data, uint num_rle,
-                         const struct xine_clut_s *palette, uint palette_entries)
+void rle_palette_to_rgba(uint32_t *rgba, const struct xine_clut_s *palette, uint entries)
 {
-  uint32_t lut[256];
+  uint i;
+  for (i = 0; i < entries; i++) {
+    rgba[i] = (palette[i].r     << 24) |
+              (palette[i].g     << 16) |
+              (palette[i].b     << 8 ) |
+              (palette[i].alpha      );
+  }
+}
+
+static void rle_uncompress_u32(uint32_t *dst,
+                               uint w, uint h, uint stride,
+                               const struct xine_rle_elem_s *rle_data, uint num_rle,
+                               uint32_t *lut)
+{
   uint i, pixelcounter = 0;
   uint idx = 0, line = 0;
-
-  if (palette_entries > 256)
-    return;
-
-  rle_palette_to_argb(lut, palette, palette_entries);
 
   for(i = 0; i < num_rle; ++i) {
     uint32_t color = lut[(rle_data + i)->color];
@@ -440,3 +444,32 @@ void rle_uncompress_argb(uint32_t *dst,
   }
 }
 
+void rle_uncompress_argb(uint32_t *dst,
+                         uint w, uint h, uint stride,
+                         const struct xine_rle_elem_s *rle_data, uint num_rle,
+                         const struct xine_clut_s *palette, uint palette_entries)
+{
+  uint32_t lut[256] = {0};
+
+  if (palette_entries > 256)
+    return;
+
+  rle_palette_to_argb(lut, palette, palette_entries);
+
+  rle_uncompress_u32(dst, w, h, stride, rle_data, num_rle, lut);
+}
+
+void rle_uncompress_rgba(uint32_t *dst,
+                         uint w, uint h, uint stride,
+                         const struct xine_rle_elem_s *rle_data, uint num_rle,
+                         const struct xine_clut_s *palette, uint palette_entries)
+{
+  uint32_t lut[256] = {0};
+
+  if (palette_entries > 256)
+    return;
+
+  rle_palette_to_rgba(lut, palette, palette_entries);
+
+  rle_uncompress_u32(dst, w, h, stride, rle_data, num_rle, lut);
+}
