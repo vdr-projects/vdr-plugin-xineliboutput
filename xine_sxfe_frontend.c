@@ -700,15 +700,21 @@ static Visual *find_argb_visual(Display *dpy, int scr)
 
   return visual;
 }
+#endif /* HAVE_XRENDER */
 
-static void hud_fill_lut8(uint32_t* dst, int dst_pitch,
+#if defined(HAVE_XRENDER) || defined(HAVE_OPENGL)
+static void osd_fill_lut8(uint32_t* dst, int dst_pitch, int argb,
                           const struct osd_command_s *cmd)
 {
   uint8_t *data = cmd->raw_data;
   unsigned x, y;
   uint32_t lut[256];
 
-  rle_palette_to_argb(lut, cmd->palette, cmd->colors);
+  if (argb) {
+    rle_palette_to_argb(lut, cmd->palette, cmd->colors);
+  } else {
+    rle_palette_to_rgba(lut, cmd->palette, cmd->colors);
+  }
 
   dst += cmd->y * dst_pitch + cmd->x;
 
@@ -720,7 +726,9 @@ static void hud_fill_lut8(uint32_t* dst, int dst_pitch,
     dst += dst_pitch;
   }
 }
+#endif /* HAVE_XRENDER || HAVE_OPENGL */
 
+#ifdef HAVE_XRENDER
 static void hud_fill_argb(uint32_t* dst, int dst_pitch,
                           const struct osd_command_s *cmd)
 {
@@ -763,7 +771,7 @@ static void hud_fill_img_memory(uint32_t* dst, int dst_pitch,
                                 int *mask_changed, const struct osd_command_s *cmd)
 {
   if (cmd->cmd == OSD_Set_LUT8) {
-    hud_fill_lut8(dst, dst_pitch, cmd);
+    osd_fill_lut8(dst, dst_pitch, 1, cmd);
 
   } else if (cmd->cmd == OSD_Set_ARGB) {
     hud_fill_argb(dst, dst_pitch, cmd);
