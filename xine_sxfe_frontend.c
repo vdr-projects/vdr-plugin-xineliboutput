@@ -2751,7 +2751,7 @@ static int sxfe_run(frontend_t *this_gen)
     }
 
     if (event.type == this->xshm_completion_event)
-      xine_port_send_gui_data (this->x.video_port, XINE_GUI_SEND_XSHM_COMPLETION_EVENT, &event);
+      xine_port_send_gui_data (this->x.video_port, XINE_GUI_SEND_COMPLETION_EVENT, &event);
   }
 
   return !this->x.fe.xine_is_finished((frontend_t*)this, 0);
