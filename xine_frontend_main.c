@@ -359,8 +359,7 @@ int main(int argc, char *argv[])
     case 'O':
 # ifdef HAVE_OPENGL
               opengl = 1;
-              hud |= HUD_OPENGL;
-              PRINTF("Using OpenGL to draw video and HUD OSD\n");
+              PRINTF("Using OpenGL to draw video and OSD\n");
 # else
               EXIT("OpenGL not supported\n");
 # endif
