@@ -369,7 +369,7 @@ void cHttpStreamer::Action(void)
   int      n = 0;
   cxPoller p(m_fds);
   bool     Disc = !(ParseRequest() && Seek());
-  uint64_t pos  = m_Start;
+  //uint64_t pos  = m_Start;
   off_t    start = (off_t)m_Start;
 
   while(Running() && !Disc) {
@@ -415,7 +415,7 @@ void cHttpStreamer::Action(void)
 	LOGDBG("cHttpStreamer: Reading pipelined request");
 	pthread_testcancel();
 	Disc = !(ReadPipelined() && ParseRequest() && Seek());
-	pos = m_Start;
+	//pos = m_Start;
       }
     } while(--n && Running() && !Disc);
 
