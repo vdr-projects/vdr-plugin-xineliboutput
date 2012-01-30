@@ -795,12 +795,13 @@ bool config_t::ProcessArgs(int argc, char *argv[])
 #endif
               }
 #ifndef HAVE_XRENDER
-              LOGMSG("HUD OSD not supported\n");
+              else
+                LOGMSG("HUD OSD not supported\n");
 #endif
               break;
     case 'O': ProcessArg("OpenglAlways", "1");
 #ifndef HAVE_OPENGL
-              LOGMSG("OpenGL HUD OSD not supported\n");
+              LOGMSG("OpenGL not supported\n");
 #endif
               break;
     case 'w': //ProcessArg("Fullscreen", "0");

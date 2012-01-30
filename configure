@@ -334,8 +334,7 @@ check_deps(){
   disabled vdr     && disable libextractor libcap libbluray
   disabled dlfcn   && disable opengl
   disabled pthread && disable opengl
-  disabled xrender && disable opengl
-  disabled xshape  && disable opengl
+  disabled xrender && disable xshape xshm
 }
 
 check_deps

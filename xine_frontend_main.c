@@ -109,25 +109,27 @@ static const char help_str[] =
     "                                 --aspect=auto:path_to_script\n"
 #ifndef IS_FBFE
     "   -f, --fullscreen              Fullscreen mode\n"
-# ifdef HAVE_XRENDER
-    "   -D, --hud[=flag[,flag]]       Head Up Display OSD mode using compositing\n"
+# if defined(HAVE_XRENDER) || defined(HAVE_OPENGL)
+    "   -D, --hud[=flag[,flag]]       Head Up Display OSD\n"
     "                                 Optional flags:\n"
-#  ifdef HAVE_XCOMPOSITE
+# endif
+# ifdef HAVE_XRENDER
+#   ifdef HAVE_XCOMPOSITE
     "                                 xrender Use XRender instead of compositing\n"
     "                                         (no compositing manager required)\n"
-#  endif
-#  ifdef HAVE_XSHAPE
+#   endif
+#   ifdef HAVE_XSHAPE
     "                                 xshape  Use XShape instead of compositing\n"
     "                                         (no compositing manager required)\n"
-#  endif
-#  ifdef HAVE_OPENGL
+#   endif
+# endif // HAVE_XRENDER
+# ifdef HAVE_OPENGL
     "                                 opengl  Use OpenGL instead of compositing\n"
     "                                         (no compositing manager required)\n"
-#  endif
-#  ifdef HAVE_OPENGL
+# endif
+# ifdef HAVE_OPENGL
     "   -O, --opengl                  Use OpenGL for video and Head Up Display OSD\n"
-#  endif
-# endif // HAVE_XRENDER
+# endif
     "   -w, --width=x                 Video window width\n"
     "   -h, --height=x                Video window height\n"
     "   -g, --geometry=WxH[+X+Y]      Set output window geometry (X style)\n"
