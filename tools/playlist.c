@@ -347,9 +347,9 @@ class cPlsReader : public cPlaylistReader
 	      1 == sscanf(line + 5, "%d=", &n)) {
 	if(*(t+1)) {
 	  if(n == m_Current)
-	    Prev()->Title = t;
+	    Prev()->Title = t+1;
 	  else
-	    m_Title = t;
+	    m_Title = t+1;
 	}
       }
       //else if(!strncasecmp(line, "length", 6) && 
