@@ -69,6 +69,10 @@ struct frontend_config_s {
 #define WINDOW_ID_NONE  -1
 #define WINDOW_ID_ROOT  -2
 
+/* Video mode switching flags */
+#define MODESWITCH_SIZE       0x1
+#define MODESWITCH_RATE       0x2
+#define MODESWITCH_INTERLACE  0x4
 
 struct frontend_s {
   /* Display */
