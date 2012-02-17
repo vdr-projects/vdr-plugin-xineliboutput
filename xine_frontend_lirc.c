@@ -35,6 +35,8 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
+#include "tools/time_ms.h"
+
 #define LOG_MODULENAME "[lirc]      "
 #include "logdefs.h"
 
@@ -59,19 +61,6 @@ static int lirc_repeat_emu = 0;
 
 /* xine_frontend_main.c: */
 extern int gui_hotkeys;
-
-static uint64_t time_ms()
-{
-  struct timeval t;
-  if (gettimeofday(&t, NULL) == 0)
-     return ((uint64_t)t.tv_sec) * 1000ULL + t.tv_usec / 1000ULL;
-  return 0;
-}
-
-static uint64_t elapsed(uint64_t t)
-{
-  return time_ms() - t;
-}
 
 static void lircd_connect(void)
 {
