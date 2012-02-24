@@ -515,6 +515,7 @@ static void set_above(sxfe_t *this, int stay_above)
  */
 static void set_cursor(Display *dpy, Window win, const int enable)
 {
+  XLockDisplay(dpy);
   if(enable)
     XDefineCursor(dpy, win, None);
   else {
@@ -529,6 +530,7 @@ static void set_cursor(Display *dpy, Window win, const int enable)
     XDefineCursor(dpy, win, None);
     XDefineCursor(dpy, win, no_ptr);
   }
+  XUnlockDisplay(dpy);
 }
 
 static void update_xinerama_info(sxfe_t *this)
