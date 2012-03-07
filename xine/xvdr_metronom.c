@@ -20,11 +20,21 @@
 #define XVDR_METRONOM_COMPILE
 #include "xvdr_metronom.h"
 
+static int warnings = 0;
 
 static void got_video_frame(metronom_t *metronom, vo_frame_t *frame)
 {
   xvdr_metronom_t *this = (xvdr_metronom_t *)metronom;
   int64_t          pts  = frame->pts;
+
+#if 1 /* xine-lib master-slave metronom causes some problems ... */
+  if (metronom->got_video_frame != got_video_frame) {
+    if (!warnings++)
+      LOGMSG("got_video_frame: invalid object");
+    return;
+  }
+  warnings = 0;
+#endif
 
   this->video_frames++;
 
