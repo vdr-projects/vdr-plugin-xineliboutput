@@ -39,6 +39,7 @@
 #include "xine/vo_osdscaler.h"
 #include "xine/vo_osdreorder.h"
 #include "xine/vo_lastpts.h"
+#include "xine/vo_frameoutput.h"
 
 #undef  MIN
 #define MIN(a,b) ( (a) < (b) ? (a) : (b))
@@ -694,9 +695,16 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
   }
 
   intercept_video_driver(this->video_port);
+  if (this->frame_draw_cb) {
+    vo_driver_t *frameoutput = vo_frameoutput_init(this, this->frame_draw_cb);
+    if (! wire_video_driver(this->video_port, frameoutput)) {
+      LOGMSG("wire_video_driver() for frame output handler failed");
+      frameoutput->dispose(frameoutput);
+    }
+  }
 
   this->video_port_none = NULL;
-  
+
   /* re-configure display size (DirectFB driver changes display mode in init) */
   if(this->update_display_size_cb)
     this->update_display_size_cb(this);

@@ -38,6 +38,9 @@ typedef struct fe_s {
   void   (*update_display_size_cb) (struct fe_s *);
   void   (*toggle_fullscreen_cb)   (struct fe_s *, int);
 
+  /* if set before xine_init(), will be called by video driver wrapper for each frame */
+  void   (*frame_draw_cb)(void *, vo_frame_t *);
+
   /* vdr callbacks */
   fe_keypress_f       keypress;
 
