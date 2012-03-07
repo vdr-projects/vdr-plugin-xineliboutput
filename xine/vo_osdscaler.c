@@ -29,6 +29,8 @@ typedef rle_elem_t xine_rle_elem_t;
 
 #include "../tools/rle.h"
 
+#include "vo_osdscaler.h"
+
 
 /* Make sure our properties won't overlap with xine's properties */
 #if VO_NUM_PROPERTIES > VO_PROP_OSD_SCALING

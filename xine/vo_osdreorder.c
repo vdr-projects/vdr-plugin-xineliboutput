@@ -15,6 +15,8 @@
 #include "vo_props.h"
 #include "vo_hook.h"
 
+#include "vo_osdreorder.h"
+
 /*
  *  osdreorder_hook_t
  */
