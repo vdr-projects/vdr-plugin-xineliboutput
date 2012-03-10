@@ -1168,7 +1168,7 @@ static void puts_vdr(vdr_input_plugin_t *this, const char *s)
 {
   if (this->fd_control < 0) {
     if (this->funcs.xine_input_event) {
-      this->funcs.xine_input_event(s, NULL);
+      this->funcs.xine_input_event(this->funcs.fe_handle, s, NULL);
     }
   } else {
     write_control(this, s);
@@ -3835,7 +3835,7 @@ static void vdr_event_cb (void *user_data, const xine_event_t *event)
       }
       if (this->funcs.xine_input_event) {
         /* local mode: -> VDR */
-        this->funcs.xine_input_event(NULL, vdr_keymap[i].name);
+        this->funcs.xine_input_event(this->funcs.fe_handle, NULL, vdr_keymap[i].name);
       }
       return;
     }

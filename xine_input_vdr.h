@@ -31,7 +31,7 @@ typedef struct vdr_input_plugin_funcs_s {
   int  (*push_input_osd)    (struct vdr_input_plugin_if_s *, struct osd_command_s *);
 
   /* input plugin --> frontend (only local mode) */
-  void (*xine_input_event)  (const char *, const char *);
+  void (*xine_input_event)  (struct frontend_s *, const char *, const char *);
 
   /* input plugin --> frontend (remote mode) */
   int  (*intercept_osd)     (struct frontend_s *, struct osd_command_s *);
