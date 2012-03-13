@@ -59,10 +59,6 @@
 #define DEINTERLACE_TVTIME       7
 #define DEINTERLACE_count        8
 
-#define FIELD_ORDER_NORMAL       0
-#define FIELD_ORDER_INVERTED     1
-#define FIELD_ORDER_count        2
-
 // Audio driver
 #define AUDIO_DRIVER_AUTO        0
 #define AUDIO_DRIVER_ALSA        1
@@ -235,7 +231,6 @@ class config_t {
     static const char * const s_vo_aspects             [VO_ASPECT_count     + 1];
     static const char * const s_deinterlaceMethods     [DEINTERLACE_count   + 1];
     static const char * const s_deinterlaceMethodNames [DEINTERLACE_count   + 1];
-    static const char * const s_fieldOrder             [FIELD_ORDER_count   + 1];
     static const char * const s_audioDriverNames       [AUDIO_DRIVER_count  + 1];
     static const char * const s_audioDrivers           [AUDIO_DRIVER_count  + 1];
     static const char * const s_videoDriverNamesX11    [X11_DRIVER_count    + 1];
@@ -286,7 +281,6 @@ class config_t {
     int  ypos;
     int  display_aspect;
     int  scale_video;
-    int  field_order;
     int  exit_on_close;    // Terminate VDR when local frontend is closed
     int  use_x_keyboard;   // Use X11 keyboard to control VDR (console kbd is handled by VDR)
     int  window_id;        // use existing X11 window

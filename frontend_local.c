@@ -189,14 +189,13 @@ bool cXinelibLocal::EndOfStreamReached(void)
 
 void cXinelibLocal::ConfigureWindow(int fullscreen, int width, int height, 
 				    int modeswitch, const char *modeline, 
-				    int aspect, int scale_video, 
-				    int field_order) 
+				    int aspect, int scale_video)
 {
   LOCK_FE;
   if(fe)
     fe->fe_display_config(fe, -1, -1, width, height,
                           fullscreen, modeswitch, modeline,
-                          aspect, scale_video, field_order);
+                          aspect, scale_video);
 }
 
 void cXinelibLocal::ConfigureDecoder(int pes_buffers)
@@ -350,7 +349,6 @@ void cXinelibLocal::Action(void)
                                    keypress_handler, 0/*no_x_kbd*/, 0/*gui_hotkeys*/,
                                    xc.video_port,
                                    xc.scale_video,
-                                   xc.field_order,
                                    NULL,
                                    xc.window_id)) {
 	LOGMSG("cXinelibLocal: Error initializing display");

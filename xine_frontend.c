@@ -317,11 +317,7 @@ static void fe_frame_output_cb (void *data,
   *dest_width  = this->width;
   *dest_height = this->height;
   *dest_x = 0;
-#ifndef HAVE_XV_FIELD_ORDER
-  *dest_y = 0 + this->field_order;
-#else
   *dest_y = 0;
-#endif
 
 #if 1
   if(!this->scale_video) {

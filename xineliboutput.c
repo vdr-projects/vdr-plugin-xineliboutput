@@ -213,12 +213,6 @@ cOsdObject *cPluginXinelibOutput::MainMenuAction(void)
   if(xc.hide_main_menu)
     return NULL;
 
-#ifdef HAVE_XV_FIELD_ORDER
-  xc.field_order = xc.field_order ? 0 : 1;
-  cXinelibDevice::Instance().ConfigureWindow(xc.fullscreen, xc.width, xc.height, 
-					     xc.modeswitch, xc.modeline, xc.display_aspect, 
-					     xc.scale_video, xc.field_order);
-#endif
   return new cMenuXinelib();
 }
 
@@ -288,7 +282,7 @@ bool cPluginXinelibOutput::Service(const char *Id, void *Data)
           strn0cpy(xc.local_frontend, xc.s_frontends[local_frontend], sizeof(xc.local_frontend));
           cXinelibDevice::Instance().ConfigureWindow(
                xc.fullscreen, xc.width, xc.height, xc.modeswitch, xc.modeline,
-               xc.display_aspect, xc.scale_video, xc.field_order);
+               xc.display_aspect, xc.scale_video);
         }
         return true;
       }

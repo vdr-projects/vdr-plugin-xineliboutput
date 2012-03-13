@@ -127,8 +127,7 @@ class cXinelibThread : public cThread, public cListObject
     // Local frontend:
     virtual void ConfigureWindow(int fullscreen, int width, int height, 
 				 int modeswitch, const char *modeline, 
-				 int aspect, int scale_video, 
-				 int field_order) {};
+				 int aspect, int scale_video) {};
     virtual void ConfigureDecoder(int pes_buffers) {};
     // Remote frontend server:
     virtual bool Listen(int port) { return false; }
