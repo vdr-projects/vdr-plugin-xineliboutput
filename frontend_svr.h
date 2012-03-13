@@ -126,7 +126,6 @@ protected:
     cBackgroundWriterI *m_Writer[MAXCLIENTS]; // buffered output (pipe/tcp/http)
     cConnState         *m_State[MAXCLIENTS];  // connection state (http/rtsp)
     cUdpScheduler      *m_Scheduler;
-    bool                m_Master;
 
     // Storage for return values of pending RPCs
     cStcFuture         *m_StcFuture;
