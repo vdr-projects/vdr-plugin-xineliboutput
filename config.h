@@ -308,7 +308,9 @@ class config_t {
     int  vo_aspect_ratio;
 
     // OSD settings 
-    eMainMenuMode main_menu_mode;  // used internally to open right sub-menu
+    eMainMenuMode  main_menu_mode;  // used internally to open right sub-menu
+    cOsdObject    *pending_menu_action;
+
     int  hide_main_menu;
     int  osd_size;
     int  osd_width;

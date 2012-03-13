@@ -1982,8 +1982,6 @@ eOSState cTestBitmap::ProcessKey(eKeys key)
 
 #include <vdr/remote.h>   // CallPlugin
 
-extern cOsdObject *g_PendingMenuAction;
-
 class cMenuTestImages : public cMenuSetupPage {
 
   protected:
@@ -2027,15 +2025,15 @@ eOSState cMenuTestImages::ProcessKey(eKeys Key)
   switch (state) {
     case osUser1:
       if(cRemote::CallPlugin("xineliboutput"))
-	g_PendingMenuAction = new cTestGrayscale();
+        xc.pending_menu_action = new cTestGrayscale();
       return osEnd;
     case osUser2:
       if(cRemote::CallPlugin("xineliboutput"))
-	g_PendingMenuAction = new cTestBitmap(1);
+        xc.pending_menu_action = new cTestBitmap(1);
       return osEnd;
     case osUser3:
       if(cRemote::CallPlugin("xineliboutput"))
-	g_PendingMenuAction = new cTestBitmap(4);
+        xc.pending_menu_action = new cTestBitmap(4);
       return osEnd;
     default: ;
   }
