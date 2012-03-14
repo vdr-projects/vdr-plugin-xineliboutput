@@ -18,6 +18,8 @@
 
 #include <vdr/config.h>
 
+class cOsdObject;
+
 // Max number of remote clients
 #define MAXCLIENTS     10
 
@@ -307,10 +309,11 @@ class config_t {
     int  noise_reduction;     // 0...0xffff, -1 == off
     int  vo_aspect_ratio;
 
-    // OSD settings 
-    eMainMenuMode  main_menu_mode;  // used internally to open right sub-menu
-    cOsdObject    *pending_menu_action;
+    // OSD state
+    eMainMenuMode  main_menu_mode;      // used internally to open right sub-menu
+    cOsdObject    *pending_menu_action; // used to replace current OSD with another type of OSD object
 
+    // OSD settings
     int  hide_main_menu;
     int  osd_size;
     int  osd_width;
