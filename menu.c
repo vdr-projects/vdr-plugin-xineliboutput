@@ -692,7 +692,7 @@ eOSState cMenuXinelib::ProcessKey(eKeys Key)
       return osEnd;
     case osUser7:
       if (!xc.pending_menu_action) {
-        xc.pending_menu_action = new cEqualizer(m_Dev);
+        xc.pending_menu_action = new cEqualizer();
         return osPlugin;
       }
       return osContinue;
