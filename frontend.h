@@ -13,11 +13,12 @@
 
 #include <vdr/tools.h>
 #include <vdr/thread.h>
-#include <vdr/device.h> // ePlayMode
 
 #include "xine_input_vdr_net.h" // eStreamId
 
 class cStatus;
+class cXinelibDevice;
+enum ePlayMode;
 
 //----------------------------- cXinelibThread --------------------------------
 
