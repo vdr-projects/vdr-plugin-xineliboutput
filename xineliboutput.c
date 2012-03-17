@@ -168,8 +168,7 @@ bool cPluginXinelibOutput::Initialize(void)
   // Initialize any background activities the plugin shall perform.
   TRACEF("cPluginXinelibOutput::Initialize");
 
-  cXinelibDevice::Instance();
-  return true;
+  return cXinelibDevice::Instance().InitDevice();
 }
 
 bool cPluginXinelibOutput::Start(void)

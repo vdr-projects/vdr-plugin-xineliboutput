@@ -59,6 +59,7 @@ class cXinelibDevice : public cDevice
   // device start/stop (from cPlugin)
 
   public:
+    bool InitDevice(void);
     bool StartDevice(void);
     void StopDevice(void);
 
