@@ -224,6 +224,9 @@ void cXinelibServer::CloseDataConnection(int cli)
 
   if(!m_iMulticastMask && !xc.remote_rtp_always_on)
     m_Scheduler->RemoveRtp();
+
+  if (cli == m_MasterCli)
+    m_MasterCli = -1;
 }
 
 void cXinelibServer::CloseConnection(int cli)
