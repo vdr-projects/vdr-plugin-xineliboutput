@@ -19,11 +19,13 @@ extern "C" {
   typedef struct frontend_s frontend_t;
 }
 
+class cXinelibDevice;
+
 class cXinelibLocal : public cXinelibThread
 {
 
   public:
-    cXinelibLocal(const char *frontend_name);
+    cXinelibLocal(cXinelibDevice *Dev, const char *frontend_name);
     virtual ~cXinelibLocal();
 
   protected:

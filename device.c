@@ -247,9 +247,9 @@ bool cXinelibDevice::InitDevice()
   }
 
   if (*xc.local_frontend && strncmp(xc.local_frontend, "none", 4))
-    m_clients.Add(m_local = new cXinelibLocal(xc.local_frontend));
+    m_clients.Add(m_local = new cXinelibLocal(this, xc.local_frontend));
   if (xc.remote_mode && xc.listen_port > 0)
-    m_clients.Add(m_server = new cXinelibServer(xc.listen_port));
+    m_clients.Add(m_server = new cXinelibServer(this, xc.listen_port));
 
   return true;
 }
@@ -514,7 +514,7 @@ void cXinelibDevice::ConfigureWindow(int fullscreen, int width, int height,
 			     aspect, scale_video);
 
   else if(*xc.local_frontend && strncmp(xc.local_frontend, "none", 4)) {
-    cXinelibThread *tmp = new cXinelibLocal(xc.local_frontend);
+    cXinelibThread *tmp = new cXinelibLocal(this, xc.local_frontend);
     tmp->Start();
     m_clients.Add(m_local = tmp);
 
@@ -542,7 +542,7 @@ void cXinelibDevice::Listen(bool activate, int port)
 
   if(activate && port>0) {
     if(!m_server) {
-      cXinelibThread *tmp = new cXinelibServer(port);
+      cXinelibThread *tmp = new cXinelibServer(this, port);
       tmp->Start();
       m_clients.Add(m_server = tmp);
 

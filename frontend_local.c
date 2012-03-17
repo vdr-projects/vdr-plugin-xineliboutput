@@ -72,8 +72,8 @@ extern "C" {
 
 //----------------------------- cXinelibLocal --------------------------------
 
-cXinelibLocal::cXinelibLocal(const char *frontend_name) :
-  cXinelibThread("Local decoder/display (cXinelibThread)"), m_feLock(true)
+cXinelibLocal::cXinelibLocal(cXinelibDevice *Dev, const char *frontend_name) :
+  cXinelibThread(Dev, "Local decoder/display (cXinelibThread)"), m_feLock(true)
 {
   fe = NULL;
   h_fe_lib = NULL;

@@ -28,7 +28,7 @@ class cXinelibThread : public cThread, public cListObject
     cXinelibThread(cXinelibThread&); // no copy contructor
 
   public:
-    cXinelibThread(const char *Description = NULL);
+    cXinelibThread(cXinelibDevice *Dev, const char *Description = NULL);
     virtual ~cXinelibThread();
 
   //
@@ -140,6 +140,8 @@ class cXinelibThread : public cThread, public cListObject
   //
 
   protected:
+    cXinelibDevice *m_Dev;
+
     bool m_bReady;
     bool m_bNoVideo;
     bool m_bLiveMode;

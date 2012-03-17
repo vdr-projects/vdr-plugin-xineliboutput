@@ -235,9 +235,11 @@ void cXinelibThread::InfoHandler(const char *info)
   free(pmap);
 }
 
-cXinelibThread::cXinelibThread(const char *Description) : cThread(Description)
+cXinelibThread::cXinelibThread(cXinelibDevice *Dev, const char *Description) : cThread(Description)
 {
   TRACEF("cXinelibThread::cXinelibThread");
+
+  m_Dev = Dev;
 
   m_Volume = 255;
   m_bReady = false;

@@ -24,6 +24,7 @@ class cUdpScheduler;
 class cStcFuture;
 class cCmdFutures;
 class cConnState;
+class cXinelibDevice;
 
 #include "tools/cxsocket.h"
 
@@ -31,7 +32,7 @@ class cXinelibServer : public cXinelibThread
 {
 
   public:
-    cXinelibServer(int listen_port);
+    cXinelibServer(cXinelibDevice *Dev, int listen_port);
     virtual ~cXinelibServer();
 
   protected:
