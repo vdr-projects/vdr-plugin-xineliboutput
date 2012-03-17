@@ -16,7 +16,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#include <vdr/config.h>
+#include <vdr/tools.h>
 
 class cOsdObject;
 
