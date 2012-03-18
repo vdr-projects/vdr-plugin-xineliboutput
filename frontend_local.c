@@ -21,6 +21,7 @@
 #include <vdr/tools.h>
 #include <vdr/shutdown.h>
 #include <vdr/plugin.h>
+#include <vdr/device.h>
 
 #include "logdefs.h"
 #include "config.h"
