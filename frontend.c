@@ -28,6 +28,7 @@
 #include <vdr/config.h>
 #include <vdr/tools.h>
 #include <vdr/plugin.h>
+#include <vdr/device.h>
 
 #include "logdefs.h"
 #include "config.h"
