@@ -14,16 +14,20 @@
 #include <vdr/config.h>
 #include <vdr/osdbase.h>
 
+class cXinelibDevice;
+
 class cEqualizer : public cOsdObject 
 {
   private:
+    cXinelibDevice *m_Dev;
+
     int *m_Values;
     int m_Current;
 
     cOsd *m_Osd;
 
   public:
-    cEqualizer();
+    cEqualizer(cXinelibDevice *Dev);
     virtual ~cEqualizer();
 
     virtual void Show();

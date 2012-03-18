@@ -15,9 +15,13 @@
 
 #include <vdr/menuitems.h>
 
+class cXinelibDevice;
+
 class cMenuXinelib : public cMenuSetupPage
 {
   private:
+    cXinelibDevice *m_Dev;
+
     int compression;
     int autocrop;
     int overscan;
@@ -42,11 +46,11 @@ class cMenuXinelib : public cMenuSetupPage
     virtual void Store(void);
 
   public:
-    cMenuXinelib(void);
+    cMenuXinelib(cXinelibDevice *Dev);
     virtual ~cMenuXinelib();
     virtual eOSState ProcessKey(eKeys Key);
 
-    static cOsdMenu *CreateMenuBrowseFiles(eMainMenuMode mode, bool Queue=true);
+    static cOsdMenu *CreateMenuBrowseFiles(cXinelibDevice *Dev, eMainMenuMode mode, bool Queue=true);
 };
 
 #endif //__XINELIB_SETUP_MENU_H

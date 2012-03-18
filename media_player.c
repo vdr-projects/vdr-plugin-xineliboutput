@@ -396,7 +396,7 @@ eOSState cPlaylistMenu::ProcessKey(eKeys Key)
 	            SetHelpButtons();
 	            return osContinue;
       case kGreen:  
-                    return AddSubMenu(cMenuXinelib::CreateMenuBrowseFiles(ShowMusic));
+                    return AddSubMenu(cMenuXinelib::CreateMenuBrowseFiles(&(cXinelibDevice::Instance()),ShowMusic));
       case kYellow: if(m_Playlist.Count() > 1) {
 	              eOSState result = osContinue;
 	              cPlaylistItem *i = m_Playlist.Current();
