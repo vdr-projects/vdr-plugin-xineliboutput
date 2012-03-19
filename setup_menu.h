@@ -13,14 +13,18 @@
 
 #include <vdr/menuitems.h>
 
+class cXinelibDevice;
+
 class cMenuSetupXinelib : public cMenuSetupPage {
 
   protected:
+    cXinelibDevice *m_Dev;
+
     void Set(void);
     virtual void Store(void) {};
- 
+
   public:
-    cMenuSetupXinelib(void);
+    cMenuSetupXinelib(cXinelibDevice *Dev);
     virtual eOSState ProcessKey(eKeys Key);
 };
 
