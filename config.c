@@ -714,6 +714,7 @@ config_t::config_t() {
   media_enable_delete = 0;
 
   main_menu_mode = ShowMenu;
+  last_hotkey = -1;//kNone;
   force_primary_device = 0;
 };
 

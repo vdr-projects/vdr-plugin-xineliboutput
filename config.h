@@ -267,6 +267,8 @@ class config_t {
     // OSD state
     eMainMenuMode  main_menu_mode;      // used internally to open right sub-menu
     cOsdObject    *pending_menu_action; // used to replace current OSD with another type of OSD object
+    time_t         last_hotkey_time;
+    int/*eKeys*/   last_hotkey;
 
     // local frontend settings
     char local_frontend[64];

@@ -27,8 +27,7 @@ class cMenuXinelib : public cMenuSetupPage
 
     // Hotkeys
     enum { hkInit, hkSeen, hkNone } hotkey_state;
-    static time_t g_LastHotkeyTime;
-    static eKeys  g_LastHotkey;
+
     virtual eOSState ProcessHotkey(eKeys Key);
 
     cOsdItem *audio_ctrl_compress;
