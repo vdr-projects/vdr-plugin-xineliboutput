@@ -36,13 +36,13 @@ namespace XinelibOutputSetupMenu {
 
 //--- Setup Menu -------------------------------------------------------------
 
-const char *ModeLineChars = 
+const char ModeLineChars[] =
   " 0123456789+-hvsync.";
-const char *DriverNameChars = 
+const char DriverNameChars[] =
   " abcdefghijklmnopqrstuvwxyz0123456789-.,#~:;";
-const char *OptionsChars = 
+const char OptionsChars[] =
   "=.,abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-const char *LangNameChars = 
+const char LangNameChars[] =
   "abcdefghijklmnopqrstuvwxyz";
 
 const char *controls[] =
