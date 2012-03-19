@@ -11,8 +11,6 @@
 #ifndef __XINELIB_MENU_H
 #define __XINELIB_MENU_H
 
-#include "features.h"
-
 #include <vdr/menuitems.h>
 
 class cXinelibDevice;
@@ -33,9 +31,6 @@ class cMenuXinelib : public cMenuSetupPage
     static eKeys  g_LastHotkey;
     virtual eOSState ProcessHotkey(eKeys Key);
 
-#ifdef HAVE_XV_FIELD_ORDER
-    cOsdItem *video_ctrl_interlace_order;
-#endif
     cOsdItem *audio_ctrl_compress;
 
     cOsdItem *ctrl_autocrop;
