@@ -718,10 +718,12 @@ config_t::config_t() {
   force_primary_device = 0;
 };
 
+#if 0
 static uint8_t g_hidden_options[sizeof(config_t)] = {0};
 static uint8_t g_readonly_options[sizeof(config_t)] = {0};
 uint8_t *config_t::hidden_options   = &g_hidden_options[0];
 uint8_t *config_t::readonly_options = &g_readonly_options[0];
+#endif
 
 cString config_t::m_ProcessedArgs;
 bool config_t::ProcessArg(const char *Name, const char *Value)
