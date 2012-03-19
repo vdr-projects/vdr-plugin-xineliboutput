@@ -106,9 +106,9 @@ class cXinelibThread : public cThread, public cListObject
 			     int SizeX, int SizeY) { return NULL; }
 
     // Control from frontend
-    static void KeypressHandler(const char *keymap, const char *key, 
-				bool repeat, bool release);
-    static void InfoHandler(const char *info);
+    void KeypressHandler(const char *keymap, const char *key,
+                         bool repeat, bool release);
+    void InfoHandler(const char *info);
 
   //
   // Configuration
