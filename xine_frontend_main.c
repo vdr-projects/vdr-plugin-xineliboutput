@@ -550,7 +550,7 @@ int main(int argc, char *argv[])
 
   /* Initialize display */
   if (!fe->fe_display_open(fe, xpos, ypos, width, height, fullscreen, hud, opengl, modeswitch,
-                           "", aspect, NULL, noxkbd, gui_hotkeys,
+                           "", aspect, noxkbd, gui_hotkeys,
                            video_port, scale_video,
                            aspect_controller, window_id)) {
     fprintf(stderr, "Error opening display\n");

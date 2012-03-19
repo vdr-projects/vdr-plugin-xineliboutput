@@ -41,9 +41,6 @@ typedef struct fe_s {
   /* if set before xine_init(), will be called by video driver wrapper for each frame */
   void   (*frame_draw_cb)(void *, vo_frame_t *);
 
-  /* vdr callbacks */
-  fe_keypress_f       keypress;
-
   /* xine stuff */
   xine_t             *xine;
   xine_stream_t      *stream;
