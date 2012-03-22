@@ -28,6 +28,8 @@ struct adjustable_scr_s {
   void (*set_speed_base)  (adjustable_scr_t *this, int hz);
   void (*jump)            (adjustable_scr_t *this, int pts);
 
+  void (*set_buffering)   (adjustable_scr_t *this, int on);
+
   void (*dispose)         (adjustable_scr_t *this);
 };
 
