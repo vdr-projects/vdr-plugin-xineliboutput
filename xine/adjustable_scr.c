@@ -250,7 +250,18 @@ static void adjustable_scr_jump (adjustable_scr_t *scr, int pts)
 }
 
 /*
+ * got_pcr()
  *
+ * - Synchronize clock to incoming PCR values
+ */
+static void adjustable_scr_got_pcr (adjustable_scr_t *scr, int64_t pcr)
+{
+}
+
+/*
+ * set_buffering()
+ *
+ * - Clock is freezed while buffering
  */
 static void adjustable_scr_set_buffering (adjustable_scr_t *scr, int buffering)
 {
@@ -317,6 +328,7 @@ adjustable_scr_t* adjustable_scr_start (xine_t *xine)
   this->ascr.set_speed_tuning = adjustable_scr_speed_tuning;
   this->ascr.set_speed_base   = adjustable_scr_speed_base;
   this->ascr.jump             = adjustable_scr_jump;
+  this->ascr.got_pcr          = adjustable_scr_got_pcr;
   this->ascr.set_buffering    = adjustable_scr_set_buffering;
   this->ascr.dispose          = adjustable_scr_dispose;
 

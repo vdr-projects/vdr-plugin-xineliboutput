@@ -29,6 +29,7 @@ struct adjustable_scr_s {
   void (*jump)            (adjustable_scr_t *this, int pts);
 
   void (*set_buffering)   (adjustable_scr_t *this, int on);
+  void (*got_pcr)         (adjustable_scr_t *this, int64_t pcr);
 
   void (*dispose)         (adjustable_scr_t *this);
 };
