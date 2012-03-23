@@ -1574,7 +1574,7 @@ static void set_still_mode(vdr_input_plugin_t *this, int still_mode)
   if (this->still_mode)
     reset_scr_tuning(this);
 
-  this->metronom->set_still_mode(this->metronom, still_mode);
+  this->stream->metronom->set_option(this->stream->metronom, XVDR_METRONOM_STILL_MODE, still_mode);
 }
 
 /*
@@ -1646,7 +1646,7 @@ static void set_trick_speed(vdr_input_plugin_t *this, int speed, int backwards)
 
   if (this->slave.stream)
     backwards = 0;
-  this->metronom->set_trickspeed(this->metronom, backwards ? speed : 0);
+  this->stream->metronom->set_option(this->stream->metronom, XVDR_METRONOM_TRICK_SPEED, backwards ? speed : 0);
 
   if (speed > 1 || speed < -1) {
     CHECK_FALSE(this->live_mode);

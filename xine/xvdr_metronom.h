@@ -32,9 +32,6 @@ struct xvdr_metronom_s {
   void (*reset_frames)(xvdr_metronom_t *);
   void (*dispose)     (xvdr_metronom_t *);
 
-  void (*set_trickspeed)(xvdr_metronom_t *, int);
-  void (*set_still_mode)(xvdr_metronom_t *, int);
-
   void (*wire)          (xvdr_metronom_t *);
   void (*unwire)        (xvdr_metronom_t *);
 
