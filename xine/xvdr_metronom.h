@@ -44,7 +44,7 @@ struct xvdr_metronom_s {
   int64_t last_vo_pts;   /* last displayed video frame PTS */
   int     wired;         /* true if currently wired to stream */
 
-  pthread_mutex_t pts_mutex;
+  pthread_mutex_t mutex;
 #endif
 };
 
