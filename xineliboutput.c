@@ -87,7 +87,7 @@ cPluginXinelibOutput::cPluginXinelibOutput(void)
   // DON'T DO ANYTHING ELSE THAT MAY HAVE SIDE EFFECTS, REQUIRE GLOBAL
   // VDR OBJECTS TO EXIST OR PRODUCE ANY OUTPUT!
 
-  m_Dev = &(cXinelibDevice::Instance());
+  m_Dev = NULL;
 }
 
 cPluginXinelibOutput::~cPluginXinelibOutput()
@@ -171,6 +171,8 @@ bool cPluginXinelibOutput::Initialize(void)
   // Initialize any background activities the plugin shall perform.
   TRACEF("cPluginXinelibOutput::Initialize");
 
+  m_Dev = &(cXinelibDevice::Instance());
+
   return m_Dev ? m_Dev->InitDevice() : false;
 }
 
@@ -178,6 +180,7 @@ bool cPluginXinelibOutput::Start(void)
 {
   // Start any background activities the plugin shall perform.
   TRACEF("cPluginXinelibOutput::Start");
+
   return m_Dev ? m_Dev->StartDevice() : false;
 }
 
@@ -222,7 +225,7 @@ cOsdObject *cPluginXinelibOutput::MainMenuAction(void)
   if (xc.hide_main_menu)
     return NULL;
 
-  return new cMenuXinelib(m_Dev);
+  return m_Dev ? new cMenuXinelib(m_Dev) : NULL;
 }
 
 cMenuSetupPage *cPluginXinelibOutput::SetupMenu(void)
