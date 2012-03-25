@@ -11,6 +11,11 @@
 #ifndef XVDR_METRONOM_H
 #define XVDR_METRONOM_H
 
+#include <xine/metronom.h>
+
+#ifdef METRONOM_INTERNAL
+#  error METRONOM_INTERNAL defined, struct xvdr_metronom_s size will be incorrect
+#endif
 
 #define XVDR_METRONOM_OPTION_BASE  0x1001
 #define XVDR_METRONOM_LAST_VO_PTS  (XVDR_METRONOM_OPTION_BASE)
