@@ -6003,6 +6003,15 @@ static const char *vdr_class_get_identifier (input_class_t *this_gen)
 }
 #endif
 
+#if XINE_VERSION_CODE >= 10200
+static const char * const *vdr_plugin_get_autoplay_list(input_class_t *this_gen, int *num_files) 
+{
+  vdr_input_class_t *this = (vdr_input_class_t *)this_gen;
+  *num_files = 1;
+
+  return (const char * const *)this->mrls;
+}
+#else
 static char **vdr_plugin_get_autoplay_list(input_class_t *this_gen, int *num_files) 
 {
   vdr_input_class_t *this = (vdr_input_class_t *)this_gen;
@@ -6010,6 +6019,7 @@ static char **vdr_plugin_get_autoplay_list(input_class_t *this_gen, int *num_fil
 
   return this->mrls;
 }
+#endif
 
 static void vdr_class_dispose (input_class_t *this_gen) 
 {
