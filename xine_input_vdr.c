@@ -5259,7 +5259,7 @@ static int vdr_plugin_open(input_plugin_t *this_gen)
   e = this->class->xine->config->lookup_entry(this->class->xine->config,
                                               "engine.buffers.audio_num_buffers");
   if (e && e->num_value < 500) {
-    LOGMSG("WARNING: xine-engine setting \"engine.buffers.audio_num_buffers\":%d is"
+    LOGMSG("WARNING: xine-engine setting \"engine.buffers.audio_num_buffers\":%d is "
            "too low for HD-playback! Please use values between 500-1000!", e->num_value);
   }
 
