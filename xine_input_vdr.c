@@ -582,7 +582,10 @@ static void scr_tuning_set_paused(vdr_input_plugin_t *this)
     this->scr_tuning = SCR_TUNING_PAUSED;  /* marked as paused */
 
     this->scr->set_speed_tuning(this->scr, 1.0);
-    this->scr->set_buffering(this->scr, 1);
+
+    if (_x_get_fine_speed(this->stream) != XINE_SPEED_PAUSE) {
+      _x_set_fine_speed(this->stream, XINE_SPEED_PAUSE);
+    }
 
     this->I_frames = this->P_frames = this->B_frames = 0;
   }
@@ -600,9 +603,15 @@ static void reset_scr_tuning(vdr_input_plugin_t *this)
     this->scr_tuning = SCR_TUNING_OFF; /* marked as normal */
 
     this->scr->set_speed_tuning(this->scr, 1.0);
-    this->scr->set_buffering(this->scr, 0);
 
-    //this->scr->scr.set_fine_speed(&this->scr->scr, XINE_FINE_SPEED_NORMAL);
+    if (_x_get_fine_speed(this->stream) != XINE_FINE_SPEED_NORMAL) {
+      if (!this->is_paused)
+        _x_set_fine_speed(this->stream, XINE_FINE_SPEED_NORMAL);
+      else
+        LOGDBG("reset_scr_tuning: playback is paused");
+    }
+
+    this->scr->scr.set_fine_speed(&this->scr->scr, XINE_FINE_SPEED_NORMAL);
   }
 }
 
@@ -1665,7 +1674,8 @@ static void set_trick_speed(vdr_input_plugin_t *this, int speed, int backwards)
   else
     speed = XINE_FINE_SPEED_NORMAL * (-speed);
 
-  if (_x_get_fine_speed(this->stream) != speed) {
+  if (this->scr_tuning != SCR_TUNING_PAUSED &&
+      _x_get_fine_speed(this->stream) != speed) {
     _x_set_fine_speed (this->stream, speed);
   }
 
