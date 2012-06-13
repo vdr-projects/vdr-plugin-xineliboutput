@@ -135,7 +135,7 @@ const char cmdLineHelp[] =
 #endif
 #ifdef HAVE_OPENGL
 "                           opengl  Use OpenGL instead of compositing\n"
-"   -O       --opengl       Use OpenGL for video and Head Up Display OSD\n"
+"  -O        --opengl       Use OpenGL for video and Head Up Display OSD\n"
 #endif
 "  -w        --width=x      Window width\n"
 "  -h        --height=x     Window width\n"
