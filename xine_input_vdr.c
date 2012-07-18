@@ -3697,6 +3697,10 @@ static void slave_track_maps_changed(vdr_input_plugin_t *this)
       cnt += snprintf(tracks+cnt, sizeof(tracks)-cnt-32, 
 		      "%s%d:%s ", i==current?"*":"", i, trim_str(lang));
       n++;
+    } else if (i < this->slave.stream->audio_track_map_entries) {
+      cnt += snprintf(tracks+cnt, sizeof(tracks)-cnt-32,
+                      "%s%d:%d ", i==current?"*":"", i, i);
+      n++;
     }
   tracks[sizeof(tracks)-1] = 0;
   if(n>1)
