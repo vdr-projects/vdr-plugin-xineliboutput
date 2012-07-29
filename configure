@@ -467,6 +467,7 @@ echo "CXX = $CXX">>$makefile
 echo "CFLAGS_XINE += $CFLAGS_XINE">>$makefile
 echo "CFLAGS_VDR  += $CFLAGS_VDR">>$makefile
 echo "CFLAGS_X11  += $CFLAGS_X11">>$makefile
+echo "CFLAGS_AVUTIL += $CFLAGS_AVUTIL">>$makefile
 echo "LIBS_XINE   += $LIBS_XINE">>$makefile
 echo "LIBS_JPEG   += $LIBS_JPEG">>$makefile
 echo "LIBS_AVUTIL += $LIBS_AVUTIL">>$makefile
