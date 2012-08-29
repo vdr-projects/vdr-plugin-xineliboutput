@@ -207,7 +207,8 @@ bool cXinelibPlayer::UpdateMetaInfo(bool Force)
              *Playlist().Current()->Tracknumber ?: "-", tr ?: "-",
              *Playlist().Current()->Title       ?: "-", ti ?: "-");
 
-    m_Playlist.Current()->Title = ti;
+    if (ti && ti[0])
+      m_Playlist.Current()->Title = ti;
     if (tr && tr[0])
       m_Playlist.Current()->Tracknumber = tr;
     if (al && al[0])
