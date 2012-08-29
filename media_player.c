@@ -248,8 +248,11 @@ void cXinelibPlayer::UpdateNumTracks(void)
   if(m_Playlist.Count() == 1 && !strcmp("cdda:/", m_Playlist.First()->Filename)) {
     int count = m_Dev->PlayFileCtrl("GETAUTOPLAYSIZE CD", 10000);
     if(count>0) {
-      for(int i=0; i<count; i++)
+      for(int i=0; i<count; i++) {
         m_Playlist.Read(cString::sprintf("cdda:/%d", i+1));
+        m_Playlist.Last()->Title = cString::sprintf("Track %d", i + 1);
+        m_Playlist.Last()->Tracknumber = cString::sprintf("%d/%d", i + 1, count);
+      }
       m_Playlist.Del(m_Playlist.First());
     }
   }
