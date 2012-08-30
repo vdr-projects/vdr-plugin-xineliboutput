@@ -28,10 +28,10 @@ struct ts2es_s {
   uint32_t       xine_buf_type;
 
   buf_element_t *buf;
-  int            first_pusi_seen;
-  int            video;
-  int            pes_error;
   int            pes_len;  /* PES payload length left */
+  uint8_t        first_pusi_seen;
+  uint8_t        video;
+  uint8_t        pes_error;
 };
 
 
