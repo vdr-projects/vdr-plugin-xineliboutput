@@ -1159,8 +1159,11 @@ int cXinelibDevice::PlayTs(const uchar *Data, int Length, bool VideoOnly)
   if (TsHasPayload(Data) && TsPayloadOffset(Data) < TS_SIZE) {
 
     int Pid = TsPid(Data);
+#if VDRVERSNUM < 10733
     if (Pid == 0 || Pid == PatPmtParser()->PmtPid()) {
-
+#else
+    if (Pid == PATPID || PatPmtParser()->IsPmtPid(Pid)) {
+#endif
       if (m_server)
         m_server->SetHeader(Data, Result, Pid == 0);
 
