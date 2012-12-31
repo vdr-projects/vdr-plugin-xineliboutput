@@ -321,6 +321,11 @@ int ts_parse_pmt (pmt_data_t *pmt, uint program_no, const uint8_t *pkt)
     }
   }
 
+  if (!pmt->pmt) {
+    LOGMSG("parse_pmt: dropping PMT packet without PUSI");
+    return 0;
+  }
+
   if (!pusi) {
     section_length = (pmt->pmt[1] << 8 | pmt->pmt[2]) & 0x03ff;
     version_number = (pkt[10] >> 1) & 0x1f;
