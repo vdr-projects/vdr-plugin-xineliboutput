@@ -58,6 +58,10 @@ int mpeg2_get_picture_type(const uint8_t *buf, int len);
  */
 int mpeg2_get_video_size(const uint8_t *buf, int len, video_size_t *size);
 
+/*
+ * 
+ */
+int mpeg2_is_sequence_header(const uint8_t *buf, int len);
 
 #ifdef __cplusplus
 } /* extern "C" { */

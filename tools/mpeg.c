@@ -31,6 +31,17 @@ int mpeg2_get_picture_type(const uint8_t *buf, int len)
   return NO_PICTURE;
 }
 
+int mpeg2_is_sequence_header(const uint8_t *buf, int len)
+{
+  int i;
+  for (i = 0; i < len-6; i++) {
+    if (IS_SC_SEQUENCE(buf + i)) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
 int mpeg2_get_video_size(const uint8_t *buf, int len, video_size_t *size)
 {
   int i;
