@@ -86,6 +86,19 @@ typedef enum {
   STREAM_AUDIO_AAC       = 0x7c06, // ISO_13818_PES_PRIVATE | (STREAM_DESCR_AAC    << 8)
   STREAM_DVBSUB          = 0x5906, // ISO_13818_PES_PRIVATE | (STREAM_DESCR_DVBSUB << 8)
 
+  /* HDMV */
+  STREAM_HDMV             = 0xff00,
+  HDMV_AUDIO_80_PCM       = 0x80 | STREAM_HDMV, /* BluRay PCM */
+  HDMV_AUDIO_82_DTS       = 0x82 | STREAM_HDMV, /* DTS */
+  HDMV_AUDIO_83_TRUEHD    = 0x83 | STREAM_HDMV, /* Dolby TrueHD, primary audio */
+  HDMV_AUDIO_84_EAC3      = 0x84 | STREAM_HDMV, /* Dolby Digital plus, primary audio */
+  HDMV_AUDIO_85_DTS_HRA   = 0x85 | STREAM_HDMV, /* DTS-HRA */
+  HDMV_AUDIO_86_DTS_HD_MA = 0x86 | STREAM_HDMV, /* DTS-HD Master audio */
+
+  HDMV_SPU_90_BITMAP      = 0x90 | STREAM_HDMV, /* Presentation Graphics */
+  HDMV_SPU_91_INTERACTIVE = 0x91 | STREAM_HDMV, /* Interactive Graphics */
+  HDMV_SPU_92_TEXT        = 0x92 | STREAM_HDMV, /* Text subtitles */
+
 } ts_stream_type;
 
 /* stream info descriptors */
