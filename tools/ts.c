@@ -205,7 +205,7 @@ static void ts_get_reg_desc(uint32_t *dest, const uint8_t *data, int length)
     }
     d += 2 + d[1];
   }
-  LOGPMT("pare_pmt: found no format id");
+  LOGPMT("parse_pmt: found no format id");
   *dest = 0;
 }
 
