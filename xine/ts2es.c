@@ -341,7 +341,7 @@ ts2es_t *ts2es_init(fifo_buffer_t *dst_fifo, ts_stream_type stream_type, uint st
 #endif
 
     case HDMV_AUDIO_80_PCM:
-      data->xine_type = BUF_AUDIO_LPCM_BE;
+      data->xine_buf_type = BUF_AUDIO_LPCM_BE;
       break;
 
     /* DTS (PES stream 0xbd) */
