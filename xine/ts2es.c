@@ -286,6 +286,9 @@ ts2es_t *ts2es_init(fifo_buffer_t *dst_fifo, ts_stream_type stream_type, uint st
     case ISO_14496_PART10_VIDEO:
       data->xine_buf_type = BUF_VIDEO_H264;
       break;
+    case STREAM_VIDEO_VC1:
+      data->xine_buf_type = BUF_VIDEO_VC1;
+      break;
 
     /* AUDIO (PES streams 0xc0...0xdf) */
     case  ISO_11172_AUDIO:

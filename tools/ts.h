@@ -77,6 +77,8 @@ typedef enum {
   STREAM_VIDEO_MPEG      = 0x80,
   STREAM_AUDIO_AC3       = 0x81,
 
+  STREAM_VIDEO_VC1       = 0xea,
+
   /* private streams, payload type detected from PMT stream descriptor tag */
 
   STREAM_AUDIO_EAC3      = 0x7a06, // ISO_13818_PES_PRIVATE | (STREAM_DESCR_EAC3   << 8)
