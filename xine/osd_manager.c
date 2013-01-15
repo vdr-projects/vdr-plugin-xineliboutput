@@ -667,6 +667,7 @@ static int exec_osd_set_argb(osd_manager_impl_t *this, osd_command_t *cmd)
 
   /* this should trigger blending at output resolution (after scaling video frame) ... */
   //ov_overlay.unscaled = 1;
+  ov_overlay.unscaled = cmd->flags & OSDFLAG_UNSCALED ? 1 : 0;
 
   /* allocate buffer */
   if (!osd->argb_buffer) {
