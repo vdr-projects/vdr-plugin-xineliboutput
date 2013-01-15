@@ -28,6 +28,8 @@ struct osd_manager_s {
   void (*dispose)(osd_manager_t *, xine_stream_t *);
 
   void (*video_size_changed)(osd_manager_t *, xine_stream_t *, int width, int height);
+
+  int  (*argb_supported)(xine_stream_t *);
 };
 
 osd_manager_t *init_osd_manager(void);
