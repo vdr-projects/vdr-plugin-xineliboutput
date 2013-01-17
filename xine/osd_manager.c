@@ -676,6 +676,10 @@ static int exec_osd_set_argb(osd_manager_impl_t *this, osd_command_t *cmd)
   if (!osd->argb_layer) {
     set_argb_layer(&osd->argb_layer, argb_layer_create());
     osd->argb_layer->buffer = osd->argb_buffer;
+    osd->argb_layer->x1 = 0;
+    osd->argb_layer->x2 = osd->extent_width - 1;
+    osd->argb_layer->y1 = 0;
+    osd->argb_layer->y2 = osd->extent_height - 1;
   }
 
   /* copy changed data to buffer */
