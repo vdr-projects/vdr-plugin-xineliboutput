@@ -354,7 +354,7 @@ void cXinelibLocal::Action(void)
                                    xc.hud_osd,
                                    xc.opengl,
                                    xc.modeswitch, xc.modeline, xc.display_aspect,
-                                   0/*no_x_kbd*/, 0/*gui_hotkeys*/,
+                                   0/*no_x_kbd*/, 0/*gui_hotkeys*/, 0/*touchscreen*/,
                                    xc.video_port,
                                    xc.scale_video,
                                    NULL,

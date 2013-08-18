@@ -120,7 +120,7 @@ static int fbfe_display_open(frontend_t *this_gen,
                              int xpos, int ypos,
                              int width, int height, int fullscreen, int hud, int opengl,
                              int modeswitch, const char *modeline, int aspect,
-                             int no_x_kbd, int gui_hotkeys,
+                             int no_x_kbd, int gui_hotkeys, int touchscreen,
                              const char *video_port, int scale_video,
                              const char *aspect_controller, int window_id)
 {
