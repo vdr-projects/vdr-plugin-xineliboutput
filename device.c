@@ -1437,6 +1437,7 @@ void cXinelibDevice::StillPicture(const uchar *Data, int Length)
               Data, Length, VIDEO_STREAM, isH264,
               &mand<bool>, true);
     }
+  }
 
   TsBufferFlush();
 
