@@ -781,7 +781,6 @@ void cXinelibDevice::TrickSpeed(int Speed)
         m_TrickSpeedMode |= trs_I_frames | trs_Backward | trs_NoAudio;
 
         ForEach(m_clients, &cXinelibThread::TrickSpeed, -RealSpeed, true);
-        ForEach(m_clients, &cXinelibThread::Sync);
 
       } else {
 
@@ -824,6 +823,8 @@ void cXinelibDevice::TrickSpeed(int Speed)
 
       ForEach(m_clients, &cXinelibThread::TrickSpeed, -1);
     }
+
+    ForEach(m_clients, &cXinelibThread::Sync);
   }
 }
 
