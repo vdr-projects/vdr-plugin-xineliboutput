@@ -37,8 +37,8 @@
 #include "menu.h"
 #include "media_player.h"
 
-#if defined(APIVERSNUM) && (APIVERSNUM < 10600)
-# error VDR API versions < 1.6.0 are not supported !
+#if defined(APIVERSNUM) && (APIVERSNUM < 10733)
+# error VDR API versions < 1.7.33 are not supported !
 #endif
 
 //---------------------------------plugin-------------------------------------
