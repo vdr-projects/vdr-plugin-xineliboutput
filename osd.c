@@ -506,6 +506,11 @@ void cXinelibOsd::Flush(void)
   if(!m_IsVisible)
     return;
 
+  const cRect& videoWindow = m_Device->GetVideoWindow();
+  if (videoWindow != cRect::Null) {
+    CmdVideoWindow(videoWindow.X(), videoWindow.Y(), videoWindow.Width(), videoWindow.Height());
+  }
+
   if (IsTrueColor()) {
 
     LOCK_PIXMAPS;

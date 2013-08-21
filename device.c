@@ -1518,6 +1518,19 @@ bool cXinelibDevice::SupportsTrueColorOSD(void)
   return m_server && (m_server->SupportsTrueColorOSD() == 1);
 }
 
+cRect cXinelibDevice::CanScaleVideo(const cRect &Rect, int Alignment)
+{
+  return Rect;
+}
+
+void cXinelibDevice::ScaleVideo(const cRect &Rect)
+{
+  if (m_VideoWindow != Rect) {
+    m_VideoWindow = Rect;
+    cXinelibOsdProvider::RefreshOsd();
+  }
+}
+
 //
 // SPU decoder
 //
