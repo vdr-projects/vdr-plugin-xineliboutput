@@ -337,7 +337,7 @@ ifeq ($(VDR_TREE), yes)
 	$(INSTALL) $@ $(LIBDIR)/
 endif
 
-install-lib: $(VDRPLUGIN) $(VDRPLUGIN_SXFE) $(VDRPLUGIN_FBFE)
+install-lib: $(TARGETS_VDR)
 ifeq ($(XINELIBOUTPUT_VDRPLUGIN), yes)
 	@echo Installing $^
 	install -D $^ $(DESTDIR)$(LIBDIR)/
