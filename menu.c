@@ -220,7 +220,11 @@ void cMenuBrowseFiles::Set(void)
   }
 
   if (m_CurrentDir[0] != '/') {
+#if defined(APIVERSNUM) && (APIVERSNUM < 20102)
     m_CurrentDir = VideoDirectory;
+#else
+    m_CurrentDir = cVideoDirectory::Name();
+#endif
   }
 
   // find deepest accessible directory from path

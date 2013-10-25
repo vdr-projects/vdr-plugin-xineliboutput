@@ -635,7 +635,12 @@ void cUdpScheduler::Send_SAP(bool Announce)
 #if 1
   /* store copy of SDP data */
   if(m_fd_sap < 0) {
-    cString fname = AddDirectory(VideoDirectory,
+    cString fname = AddDirectory(
+#if defined(APIVERSNUM) && (APIVERSNUM < 20102)
+				 VideoDirectory,
+#else
+				 cVideoDirectory::Name(),
+#endif
 				 cString::sprintf("xineliboutput@%s.sdp",
 						  ip));
     FILE *fp = fopen(fname, "w");
