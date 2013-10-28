@@ -67,6 +67,7 @@ PKGCFG = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(s
 LIBDIR = $(call PKGCFG,libdir)
 LOCDIR = $(call PKGCFG,locdir)
 PLGCFG = $(call PKGCFG,plgcfg)
+VIDEODIR = $(call PKGCFG,videodir)
 
 TMPDIR  ?= /tmp
 BINDIR  ?= /usr/bin
@@ -179,7 +180,7 @@ endif
 
 DEFINES   += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' \
              -D_REENTRANT -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 \
-	     -DXINELIBOUTPUT_VERSION='"$(VERSION)"'
+	     -DVIDEODIR='"$(VIDEODIR)"' -DXINELIBOUTPUT_VERSION='"$(VERSION)"'
 
 ifdef NOSIGNAL_IMAGE_FILE
   DEFINES += -DNOSIGNAL_IMAGE_FILE='"$(NOSIGNAL_IMAGE_FILE)"'
