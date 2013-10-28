@@ -1761,6 +1761,8 @@ void cMenuSetupMediaPlayer::Set(void)
                             &newconfig.show_hidden_files));
   Add(new cMenuEditBoolItem(tr("Allow removing files"),
                             &newconfig.media_enable_delete));
+  Add(new cMenuEditBoolItem(tr("Remember last playback position"),
+                            &newconfig.media_enable_resume));
 
   Add(SeparatorItem(tr("Media Player")));
   Add(new cMenuEditBitItem(tr("Play file"),        &newconfig.media_menu_items, MEDIA_MENU_FILES));
@@ -1796,6 +1798,7 @@ void cMenuSetupMediaPlayer::Store(void)
   SetupStore("Media.MenuItems", xc.media_menu_items);
   SetupStore("Media.ShowHiddenFiles", xc.show_hidden_files);
   SetupStore("Media.EnableDelete", xc.media_enable_delete);
+  SetupStore("Media.EnableResume", xc.media_enable_resume);
 
   Setup.Save();
 }
