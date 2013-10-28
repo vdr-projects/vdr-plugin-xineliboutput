@@ -1225,8 +1225,6 @@ static void fe_xine_close(frontend_t *this_gen)
 
     fe_xine_stop(this_gen);
 
-    fe_post_unload(this);
-
     xine_close(this->stream);
     if(this->postplugins->pip_stream) 
       xine_close(this->postplugins->pip_stream);
