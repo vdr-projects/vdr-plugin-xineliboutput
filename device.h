@@ -111,6 +111,7 @@ class cXinelibDevice : public cDevice
   protected:
     virtual void    Clear(void);
     virtual void    Play(void);
+    virtual void    TrickSpeed(int Speed, bool Forward) { TrickSpeed(Speed); }
     virtual void    TrickSpeed(int Speed);
     virtual void    Freeze(void);
     virtual bool    Flush(int TimeoutMs = 0);
