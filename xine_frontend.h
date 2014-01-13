@@ -89,6 +89,7 @@ struct frontend_s {
                             int fullscreen,
                             int modeswitch, const char *modeline,
                             int aspect, int scale_video);
+  unsigned char * (*fe_display_edid)(frontend_t *, int *size);
   void (*fe_display_close)(frontend_t*);
 
   /* Xine engine */
