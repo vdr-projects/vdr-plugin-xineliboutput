@@ -2567,7 +2567,7 @@ static void sxfe_toggle_fullscreen(fe_t *this_gen, int fullscreen)
   this->fullscreen_state_forced = !force;
 }
 
-static unsigned char *sxfe_display_edid(fe_t *this_gen, int *size)
+static unsigned char *sxfe_display_edid(frontend_t *this_gen, int *size)
 {
   sxfe_t *this = (sxfe_t*)this_gen;
   unsigned char *edid = NULL;
@@ -2629,7 +2629,7 @@ static unsigned char *sxfe_display_edid(fe_t *this_gen, int *size)
                                &actual_type, &actual_format,
                                &nitems, &bytes_after, &prop);
           if (actual_format == 8 && actual_type == XA_INTEGER) {
-            LOGDBG("edid: Found EDID, %d bytes", nitems);
+            LOGDBG("edid: Found EDID, %ld bytes", nitems);
             *size = nitems;
             edid = malloc(*size);
             memcpy(edid, prop, *size);
