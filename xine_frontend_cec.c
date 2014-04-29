@@ -383,7 +383,7 @@ static int libcec_init(void *fe_gen)
 static int libcec_open(void)
 {
   cec_adapter devices[10];
-  int count = cec_find_adapters(devices, 0, NULL);
+  int count = cec_find_adapters(devices, 10, NULL);
   if (count < 1) {
     LOGMSG("No HDMI-CEC adapters found");
     return 0;
