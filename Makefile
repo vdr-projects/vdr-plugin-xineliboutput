@@ -274,7 +274,7 @@ vdrlogo_720x576.c: mpg2c vdrlogo_720x576.mpg
 	@./mpg2c vdrlogo vdrlogo_720x576.mpg vdrlogo_720x576.c
 
 # C code (xine plugins and frontends)
-$(sort $(OBJS_SXFE) $(OBJS_FBFE) $(OBJS_XINE)):
+$(sort $(OBJS_SXFE) $(OBJS_FBFE) $(OBJS_XINE)): %.o: %.c
 	$(CC) $(CFLAGS) -c $(DEFINES) $(INCLUDES) $(CFLAGS_X11) $(CFLAGS_AVUTIL) $(OPTFLAGS) -o $@ $<
 
 ### Internationalization (I18N):
