@@ -15,9 +15,9 @@
 #include <xine/xine_internal.h>
 #include <xine/video_out.h>
 
-#include "../xine_osd_command.h"
 #include "../xine_input_vdr.h"
 
+#include "../tools/osd_command.h"
 #include "../tools/rle.h"
 
 #include "vo_props.h"

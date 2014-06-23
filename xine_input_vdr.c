@@ -67,8 +67,8 @@
 
 #include "xine_input_vdr.h"
 #include "xine_input_vdr_net.h"
-#include "xine_osd_command.h"
 
+#include "tools/osd_command.h"
 #include "tools/mpeg.h"
 #include "tools/pes.h"
 #include "tools/ts.h"

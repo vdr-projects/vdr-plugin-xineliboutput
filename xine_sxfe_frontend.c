@@ -56,13 +56,13 @@
 #define LOG_MODULENAME "[vdr-sxfe]  "
 #include "logdefs.h"
 
-#include "xine_osd_command.h"
 #include "xine_frontend_internal.h"
 
 #ifdef HAVE_DBUS_GLIB_1
 #  include "tools/gnome_screensaver.h"
 #endif
 
+#include "tools/osd_command.h"
 #include "tools/rle.h"
 #include "tools/time_ms.h"
 

@@ -15,7 +15,8 @@
 #include "logdefs.h"
 #include "config.h"
 #include "device.h"
-#include "xine_osd_command.h"
+
+#include "tools/osd_command.h"
 
 #include "osd.h"
 

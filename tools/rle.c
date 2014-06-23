@@ -14,7 +14,7 @@
 #include <sys/types.h>
 #endif
 
-#include "../xine_osd_command.h"
+#include "osd_command.h"
 
 #include "rle.h"
 

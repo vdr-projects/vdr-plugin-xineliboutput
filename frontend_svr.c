@@ -34,8 +34,8 @@
 #include "config.h"
 
 #include "xine_input_vdr_net.h"   // stream header(s)
-#include "xine_osd_command.h"     // osd commands
 
+#include "tools/osd_command.h"     // osd commands
 #include "tools/cxsocket.h"
 #include "tools/future.h"
 #include "tools/backgroundwriter.h"
