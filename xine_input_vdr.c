@@ -1928,9 +1928,9 @@ static input_plugin_t *fifo_class_get_instance (input_class_t *class_gen,
 
 /******************************** OSD ************************************/
 
-static xine_rle_elem_t *uncompress_osd_net(uint8_t *raw, int elems, int datalen)
+static osd_rle_elem_t *uncompress_osd_net(uint8_t *raw, int elems, int datalen)
 {
-  xine_rle_elem_t *data = (xine_rle_elem_t*)malloc(elems*sizeof(xine_rle_elem_t));
+  osd_rle_elem_t *data = (osd_rle_elem_t *)malloc(elems * sizeof(osd_rle_elem_t));
   int i;
 
   /*
@@ -2772,7 +2772,7 @@ static int handle_control_osdcmd(vdr_input_plugin_t *this)
 
   /* read palette */
   if (osdcmd.palette && osdcmd.colors>0) {
-    ssize_t bytes = sizeof(xine_clut_t)*(osdcmd.colors);
+    ssize_t bytes = sizeof(osd_clut_t) * osdcmd.colors;
     osdcmd.palette = malloc(bytes);
     if (read_control(this, (unsigned char *)osdcmd.palette, bytes) != bytes) {
       LOGMSG("control: error reading OSDCMD palette");
@@ -2784,7 +2784,7 @@ static int handle_control_osdcmd(vdr_input_plugin_t *this)
 
   /* read (RLE) data */
   if (err == CONTROL_OK && osdcmd.data && osdcmd.datalen>0) {
-    osdcmd.data = (xine_rle_elem_t*)malloc(osdcmd.datalen);
+    osdcmd.data = (osd_rle_elem_t *)malloc(osdcmd.datalen);
     if(read_control(this, (unsigned char *)osdcmd.data, osdcmd.datalen)
        != (ssize_t)osdcmd.datalen) {
       LOGMSG("control: error reading OSDCMD bitmap");

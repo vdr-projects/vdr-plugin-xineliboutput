@@ -255,7 +255,7 @@ static int write_osd_command(cxSocket& s, osd_command_t *cmd)
   ssize_t max  = s.tx_buffer_free();
   ssize_t size = (ssize_t)8 +
                  (ssize_t)(sizeof(osd_command_t)) +
-                 (ssize_t)(sizeof(xine_clut_t) * ntohl(cmd->colors)) +
+                 (ssize_t)(sizeof(osd_clut_t) * ntohl(cmd->colors)) +
                  (ssize_t)(ntohl(cmd->datalen));
 
   if(max > 0 && max < MIN(size, 1024)) {
@@ -279,8 +279,8 @@ static int write_osd_command(cxSocket& s, osd_command_t *cmd)
     return -1;
   }
   if(cmd->palette && cmd->colors &&
-     (ssize_t)(sizeof(xine_clut_t)*ntohl(cmd->colors)) !=
-     s.write(cmd->palette, sizeof(xine_clut_t)*ntohl(cmd->colors), 100)) {
+     (ssize_t)(sizeof(osd_clut_t)*ntohl(cmd->colors)) !=
+     s.write(cmd->palette, sizeof(osd_clut_t)*ntohl(cmd->colors), 100)) {
     LOGDBG("write_osd_command: write (palette) failed");
     return -1;
   }
