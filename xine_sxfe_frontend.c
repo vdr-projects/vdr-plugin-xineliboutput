@@ -2786,14 +2786,20 @@ static void XConfigureEvent_handler(sxfe_t *this, XConfigureEvent *cev)
 
   /* update video window size */
   if (this->x.width != cev->width || this->x.height != cev->height) {
-    LOGDBG("Video window size changed from %dx%d to %dx%d", this->x.width, this->x.height, cev->width, cev->height);
-    this->x.width  = cev->width;
-    this->x.height = cev->height;
 
-    /* inform VDR about new size */
-    char str[128];
-    snprintf(str, sizeof(str), "INFO WINDOW %dx%d", this->x.width, this->x.height);
-    this->x.fe.send_event((frontend_t*)this, str);
+    if ( ( this->fullscreen && this->window[1] == cev->window) ||
+         (!this->fullscreen && this->window[0] == cev->window)) {
+
+      LOGDBG("Video window size changed from %dx%d to %dx%d", this->x.width, this->x.height, cev->width, cev->height);
+
+      this->x.width  = cev->width;
+      this->x.height = cev->height;
+
+      /* inform VDR about new size */
+      char str[128];
+      snprintf(str, sizeof(str), "INFO WINDOW %dx%d", this->x.width, this->x.height);
+      this->x.fe.send_event((frontend_t*)this, str);
+    }
   }
 
   if(this->window[0] == cev->window && this->check_move) {
