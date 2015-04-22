@@ -279,6 +279,7 @@ $(sort $(OBJS_SXFE) $(OBJS_FBFE) $(OBJS_XINE)): %.o: %.c
 
 ### Internationalization (I18N):
 PODIR     = po
+ifeq ($(XINELIBOUTPUT_VDRPLUGIN), yes)
 I18Npo    = $(wildcard $(PODIR)/*.po)
 I18Nmo    = $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
 I18Nmsgs  = $(addprefix $(DESTDIR)$(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
@@ -295,7 +296,6 @@ $(I18Npot): $(wildcard *.c)
 	@touch $@
 
 $(I18Nmsgs): $(DESTDIR)$(LOCDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
-ifeq ($(XINELIBOUTPUT_VDRPLUGIN), yes)
 	@echo Installing $^
 	install -D -m644 $< $@
 endif
