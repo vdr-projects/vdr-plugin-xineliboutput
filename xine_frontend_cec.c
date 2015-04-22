@@ -272,7 +272,12 @@ static void libcec_config_clear(libcec_configuration *p)
   p->bMonitorOnly = 0;
   p->cecVersion = CEC_DEFAULT_SETTING_CEC_VERSION;
   p->adapterType = ADAPTERTYPE_UNKNOWN;
+
+#ifdef CEC_DOUBLE_TAP_TIMEOUT_50_MS
+  p->iDoubleTapTimeout50Ms = CEC_DOUBLE_TAP_TIMEOUT_50_MS;
+#else
   p->iDoubleTapTimeoutMs = CEC_DOUBLE_TAP_TIMEOUT_MS;
+#endif
   p->comboKey = CEC_USER_CONTROL_CODE_STOP;
   p->iComboKeyTimeoutMs = CEC_DEFAULT_COMBO_TIMEOUT_MS;
 
