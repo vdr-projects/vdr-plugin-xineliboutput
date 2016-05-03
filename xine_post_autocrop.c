@@ -232,7 +232,6 @@ typedef struct autocrop_post_plugin_s
 
 #if defined(__WORDSIZE)
 #  if __WORDSIZE == 64
-#    warning Compiling with 64-bit integer support
 #    define ENABLE_64BIT (sizeof(int) > 32)
 #  endif
 #endif
