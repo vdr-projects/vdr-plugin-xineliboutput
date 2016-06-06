@@ -30,7 +30,7 @@ struct sockaddr_in;
  * udp_discovery_find_server()
  *
  * Search for server. Return address and port.
- * Returns 0 on success.
+ * Returns > 0 on success.
  */
 int udp_discovery_find_server(int *port, char *address);
 
