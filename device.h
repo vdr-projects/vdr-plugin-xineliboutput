@@ -123,7 +123,9 @@ class cXinelibDevice : public cDevice
   public:
     virtual void SetVideoDisplayFormat(eVideoDisplayFormat VideoDisplayFormat);
     virtual void SetVideoFormat(bool VideoFormat16_9);
+#if VDRVERSNUM < 20301
     virtual eVideoSystem GetVideoSystem(void);
+#endif
 
     struct video_size_s *m_VideoSize;
     struct ts_state_s   *m_tssVideoSize;

@@ -1441,11 +1441,13 @@ void cXinelibDevice::SetVideoDisplayFormat(eVideoDisplayFormat VideoDisplayForma
 #endif
 }
 
+#if VDRVERSNUM < 20301
 eVideoSystem cXinelibDevice::GetVideoSystem(void)
 {
   TRACEF("cXinelibDevice::GetVideoSystem");
   return cDevice::GetVideoSystem();
 }
+#endif
 
 void cXinelibDevice::GetVideoSize(int &Width, int &Height, double &VideoAspect)
 {
