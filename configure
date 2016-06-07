@@ -247,7 +247,7 @@ FEATURES="
 
 # set defaults
 
-enable x11 vdr fb xine i18n
+enable x11 vdr fb xine i18n libcec
 
 # clear log file
 
@@ -374,7 +374,16 @@ if enabled libxine; then
   test_library   JPEG    libjpeg      "jpeglib.h"              "-ljpeg"      "jpeg_create_compress(0)"
   test_library   X11     x11          "X11/X.h"                "-lX11"       "XInitThreads()"
   test_library   PTHREAD pthread      "pthread.h"              "-lpthread"   "pthread_create(0,0,0,0)"
-  test_library   CEC     libcec       "libcec/cecc.h"          "-lcec"       "cec_initialize(0)"
+
+  if enabled libcec; then
+    test_library   CEC     libcec       "libcec/cecc.h"          "-lcec"       "libcec_initialise(0)"
+    if disabled libcec; then
+      # try libcec < 3.0.0
+      enable libcec
+      test_library   CEC     libcec       "libcec/cecc.h"          "-lcec"       "cec_initialise(0)"
+    fi
+  fi
+
   if enabled x11; then
     test_library X11  xext         "X11/extensions/Xext.h"     "-lXext"      ""
     test_library X11  xshm         "X11/extensions/XShm.h"     "-lXext"      "XShmQueryExtension(0)"

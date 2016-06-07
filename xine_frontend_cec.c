@@ -31,6 +31,19 @@
 
 #ifdef HAVE_LIBCEC
 
+#if defined(CEC_LIB_VERSION_MAJOR) && CEC_LIB_VERSION_MAJOR >= 3
+#define HAVE_LIBCEC_3
+#else
+typedef void * libcec_connection_t;
+#  define libcec_initialise(c) ((void*)cec_initialise(c))
+#  define libcec_init_video_standalone(c) cec_init_video_standalone()
+#  define libcec_find_adapters(a,b,c,d) cec_find_adapters(b,c,d)
+#  define libcec_ping_adapters(c) cec_ping_adapters()
+#  define libcec_open(c,d,e) cec_open(d,e)
+#  define libcec_close(c) cec_close()
+#  define libcec_destroy(c) cec_destroy()
+#endif
+
 /* static data */
 static volatile int exit_req = 0;
 static pthread_t cec_thread;
@@ -246,7 +259,7 @@ ICECCallbacks callbacks = {
  * configuration
  */
 
-static void libcec_config_clear(libcec_configuration *p)
+static void _libcec_config_clear(libcec_configuration *p)
 {
   memset(p, 0, sizeof(*p));
 
@@ -254,8 +267,13 @@ static void libcec_config_clear(libcec_configuration *p)
   p->baseDevice = CEC_DEFAULT_BASE_DEVICE;
   p->iHDMIPort = CEC_DEFAULT_HDMI_PORT;
   p->tvVendor = CEC_VENDOR_UNKNOWN;
+#ifdef HAVE_LIBCEC_3
+  p->clientVersion = LIBCEC_VERSION_CURRENT;
+  p->serverVersion = LIBCEC_VERSION_CURRENT;
+#else
   p->clientVersion = CEC_CLIENT_VERSION_CURRENT;
   p->serverVersion = CEC_SERVER_VERSION_CURRENT;
+#endif
   p->bAutodetectAddress = CEC_DEFAULT_SETTING_AUTODETECT_ADDRESS;
   p->bGetSettingsFromROM = CEC_DEFAULT_SETTING_GET_SETTINGS_FROM_ROM;
   p->bUseTVMenuLanguage = CEC_DEFAULT_SETTING_USE_TV_MENU_LANGUAGE;
@@ -350,13 +368,13 @@ static int detect_hdmi_address(frontend_t *fe_gen)
   return 0;
 }
 
-static int libcec_init(void *fe_gen)
+static libcec_connection_t _libcec_init(void *fe_gen)
 {
   libcec_configuration config;
+  libcec_connection_t conn;
 
-  libcec_config_clear(&config);
+  _libcec_config_clear(&config);
 
-  config.clientVersion = CEC_CLIENT_VERSION_CURRENT;
   strncpy(config.strDeviceName, "VDR", sizeof(config.strDeviceName));
 
   config.iPhysicalAddress = detect_hdmi_address(fe_gen);
@@ -372,24 +390,24 @@ static int libcec_init(void *fe_gen)
   config.deviceTypes.types[2] = CEC_DEVICE_TYPE_TUNER;
   //config.deviceTypes.types[3] = CEC_DEVICE_TYPE_AUDIO_SYSTEM;
 
-  if (!cec_initialise(&config)) {
-    LOGMSG("cec_initialize() failed");
-    return 0;
+  if (!(conn = libcec_initialise(&config))) {
+    LOGMSG("libcec_initialize() failed");
+    return NULL;
   }
 
-  cec_init_video_standalone();
+  libcec_init_video_standalone(conn);
 
-  return 1;
+  return conn;
 }
 
 /*
  *
  */
 
-static int libcec_open(void)
+static int _libcec_open(libcec_connection_t conn)
 {
   cec_adapter devices[10];
-  int count = cec_find_adapters(devices, 10, NULL);
+  int count = libcec_find_adapters(conn, devices, 10, NULL);
   if (count < 1) {
     LOGMSG("No HDMI-CEC adapters found");
     return 0;
@@ -397,7 +415,7 @@ static int libcec_open(void)
 
   LOGMSG("%d adapters found. Opening %s", count, devices[0].comm);
 
-  if (!cec_open(devices[0].comm, 3000)) {
+  if (!libcec_open(conn, devices[0].comm, 3000)) {
     LOGMSG("error opening CEC adapter");
     return 0;
   }
@@ -407,10 +425,10 @@ static int libcec_open(void)
   return 1;
 }
 
-static int libcec_check_device(void)
+static int _libcec_check_device(libcec_connection_t conn)
 {
-  if (!cec_ping_adapters()) {
-    LOGMSG("cec_ping_adapters() failed");
+  if (!libcec_ping_adapters(conn)) {
+    LOGMSG("libcec_ping_adapters() failed");
     return 0;
   }
 
@@ -419,16 +437,20 @@ static int libcec_check_device(void)
 
 static void cleanup(void *p)
 {
-  cec_close();
-  cec_destroy();
+#ifdef HAVE_LIBCEC_3
+  libcec_connection_t conn = *(libcec_connection_t *)p;
+#endif
+  libcec_close(conn);
+  libcec_destroy(conn);
 }
 
 static void *cec_receiver_thread(void *fe_gen)
 {
+  libcec_connection_t conn;
 
   LOGDBG("started");
 
-  pthread_cleanup_push(cleanup, NULL);
+  pthread_cleanup_push(cleanup, &conn);
 
   enum { INIT, WAIT_DEVICE, RUNNING } state = INIT;
 
@@ -438,19 +460,19 @@ static void *cec_receiver_thread(void *fe_gen)
 
     switch (state) {
     case INIT:
-      if (!libcec_init(fe_gen)) {
+      if (!(conn = _libcec_init(fe_gen))) {
 	return NULL;
       }
       state = WAIT_DEVICE;
       break;
     case WAIT_DEVICE:
-      if (libcec_open()) {
+      if (_libcec_open(conn)) {
 	state = RUNNING;
       }
       usleep(5000*1000);
       break;
     case RUNNING:
-      if (!libcec_check_device()) {
+      if (!_libcec_check_device(conn)) {
         state = WAIT_DEVICE;
       }
       usleep(1000*1000);
