@@ -575,13 +575,14 @@ void cUdpScheduler::Send_RTCP(void)
     msg->hdr.count  = 1;
 
     msg->sdes.ssrc   = m_ssrc;
-    msg->sdes.item[0].type   = RTCP_SDES_CNAME;
-    sprintf(msg->sdes.item[0].data, "VDR@%s:%d%c%c%c", 
+    rtcp_sdes_item_t *it = &msg->sdes.item[0];
+    it->type   = RTCP_SDES_CNAME;
+    sprintf(it->data, "VDR@%s:%d%c%c%c",
 	    hostname[0] ? hostname : xc.remote_rtp_addr,
 	    xc.remote_rtp_port, 0, 0, 0);
-    msg->sdes.item[0].length = strlen(msg->sdes.item[0].data);
-    msg->hdr.length = htons(1 + 1 + ((msg->sdes.item[0].length - 2) + 3) / 4); 
-    
+    it->length = strlen(it->data);
+    msg->hdr.length = htons(1 + 1 + ((it->length - 2) + 3) / 4);
+
     content += sizeof(rtcp_common_t) + 4*ntohs(msg->hdr.length);
     msg = (rtcp_packet_t *)content;
 
