@@ -64,13 +64,13 @@ endif
 
 # Use package data if installed...otherwise assume we're under the VDR source directory:
 PKGCFG = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(shell PKG_CONFIG_PATH="$$PKG_CONFIG_PATH:../../.." pkg-config --variable=$(1) vdr))
+BINDIR = $(call PKGCFG,bindir)
 LIBDIR = $(call PKGCFG,libdir)
 LOCDIR = $(call PKGCFG,locdir)
 PLGCFG = $(call PKGCFG,plgcfg)
 VIDEODIR = $(call PKGCFG,videodir)
 
 TMPDIR  ?= /tmp
-BINDIR  ?= /usr/bin
 
 INSTALL ?= install
 
