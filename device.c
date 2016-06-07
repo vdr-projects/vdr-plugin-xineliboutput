@@ -118,7 +118,7 @@ void cXinelibStatusMonitor::ChannelSwitch(const cDevice *Device,
 #ifdef DEBUG_SWITCHING_TIME
       switchtimeOn = cTimeMs::Now();
 #endif
-      m_Device.SetTvMode(Channels.GetByNumber(ChannelNumber));
+      m_Device.SetTvMode(ChannelNumber);
       TRACE("cXinelibStatusMonitor: Set to TvMode");
     }
   } else {
@@ -584,14 +584,20 @@ void cXinelibDevice::StopOutput(void)
   ForEach(m_clients, &cXinelibThread::SetNoVideo, false);
 }
 
-void cXinelibDevice::SetTvMode(cChannel *Channel)
+static bool IsRadioChannel(int ChannelNumber)
+{
+    const cChannel *Channel = Channels.GetByNumber(ChannelNumber);
+    if (Channel && !Channel->Vpid() && (Channel->Apid(0) || Channel->Apid(1)))
+      return true;
+    return false;
+}
+
+void cXinelibDevice::SetTvMode(int ChannelNumber)
 {
   TRACEF("cXinelibDevice::SetTvMode");
   TRACK_TIME(250);
 
-  m_RadioStream = false;
-  if (Channel && !Channel->Vpid() && (Channel->Apid(0) || Channel->Apid(1)))
-    m_RadioStream = true;
+  m_RadioStream = IsRadioChannel(ChannelNumber);
   if(m_PlayMode == pmAudioOnlyBlack)
     m_RadioStream = true;
   TRACE("cXinelibDevice::SetTvMode - isRadio = "<<m_RadioStream);
@@ -904,7 +910,7 @@ bool cXinelibDevice::PlayFile(const char *FileName, int Position,
     if(!m_liveMode)
       SetReplayMode();
     else
-      SetTvMode(Channels.GetByNumber(cDevice::CurrentChannel()));
+      SetTvMode(cDevice::CurrentChannel());
     m_PlayingFile = pmNone;
   }
 

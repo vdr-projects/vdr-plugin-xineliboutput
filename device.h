@@ -174,7 +174,7 @@ class cXinelibDevice : public cDevice
 
   protected:
     friend class cXinelibStatusMonitor;
-    void SetTvMode(cChannel *Channel);
+    void SetTvMode(int ChannelNumber);
     void SetReplayMode(void);
     void StopOutput(void);
 
