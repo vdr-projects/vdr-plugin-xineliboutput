@@ -385,7 +385,12 @@ void cXinelibDevice::ForcePrimaryDeviceImpl(bool On)
 	  xc.main_menu_mode = CloseOsd; /* will be executed in future by vdr main thread */
 	  cRemote::CallPlugin("xineliboutput");
 	}
+#if VDRVERSNUM >= 20301
+        LOCK_CHANNELS_READ;
+        const cChannel *channel = Channels->GetByNumber(CurrentChannel());
+#else
 	cChannel *channel = Channels.GetByNumber(CurrentChannel());
+#endif
 	cDevice::SetPrimaryDevice(m_OriginalPrimaryDevice);
 	PrimaryDevice()->SwitchChannel(channel, true);
 	m_OriginalPrimaryDevice = 0;
@@ -586,7 +591,12 @@ void cXinelibDevice::StopOutput(void)
 
 static bool IsRadioChannel(int ChannelNumber)
 {
+#if VDRVERSNUM >= 20301
+    LOCK_CHANNELS_READ;
+    const cChannel *Channel = Channels->GetByNumber(ChannelNumber);
+#else
     const cChannel *Channel = Channels.GetByNumber(ChannelNumber);
+#endif
     if (Channel && !Channel->Vpid() && (Channel->Apid(0) || Channel->Apid(1)))
       return true;
     return false;
