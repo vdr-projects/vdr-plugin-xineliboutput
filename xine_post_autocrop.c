@@ -510,7 +510,7 @@ static int blank_line_Y_sse(uint8_t *data, int length)
   static const __m128_wrapper gmask = {{YNOISEFILTER32, YNOISEFILTER32,
 					YNOISEFILTER32, YNOISEFILTER32}};
   __m128 *data128 = (__m128*)(((long int)(data) + 32 + 15) & (~15));
-  register __m128 sum1, sum2, zero, mask;
+  register __m128 sum1, sum2, zero;
 
   length -= 64; /* skip borders (2 x 32 pixels) */
   length /= 16; /* 16 bytes / loop */
@@ -525,7 +525,6 @@ static int blank_line_Y_sse(uint8_t *data, int length)
    */
 
   zero = _mm_setzero_ps();
-  mask = gmask.m128;
   sum1 = zero;
   sum2 = zero;
 
