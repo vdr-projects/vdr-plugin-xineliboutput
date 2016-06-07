@@ -61,14 +61,16 @@ WARNING
   be stopped to first router regardless of network configuration.
 
 
+Git
+
+  Latest fixes are available from sourceforge.net public GIT repository.
+
+  GIT checkout command:
+  git clone git://git.code.sf.net/p/xineliboutput/git xineliboutput-git
+
 Public CVS
 
-  Latest fixes are available from sourceforge.net public CVS
-  (http://sourceforge.net/cvs/?group_id=160063).
-
-  CVS checkout command:
-  cvs -d:pserver:anonymous@xineliboutput.cvs.sourceforge.net:/cvsroot/xineliboutput co vdr-xineliboutput
-
+  CVS is not updated anymore.
 
 Buildtime options
 

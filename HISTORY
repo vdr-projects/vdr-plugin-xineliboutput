@@ -3,6 +3,7 @@ VDR Plugin 'xineliboutput' Revision History
 
 ????-??-??: Version 2.0.0
 
+- Moved from CVS to GIT (see README)
 - Support vdr-2.3.1
 - Support for cDevice::ScaleVideo()
 - Dropped support for vdr < 2.0
