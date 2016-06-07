@@ -343,6 +343,7 @@ endif
 install-lib: $(TARGETS_VDR)
 ifeq ($(XINELIBOUTPUT_VDRPLUGIN), yes)
 	@echo Installing $^
+	@mkdir -p $(DESTDIR)$(LIBDIR)
 	install -D $^ $(DESTDIR)$(LIBDIR)/
 endif
 
