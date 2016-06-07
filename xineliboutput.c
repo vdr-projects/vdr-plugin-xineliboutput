@@ -160,6 +160,7 @@ const char cmdLineHelp[] =
 "                           there are active frontend(s)\n"
 "  -c        --exit-on-close  Exit vdr when local frontend window is closed\n"
 "  -C        --config=file  Use xine-lib config file\n"
+"  -t        --truecolor    Support True Color OSD if no client is connected\n"
 ;
 
 const char *cPluginXinelibOutput::CommandLineHelp(void)

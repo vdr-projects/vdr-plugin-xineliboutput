@@ -741,7 +741,7 @@ bool config_t::ProcessArg(const char *Name, const char *Value)
 
 bool config_t::ProcessArgs(int argc, char *argv[])
 {
-  static const char short_options[] = "fDw:h:l:mr:A:V:d:P:C:pc";
+  static const char short_options[] = "fDw:h:l:mr:A:V:d:P:C:pct";
 
   static const struct option long_options[] = {
       { "fullscreen",   no_argument,       NULL, 'f' },
@@ -764,6 +764,7 @@ bool config_t::ProcessArgs(int argc, char *argv[])
       { "config",       required_argument, NULL, 'C' },
       { "primary",      no_argument,       NULL, 'p' },
       { "exit-on-close",no_argument,       NULL, 'c' },
+      { "truecolor",    no_argument,       NULL, 't' },
       { NULL,           no_argument,       NULL,  0  }
     };
 
@@ -781,6 +782,8 @@ bool config_t::ProcessArgs(int argc, char *argv[])
               break;
     case 'f': ProcessArg("Fullscreen", "1");
               break;
+    case 't': ProcessArg("truecoloreverytime", "1");
+	      break;
     case 'D': ProcessArg("X11.HUDOSD", "1");
               if (optarg && strstr(optarg, "xshape")) {
                 ProcessArg("XShapeHUDOSD", "1");
@@ -899,6 +902,7 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "X11.OpenglAlways")) opengl = atoi(Value);
   else if (!strcasecmp(Name, "X11.OpenglHUDOSD")) hud_osd |= (atoi(Value) ? HUD_OPENGL : 0);
   else if (!strcasecmp(Name, "X11.XShapeHUDOSD")) hud_osd |= (atoi(Value) ? HUD_XSHAPE : 0);
+  else if (!strcasecmp(Name, "truecoloreverytime")) truecoloreverytime = atoi(Value);
 
   else if (!strcasecmp(Name, "Audio.Driver")) STRN0CPY(audio_driver, Value);
   else if (!strcasecmp(Name, "Audio.Port"))   STRN0CPY(audio_port, Value);

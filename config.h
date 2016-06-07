@@ -294,6 +294,7 @@ class config_t {
     int  window_id;        // use existing X11 window
     int  hud_osd;          // head up display OSD
     int  opengl;           // use opengl acceleration for video and HUD OSD
+    int  truecoloreverytime;
 
     // Audio settings
     int  speaker_type;

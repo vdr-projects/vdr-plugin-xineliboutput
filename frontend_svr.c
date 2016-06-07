@@ -783,7 +783,7 @@ int cXinelibServer::SupportsTrueColorOSD(void)
         has_clients++;
     }
 
-  return has_clients ? 1 : -1;
+  return has_clients || xc.truecoloreverytime ? 1 : -1;
 }
 
 int cXinelibServer::PlayFileCtrl(const char *Cmd, int TimeoutMs)
