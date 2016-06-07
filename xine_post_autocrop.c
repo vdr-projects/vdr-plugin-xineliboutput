@@ -223,10 +223,8 @@ typedef struct autocrop_post_plugin_s
 #endif
 
 # if defined(__SSE__)
-#  warning Compiling with SSE support
 #  include <xmmintrin.h>
 # elif defined(__MMX__)
-#  warning Compiling with MMX support
 #  include <mmintrin.h>
 # endif
 
