@@ -80,6 +80,9 @@ INSTALL ?= install
 
 -include Make.config
 
+ifeq ($(strip $(BINDIR)),)
+  BINDIR = /usr/bin
+endif
 
 ###
 ### check for VDR
