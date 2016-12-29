@@ -1,0 +1,11 @@
+.dependencies
+config.mak
+configure.log
+features.h
+nosignal_720x576.c
+
+mpg2c
+vdr-sxfe
+vdr-fbfe
+*.o
+*.so
