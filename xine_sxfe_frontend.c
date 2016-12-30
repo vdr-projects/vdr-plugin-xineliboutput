@@ -1022,6 +1022,15 @@ static int hud_osd_command(frontend_t *this_gen, struct osd_command_s *cmd)
     if (!(cmd->flags & OSDFLAG_TOP_LAYER))
       return 1;
 
+    if (this->osd_height > HUD_MAX_HEIGHT ||
+        this->osd_width  > HUD_MAX_WIDTH) {
+      // XXX TODO crop or scale ?
+      // really dimensions should be runtime param, not constant...
+      LOGMSG("HUD ERROR: Unsupported OSD size: %dx%d is larger than %dx%d",
+             this->osd_width, this->osd_height, HUD_MAX_WIDTH, HUD_MAX_HEIGHT);
+      return 1;
+    }
+
     XLockDisplay(this->display);
     switch (cmd->cmd) {
     case OSD_Nop: /* Do nothing ; used to initialize delay_ms counter */
