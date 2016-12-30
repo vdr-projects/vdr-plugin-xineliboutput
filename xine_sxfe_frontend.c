@@ -2797,7 +2797,18 @@ static void XConfigureEvent_handler(sxfe_t *this, XConfigureEvent *cev)
 
       /* inform VDR about new size */
       char str[128];
-      snprintf(str, sizeof(str), "INFO WINDOW %dx%d", this->x.width, this->x.height);
+      int w = this->x.width;
+      int h = this->x.height;
+#ifdef HAVE_XRENDER
+      // XXX quick fix for UHD displays. Should be fixed in overlay handling, not here.
+      if (this->hud) {
+        if (w > HUD_MAX_WIDTH)
+          w = HUD_MAX_WIDTH;
+        if (h > HUD_MAX_HEIGHT)
+          h = HUD_MAX_HEIGHT;
+      }
+#endif
+      snprintf(str, sizeof(str), "INFO WINDOW %dx%d", w, h);
       this->x.fe.send_event((frontend_t*)this, str);
     }
   }
