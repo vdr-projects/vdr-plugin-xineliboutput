@@ -91,7 +91,7 @@ void cXinelibThread::KeypressHandler(const char *keymap, const char *key,
     if (!remote->Put(key, repeat, release)) {
       if (!strcmp(keymap, "KBD")) {
         uint64_t value = 0;
-        sscanf(key, "%"PRIX64, &value);
+        sscanf(key, "%" PRIX64, &value);
         if (value) {
           remote->cRemote::Put(KBDKEY(value));
           return;

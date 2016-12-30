@@ -680,7 +680,7 @@ void cUdpScheduler::Schedule(const uchar *Data, int Length)
 
   if (DATA_IS_TS(Data)) {
     if (ts_get_pcr_n(Data, Length/TS_SIZE, &pts)) {
-      LOGSCR("UDP PCR: %"PRId64, pts);
+      LOGSCR("UDP PCR: %" PRId64, pts);
       ScrSource = eScrFromPcr;
       elapsed   = CalcElapsedVtime(pts, eScrFromPcr);
     }
