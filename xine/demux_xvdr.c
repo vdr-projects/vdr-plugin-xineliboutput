@@ -261,6 +261,8 @@ static void put_control_buf(fifo_buffer_t *buffer, fifo_buffer_t *pool, int cmd)
   if(buf) {
     buf->type = cmd;
     buffer->put(buffer, buf);
+  } else {
+    LOGERR("put_control_buf(0x%08x): get_buf_element() failed !", (unsigned)cmd);
   }
 }
 
@@ -281,6 +283,8 @@ static void post_sequence_end(fifo_buffer_t *fifo, uint32_t video_type)
     buf->content[2] = 0x01;
     buf->content[3] = (video_type == BUF_VIDEO_H264) ? NAL_END_SEQ : SC_SEQUENCE_END;
     fifo->put(fifo, buf);
+  } else {
+    LOGERR("post_sequence_end(): get_buf_element() failed !");
   }
 }
 
