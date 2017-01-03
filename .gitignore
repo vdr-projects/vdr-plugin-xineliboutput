@@ -2,10 +2,18 @@
 config.mak
 configure.log
 features.h
-nosignal_720x576.c
 
-mpg2c
-vdr-sxfe
-vdr-fbfe
+black_720x576.c
+nosignal_720x576.c
+vdrlogo_720x576.c
+
 *.o
 *.so
+libvdr-*.so.*
+libxineliboutput-*.so.*
+mpg2c
+vdr-fbfe
+vdr-sxfe
+
+po/*.mo
+po/*.pot
