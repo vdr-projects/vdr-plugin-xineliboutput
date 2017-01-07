@@ -423,6 +423,7 @@ int ts_parse_pmt (pmt_data_t *pmt, uint program_no, const uint8_t *pkt)
       case ISO_14496_PART2_VIDEO:
       case ISO_14496_PART10_VIDEO:
       case STREAM_VIDEO_VC1:
+      case STREAM_VIDEO_HEVC:
         LOGPMT("parse_pmt: video pid 0x%.4x type %2.2x", pid, stream[0]);
         if (pmt->video_pid == INVALID_PID) {
           pmt->video_pid  = pid;
