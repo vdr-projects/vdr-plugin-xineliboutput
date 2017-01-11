@@ -1828,7 +1828,7 @@ void cXinelibServer::Action(void)
   TRACEF("cXinelibServer::Action");
 
   int    i, fds=0;
-  pollfd pfd[MAXCLIENTS];
+  pollfd pfd[2*MAXCLIENTS + 2];
 
   /* higher priority */
   if (have_cap_sys_nice())
