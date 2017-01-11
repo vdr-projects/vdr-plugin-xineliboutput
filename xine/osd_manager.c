@@ -671,7 +671,7 @@ static int exec_osd_set_argb(osd_manager_impl_t *this, osd_command_t *cmd)
 
   /* allocate buffer */
   if (!osd->argb_buffer) {
-    osd->argb_buffer = calloc(sizeof(uint32_t), osd->extent_width * osd->extent_height);
+    osd->argb_buffer = calloc(sizeof(uint32_t), (size_t)osd->extent_width * (size_t)osd->extent_height);
   }
   if (!osd->argb_layer) {
     set_argb_layer(&osd->argb_layer, argb_layer_create());
