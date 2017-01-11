@@ -186,6 +186,7 @@ bool cUdpScheduler::AddRtp(void)
 
   if(xc.remote_local_ip[0]) {
     struct sockaddr_in name;
+    memset(&name, 0, sizeof(name));
     name.sin_family = AF_INET;
     name.sin_addr.s_addr = inet_addr(xc.remote_local_ip);
     if(name.sin_addr.s_addr == INADDR_NONE)

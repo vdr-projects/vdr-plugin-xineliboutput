@@ -838,6 +838,7 @@ bool cXinelibServer::Listen(int listen_port)
 
     int iReuse = 1;
     struct sockaddr_in name;
+    memset(&name, 0, sizeof(name));
     name.sin_family = AF_INET;
     name.sin_addr.s_addr = htonl(INADDR_ANY);
     name.sin_port = htons(m_Port);

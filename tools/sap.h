@@ -145,6 +145,7 @@ static inline int sap_send_pdu(int *pfd, sap_pdu_t *pdu, uint32_t dst_ip)
 
     // Connect to multicast address
     struct sockaddr_in sin;
+    memset(&sin, 0, sizeof(sin));
     sin.sin_family = AF_INET;
     sin.sin_port = htons(SAP_UDP_PORT);
     sin.sin_addr.s_addr = dst_ip ? dst_ip : inet_addr(SAP_IP_ADDRESS_GLOBAL);
