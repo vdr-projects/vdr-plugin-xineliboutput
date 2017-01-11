@@ -1827,7 +1827,6 @@ void cXinelibServer::Action(void)
 {
   TRACEF("cXinelibServer::Action");
 
-  int    i, fds=0;
   pollfd pfd[2*MAXCLIENTS + 2];
 
   /* higher priority */
@@ -1856,9 +1855,9 @@ void cXinelibServer::Action(void)
   m_bReady=true;
 
   if(fd_listen>=0)
-    while (Running() && fds>=0) {
+    while (Running()) {
+      int i, fds = 0;
 
-      fds = 0;
       if(fd_listen>=0) {
         pfd[fds].fd = fd_listen;
         pfd[fds++].events = POLLIN;
