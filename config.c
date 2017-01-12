@@ -732,7 +732,7 @@ uint8_t *config_t::readonly_options = &g_readonly_options[0];
 cString config_t::m_ProcessedArgs;
 bool config_t::ProcessArg(const char *Name, const char *Value)
 {
-  if(SetupParse(Name, Value)) {
+  if (Name && Value && SetupParse(Name, Value)) {
     m_ProcessedArgs = cString::sprintf("%s%s ", *m_ProcessedArgs ? *m_ProcessedArgs : " ", Name);
     return true;
   }
