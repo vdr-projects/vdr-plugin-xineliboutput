@@ -5102,7 +5102,7 @@ static void vdr_plugin_dispose (input_plugin_t *this_gen)
 
     if(fd >= 0 && this->tcp) {
       LOGDBG("Shutdown data");
-      setsockopt(fc, SOL_SOCKET, SO_LINGER, &l, sizeof(struct linger));
+      setsockopt(fd, SOL_SOCKET, SO_LINGER, &l, sizeof(struct linger));
       shutdown(fd, SHUT_RDWR);
     }
   }
