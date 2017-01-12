@@ -1490,8 +1490,8 @@ void cXinelibServer::Handle_Control_RTSP(int cli, const char *arg)
 
     if(!xc.remote_use_rtsp) {
       LOGMSG("RTSP transport disabled in configuration");
-      fd_control[cli].write_cmd(RTSP_401);
-      LOGDBG("HTTP Reply: HTTP/1.1 404 Not Found");
+      RTSPOUT(RTSP_401);
+      LOGDBG("RTSP Reply: HTTP/1.1 404 Not Found");
       CloseConnection(cli);
       return;
     }
