@@ -1888,6 +1888,7 @@ eOSState cTestGrayscale::ProcessKey(eKeys key)
 	return osEnd;
       case kRight:
 	br += 0xffff/1024*2;
+        /* fall thru */
       case kLeft:
 	br -= 0xffff/1024;
 	sprintf(s, "b %d", br);
@@ -1897,6 +1898,7 @@ eOSState cTestGrayscale::ProcessKey(eKeys key)
 	return osContinue;	
       case kUp:
 	co += 0xffff/1024*2;
+        /* fall thru */
       case kDown:
 	co -= 0xffff/1024;
 	sprintf(s, "c %d", co);

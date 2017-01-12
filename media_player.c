@@ -751,6 +751,7 @@ eOSState cXinelibPlayerControl::ProcessKey(eKeys Key)
       case kUser9:
       case k3:      m_Player->Control("SEEK +20");  break;
       case k2:      xc.subtitle_vpos -= 10;
+                    /* fall thru */
       case k5:      xc.subtitle_vpos += 5;
                     m_Player->Control("SUBTITLES %d", xc.subtitle_vpos);
                     break;
