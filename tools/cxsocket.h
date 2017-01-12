@@ -137,7 +137,9 @@ static inline void set_socket_buffers(int s, int txbuf, int rxbuf)
   /*}*/
 
   max_buf = rxbuf;
-  setsockopt(s, SOL_SOCKET, SO_RCVBUF, &max_buf, sizeof(int));
+  if (setsockopt(s, SOL_SOCKET, SO_RCVBUF, &max_buf, sizeof(int)) < 0) {
+    LOGERR("setsockopt(SO_RCVBUF,%d) failed", max_buf);
+  }
 }
 
 //

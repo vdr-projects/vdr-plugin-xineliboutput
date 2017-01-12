@@ -139,9 +139,11 @@ static inline int sap_send_pdu(int *pfd, sap_pdu_t *pdu, uint32_t dst_ip)
       return -1;
     }
 
-    setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &iReuse, sizeof(int));
-    setsockopt(fd, IPPROTO_IP, IP_MULTICAST_TTL, &iTtl, sizeof(int));
-    setsockopt(fd, IPPROTO_IP, IP_MULTICAST_LOOP, &iLoop, sizeof(int));
+    if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &iReuse, sizeof(int)) < 0 ||
+        setsockopt(fd, IPPROTO_IP, IP_MULTICAST_TTL, &iTtl, sizeof(int)) < 0 ||
+        setsockopt(fd, IPPROTO_IP, IP_MULTICAST_LOOP, &iLoop, sizeof(int) < 0)) {
+      LOGERR("UDP/SAP multicast setsockopt() failed.");
+    }
 
     // Connect to multicast address
     struct sockaddr_in sin;
@@ -154,7 +156,9 @@ static inline int sap_send_pdu(int *pfd, sap_pdu_t *pdu, uint32_t dst_ip)
       LOGERR("UDP/SAP multicast connect() failed.");
     
     // Set to non-blocking mode
-    fcntl (fd, F_SETFL, fcntl (fd, F_GETFL) | O_NONBLOCK);
+    if (fcntl (fd, F_SETFL, fcntl (fd, F_GETFL) | O_NONBLOCK) < 0) {
+      LOGERR("UDP/SAP multicast: error setting non-blocking mode");
+    }
 
     if(pfd)
       *pfd = fd;
