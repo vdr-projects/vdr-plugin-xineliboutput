@@ -5600,6 +5600,7 @@ retry_request:
   if(readline_control(this, cmd, sizeof(cmd)-1, 4) < 6 ||
      strncmp(cmd, "UDP OK", 6)) {
     LOGMSG("Server does not support UDP ? (%s)", cmd);
+    close(fd);
     return -1;
   }
 
