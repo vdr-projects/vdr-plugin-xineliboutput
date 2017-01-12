@@ -247,10 +247,15 @@ buf_element_t *ts2es_put(ts2es_t *this, uint8_t *data, fifo_buffer_t *src_fifo)
   /* check if PES packet is complete */
   if (this->pes_len > 0) {
     if (this->pes_len <= bytes) {
-      this->buf->decoder_flags |= BUF_FLAG_FRAME_END;
-      result = this->buf;
-      this->buf = NULL;
-      this->pes_error = 1; /* to drop rest of data */
+      /* XXX FIXME: one call to ts2es_put may result in two output packets
+       * if stream mixes known-length and unknown-length packets. */
+      if (!result) {
+        this->buf->decoder_flags |= BUF_FLAG_FRAME_END;
+        result = this->buf;
+        this->buf = NULL;
+        this->pes_error = 1; /* to drop rest of data */
+      }
+      this->pes_len = 0;
     } else {
       this->pes_len -= bytes;
     }
