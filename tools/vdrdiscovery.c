@@ -232,7 +232,6 @@ int udp_discovery_find_server(int *port, char *address)
 	if(!strncmp(mystring, buf, strlen(mystring))) {
           char *iploc;
 	  LOGDBG("Valid discovery message");
-	  close(fd_discovery);
 
 	  // default: use broadcast source address
 	  sprintf(address, "%d.%d.%d.%d",
@@ -261,9 +260,11 @@ int udp_discovery_find_server(int *port, char *address)
 	  }
 
 	  *port = -1;
-	  if(1 == sscanf(buf + strlen(mystring), "%d", port) && 
-	     *port >= 1000 && *port <= 0xffff)
+          if(1 == sscanf(buf + strlen(mystring), "%d", port) &&
+             *port >= 1000 && *port <= 0xffff) {
+            close(fd_discovery);
 	    return 1;
+          }
 	  LOGMSG("Server-given port is invalid !");
 	} else {
 	  LOGDBG("NOT valid discovery message");
