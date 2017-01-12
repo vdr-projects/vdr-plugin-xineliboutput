@@ -589,6 +589,11 @@ cMenuXinelib::cMenuXinelib(cXinelibDevice *Dev)
 
   novideo = m_Dev->GetPlayMode() == pmAudioOnlyBlack ? 1 : 0;
 
+  audio_ctrl_compress = NULL;
+  ctrl_autocrop = NULL;
+  ctrl_overscan = NULL;
+  ctrl_novideo = NULL;
+
   Add(SeparatorItem(tr("Media")));
   if (xc.media_menu_items & MEDIA_MENU_FILES)
     Add(SubMenuItem(tr("Play file"),        osUser1));

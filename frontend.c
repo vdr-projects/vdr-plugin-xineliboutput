@@ -255,6 +255,7 @@ cXinelibThread::cXinelibThread(cXinelibDevice *Dev, const char *Description) : c
   m_bEndOfStreamReached = false;
   m_bPlayingFile = false;
   m_StatusMonitor = NULL;
+  m_SpuLangAuto = true;
 }
 
 cXinelibThread::~cXinelibThread()
