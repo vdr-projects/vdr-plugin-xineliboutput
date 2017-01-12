@@ -5858,8 +5858,10 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
 	LOGMSG("Data stream connected (TCP)");
       } else {
 	/* failed */
-	close(this->fd_data);
-	close(this->fd_control);
+        if (this->fd_data >= 0)
+          close(this->fd_data);
+        if (this->fd_control >= 0)
+          close(this->fd_control);
 	this->fd_control = this->fd_data = -1;
 	return 0;
       }
