@@ -141,7 +141,7 @@ static inline int sap_send_pdu(int *pfd, sap_pdu_t *pdu, uint32_t dst_ip)
 
     if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &iReuse, sizeof(int)) < 0 ||
         setsockopt(fd, IPPROTO_IP, IP_MULTICAST_TTL, &iTtl, sizeof(int)) < 0 ||
-        setsockopt(fd, IPPROTO_IP, IP_MULTICAST_LOOP, &iLoop, sizeof(int) < 0)) {
+        setsockopt(fd, IPPROTO_IP, IP_MULTICAST_LOOP, &iLoop, sizeof(int)) < 0) {
       LOGERR("UDP/SAP multicast setsockopt() failed.");
     }
 
