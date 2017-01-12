@@ -129,7 +129,7 @@ static void __pplugin_update_parameters(xine_post_t *post, char *args)
         while((*p != '\0') && (*p != '='))
           p++;
 
-        if(p && strlen(p)) {
+        if(*p) {
           int param_num = 0;
 
           *p++ = '\0';
