@@ -522,7 +522,7 @@ int cXinelibThread::Play_Mpeg1_PES(const uchar *data1, int len)
       r = Play(data2, newlen + 6);
     } 
   
-    delete data2;
+    delete [] data2;
     return r==newlen+6 ? ((data1[4]<<8)|data1[5])+6 : 0;
   }
   return len; // nothing useful found ...
@@ -563,7 +563,7 @@ bool cXinelibThread::Play_Mpeg2_ES(const uchar *data, int len, int streamID, boo
     Poll(p, 100);
 
     if (blocklen + hdrlen != Play(frame, blocklen + hdrlen)) {
-      delete frame;
+      delete [] frame;
       return false;
     }
   }
