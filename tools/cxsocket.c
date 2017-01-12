@@ -300,6 +300,8 @@ ssize_t cxSocket::printf(const char *fmt, ...)
 
   va_start(argp, fmt);
   r = vsnprintf(buf, sizeof(buf), fmt, argp);
+  va_end(argp);
+
   if(r<0)
     LOGERR("cxSocket::printf: vsnprintf failed");
   else if(r >= (int)sizeof(buf))
