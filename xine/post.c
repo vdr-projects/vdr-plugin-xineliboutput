@@ -344,6 +344,7 @@ void pplugin_parse_and_store_post(fe_t *fe, int plugin_type,
 
       (*_post_elements)[i] = NULL;
       (*_post_elements_num) += num;
+      free(posts);
     }
     else {
       *_post_elements     = posts;
