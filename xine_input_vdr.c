@@ -5709,7 +5709,6 @@ static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host,
 static int connect_pipe_data_stream(vdr_input_plugin_t *this)
 {
   char tmpbuf[256];
-  int fd_data = -1;
 
   /* check if IP address matches */
   if(!strstr(this->mrl, "127.0.0.1")) {
@@ -5734,6 +5733,7 @@ static int connect_pipe_data_stream(vdr_input_plugin_t *this)
   } else if(strncmp(tmpbuf, "PIPE /", 6)) {
     LOGMSG("Server does not support pipes ? (%s)", tmpbuf);
   } else {
+    int fd_data;
 
     LOGMSG("Connecting (data) to pipe://%s", tmpbuf+5);
     if((fd_data = open(tmpbuf+5, O_RDONLY|O_NONBLOCK)) < 0) {
@@ -5749,10 +5749,11 @@ static int connect_pipe_data_stream(vdr_input_plugin_t *this)
 	return fd_data;
       }
       LOGMSG("Data stream connection failed (PIPE)");
+      close(fd_data);
     } 
   }
 
-  close(fd_data);
+
   return -1;
 }
 
