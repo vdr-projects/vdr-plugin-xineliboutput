@@ -1540,7 +1540,9 @@ void cXinelibServer::Handle_Control_RTSP(int cli, const char *arg)
                 "Content-Length: %lu\r\n"
                 "\r\n",
                 CSeq, (unsigned long)sdplen);
-        fd_control[cli].write_cmd(sdp_descr, sdplen);
+        if (sdplen) {
+          fd_control[cli].write_cmd(sdp_descr, sdplen);
+        }
       } else {
         RTSPOUT(RTSP_415 /*UNSUPPORTED_MEDIATYPE*/);
       }
