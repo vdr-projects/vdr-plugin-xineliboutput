@@ -620,6 +620,7 @@ bool cXinelibThread::LogoDisplay(void)
   if(fd >= 0) {
     uint8_t *data = (uint8_t*)malloc(STARTUP_MAX_SIZE);
     int datalen = read(fd, data, STARTUP_MAX_SIZE);
+    close(fd);
     if(datalen == STARTUP_MAX_SIZE) {
       LOGMSG("WARNING: custom startup image %s too large", *Path);
     } else if(datalen<=0) {
@@ -633,7 +634,6 @@ bool cXinelibThread::LogoDisplay(void)
       return r;
     }
     free(data);
-    close(fd);
   }
   
   /* use default image */
