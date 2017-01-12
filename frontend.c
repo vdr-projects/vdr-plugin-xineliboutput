@@ -472,8 +472,11 @@ int cXinelibThread::Play_Mpeg1_PES(const uchar *data1, int len)
       i1 += 2;
     }
     
-    if(len<i1+5) return len;
-    
+    if (len < i1 + 5) {
+      delete[] data2;
+      return len;
+    }
+
     data2[i2++] = 0x80;
     
     if ((data1[i1] & 0xf0) == 0x20) { 
