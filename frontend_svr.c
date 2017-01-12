@@ -1022,7 +1022,9 @@ void cXinelibServer::Handle_Control_PIPE(int cli, const char *arg)
     return;
   }
 
-  fcntl(fd, F_SETFL, fcntl(fd, F_GETFL)|O_NONBLOCK);
+  if (fcntl(fd, F_SETFL, fcntl(fd, F_GETFL)|O_NONBLOCK) < 0) {
+    LOGERR("error setting pipe to non-blocking mode");
+  }
 
   //LOGDBG("cXinelibServer::Handle_Control: pipe %s open", pipeName);
 
@@ -1525,7 +1527,9 @@ void cXinelibServer::Handle_Control_RTSP(int cli, const char *arg)
         socklen_t len = sizeof(sin);
         char buf[64];
         uint32_t payload_type = VDRVERSNUM > 10702 ? SDP_PAYLOAD_MPEG_TS : SDP_PAYLOAD_MPEG_PES;
-        fd_control[cli].getsockname((struct sockaddr *)&sin, &len);
+        if (fd_control[cli].getsockname((struct sockaddr *)&sin, &len) < 0) {
+          LOGERR("Error getting control socket address");
+        }
         const char *sdp_descr = vdr_sdp_description(cxSocket::ip2txt(sin.sin_addr.s_addr,
                                                                      sin.sin_port, buf),
                                                     2001,
@@ -1799,8 +1803,9 @@ void cXinelibServer::Handle_ClientConnected(int fd)
   }
 
   int alive = 1;
-  setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &alive, sizeof(alive));
-
+  if (setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &alive, sizeof(alive)) < 0) {
+    LOGERR("error setting SO_KEEPALIVE");
+  }
   CloseDataConnection(cli);
 
   m_OsdTimeouts[cli] = 0;
