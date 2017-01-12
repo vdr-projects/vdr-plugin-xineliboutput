@@ -54,13 +54,13 @@ int mpeg2_get_video_size(const uint8_t *buf, int len, video_size_t *size)
 	  {0,1},
 	};
 
-	int d = (buf[i+4] << 16) | (buf[i+5] << 8) | buf[i+6];
-	int a = buf[i+7] >> 4;
+        unsigned d = (buf[i+4] << 16) | (buf[i+5] << 8) | buf[i+6];
+        unsigned a = (unsigned)buf[i+7] >> 4;
 
 	size->width  = (d >> 12);
 	size->height = (d & 0xfff);
 
-	memcpy(&size->pixel_aspect, &mpeg2_aspect[a], sizeof(mpeg_rational_t));
+        memcpy(&size->pixel_aspect, &mpeg2_aspect[a & 0xf], sizeof(mpeg_rational_t));
 	size->pixel_aspect.num *= size->height;
 	size->pixel_aspect.den *= size->width;
 
