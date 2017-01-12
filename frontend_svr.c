@@ -877,10 +877,12 @@ bool cXinelibServer::Listen(int listen_port)
   CLOSESOCKET(fd_discovery);
   if(xc.remote_usebcast) {
     fd_discovery = udp_discovery_init();
-    if(udp_discovery_broadcast(fd_discovery, m_Port, xc.remote_local_ip) < 0)
-      CLOSESOCKET(fd_discovery);
-    else
-      LOGMSG("Listening for UDP broadcasts on port %d", m_Port);
+    if (fd_discovery >= 0) {
+      if(udp_discovery_broadcast(fd_discovery, m_Port, xc.remote_local_ip) < 0)
+        CLOSESOCKET(fd_discovery);
+      else
+        LOGMSG("Listening for UDP broadcasts on port %d", m_Port);
+    }
   }
 
   // set up multicast sockets
