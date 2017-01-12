@@ -866,7 +866,12 @@ bool cXinelibServer::Listen(int listen_port)
       }
     }
     fd_listen = socket(PF_INET,SOCK_STREAM,0);
-    setsockopt(fd_listen, SOL_SOCKET, SO_REUSEADDR, &iReuse, sizeof(int));
+    if (fd_listen < 0) {
+      LOGERR("cXinelibServer: error creating listen socket");
+    } else {
+      if (setsockopt(fd_listen, SOL_SOCKET, SO_REUSEADDR, &iReuse, sizeof(int)) < 0) {
+        LOGERR("cXinelibServer: error setting REUSE for listen socket");
+      }
 
     if (bind(fd_listen, (struct sockaddr *)&name, sizeof(name)) < 0) {
       LOGERR("cXinelibServer: bind error %s port %d: %s",
@@ -880,6 +885,7 @@ bool cXinelibServer::Listen(int listen_port)
     } else {
       LOGMSG("Listening on port %d", m_Port);
       result = true;
+    }
     }
   } else {
     result = true;
