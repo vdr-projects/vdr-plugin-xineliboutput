@@ -627,8 +627,8 @@ void cUdpScheduler::Send_SAP(bool Announce)
                                               2001,
                                               xc.listen_port,
                                               xc.remote_rtp_addr,
-                                              payload_type,
                                               m_ssrc,
+                                              payload_type,
                                               xc.remote_rtp_port,
                                               xc.remote_rtp_ttl);
   if(!sdp_descr)
