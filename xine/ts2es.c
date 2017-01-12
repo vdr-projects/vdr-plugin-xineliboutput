@@ -310,6 +310,11 @@ ts2es_t *ts2es_init(fifo_buffer_t *dst_fifo, ts_stream_type stream_type, uint st
     case STREAM_VIDEO_VC1:
       data->xine_buf_type = BUF_VIDEO_VC1;
       break;
+#ifdef BUF_VIDEO_HEVC
+    case STREAM_VIDEO_HEVC:
+      data->xine_buf_type = BUF_VIDEO_HEVC;
+      break;
+#endif
 
     /* AUDIO (PES streams 0xc0...0xdf) */
     case  ISO_11172_AUDIO:
