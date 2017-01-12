@@ -5325,6 +5325,9 @@ static int alloc_udp_data_socket(int firstport, int trycount, int *port)
   name.sin_addr.s_addr = htonl(INADDR_ANY);
 
   fd = socket(PF_INET, SOCK_DGRAM, 0/*IPPROTO_UDP*/);
+  if (fd < 0) {
+    return -1;
+  }
 
   set_recv_buffer_size(fd, KILOBYTE(512));
 
