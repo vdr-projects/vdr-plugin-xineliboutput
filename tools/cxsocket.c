@@ -64,31 +64,7 @@ bool cxSocket::set_blocking(bool state)
 
 bool cxSocket::set_buffers(int Tx, int Rx)
 {
-  int max_buf = Tx;
-  /*while(max_buf) {*/
-    errno = 0;
-    if(setsockopt(m_fd, SOL_SOCKET, SO_SNDBUF, &max_buf, sizeof(int))) {
-      LOGERR("cxSocket: setsockopt(SO_SNDBUF,%d) failed", max_buf);
-      /*max_buf >>= 1;*/
-    }
-    /*else {*/
-      int tmp = 0;
-      int len = sizeof(int);
-      errno = 0;
-      if(getsockopt(m_fd, SOL_SOCKET, SO_SNDBUF, &tmp, (socklen_t*)&len)) {
-	LOGERR("cxSocket: getsockopt(SO_SNDBUF,%d) failed", max_buf);
-	/*break;*/
-      } else if(tmp != max_buf) {
-	LOGDBG("cxSocket: setsockopt(SO_SNDBUF): got %d bytes", tmp);
-	/*max_buf >>= 1;*/
-	/*continue;*/
-      }
-    /*}*/
-  /*}*/
-
-  max_buf = Rx;
-  setsockopt(m_fd, SOL_SOCKET, SO_RCVBUF, &max_buf, sizeof(int));
-
+  ::set_socket_buffers(m_fd, Tx, Rx);
   return true;
 }
 
