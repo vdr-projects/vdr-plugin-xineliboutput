@@ -959,10 +959,10 @@ static void fe_post_unload(const fe_t *this)
 
 static void fe_post_close(const fe_t *this, const char *name, int which)
 {
-  post_plugins_t *posts = this->postplugins;
-
   if(!this)
     return;
+
+  post_plugins_t *posts = this->postplugins;
 
   if(name && !strcmp(name, "AudioVisualization")) {
     name = NULL;
@@ -1042,12 +1042,12 @@ static int get_opt_val(const char *s, const char *opt)
 
 static void fe_post_open(const fe_t *this, const char *name, const char *args)
 {
+  if(!this || !this->xine || !this->stream || !name)
+    return;
+
   post_plugins_t *posts = this->postplugins;
   char initstr[1024];
   int found = 0;
-
-  if(!this || !this->xine || !this->stream || !name)
-    return;
 
   /* pip */
   if(!strcmp(name, "Pip")) {
