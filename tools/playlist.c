@@ -898,6 +898,9 @@ int cPlaylist::ReadPlaylist(const char *file)
     if(n >= MAX_PLAYLIST_FILES) 
       LOGMSG("cPlaylist: Found over %d matching files, list truncated!", n);
     LOGDBG("cPlaylist: Found %d matching files", n);
+
+    delete parser;
+
     return n;
   }
 
