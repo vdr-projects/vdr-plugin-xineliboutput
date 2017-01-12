@@ -314,6 +314,7 @@ frontend_t *cXinelibLocal::load_frontend(const char *fe_name)
 	LOGMSG("Frontend %s (%s) creation failed",
 	       xc.s_frontends[fe_ind], xc.s_frontendNames[fe_ind]);
       }
+      dlclose(lib);
     } else {
       LOGERR("Frontend entry point not found");
       dlclose(lib);
