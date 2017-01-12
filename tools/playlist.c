@@ -837,9 +837,9 @@ int cPlaylist::ReadPlaylist(const char *file)
   if(f) {
     LOGDBG("cPlaylist: parsing %s", file);
     const char *ext = strrchr(file, '.');
-    if(!strcasecmp(ext, ".pls"))
+    if(ext && !strcasecmp(ext, ".pls"))
       parser = new cPlsReader(*this);
-    else if(!strcasecmp(ext, ".asx"))
+    else if(ext && !strcasecmp(ext, ".asx"))
       parser = new cAsxReader(*this);
     else /*if(!strcasecmp(ext, ".m3u"))*/
       parser = new cM3uReader(*this); /* parses plain lists (.ram, ...) too ...*/
