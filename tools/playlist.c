@@ -290,7 +290,7 @@ class cPlaylistReader
   cPlaylistItem *Prev(void) { return m_Playlist.Last(); }
 
  public:
-  cPlaylistReader(cPlaylist& Playlist) : m_Playlist(Playlist) {}
+ cPlaylistReader(cPlaylist& Playlist) : m_Playlist(Playlist), m_Position(-1) {}
   virtual ~cPlaylistReader() {}
 
   virtual char *Parse(char *line) = 0;
