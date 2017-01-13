@@ -341,12 +341,13 @@ void cXinelibLocal::Action(void)
   SetPriority(2); /* lower priority */
 
   // init frontend
-  if(!curr_fe) {
+
     curr_fe = load_frontend(xc.local_frontend);
     if(!curr_fe) {
       LOGMSG("cXinelibLocal: Error initializing frontend");
       Cancel(-1);
-    } else {
+      return;
+    }
       LOGDBG("cXinelibLocal::Action - fe created");
       curr_fe->fe_message_cb = keypress_handler;
       curr_fe->fe_message_h  = this;
@@ -365,8 +366,6 @@ void cXinelibLocal::Action(void)
       } else {
 	LOGDBG("cXinelibLocal::Action - fe->fe_display_open ok");
       }
-    }
-  }
 
   // main loop
   while (Running()) {
