@@ -720,6 +720,7 @@ config_t::config_t() {
   main_menu_mode = ShowMenu;
   last_hotkey = -1;//kNone;
   force_primary_device = 0;
+  use_suspendoutput = 0;
 };
 
 #if 0
@@ -763,6 +764,7 @@ bool config_t::ProcessArgs(int argc, char *argv[])
       { "post",         required_argument, NULL, 'P' },
       { "config",       required_argument, NULL, 'C' },
       { "primary",      no_argument,       NULL, 'p' },
+      { "auto-suspend", no_argument,       NULL, 's' },
       { "exit-on-close",no_argument,       NULL, 'c' },
       { "truecolor",    no_argument,       NULL, 't' },
       { NULL,           no_argument,       NULL,  0  }
@@ -867,6 +869,8 @@ bool config_t::ProcessArgs(int argc, char *argv[])
               break;
     case 'p': ProcessArg("ForcePrimaryDevice", "1");
               break;
+    case 's': ProcessArg("AutoSuspendOutput", "1");
+              break;
     case 'c': exit_on_close = 1;
               break;
 
@@ -891,6 +895,7 @@ bool config_t::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "Fullscreen"))         fullscreen = atoi(Value);
   else if (!strcasecmp(Name, "DisplayAspect"))      display_aspect = strstra(Value, s_aspects, 0);
   else if (!strcasecmp(Name, "ForcePrimaryDevice")) force_primary_device = atoi(Value);
+  else if (!strcasecmp(Name, "AutoSuspendOutput"))  use_suspendoutput = atoi(Value);
 
   else if (!strcasecmp(Name, "X11.WindowId"))     window_id = (!strcmp(Value, "root")) ? WINDOW_ID_ROOT : atoi(Value);
   else if (!strcasecmp(Name, "X11.WindowWidth"))  width = atoi(Value);

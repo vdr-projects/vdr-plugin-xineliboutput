@@ -19,6 +19,7 @@
 #include <vdr/skins.h>
 #include <vdr/status.h>
 #include <vdr/remote.h>
+#include <vdr/plugin.h>
 
 //#define XINELIBOUTPUT_DEBUG
 //#define XINELIBOUTPUT_DEBUG_STDERR
@@ -395,6 +396,28 @@ void cXinelibDevice::ForcePrimaryDeviceImpl(bool On)
 	PrimaryDevice()->SwitchChannel(channel, true);
 	m_OriginalPrimaryDevice = 0;
       }
+    }
+  }
+
+  if (xc.use_suspendoutput && !m_local) {
+    cPlugin *p = cPluginManager::GetPlugin("suspendoutput");
+    if (p) {
+      bool result = true;
+      if (m_ForcePrimaryDeviceCnt == 0) {
+        LOGDBG("enabling suspendoutput");
+        result = p->Service("SuspendOutputPlugin-v1.0", (void*)"Suspend");
+      }
+      if (m_ForcePrimaryDeviceCnt == 1) {
+        LOGDBG("disabling suspendoutput");
+        result = p->Service("SuspendOutputPlugin-v1.0", (void*)"Resume");
+      }
+      if (!result) {
+        LOGERR("suspendoutput service failed. "
+               "--auto-suspend option requires vdr-suspendoutput plugin version 2.1.0 or later.");
+      }
+    } else {
+      LOGERR("suspendoutputr plugin not loaded ?");
+      LOGERR("--auto-suspend option requires vdr-suspendoutput plugin.");
     }
   }
 }

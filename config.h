@@ -264,6 +264,9 @@ class config_t {
     // Force xineliboutput to be the primary device
     int  force_primary_device;
 
+    // Use vdr-suspendoutput: suspend when there are no clients
+    int  use_suspendoutput;
+
     // OSD state
     eMainMenuMode  main_menu_mode;      // used internally to open right sub-menu
     cOsdObject    *pending_menu_action; // used to replace current OSD with another type of OSD object
