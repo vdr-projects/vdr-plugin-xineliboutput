@@ -32,16 +32,16 @@
 
 //------------------------------ cRwLockBlock ---------------------------------
 
-class cRwLockBlock 
+class cRwLockBlock
 {
   private:
     cRwLock& m_Lock;
 
   public:
-    cRwLockBlock(cRwLock& lock, bool write) : m_Lock(lock)  
-      { m_Lock.Lock(write);}
+    cRwLockBlock(cRwLock& lock, bool write) : m_Lock(lock)
+      { m_Lock.Lock(write); }
 
-    ~cRwLockBlock()  
+    ~cRwLockBlock()
       { m_Lock.Unlock(); }
 };
 
@@ -66,7 +66,7 @@ extern "C" {
     } else if (!xc.use_x_keyboard || !key) {
 
       /* Only X11 key events came this way in local mode.
-	 Keyboard is handled by vdr. */
+         Keyboard is handled by vdr. */
       LOGMSG("keypress_handler(%s): X11 Keyboard disabled in config", key);
 
     } else {
@@ -147,9 +147,9 @@ void cXinelibLocal::OsdCmd(void *cmd)
     fe->xine_osd_command(fe, (struct osd_command_s*)cmd);
 }
 
-uchar *cXinelibLocal::GrabImage(int &Size, bool Jpeg, 
-				int Quality, int SizeX, 
-				int SizeY)
+uchar *cXinelibLocal::GrabImage(int &Size, bool Jpeg,
+                                int Quality, int SizeX,
+                                int SizeY)
 {
   uchar *data;
   LOCK_FE;
@@ -181,7 +181,7 @@ int64_t cXinelibLocal::GetSTC()
 // Playback files
 //
 
-bool cXinelibLocal::EndOfStreamReached(void) 
+bool cXinelibLocal::EndOfStreamReached(void)
 {
   LOCK_THREAD;
   if(fe && fe->xine_is_finished(fe, 1))
@@ -193,9 +193,9 @@ bool cXinelibLocal::EndOfStreamReached(void)
 // Configuration
 //
 
-void cXinelibLocal::ConfigureWindow(int fullscreen, int width, int height, 
-				    int modeswitch, const char *modeline, 
-				    int aspect, int scale_video)
+void cXinelibLocal::ConfigureWindow(int fullscreen, int width, int height,
+                                    int modeswitch, const char *modeline,
+                                    int aspect, int scale_video)
 {
   LOCK_FE;
   if(fe)
@@ -211,10 +211,10 @@ void cXinelibLocal::ConfigureDecoder(int pes_buffers)
     LOCK_FE;
     xc.pes_buffers = pes_buffers;
     if(!fe)
-      return;    
+      return;
     m_bReady = false;
     m_bReconfigRequest = true;
-    fe->fe_interrupt(fe);    
+    fe->fe_interrupt(fe);
   }
 
   while (!m_bReady && Running())
@@ -290,7 +290,7 @@ frontend_t *cXinelibLocal::load_frontend(const char *fe_name)
       LOGERR("load_frontend: can't stat %s", libname);
     } else if((statbuffer.st_mode & S_IFMT) != S_IFREG) {
       LOGMSG("load_frontend: %s not regular file ! trying to load anyway ...",
-	     libname);
+             libname);
     }
 
     if ( !(lib = dlopen (libname, RTLD_LAZY | RTLD_GLOBAL))) {
@@ -301,18 +301,18 @@ frontend_t *cXinelibLocal::load_frontend(const char *fe_name)
       frontend_t *fe = (**fe_creator)();
 
       if (fe) {
-	if (h_fe_lib)
-	  dlclose(h_fe_lib);
-	h_fe_lib = lib;
+        if (h_fe_lib)
+          dlclose(h_fe_lib);
+        h_fe_lib = lib;
 
-	LOGDBG("Using frontend %s (%s) from %s",
-	       xc.s_frontends[fe_ind], xc.s_frontendNames[fe_ind],
-	       xc.s_frontend_files[fe_ind]);
+        LOGDBG("Using frontend %s (%s) from %s",
+               xc.s_frontends[fe_ind], xc.s_frontendNames[fe_ind],
+               xc.s_frontend_files[fe_ind]);
 
-	return fe;
+        return fe;
       } else {
-	LOGMSG("Frontend %s (%s) creation failed",
-	       xc.s_frontends[fe_ind], xc.s_frontendNames[fe_ind]);
+        LOGMSG("Frontend %s (%s) creation failed",
+               xc.s_frontends[fe_ind], xc.s_frontendNames[fe_ind]);
       }
       dlclose(lib);
     } else {
@@ -332,7 +332,7 @@ frontend_t *cXinelibLocal::load_frontend(const char *fe_name)
 // Thread main loop
 //
 
-void cXinelibLocal::Action(void) 
+void cXinelibLocal::Action(void)
 {
   frontend_t *curr_fe = NULL;
 
@@ -342,30 +342,30 @@ void cXinelibLocal::Action(void)
 
   // init frontend
 
-    curr_fe = load_frontend(xc.local_frontend);
-    if(!curr_fe) {
-      LOGMSG("cXinelibLocal: Error initializing frontend");
-      Cancel(-1);
-      return;
-    }
-      LOGDBG("cXinelibLocal::Action - fe created");
-      curr_fe->fe_message_cb = keypress_handler;
-      curr_fe->fe_message_h  = this;
-      if(!curr_fe->fe_display_open(curr_fe,
-                                   xc.xpos, xc.ypos, xc.width, xc.height, xc.fullscreen,
-                                   xc.hud_osd,
-                                   xc.opengl,
-                                   xc.modeswitch, xc.modeline, xc.display_aspect,
-                                   0/*no_x_kbd*/, 0/*gui_hotkeys*/, 0/*touchscreen*/,
-                                   xc.video_port,
-                                   xc.scale_video,
-                                   NULL,
-                                   xc.window_id)) {
-	LOGMSG("cXinelibLocal: Error initializing display");
-        Cancel(-1);
-      } else {
-	LOGDBG("cXinelibLocal::Action - fe->fe_display_open ok");
-      }
+  curr_fe = load_frontend(xc.local_frontend);
+  if(!curr_fe) {
+    LOGMSG("cXinelibLocal: Error initializing frontend");
+    Cancel(-1);
+    return;
+  }
+  LOGDBG("cXinelibLocal::Action - fe created");
+  curr_fe->fe_message_cb = keypress_handler;
+  curr_fe->fe_message_h  = this;
+  if(!curr_fe->fe_display_open(curr_fe,
+                               xc.xpos, xc.ypos, xc.width, xc.height, xc.fullscreen,
+                               xc.hud_osd,
+                               xc.opengl,
+                               xc.modeswitch, xc.modeline, xc.display_aspect,
+                               0/*no_x_kbd*/, 0/*gui_hotkeys*/, 0/*touchscreen*/,
+                               xc.video_port,
+                               xc.scale_video,
+                               NULL,
+                               xc.window_id)) {
+    LOGMSG("cXinelibLocal: Error initializing display");
+    Cancel(-1);
+  } else {
+    LOGDBG("cXinelibLocal::Action - fe->fe_display_open ok");
+  }
 
   // main loop
   while (Running()) {
@@ -377,13 +377,13 @@ void cXinelibLocal::Action(void)
 
       fe = curr_fe;
       if(m_bReconfigRequest) {
-	if(!fe->xine_init(fe, xc.audio_driver, xc.audio_port,
-			  xc.video_driver,
-			  xc.pes_buffers,
-			  xc.post_plugins, xc.config_file)) {
-	  LOGMSG("cXinelibLocal: Error initializing frontend");
-	  break;
-	}
+        if(!fe->xine_init(fe, xc.audio_driver, xc.audio_port,
+                          xc.video_driver,
+                          xc.pes_buffers,
+                          xc.post_plugins, xc.config_file)) {
+          LOGMSG("cXinelibLocal: Error initializing frontend");
+          break;
+        }
         LOGDBG("cXinelibLocal::Action - fe->xine_init ok");
         m_bReconfigRequest = false;
       }
@@ -404,7 +404,7 @@ void cXinelibLocal::Action(void)
       LOGDBG("cXinelibLocal::Action - fe->xine_play ok");
 
       m_StreamPos = 0;
-      Xine_Control("STREAMPOS 0"); 
+      Xine_Control("STREAMPOS 0");
       Xine_Control("VERSION " XINELIBOUTPUT_VERSION " " "\r\n");
     }
 
@@ -427,17 +427,17 @@ void cXinelibLocal::Action(void)
     }
 
     // main event loop
-    LOGDBG("cXinelibLocal:Action - Starting event loop");   
+    LOGDBG("cXinelibLocal:Action - Starting event loop");
     {
       LOCK_FE;
       while (Running() && m_bReady &&
              (/*m_bLoopPlay ||*/ !fe->xine_is_finished(fe, 0)) &&
              fe->fe_run(fe))
-	/*cCondWait::SleepMs(50)*/ ;
+        /*cCondWait::SleepMs(50)*/ ;
     }
 
     LOGDBG("cXinelibLocal::Action - event loop terminated, "
-	   "xine_is_finished=%d", fe->xine_is_finished(fe, 0));
+           "xine_is_finished=%d", fe->xine_is_finished(fe, 0));
 
     {
       LOCK_THREAD;
