@@ -905,14 +905,15 @@ bool cXinelibServer::Listen(int listen_port)
 
   // set up multicast sockets
 
-  if(m_Scheduler)
+  if(m_Scheduler) {
     m_Scheduler->RemoveRtp();
 
-  if(xc.remote_usertp) {
-    if(xc.remote_rtp_always_on)
-      LOGMSG("WARNING: RTP Configuration: transmission is always on !");
-    if(xc.remote_rtp_always_on || m_iMulticastMask)
-      m_Scheduler->AddRtp();
+    if(xc.remote_usertp) {
+      if(xc.remote_rtp_always_on)
+        LOGMSG("WARNING: RTP Configuration: transmission is always on !");
+      if(xc.remote_rtp_always_on || m_iMulticastMask)
+        m_Scheduler->AddRtp();
+    }
   }
 
   // AVAHI announces
