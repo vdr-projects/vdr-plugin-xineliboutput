@@ -52,7 +52,7 @@
 # error XINE_VERSION_CODE undefined !
 #endif
 
-#if XINE_VERSION_CODE >= 10190
+#if XINE_VERSION_CODE >= 10190 && XINE_VERSION_CODE < 10207
 # include "features.h"
 # ifdef HAVE_LIBAVUTIL
 #  include <libavutil/mem.h>
@@ -1284,6 +1284,46 @@ static void signal_buffer_not_empty(vdr_input_plugin_t *this)
 #if XINE_VERSION_CODE < 10190
 #  define fifo_buffer_new(stream, n, s) _x_fifo_buffer_new(n, s)
 #else
+static void fifo_buffer_dispose (fifo_buffer_t *this)
+{
+  buf_element_t *buf, *next;
+  int received = 0;
+
+  this->clear( this );
+  buf = this->buffer_pool_top;
+
+  while (buf != NULL) {
+
+    next = buf->next;
+
+    free (buf->extra_info);
+    free (buf);
+    received++;
+
+    buf = next;
+  }
+
+  while (received < this->buffer_pool_capacity) {
+
+    buf = this->get(this);
+
+    free(buf->extra_info);
+    free(buf);
+    received++;
+  }
+
+#if XINE_VERSION_CODE >= 10207
+  xine_free_aligned (this->buffer_pool_base);
+#else
+  av_free (this->buffer_pool_base);
+#endif
+  pthread_mutex_destroy(&this->mutex);
+  pthread_cond_destroy(&this->not_empty);
+  pthread_mutex_destroy(&this->buffer_pool_mutex);
+  pthread_cond_destroy(&this->buffer_pool_cond_not_empty);
+  free (this);
+}
+
 static fifo_buffer_t *fifo_buffer_new (xine_stream_t *stream, int num_buffers, uint32_t buf_size)
 {
   fifo_buffer_t *ref = stream->video_fifo;
@@ -1304,7 +1344,7 @@ static fifo_buffer_t *fifo_buffer_new (xine_stream_t *stream, int num_buffers, u
   this->size                = ref->size;
   this->num_free            = ref->num_free;
   this->data_size           = ref->data_size;
-  this->dispose             = ref->dispose;
+  this->dispose             = fifo_buffer_dispose;
   this->register_alloc_cb   = ref->register_alloc_cb;
   this->register_get_cb     = ref->register_get_cb;
   this->register_put_cb     = ref->register_put_cb;
@@ -1318,8 +1358,11 @@ static fifo_buffer_t *fifo_buffer_new (xine_stream_t *stream, int num_buffers, u
    * init buffer pool, allocate nNumBuffers of buf_size bytes each
    */
 
+#if XINE_VERSION_CODE >= 10207
+  multi_buffer = this->buffer_pool_base = xine_malloc_aligned (num_buffers * buf_size);
+#else
   multi_buffer = this->buffer_pool_base = av_mallocz (num_buffers * buf_size);
-
+#endif
   pthread_mutex_init (&this->buffer_pool_mutex, NULL);
   pthread_cond_init (&this->buffer_pool_cond_not_empty, NULL);
 
