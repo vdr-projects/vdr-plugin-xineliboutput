@@ -346,6 +346,14 @@ bool cXinelibDevice::ForcePrimaryDevice(bool On)
   m_MainThreadFunctors.Add(CreateFunctor(this, &cXinelibDevice::ForcePrimaryDeviceImpl, On));
   m_MainThreadLock.Unlock();
 
+  if (On) {
+    int timeout = 10;
+    while (this != cDevice::PrimaryDevice() && timeout-- > 0) {
+      isyslog("waiting for primary device ...");
+      cCondWait::SleepMs(100);
+    }
+  }
+
   return xc.force_primary_device ||
          (cDevice::PrimaryDevice() && this == cDevice::PrimaryDevice());
 }
