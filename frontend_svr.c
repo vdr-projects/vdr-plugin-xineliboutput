@@ -1761,7 +1761,7 @@ void cXinelibServer::Handle_ClientConnected(int fd)
     const char *msg = "Server busy.\r\n";
     ssize_t len = strlen(msg);
     // too many clients
-    LOGMSG("Too many clients, connection refused");
+    LOGMSG("Too many clients (%d), connection refused", cli);
     if(write(fd, msg, len) != len)
       LOGERR("Write failed.");
     CLOSESOCKET(fd);
