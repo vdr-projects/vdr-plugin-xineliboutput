@@ -106,6 +106,8 @@ protected:
     int  fd_listen;
     int  fd_discovery;
 
+    void *m_hAvahi;
+
     cxSocket fd_control[MAXCLIENTS];
     int      fd_data   [MAXCLIENTS];
 

@@ -45,6 +45,7 @@
 #include "tools/sdp.h"
 #include "tools/rle.h"
 #include "tools/sys_cap.h"
+#include "tools/avahi.h"
 
 #include "frontend_svr.h"
 #include "device.h"
@@ -136,6 +137,8 @@ cXinelibServer::cXinelibServer(cXinelibDevice *Dev, int listen_port) :
   m_Port = listen_port;
   m_ServerId = time(NULL) ^ getpid();
 
+  m_hAvahi = NULL;
+
   fd_listen    = -1;
   fd_discovery = -1;
 
@@ -184,6 +187,10 @@ cXinelibServer::~cXinelibServer()
   delete m_Scheduler;
 
   free(m_Header);
+
+  if (m_hAvahi) {
+    x_avahi_stop(m_hAvahi);
+  }
 }
 
 void cXinelibServer::Clear(void)
@@ -822,6 +829,11 @@ bool cXinelibServer::Listen(int listen_port)
   bool result = false;
   TRACEF("cXinelibServer::Listen");
 
+  if (m_hAvahi) {
+    x_avahi_stop(m_hAvahi);
+    m_hAvahi = NULL;
+  }
+
   if(listen_port <= 0 || listen_port > 0xffff) {
     CLOSESOCKET(fd_listen);
     CLOSESOCKET(fd_discovery);
@@ -896,6 +908,9 @@ bool cXinelibServer::Listen(int listen_port)
     if(xc.remote_rtp_always_on || m_iMulticastMask)
       m_Scheduler->AddRtp();
   }
+
+  // AVAHI announces
+  m_hAvahi = x_avahi_start(listen_port, xc.remote_use_rtsp, xc.remote_use_http);
 
   return result;
 }

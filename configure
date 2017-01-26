@@ -243,6 +243,7 @@ FEATURES="
   libbluray
   libcec
   mce-dbus-names
+  avahi-client
 "
 
 # set defaults
@@ -282,6 +283,7 @@ show_help(){
   echo "  --disable-vdpau        disable VDPAU support (X11) [no]"
   echo "  --disable-i18n         disable i18n support [no]"
   echo "  --disable-libcap       disable libcap support [no]"
+  echo "  --disable-avahi-client disable avahi support [no]"
   echo
   echo "  --debug                debug configure script"
   echo "  --disable-pkgconfig    do not use pkg-config"
@@ -336,7 +338,7 @@ done
 check_deps(){
   disabled libxine && disable x11 fb libavutil libjpeg libcec
   disabled x11     && disable dbus-glib-1 xshm xrandr xrender xshape opengl xdpms xinerama vdpau
-  disabled vdr     && disable libextractor libcap libbluray
+  disabled vdr     && disable libextractor libcap libbluray avahi-client
   disabled dlfcn   && disable opengl
   disabled pthread && disable opengl
   disabled xrender && disable xshape xshm
@@ -357,6 +359,7 @@ test_pkgconfig
 test_library     VDR   libextractor "extractor.h"        "-lextractor" "EXTRACTOR_getKeywords(0,0)"
 test_library     VDR   libcap       "sys/capability.h"   "-lcap"       "cap_get_proc()"
 test_library     VDR   libbluray    "libbluray/bluray.h" "-lbluray"    "bd_get_disc_info(0)"
+test_library     VDR   avahi-client "avahi-client/publish.h" "-lavahi-common -lavahi-client"    "avahi_client_new"
 test_library     XINE  libxine      "xine.h"             "-lxine"      "xine_init(0)"
 test_library     DLFCN dlfcn        "dlfcn.h"            "-ldl"        "dlopen(0,0)"
 

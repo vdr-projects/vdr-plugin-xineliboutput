@@ -201,7 +201,7 @@ endif
 ifeq ($(XINELIBOUTPUT_VDRPLUGIN), yes)
 OBJS = $(PLUGIN).o device.o frontend.o osd.o config.o menu.o setup_menu.o \
        menuitems.o media_player.o equalizer.o \
-       frontend_local.o frontend_svr.o \
+       frontend_local.o frontend_svr.o tools/avahi.o \
        tools/cxsocket.o tools/udp_pes_scheduler.o \
        tools/backgroundwriter.o tools/playlist.o tools/http.o \
        tools/vdrdiscovery.o tools/time_pts.o tools.o \
