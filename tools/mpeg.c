@@ -47,25 +47,25 @@ int mpeg2_get_video_size(const uint8_t *buf, int len, video_size_t *size)
   int i;
   for (i = 0; i < len-6; i++) {
     if (IS_SC_SEQUENCE(buf + i)) {
-	static const mpeg_rational_t mpeg2_aspect[16] = {
-	  {0,1}, {1,1}, {4,3}, {16,9}, {221,100},
-	  {0,1}, {0,1}, {0,1}, { 0,1}, {  0,1},
-	  {0,1}, {0,1}, {0,1}, { 0,1}, {  0,1},
-	  {0,1},
-	};
+      static const mpeg_rational_t mpeg2_aspect[16] = {
+        {0,1}, {1,1}, {4,3}, {16,9}, {221,100},
+        {0,1}, {0,1}, {0,1}, { 0,1}, {  0,1},
+        {0,1}, {0,1}, {0,1}, { 0,1}, {  0,1},
+        {0,1},
+      };
 
-        unsigned d = (buf[i+4] << 16) | (buf[i+5] << 8) | buf[i+6];
-        unsigned a = (unsigned)buf[i+7] >> 4;
+      unsigned d = (buf[i+4] << 16) | (buf[i+5] << 8) | buf[i+6];
+      unsigned a = (unsigned)buf[i+7] >> 4;
 
-	size->width  = (d >> 12);
-	size->height = (d & 0xfff);
+      size->width  = (d >> 12);
+      size->height = (d & 0xfff);
 
-        memcpy(&size->pixel_aspect, &mpeg2_aspect[a & 0xf], sizeof(mpeg_rational_t));
-	size->pixel_aspect.num *= size->height;
-	size->pixel_aspect.den *= size->width;
+      memcpy(&size->pixel_aspect, &mpeg2_aspect[a & 0xf], sizeof(mpeg_rational_t));
+      size->pixel_aspect.num *= size->height;
+      size->pixel_aspect.den *= size->width;
 
-	return 1;
-      }
+      return 1;
+    }
   }
   return 0;
 }

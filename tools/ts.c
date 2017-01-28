@@ -813,7 +813,6 @@ int ts_get_video_size(ts_state_t *ts, const uint8_t *data, video_size_t *size, t
     uint8_t *buf = ts->buf;
 
     if (h265) {
-
       /* HEVC NAL AUD */
       if (IS_H265_NAL_AUD(buf)) {
         if (h265_get_video_size(ts->buf, ts->buf_len, size)) {
@@ -825,26 +824,26 @@ int ts_get_video_size(ts_state_t *ts, const uint8_t *data, video_size_t *size, t
       }
 
     } else if (h264) {
-    /* H.264 NAL AUD */
-    if (IS_NAL_AUD(buf)) {
-      if (h264_get_video_size(ts->buf, ts->buf_len, size)) {
-        ts_state_reset(ts);
-        return 1;
+      /* H.264 NAL AUD */
+      if (IS_NAL_AUD(buf)) {
+        if (h264_get_video_size(ts->buf, ts->buf_len, size)) {
+          ts_state_reset(ts);
+          return 1;
+        }
+        if (ts->buf_len < ts->buf_size - TS_SIZE)
+          return 0;
       }
-      if (ts->buf_len < ts->buf_size - TS_SIZE)
-        return 0;
-    }
 
     } else {
-    /* MPEG2 sequence start code */
-    if (IS_SC_SEQUENCE(buf)) {
-      if (mpeg2_get_video_size(ts->buf, ts->buf_len, size)) {
-        ts_state_reset(ts);
-        return 1;
+      /* MPEG2 sequence start code */
+      if (IS_SC_SEQUENCE(buf)) {
+        if (mpeg2_get_video_size(ts->buf, ts->buf_len, size)) {
+          ts_state_reset(ts);
+          return 1;
+        }
+        if (ts->buf_len < ts->buf_size - TS_SIZE)
+          return 0;
       }
-      if (ts->buf_len < ts->buf_size - TS_SIZE)
-        return 0;
-    }
     }
 
     /* find next start code */
