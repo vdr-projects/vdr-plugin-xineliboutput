@@ -52,7 +52,7 @@ static void _entry_group_callback(AvahiEntryGroup *g, AvahiEntryGroupState state
 
   switch (state) {
   case AVAHI_ENTRY_GROUP_ESTABLISHED:
-    LOGMSG("AVAHI service '%s' successfully established.\n", d->name);
+    LOGMSG("AVAHI service '%s' successfully established.", d->name);
     break;
 
   case AVAHI_ENTRY_GROUP_COLLISION: {
@@ -62,13 +62,13 @@ static void _entry_group_callback(AvahiEntryGroup *g, AvahiEntryGroupState state
     n = avahi_alternative_service_name(d->name);
     avahi_free(d->name);
     d->name = n;
-    LOGERR("AVAHI service name collision, renaming service to '%s'\n", d->name);
+    LOGERR("AVAHI service name collision, renaming service to '%s'", d->name);
     _create_services(avahi_entry_group_get_client(g), d);
     break;
   }
 
   case AVAHI_ENTRY_GROUP_FAILURE :
-    LOGERR("AVAHI entry group failure: %s\n", avahi_strerror(avahi_client_errno(avahi_entry_group_get_client(g))));
+    LOGERR("AVAHI entry group failure: %s", avahi_strerror(avahi_client_errno(avahi_entry_group_get_client(g))));
     avahi_simple_poll_quit(d->simple_poll);
     break;
   case AVAHI_ENTRY_GROUP_UNCOMMITED:
@@ -84,20 +84,20 @@ static void _create_services(AvahiClient *c, avahi_data *d)
 
   if (!d->group) {
     if (!(d->group = avahi_entry_group_new(c, _entry_group_callback, d))) {
-      LOGERR("avahi_entry_group_new() failed: %s\n", avahi_strerror(avahi_client_errno(c)));
+      LOGERR("avahi_entry_group_new() failed: %s", avahi_strerror(avahi_client_errno(c)));
       goto fail;
     }
   }
 
   if (avahi_entry_group_is_empty(d->group)) {
-    LOGMSG("Adding service '%s'\n", d->name);
+    LOGMSG("AVAHI: adding service '%s'", d->name);
 
     if (d->rtsp) {
       if ((ret = avahi_entry_group_add_service(d->group, AVAHI_IF_UNSPEC, AVAHI_PROTO_INET/*UNSPEC*/, (AvahiPublishFlags)0,
                                                d->name, "_rtsp._tcp", NULL, NULL, d->port, NULL)) < 0) {
         if (ret == AVAHI_ERR_COLLISION)
           goto collision;
-        LOGERR("Failed to add _rtsp._tcp service: %s\n", avahi_strerror(ret));
+        LOGERR("AVAHI failed to add _rtsp._tcp service: %s", avahi_strerror(ret));
         goto fail;
       }
     }
@@ -107,7 +107,7 @@ static void _create_services(AvahiClient *c, avahi_data *d)
                                                d->name, "_http._tcp", NULL, NULL, d->port, NULL)) < 0) {
         if (ret == AVAHI_ERR_COLLISION)
           goto collision;
-        LOGERR("Failed to add _http._tcp service: %s\n", avahi_strerror(ret));
+        LOGERR("AVAHI failed to add _http._tcp service: %s", avahi_strerror(ret));
         goto fail;
       }
     }
@@ -116,14 +116,14 @@ static void _create_services(AvahiClient *c, avahi_data *d)
                                              d->name, "_xvdr._tcp", NULL, NULL, d->port, NULL)) < 0) {
       if (ret == AVAHI_ERR_COLLISION)
         goto collision;
-      LOGERR("Failed to add _xvdr._tcp service: %s\n", avahi_strerror(ret));
+      LOGERR("AVAHI failed to add _xvdr._tcp service: %s", avahi_strerror(ret));
       goto fail;
     }
 
 
     /* Tell the server to register the service */
     if ((ret = avahi_entry_group_commit(d->group)) < 0) {
-      LOGERR("Failed to commit entry group: %s\n", avahi_strerror(ret));
+      LOGERR("AVAHI failed to commit entry group: %s", avahi_strerror(ret));
       goto fail;
     }
   }
@@ -133,7 +133,7 @@ static void _create_services(AvahiClient *c, avahi_data *d)
   n = avahi_alternative_service_name(d->name);
   avahi_free(d->name);
   d->name = n;
-  LOGMSG("Service name collision, renaming service to '%s'\n", d->name);
+  LOGMSG("AVAHI service name collision, renaming service to '%s'", d->name);
   avahi_entry_group_reset(d->group);
   _create_services(c, d);
   return;
@@ -152,7 +152,7 @@ static void _client_callback(AvahiClient *c, AvahiClientState state, void * user
     break;
 
   case AVAHI_CLIENT_FAILURE:
-    LOGERR("AVAHI client failure: %s\n", avahi_strerror(avahi_client_errno(c)));
+    LOGERR("AVAHI client failure: %s", avahi_strerror(avahi_client_errno(c)));
     avahi_simple_poll_quit(d->simple_poll);
     break;
 
@@ -178,7 +178,7 @@ static void *_avahi_run(void *h)
   int error;
 
   if (!(d->simple_poll = avahi_simple_poll_new())) {
-    LOGMSG("Failed to create simple poll object.\n");
+    LOGMSG("AVAHI failed to create simple poll object");
     return NULL;
   }
 
@@ -186,16 +186,14 @@ static void *_avahi_run(void *h)
 
   client = avahi_client_new(avahi_simple_poll_get(d->simple_poll), (AvahiClientFlags)0, _client_callback, d, &error);
   if (!client) {
-    LOGERR("AVAHI failed to create client: %s\n", avahi_strerror(error));
+    LOGERR("AVAHI failed to create client: %s", avahi_strerror(error));
     return NULL;
   }
-
-  LOGMSG("run avahi\n");
 
   /* Run the main loop */
   avahi_simple_poll_loop(d->simple_poll);
 
-  LOGMSG("exit avahi\n");
+  LOGMSG("AVAHI terminating");
 
   avahi_client_free(client);
 
@@ -215,7 +213,7 @@ void *x_avahi_start(int port, int rtsp, int http)
     d->http = http;
 
     if ((err = pthread_create (&d->thread, NULL, _avahi_run, h)) != 0) {
-      LOGERR("AVAHI can't create new thread (%s)\n", strerror(err));
+      LOGERR("AVAHI can't create new thread (%s)", strerror(err));
     }
   }
 
