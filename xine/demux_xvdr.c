@@ -418,7 +418,7 @@ static void demux_xvdr_parse_ts (demux_xvdr_t *this, buf_element_t *buf)
 
     /* parse PAT */
     if (ts_pid == 0) {
-      pat_data_t pat = { 0 };
+      pat_data_t pat = {{ 0 }};
 
       if (ts_parse_pat(&pat, buf->content)) {
         if (ts_data->pmt_pid        != pat.pmt_pid[0] ||
