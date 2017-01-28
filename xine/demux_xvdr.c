@@ -154,6 +154,9 @@ static void detect_video_decoders(demux_xvdr_t *this)
   LOGDBG("Using H.264      decoder \"%s\"%s",
          name, this->coreavc_h264_decoder ? " (dshowserver (CoreAVC))" : "");
 
+#ifdef BUF_VIDEO_HEVC
+  LOG_DECODER(BUF_VIDEO_HEVC,    "HEVC");
+#endif
   LOG_DECODER(BUF_VIDEO_VC1,     "VC-1");
 }
 
