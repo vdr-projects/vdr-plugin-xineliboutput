@@ -23,6 +23,7 @@
 #include "mpeg.h"
 #include "h264.h"
 
+
 int h264_parse_sps(const uint8_t *buf, int len, h264_sps_data_t *sps)
 {
   br_state br = BR_INIT(buf, len);
@@ -47,15 +48,15 @@ int h264_parse_sps(const uint8_t *buf, int len, h264_sps_data_t *sps)
     br_skip_ue_golomb(&br); /* bit_depth_chroma - 8           */
     br_skip_bit(&br);       /* transform_bypass               */
     if (br_get_bit(&br))    /* seq_scaling_matrix_present     */
-      for (i = 0; i < 8; i++)  
-	if (br_get_bit(&br)) { /* seq_scaling_list_present    */
-	  int last = 8, next = 8, size = (i<6) ? 16 : 64;
-	  for (j = 0; j < size; j++) {
-	    if (next)
-	      next = (last + br_get_se_golomb(&br)) & 0xff;
-	    last = next ?: last;
-	  }
-	}
+      for (i = 0; i < 8; i++)
+        if (br_get_bit(&br)) { /* seq_scaling_list_present    */
+          int last = 8, next = 8, size = (i<6) ? 16 : 64;
+          for (j = 0; j < size; j++) {
+            if (next)
+              next = (last + br_get_se_golomb(&br)) & 0xff;
+            last = next ?: last;
+          }
+        }
   }
 
   br_skip_ue_golomb(&br);      /* log2_max_frame_num - 4 */
@@ -78,10 +79,10 @@ int h264_parse_sps(const uint8_t *buf, int len, h264_sps_data_t *sps)
   LOGDBG("H.264 SPS: pic_width:  %u mbs", (unsigned) sps->width);
   LOGDBG("H.264 SPS: pic_height: %u mbs", (unsigned) sps->height);
   LOGDBG("H.264 SPS: frame only flag: %d", frame_mbs_only);
-  
+
   sps->width  *= 16;
   sps->height *= 16 * (2-frame_mbs_only);
-  
+
   if (!frame_mbs_only)
     if (br_get_bit(&br)) /* mb_adaptive_frame_field_flag */
       LOGDBG("H.264 SPS: MBAFF");
@@ -91,12 +92,12 @@ int h264_parse_sps(const uint8_t *buf, int len, h264_sps_data_t *sps)
     uint32_t crop_right  = br_get_ue_golomb(&br);
     uint32_t crop_top    = br_get_ue_golomb(&br);
     uint32_t crop_bottom = br_get_ue_golomb(&br);
-    LOGDBG("H.264 SPS: cropping %d %d %d %d", 
-	   crop_left, crop_top, crop_right, crop_bottom);
+    LOGDBG("H.264 SPS: cropping %d %d %d %d",
+           crop_left, crop_top, crop_right, crop_bottom);
 
     sps->width -= 2*(crop_left + crop_right);
     if (frame_mbs_only)
-      sps->height -= 2*(crop_top + crop_bottom); 
+      sps->height -= 2*(crop_top + crop_bottom);
     else
       sps->height -= 4*(crop_top + crop_bottom);
   }
@@ -109,31 +110,31 @@ int h264_parse_sps(const uint8_t *buf, int len, h264_sps_data_t *sps)
       LOGDBG("H.264 SPS: aspect_ratio_idc %d", aspect_ratio_idc);
 
       if (aspect_ratio_idc == 255 /* Extended_SAR */) {
-	sps->pixel_aspect.num = br_get_u16(&br); /* sar_width */
-	sps->pixel_aspect.den = br_get_u16(&br); /* sar_height */
-	LOGDBG("H.264 SPS: -> sar %dx%d", sps->pixel_aspect.num, sps->pixel_aspect.den);
+        sps->pixel_aspect.num = br_get_u16(&br); /* sar_width */
+        sps->pixel_aspect.den = br_get_u16(&br); /* sar_height */
+        LOGDBG("H.264 SPS: -> sar %dx%d", sps->pixel_aspect.num, sps->pixel_aspect.den);
       } else {
-	static const mpeg_rational_t aspect_ratios[] =
-	  { /* page 213: */
-	    /* 0: unknown */
-	    {0, 1},
-	    /* 1...16: */
-	    { 1,  1}, {12, 11}, {10, 11}, {16, 11}, { 40, 33}, {24, 11}, {20, 11}, {32, 11}, 
-	    {80, 33}, {18, 11}, {15, 11}, {64, 33}, {160, 99}, { 4,  3}, { 3,  2}, { 2,  1}
-	  };
+        static const mpeg_rational_t aspect_ratios[] =
+          { /* page 213: */
+            /* 0: unknown */
+            {0, 1},
+            /* 1...16: */
+            { 1,  1}, {12, 11}, {10, 11}, {16, 11}, { 40, 33}, {24, 11}, {20, 11}, {32, 11},
+            {80, 33}, {18, 11}, {15, 11}, {64, 33}, {160, 99}, { 4,  3}, { 3,  2}, { 2,  1}
+          };
 
-	if (aspect_ratio_idc < sizeof(aspect_ratios)/sizeof(aspect_ratios[0])) {
-	  memcpy(&sps->pixel_aspect, &aspect_ratios[aspect_ratio_idc], sizeof(mpeg_rational_t));
-	  LOGDBG("H.264 SPS: -> aspect ratio %d / %d", sps->pixel_aspect.num, sps->pixel_aspect.den);
-	} else {
-	  LOGMSG("H.264 SPS: aspect_ratio_idc out of range !");
-	}
+        if (aspect_ratio_idc < sizeof(aspect_ratios)/sizeof(aspect_ratios[0])) {
+          memcpy(&sps->pixel_aspect, &aspect_ratios[aspect_ratio_idc], sizeof(mpeg_rational_t));
+          LOGDBG("H.264 SPS: -> aspect ratio %d / %d", sps->pixel_aspect.num, sps->pixel_aspect.den);
+        } else {
+          LOGMSG("H.264 SPS: aspect_ratio_idc out of range !");
+        }
       }
     }
   }
 
   LOGDBG("H.264 SPS: -> video size %dx%d, aspect %d:%d",
-	 sps->width, sps->height, sps->pixel_aspect.num, sps->pixel_aspect.den);
+         sps->width, sps->height, sps->pixel_aspect.num, sps->pixel_aspect.den);
 
   if(BR_EOF(&br)) {
     LOGDBG("H.264 SPS: not enough data ?");
@@ -152,13 +153,13 @@ static int h264_nal_unescape(uint8_t *dst, const uint8_t *src, int len)
       s += 2;
       d += 2;
       if (src[s] == 3) {
-	s++; /* 00 00 03 xx --> 00 00 xx */
-	/*LOGDBG("h264_nal_unescape: hit 00 00 03 %02x", src[s]);*/
-	if (s >= len)
-	  return d;
+        s++; /* 00 00 03 xx --> 00 00 xx */
+        /*LOGDBG("h264_nal_unescape: hit 00 00 03 %02x", src[s]);*/
+        if (s >= len)
+          return d;
       } /* else if (src[s] == 0 || src[s] == 1) {
-	LOGDBG("h264_nal_unescape: invalid NAL sequence 00 00 %02x %02x", src[s], src[s+1]);
-	return -1;
+        LOGDBG("h264_nal_unescape: invalid NAL sequence 00 00 %02x %02x", src[s], src[s+1]);
+        return -1;
       }*/
     }
     dst[d++] = src[s++];
@@ -202,15 +203,15 @@ int h264_get_video_size(const uint8_t *buf, int len, video_size_t *size)
 
       if (0 < (nal_len = h264_nal_unescape(nal_data, buf+i+4, len-i-4))) {
 
-	h264_sps_data_t sps = {0};
+        h264_sps_data_t sps = {0};
 
-	if (h264_parse_sps(nal_data, nal_len, &sps)) {
-	  size->width  = sps.width;
-	  size->height = sps.height;
-	  memcpy(&size->pixel_aspect, &sps.pixel_aspect, sizeof(mpeg_rational_t));
-	  return 1;
-	}
-	LOGMSG("h264_get_video_size: not enough data ?");
+        if (h264_parse_sps(nal_data, nal_len, &sps)) {
+          size->width  = sps.width;
+          size->height = sps.height;
+          memcpy(&size->pixel_aspect, &sps.pixel_aspect, sizeof(mpeg_rational_t));
+          return 1;
+        }
+        LOGMSG("h264_get_video_size: not enough data ?");
       }
     }
 

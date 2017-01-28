@@ -63,7 +63,7 @@ static inline void br_skip_bits(br_state *br, int n)
 typedef struct {
   uint8_t *data;
   uint8_t *data_end;
-  uint32_t cache; 
+  uint32_t cache;
   uint32_t cache_bits;
 } br_state;
 
@@ -124,7 +124,7 @@ static inline void br_skip_bits(br_state *br, int n)
   } else {
     /* drop cached bits */
     n -= br->cache_bits;
-  
+
     /* drop full bytes */
     br->data += (n >> 3);
     n &= 7;
@@ -138,7 +138,7 @@ static inline void br_skip_bits(br_state *br, int n)
     }
   }
 }
- 
+
 
 # endif /* NOCACHE */
 
