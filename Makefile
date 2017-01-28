@@ -232,7 +232,7 @@ endif
 OBJS_XINEINPUTVDR = xine_input_vdr.o xine/demux_xvdr.o \
                     xine/ts2es.o xine/demux_xvdr_tsdata.o \
                     xine/adjustable_scr.o xine/xvdr_metronom.o xine/osd_manager.o \
-                    tools/rle.o tools/ts.o tools/pes.o tools/mpeg.o tools/h264.o
+                    tools/rle.o tools/ts.o tools/pes.o tools/mpeg.o tools/h264.o tools/h265.o
 
 OBJS_XINE = $(OBJS_XINEINPUTVDR) xine_post_autocrop.o xine_post_swscale.o xine_post_audiochannel.o
 

@@ -1146,8 +1146,7 @@ int cXinelibDevice::PlayTsVideo(const uchar *Data, int Length)
       if (!m_tssVideoSize)
         m_tssVideoSize = ts_state_init(4096);
 
-      if (ts_get_video_size(m_tssVideoSize, Data, m_VideoSize,
-                            (PatPmtParser()->Vtype() == ISO_14496_PART10_VIDEO))) {
+      if (ts_get_video_size(m_tssVideoSize, Data, m_VideoSize, (ts_stream_type)PatPmtParser()->Vtype())) {
 
         m_StreamStart = false;
         LOGMSG("Detected video size %dx%d", m_VideoSize->width, m_VideoSize->height);

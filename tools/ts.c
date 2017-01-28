@@ -785,9 +785,13 @@ int ts_get_picture_type(ts_state_t *ts, const uint8_t *data, int h264)
 
 #include "h264.h"
 #include "mpeg.h"
+#include "h265.h"
 
-int ts_get_video_size(ts_state_t *ts, const uint8_t *data, video_size_t *size, int h264)
+int ts_get_video_size(ts_state_t *ts, const uint8_t *data, video_size_t *size, ts_stream_type vid_type)
 {
+  int h264 = (vid_type == ISO_14496_PART10_VIDEO);
+  int h265 = (vid_type == STREAM_VIDEO_HEVC);
+
   /* Accumulate data. Skip all data until start code. */
   if (ts_get_pes(ts, data) < 9)
     return 0;
@@ -808,9 +812,22 @@ int ts_get_video_size(ts_state_t *ts, const uint8_t *data, video_size_t *size, i
   while (ts->buf_len > 9) {
     uint8_t *buf = ts->buf;
 
-    /* MPEG2 sequence start code */
-    if (h264 != 1 && IS_SC_SEQUENCE(buf)) {
-      if (mpeg2_get_video_size(ts->buf, ts->buf_len, size)) {
+    if (h265) {
+
+      /* HEVC NAL AUD */
+      if (IS_H265_NAL_AUD(buf)) {
+        if (h265_get_video_size(ts->buf, ts->buf_len, size)) {
+          ts_state_reset(ts);
+          return 1;
+        }
+        if (ts->buf_len < ts->buf_size - TS_SIZE)
+          return 0;
+      }
+
+    } else if (h264) {
+    /* H.264 NAL AUD */
+    if (IS_NAL_AUD(buf)) {
+      if (h264_get_video_size(ts->buf, ts->buf_len, size)) {
         ts_state_reset(ts);
         return 1;
       }
@@ -818,14 +835,16 @@ int ts_get_video_size(ts_state_t *ts, const uint8_t *data, video_size_t *size, i
         return 0;
     }
 
-    /* H.264 NAL AUD */
-    if (h264 != 0 && IS_NAL_AUD(buf)) {
-      if (h264_get_video_size(ts->buf, ts->buf_len, size)) {
+    } else {
+    /* MPEG2 sequence start code */
+    if (IS_SC_SEQUENCE(buf)) {
+      if (mpeg2_get_video_size(ts->buf, ts->buf_len, size)) {
         ts_state_reset(ts);
         return 1;
       }
       if (ts->buf_len < ts->buf_size - TS_SIZE)
         return 0;
+    }
     }
 
     /* find next start code */

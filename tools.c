@@ -21,4 +21,5 @@
 #include "tools/pes.c"
 #include "tools/mpeg.c"
 #include "tools/h264.c"
+#include "tools/h265.c"
 #include "tools/ts.c"
