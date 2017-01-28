@@ -33,6 +33,7 @@
 #include "../xine_input_vdr_mrl.h"
 #include "../tools/mpeg.h"
 #include "../tools/h264.h"
+#include "../tools/h265.h"
 #include "../tools/pes.h"
 #include "../tools/ts.h"
 
@@ -265,10 +266,22 @@ static void put_control_buf(fifo_buffer_t *buffer, fifo_buffer_t *pool, int cmd)
 /*
  * post_sequence_end()
  *
- * Add MPEG2 or H.264 sequence end code to fifo buffer
+ * Add sequence end code to fifo buffer
  */
 static void post_sequence_end(fifo_buffer_t *fifo, uint32_t video_type)
 {
+  uint8_t code;
+  switch (video_type) {
+    case BUF_VIDEO_MPEG:  code = SC_SEQUENCE_END;
+    case BUF_VIDEO_H264:  code = NAL_END_SEQ;
+    case BUF_VIDEO_VC1:   code = NAL_END_SEQ;
+#ifdef BUF_VIDEO_HEVC
+    case BUF_VIDEO_HEVC:  code = (H265_NAL_EOB_NUT << 1);
+#endif
+    default:
+      return;
+  }
+
   buf_element_t *buf = fifo->buffer_pool_try_alloc(fifo);
   if (buf) {
     buf->type = video_type;
@@ -277,7 +290,15 @@ static void post_sequence_end(fifo_buffer_t *fifo, uint32_t video_type)
     buf->content[0] = 0x00;
     buf->content[1] = 0x00;
     buf->content[2] = 0x01;
-    buf->content[3] = (video_type == BUF_VIDEO_H264) ? NAL_END_SEQ : SC_SEQUENCE_END;
+    buf->content[3] = code;
+
+#ifdef BUF_VIDEO_HEVC
+    if (video_type == BUF_VIDEO_HEVC) {
+      buf->size++;
+      buf->content[4] = 0x01; /* layer_id 0, temporal_id 1 */
+    }
+#endif
+
     fifo->put(fifo, buf);
   } else {
     LOGERR("post_sequence_end(): get_buf_element() failed !");
@@ -367,6 +388,22 @@ static void demux_xvdr_fwd_buf(demux_xvdr_t *this, buf_element_t *buf)
  *
  * MPEG-TS demuxing
  */
+
+static unsigned int vtype_to_xine_buf_type(unsigned vtype)
+{
+  switch (vtype) {
+    case ISO_11172_VIDEO:         return BUF_VIDEO_MPEG;
+    case ISO_13818_VIDEO:         return BUF_VIDEO_MPEG;
+    case ISO_14496_PART2_VIDEO:   return BUF_VIDEO_MPEG4;
+    case ISO_14496_PART10_VIDEO:  return BUF_VIDEO_H264;
+    case STREAM_VIDEO_VC1:        return BUF_VIDEO_VC1;
+#ifdef BUF_VIDEO_HEVC
+    case STREAM_VIDEO_HEVC:       return BUF_VIDEO_HEVC;
+#endif
+  }
+  return 0;
+}
+
 static void demux_xvdr_parse_ts (demux_xvdr_t *this, buf_element_t *buf)
 {
   if (!this->ts_data)
@@ -408,8 +445,11 @@ static void demux_xvdr_parse_ts (demux_xvdr_t *this, buf_element_t *buf)
         LOGDBG("PMT changed, resetting demuxer");
         ts_data_ts2es_init(&ts_data, this->stream->video_fifo, this->stream->audio_fifo);
 
-        this->video_type = (ts_data->pmt.video_type == ISO_14496_PART10_VIDEO) ?
-                           BUF_VIDEO_H264 : BUF_VIDEO_MPEG;
+        this->video_type = vtype_to_xine_buf_type(ts_data->pmt.video_type);
+        if (!this->video_type) {
+          LOGMSG("unsupported video codec 0x%02x detected (no support in xine-lib ?)", ts_data->pmt.video_type);
+          ts_data->pmt.video_pid = INVALID_PID;
+        }
 
         /* Inform UI of channels changes */
         xine_event_t event;
