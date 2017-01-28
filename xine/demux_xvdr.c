@@ -175,13 +175,6 @@ static void detect_audio_decoders(demux_xvdr_t *this)
 #endif
 }
 
-static void demux_xvdr_parse_ts(demux_xvdr_t *this, buf_element_t *buf);
-static void demux_xvdr_parse_pes(demux_xvdr_t *this, buf_element_t *buf);
-
-static int32_t parse_video_stream(demux_xvdr_t *this, uint8_t *p, buf_element_t *buf);
-static int32_t parse_audio_stream(demux_xvdr_t *this, uint8_t *p, buf_element_t *buf);
-static int32_t parse_private_stream_1(demux_xvdr_t *this, uint8_t *p, buf_element_t *buf);
-
 static void pts_wrap_workaround(demux_xvdr_t *this, buf_element_t *buf, int video)
 {
   /* PTS wrap workaround */
@@ -291,94 +284,6 @@ static void post_sequence_end(fifo_buffer_t *fifo, uint32_t video_type)
   }
 }
 
-/*
- * post_frame_end()
- *
- * Signal end of video frame to decoder.
- *
- * This function is used with:
- *  - FFmpeg mpeg2 decoder
- *  - FFmpeg and CoreAVC H.264 decoders
- *  - NOT with libmpeg2 mpeg decoder
- */
-static void post_frame_end(demux_xvdr_t *this, buf_element_t *vid_buf)
-{
-  buf_element_t *cbuf = this->video_fifo->buffer_pool_try_alloc (this->video_fifo) ?:
-                        this->audio_fifo->buffer_pool_try_alloc (this->audio_fifo);
-
-  if (!cbuf) {
-    LOGMSG("post_frame_end(): buffer_pool_try_alloc() failed, retrying");
-    xine_usec_sleep (10*1000);
-    cbuf = this->video_fifo->buffer_pool_try_alloc (this->video_fifo);
-    if (!cbuf) {
-      LOGERR("post_frame_end(): get_buf_element() failed !");
-      return;
-    }
-  }
-
-  cbuf->type          = this->video_type;
-  cbuf->decoder_flags = BUF_FLAG_FRAME_END;
-
-  if (!this->bih_posted) {
-    video_size_t size = {0};
-    if (pes_get_video_size(vid_buf->content, vid_buf->size, &size, this->video_type == BUF_VIDEO_H264)) {
-
-      /* reset decoder buffer */
-      cbuf->decoder_flags |= BUF_FLAG_FRAME_START;
-
-      /* Fill xine_bmiheader for CoreAVC / H.264 */
-
-      if (this->video_type == BUF_VIDEO_H264 && this->coreavc_h264_decoder) {
-        xine_bmiheader *bmi = (xine_bmiheader*) cbuf->content;
-
-        cbuf->decoder_flags |= BUF_FLAG_HEADER;
-        cbuf->decoder_flags |= BUF_FLAG_STDHEADER;   /* CoreAVC: buffer contains bmiheader */
-        cbuf->size           = sizeof(xine_bmiheader);
-
-        memset (bmi, 0, sizeof(xine_bmiheader));
-
-        bmi->biSize   = sizeof(xine_bmiheader);
-        bmi->biWidth  = size.width;
-        bmi->biHeight = size.height;
-
-        bmi->biPlanes        = 1;
-        bmi->biBitCount      = 24;
-        bmi->biCompression   = 0x34363248;
-        bmi->biSizeImage     = 0;
-        bmi->biXPelsPerMeter = size.pixel_aspect.num;
-        bmi->biYPelsPerMeter = size.pixel_aspect.den;
-        bmi->biClrUsed       = 0;
-        bmi->biClrImportant  = 0;
-      }
-
-      /* Set aspect ratio for ffmpeg mpeg2 / CoreAVC H.264 decoder
-       * (not for FFmpeg H.264 or libmpeg2 mpeg2 decoders)
-       */
-
-      if (size.pixel_aspect.num &&
-          (this->video_type != BUF_VIDEO_H264 || this->coreavc_h264_decoder)) {
-        cbuf->decoder_flags |= BUF_FLAG_HEADER;
-        cbuf->decoder_flags |= BUF_FLAG_ASPECT;
-        /* pixel ratio -> frame ratio */
-        if (size.pixel_aspect.num > size.height) {
-          cbuf->decoder_info[1] = size.pixel_aspect.num / size.height;
-          cbuf->decoder_info[2] = size.pixel_aspect.den / size.width;
-        } else {
-          cbuf->decoder_info[1] = size.pixel_aspect.num * size.width;
-          cbuf->decoder_info[2] = size.pixel_aspect.den * size.height;
-        }
-      }
-
-      LOGDBG("post_frame_end: video width %d, height %d, pixel aspect %d:%d",
-             size.width, size.height, size.pixel_aspect.num, size.pixel_aspect.den);
-
-      this->bih_posted = 1;
-    }
-  }
-
-  this->video_fifo->put (this->video_fifo, cbuf);
-}
-
 static void track_audio_stream_change(demux_xvdr_t *this, buf_element_t *buf)
 {
 #if !defined(BUF_CONTROL_RESET_TRACK_MAP)
@@ -454,87 +359,6 @@ static void demux_xvdr_fwd_buf(demux_xvdr_t *this, buf_element_t *buf)
   }
 
   LOGMSG("Unhandled buffer type %08x", buf->type);
-  buf->free_buffer (buf);
-}
-
-static void demux_xvdr_parse_pack (demux_xvdr_t *this)
-{
-  buf_element_t *buf = NULL;
-  uint8_t       *p;
-
-  buf = this->input->read_block (this->input, this->video_fifo, 8128);
-
-  if (!buf) {
-    if (errno == EINTR) {
-      LOGVERBOSE("input->read_block() was interrupted");
-      ts_data_flush(this->ts_data);
-    } else if (errno != EAGAIN) {
-      LOGDBG("DEMUX_FINISHED (input returns NULL with error)");
-      this->status = DEMUX_FINISHED;
-      ts_data_dispose(&this->ts_data);
-    }
-    return;
-  }
-
-  /* If this is not a block for the demuxer, pass it
-   * straight through. */
-  if (buf->type != BUF_DEMUX_BLOCK) {
-    ts_data_flush (this->ts_data);
-    demux_xvdr_fwd_buf (this, buf);
-    return;
-  }
-
-  p = buf->content; /* len = this->blocksize; */
-  buf->decoder_flags = 0;
-
-  if (DATA_IS_TS(p)) {
-    demux_xvdr_parse_ts (this, buf);
-    return;
-  }
-  if (DATA_IS_PES(p)) {
-    demux_xvdr_parse_pes (this, buf);
-    return;
-  }
-
-  LOGMSG("Header %02x %02x %02x (should be 0x000001 or 0x47)", p[0], p[1], p[2]);
-  buf->free_buffer (buf);
-  return;
-}
-
-static void demux_xvdr_parse_pes (demux_xvdr_t *this, buf_element_t *buf)
-{
-  uint8_t       *p = buf->content;
-  int32_t        result;
-
-  if (IS_PADDING_PACKET(p)) {
-    buf->free_buffer (buf);
-    return;
-  }
-
-  this->stream_id  = p[3];
-
-  if (this->ts_data) {
-    ts_data_flush(this->ts_data);
-    ts_data_dispose(&this->ts_data);
-  }
-
-  if (IS_VIDEO_PACKET(p)) {
-    result = parse_video_stream(this, p, buf);
-  } else if (IS_MPEG_AUDIO_PACKET(p)) {
-    result = parse_audio_stream(this, p, buf);
-  } else if (IS_PS1_PACKET(p)) {
-    result = parse_private_stream_1(this, p, buf);
-  } else {
-    LOGMSG("Unrecognised PES stream 0x%02x", this->stream_id);
-    buf->free_buffer (buf);
-    return;
-  }
-
-  if (result < 0) {
-    return;
-  }
-
-  LOGMSG("error! freeing buffer.");
   buf->free_buffer (buf);
 }
 
@@ -648,6 +472,99 @@ static void demux_xvdr_parse_ts (demux_xvdr_t *this, buf_element_t *buf)
   }
 
   buf->free_buffer(buf);
+}
+
+/*
+ * PES demuxing
+ */
+
+/*
+ * post_frame_end()
+ *
+ * Signal end of video frame to decoder.
+ *
+ * This function is used with:
+ *  - FFmpeg mpeg2 decoder
+ *  - FFmpeg and CoreAVC H.264 decoders
+ *  - NOT with libmpeg2 mpeg decoder
+ */
+static void post_frame_end(demux_xvdr_t *this, buf_element_t *vid_buf)
+{
+  buf_element_t *cbuf = this->video_fifo->buffer_pool_try_alloc (this->video_fifo) ?:
+                        this->audio_fifo->buffer_pool_try_alloc (this->audio_fifo);
+
+  if (!cbuf) {
+    LOGMSG("post_frame_end(): buffer_pool_try_alloc() failed, retrying");
+    xine_usec_sleep (10*1000);
+    cbuf = this->video_fifo->buffer_pool_try_alloc (this->video_fifo);
+    if (!cbuf) {
+      LOGERR("post_frame_end(): get_buf_element() failed !");
+      return;
+    }
+  }
+
+  cbuf->type          = this->video_type;
+  cbuf->decoder_flags = BUF_FLAG_FRAME_END;
+
+  if (!this->bih_posted) {
+
+    video_size_t size = {0};
+    if (pes_get_video_size(vid_buf->content, vid_buf->size, &size, this->video_type == BUF_VIDEO_H264)) {
+
+      /* reset decoder buffer */
+      cbuf->decoder_flags |= BUF_FLAG_FRAME_START;
+
+      /* Fill xine_bmiheader for CoreAVC / H.264 */
+
+      if (this->video_type == BUF_VIDEO_H264 && this->coreavc_h264_decoder) {
+        xine_bmiheader *bmi = (xine_bmiheader*) cbuf->content;
+
+        cbuf->decoder_flags |= BUF_FLAG_HEADER;
+        cbuf->decoder_flags |= BUF_FLAG_STDHEADER;   /* CoreAVC: buffer contains bmiheader */
+        cbuf->size           = sizeof(xine_bmiheader);
+
+        memset (bmi, 0, sizeof(xine_bmiheader));
+
+        bmi->biSize   = sizeof(xine_bmiheader);
+        bmi->biWidth  = size.width;
+        bmi->biHeight = size.height;
+
+        bmi->biPlanes        = 1;
+        bmi->biBitCount      = 24;
+        bmi->biCompression   = 0x34363248;
+        bmi->biSizeImage     = 0;
+        bmi->biXPelsPerMeter = size.pixel_aspect.num;
+        bmi->biYPelsPerMeter = size.pixel_aspect.den;
+        bmi->biClrUsed       = 0;
+        bmi->biClrImportant  = 0;
+      }
+
+      /* Set aspect ratio for ffmpeg mpeg2 / CoreAVC H.264 decoder
+       * (not for FFmpeg H.264 or libmpeg2 mpeg2 decoders)
+       */
+
+      if (size.pixel_aspect.num &&
+          (this->video_type != BUF_VIDEO_H264 || this->coreavc_h264_decoder)) {
+        cbuf->decoder_flags |= BUF_FLAG_HEADER;
+        cbuf->decoder_flags |= BUF_FLAG_ASPECT;
+        /* pixel ratio -> frame ratio */
+        if (size.pixel_aspect.num > size.height) {
+          cbuf->decoder_info[1] = size.pixel_aspect.num / size.height;
+          cbuf->decoder_info[2] = size.pixel_aspect.den / size.width;
+        } else {
+          cbuf->decoder_info[1] = size.pixel_aspect.num * size.width;
+          cbuf->decoder_info[2] = size.pixel_aspect.den * size.height;
+        }
+      }
+
+      LOGDBG("post_frame_end: video width %d, height %d, pixel aspect %d:%d",
+             size.width, size.height, size.pixel_aspect.num, size.pixel_aspect.den);
+
+      this->bih_posted = 1;
+    }
+  }
+
+  this->video_fifo->put (this->video_fifo, cbuf);
 }
 
 /* FIXME: Extension data is not parsed, and is also not skipped. */
@@ -1078,6 +995,91 @@ static int32_t parse_audio_stream(demux_xvdr_t *this, uint8_t *p, buf_element_t 
   }
 
   return -1;
+}
+
+static void demux_xvdr_parse_pes (demux_xvdr_t *this, buf_element_t *buf)
+{
+  uint8_t       *p = buf->content;
+  int32_t        result;
+
+  if (IS_PADDING_PACKET(p)) {
+    buf->free_buffer (buf);
+    return;
+  }
+
+  this->stream_id  = p[3];
+
+  if (this->ts_data) {
+    ts_data_flush(this->ts_data);
+    ts_data_dispose(&this->ts_data);
+  }
+
+  if (IS_VIDEO_PACKET(p)) {
+    result = parse_video_stream(this, p, buf);
+  } else if (IS_MPEG_AUDIO_PACKET(p)) {
+    result = parse_audio_stream(this, p, buf);
+  } else if (IS_PS1_PACKET(p)) {
+    result = parse_private_stream_1(this, p, buf);
+  } else {
+    LOGMSG("Unrecognised PES stream 0x%02x", this->stream_id);
+    buf->free_buffer (buf);
+    return;
+  }
+
+  if (result < 0) {
+    return;
+  }
+
+  LOGMSG("error! freeing buffer.");
+  buf->free_buffer (buf);
+}
+
+/*
+ * demux main
+ */
+
+static void demux_xvdr_parse_pack (demux_xvdr_t *this)
+{
+  buf_element_t *buf = NULL;
+  uint8_t       *p;
+
+  buf = this->input->read_block (this->input, this->video_fifo, 8128);
+
+  if (!buf) {
+    if (errno == EINTR) {
+      LOGVERBOSE("input->read_block() was interrupted");
+      ts_data_flush(this->ts_data);
+    } else if (errno != EAGAIN) {
+      LOGDBG("DEMUX_FINISHED (input returns NULL with error)");
+      this->status = DEMUX_FINISHED;
+      ts_data_dispose(&this->ts_data);
+    }
+    return;
+  }
+
+  /* If this is not a block for the demuxer, pass it
+   * straight through. */
+  if (buf->type != BUF_DEMUX_BLOCK) {
+    ts_data_flush (this->ts_data);
+    demux_xvdr_fwd_buf (this, buf);
+    return;
+  }
+
+  p = buf->content; /* len = this->blocksize; */
+  buf->decoder_flags = 0;
+
+  if (DATA_IS_TS(p)) {
+    demux_xvdr_parse_ts (this, buf);
+    return;
+  }
+  if (DATA_IS_PES(p)) {
+    demux_xvdr_parse_pes (this, buf);
+    return;
+  }
+
+  LOGMSG("Header %02x %02x %02x (should be 0x000001 or 0x47)", p[0], p[1], p[2]);
+  buf->free_buffer (buf);
+  return;
 }
 
 /*
