@@ -24,7 +24,7 @@
 #include "h264.h"
 
 
-int h264_parse_sps(const uint8_t *buf, int len, h264_sps_data_t *sps)
+int h264_parse_sps(const uint8_t *buf, size_t len, h264_sps_data_t *sps)
 {
   br_state br = BR_INIT(buf, len);
   int profile_idc, pic_order_cnt_type;
@@ -143,9 +143,9 @@ int h264_parse_sps(const uint8_t *buf, int len, h264_sps_data_t *sps)
   return 1;
 }
 
-static int h264_nal_unescape(uint8_t *dst, const uint8_t *src, int len)
+static int h264_nal_unescape(uint8_t *dst, const uint8_t *src, size_t len)
 {
-  int s = 0, d = 0;
+  size_t s = 0, d = 0;
   while (s < len) {
     if (!src[s] && !src[s+1]) {
       /* hit 00 00 xx */
@@ -167,9 +167,10 @@ static int h264_nal_unescape(uint8_t *dst, const uint8_t *src, int len)
   return d;
 }
 
-int h264_get_picture_type(const uint8_t *buf, int len)
+int h264_get_picture_type(const uint8_t *buf, size_t len)
 {
-  int i;
+  size_t i;
+  if (len > 5)
   for (i = 0; i < len-5; i++) {
     if (IS_NAL_AUD(buf + i)) {
       uint8_t type = (buf[i + 4] >> 5);
@@ -184,22 +185,23 @@ int h264_get_picture_type(const uint8_t *buf, int len)
   return NO_PICTURE;
 }
 
-int h264_get_video_size(const uint8_t *buf, int len, video_size_t *size)
+int h264_get_video_size(const uint8_t *buf, size_t len, video_size_t *size)
 {
-  int i;
+  size_t i;
 
   /* if I-frame, search for NAL SPS */
   if (h264_get_picture_type(buf, len) != I_FRAME)
     return 0;
 
   /* scan video packet for sequence parameter set */
+  if (len > 4)
   for (i = 5; i < len-4; i++) 
     if (buf[i] == 0 && buf[i + 1] == 0 && buf[i + 2] == 1 && (buf[i + 3] & 0x1f) == NAL_SPS) {
 
       uint8_t nal_data[len];
       int     nal_len;
 
-      LOGDBG("H.264: Found NAL SPS at offset %d/%d", i, len);
+      LOGDBG("H.264: Found NAL SPS at offset %zd/%zd", i, len);
 
       if (0 < (nal_len = h264_nal_unescape(nal_data, buf+i+4, len-i-4))) {
 

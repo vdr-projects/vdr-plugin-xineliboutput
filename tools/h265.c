@@ -107,6 +107,7 @@ int h265_get_video_size(const uint8_t *buf, size_t len, struct video_size_s *siz
   size_t i;
 
   /* scan video packet for sequence parameter set */
+  if (len > 5)
   for (i = 5; i < len-5; i++) {
     if (buf[i] == 0 && buf[i + 1] == 0 && buf[i + 2] == 1 &&
         (buf[i + 3] >> 1) == H265_NAL_SPS) {

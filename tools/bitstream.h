@@ -16,15 +16,15 @@
 
 typedef struct {
   const uint8_t *data;
-  int            count; /* in bits */
-  int            index; /* in bits */
+  size_t         count; /* in bits */
+  size_t         index; /* in bits */
 } br_state;
 
 #define BR_INIT(data,bytes) { (data), 8*(bytes), 0 }
 
 #define BR_EOF(br) ((br)->index >= (br)->count)
 
-static inline void br_init(br_state *br, const uint8_t *data, int bytes)
+static inline void br_init(br_state *br, const uint8_t *data, size_t bytes)
 {
   br->data  = data;
   br->count = 8*bytes;
@@ -61,15 +61,15 @@ static inline void br_skip_bits(br_state *br, int n)
 
 
 typedef struct {
-  uint8_t *data;
-  uint8_t *data_end;
+  const uint8_t *data;
+  const uint8_t *data_end;
   uint32_t cache;
   uint32_t cache_bits;
 } br_state;
 
 #define BR_INIT(data,bytes) { (data), (data)+(bytes), 0, 0 }
 
-static inline void br_init(br_state *br, const uint8_t *data, int bytes)
+static inline void br_init(br_state *br, const uint8_t *data, size_t bytes)
 {
   br->data       = data;
   br->data_end   = data + bytes;

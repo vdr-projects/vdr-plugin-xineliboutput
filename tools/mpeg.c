@@ -21,9 +21,10 @@ const char * const picture_type_str[] = {
   "P-Frame"
 };
 
-int mpeg2_get_picture_type(const uint8_t *buf, int len)
+int mpeg2_get_picture_type(const uint8_t *buf, size_t len)
 {
-  int i;
+  size_t i;
+  if (len > 5)
   for (i = 0; i < len-5; i++)
     if (IS_SC_PICTURE(buf + i))
       return (buf[i + 5] >> 3) & 0x07;
@@ -31,9 +32,10 @@ int mpeg2_get_picture_type(const uint8_t *buf, int len)
   return NO_PICTURE;
 }
 
-int mpeg2_is_sequence_header(const uint8_t *buf, int len)
+int mpeg2_is_sequence_header(const uint8_t *buf, size_t len)
 {
-  int i;
+  size_t i;
+  if (len > 6)
   for (i = 0; i < len-6; i++) {
     if (IS_SC_SEQUENCE(buf + i)) {
       return 1;
@@ -42,9 +44,10 @@ int mpeg2_is_sequence_header(const uint8_t *buf, int len)
   return 0;
 }
 
-int mpeg2_get_video_size(const uint8_t *buf, int len, video_size_t *size)
+int mpeg2_get_video_size(const uint8_t *buf, size_t len, video_size_t *size)
 {
-  int i;
+  size_t i;
+  if (len > 6)
   for (i = 0; i < len-6; i++) {
     if (IS_SC_SEQUENCE(buf + i)) {
       static const mpeg_rational_t mpeg2_aspect[16] = {

@@ -51,17 +51,17 @@ extern const char * const picture_type_str[];
 /*
  * input: start of MPEG video data (not PES)
  */
-int mpeg2_get_picture_type(const uint8_t *buf, int len);
+int mpeg2_get_picture_type(const uint8_t *buf, size_t len);
 
 /*
  * input: start of MPEG video data (not PES)
  */
-int mpeg2_get_video_size(const uint8_t *buf, int len, video_size_t *size);
+int mpeg2_get_video_size(const uint8_t *buf, size_t len, video_size_t *size);
 
 /*
  * 
  */
-int mpeg2_is_sequence_header(const uint8_t *buf, int len);
+int mpeg2_is_sequence_header(const uint8_t *buf, size_t len);
 
 #ifdef __cplusplus
 } /* extern "C" { */

@@ -47,17 +47,17 @@ struct video_size_s;
 /*
  * input: start of NAL SPS (without 00 00 01 07)
  */
-int h264_parse_sps(const uint8_t *buf, int len, h264_sps_data_t *sps);
+int h264_parse_sps(const uint8_t *buf, size_t len, h264_sps_data_t *sps);
 
 /*
  * input: start of H.264 video data (not PES)
  */
-int  h264_get_picture_type(const uint8_t *buf, int len);
+int  h264_get_picture_type(const uint8_t *buf, size_t len);
 
 /*
  * input: start of H.264 video data (not PES)
  */
-int  h264_get_video_size(const uint8_t *buf, int len, struct video_size_s *size);
+int  h264_get_video_size(const uint8_t *buf, size_t len, struct video_size_s *size);
 
 
 #ifdef __cplusplus
