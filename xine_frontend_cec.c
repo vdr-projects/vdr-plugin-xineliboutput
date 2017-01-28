@@ -49,7 +49,7 @@ static volatile int exit_req = 0;
 static pthread_t cec_thread;
 static int cec_hdmi_port = 0;
 static int cec_dev_type = 0; /* 0 - TV, 5 - AVR */
-
+static int cec_not_found = 0;
 
 static const struct keymap_item {
   const uint8_t map;
@@ -409,7 +409,10 @@ static int _libcec_open(libcec_connection_t conn)
   cec_adapter devices[10];
   int count = libcec_find_adapters(conn, devices, 10, NULL);
   if (count < 1) {
-    LOGMSG("No HDMI-CEC adapters found");
+    if (!cec_not_found) {
+      LOGMSG("No HDMI-CEC adapters found");
+      cec_not_found = 1;
+    }
     return 0;
   }
 
