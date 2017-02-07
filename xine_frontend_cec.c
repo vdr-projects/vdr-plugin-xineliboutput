@@ -32,7 +32,10 @@
 #ifdef HAVE_LIBCEC
 
 #if defined(CEC_LIB_VERSION_MAJOR) && CEC_LIB_VERSION_MAJOR >= 3
-#define HAVE_LIBCEC_3
+#  define HAVE_LIBCEC_3
+#  if CEC_LIB_VERSION_MAJOR >= 4
+#    define HAVE_LIBCEC_4
+#  endif
 #else
 typedef void * libcec_connection_t;
 #  define libcec_initialise(c) ((void*)cec_initialise(c))
@@ -142,69 +145,94 @@ static const struct keymap_item {
  * libcec callbacks
  */
 
-static int cec_config_changed_cb(void *this_gen, const libcec_configuration config)
+static void _cec4_config_changed_cb(void *this_gen, const libcec_configuration *config)
 {
   LOGDBG("cec_config_changed");
+}
+#ifndef HAVE_LIBCEC_4
+static int _cec_config_changed_cb(void *this_gen, const libcec_configuration config)
+{
+  _cec4_config_changed_cb(this_gen, &config);
   return 1;
 }
+#endif
 
-static int cec_menu_state_changed_cb(void *this_gen, const cec_menu_state state)
+static int _cec4_menu_state_changed_cb(void *this_gen, const cec_menu_state state)
 {
   LOGDBG("cec_menu_state_changed");
   return 1;
 }
+#ifndef HAVE_LIBCEC_4
+static int _cec_menu_state_changed_cb(void *this_gen, const cec_menu_state state)
+{
+  return _cec4_menu_state_changed_cb(this_gen, state);
+}
+#endif
 
-static void cec_source_activated_cb(void *this_gen, const cec_logical_address address, const uint8_t param)
+static void _cec_source_activated_cb(void *this_gen, const cec_logical_address address, const uint8_t param)
 {
   LOGMSG("cec_source_activated: address %d param %d", address, param);
 }
 
-static int cec_log_cb(void *this_gen, const cec_log_message message)
+static void _cec4_log_cb(void *this_gen, const cec_log_message *message)
 {
-  if (message.level <= CEC_LOG_ERROR) {
+  if (message->level <= CEC_LOG_ERROR) {
     errno = 0;
-    LOGERR("%s", message.message);
-  } else if (message.level <= CEC_LOG_NOTICE) {
-    LOGMSG("%s", message.message);
-  } else if (message.level <= CEC_LOG_DEBUG) {
-    LOGDBG("%s", message.message);
+    LOGERR("%s", message->message);
+  } else if (message->level <= CEC_LOG_NOTICE) {
+    LOGMSG("%s", message->message);
+  } else if (message->level <= CEC_LOG_DEBUG) {
+    LOGDBG("%s", message->message);
   } else {
-    LOGVERBOSE("%s", message.message);
+    LOGVERBOSE("%s", message->message);
   }
+}
+#ifndef HAVE_LIBCEC_4
+static int _cec_log_cb(void *this_gen, const cec_log_message message)
+{
+  _cec4_log_cb(this_gen, &message);
   return 1;
 }
+#endif
 
-static int cec_keypress_cb(void *this_gen, const cec_keypress keypress)
+static void _cec4_keypress_cb(void *this_gen, const cec_keypress *keypress)
 {
   frontend_t *fe = (frontend_t*)this_gen;
   static int last_key = -1;
 
-  LOGVERBOSE("keypress 0x%x duration %d", keypress.keycode, keypress.duration);
+  LOGVERBOSE("keypress 0x%x duration %d", keypress->keycode, keypress->duration);
 
-  if (keypress.keycode == last_key && keypress.duration > 0)
-    return 1;
-  else if (keypress.duration > 0)
+  if (keypress->keycode == last_key && keypress->duration > 0)
+    return;
+  else if (keypress->duration > 0)
     last_key = -1;
   else
-    last_key = keypress.keycode;
+    last_key = keypress->keycode;
 
-  if (keypress.keycode >= sizeof(keymap) / sizeof(keymap[0]) ||
-      !keymap[keypress.keycode].key[0]) {
-    LOGMSG("unknown keycode 0x%x", keypress.keycode);
-    return 1;
+  if (keypress->keycode >= sizeof(keymap) / sizeof(keymap[0]) ||
+      !keymap[keypress->keycode].key[0]) {
+    LOGMSG("unknown keycode 0x%x", keypress->keycode);
+    return;
   }
 
-  LOGDBG("sending key %s%s", keymap[keypress.keycode].map ? "CEC." : "", keymap[keypress.keycode].key);
+  LOGDBG("sending key %s%s", keymap[keypress->keycode].map ? "CEC." : "", keymap[keypress->keycode].key);
 
   alarm(3);
-  fe->send_input_event(fe, keymap[keypress.keycode].map ? "CEC" : NULL,
-		       keymap[keypress.keycode].key, 0, 1);
+  fe->send_input_event(fe, keymap[keypress->keycode].map ? "CEC" : NULL,
+		       keymap[keypress->keycode].key, 0, 1);
   alarm(0);
 
+  return;
+}
+#ifndef HAVE_LIBCEC_4
+static int _cec_keypress_cb(void *this_gen, const cec_keypress keypress)
+{
+  _cec4_keypress_cb(this_gen, &keypress);
   return 1;
 }
+#endif
 
-static int cec_alert_cb(void *this_gen, const libcec_alert type, const libcec_parameter param)
+static void _cec4_alert_cb(void *this_gen, const libcec_alert type, const libcec_parameter param)
 {
   switch (type) {
     case CEC_ALERT_CONNECTION_LOST:
@@ -227,14 +255,20 @@ static int cec_alert_cb(void *this_gen, const libcec_alert type, const libcec_pa
     default:
       break;
   }
+}
+#ifndef HAVE_LIBCEC_4
+static int _cec_alert_cb(void *this_gen, const libcec_alert type, const libcec_parameter param)
+{
+  _cec4_alert_cb(this_gen, type, param);
   return 0;
 }
+#endif
 
-static int cec_command_cb(void *this_gen, const cec_command command)
+static void _cec4_command_cb(void *this_gen, const cec_command *command)
 {
-  LOGMSG("Received command 0x%x from 0x%x", command.opcode, command.initiator);
+  LOGMSG("Received command 0x%x from 0x%x", command->opcode, command->initiator);
 
-  switch (command.opcode) {
+  switch (command->opcode) {
     case CEC_OPCODE_STANDBY:
     case CEC_OPCODE_SET_MENU_LANGUAGE:
     case CEC_OPCODE_DECK_CONTROL:
@@ -242,17 +276,34 @@ static int cec_command_cb(void *this_gen, const cec_command command)
     default:
       break;
   }
+}
+#ifndef HAVE_LIBCEC_4
+static int _cec_command_cb(void *this_gen, const cec_command command)
+{
+  _cec4_command_cb(this_gen, &command);
   return 1;
 }
+#endif
+
 
 ICECCallbacks callbacks = {
-  .CBCecKeyPress             = cec_keypress_cb,
-  .CBCecCommand              = cec_command_cb,
-  .CBCecLogMessage           = cec_log_cb,
-  .CBCecAlert                = cec_alert_cb,
-  .CBCecConfigurationChanged = cec_config_changed_cb,
-  .CBCecSourceActivated      = cec_source_activated_cb,
-  .CBCecMenuStateChanged     = cec_menu_state_changed_cb,
+#ifdef HAVE_LIBCEC_4
+  .logMessage           = _cec4_log_cb,
+  .keyPress             = _cec4_keypress_cb,
+  .commandReceived      = _cec4_command_cb,
+  .configurationChanged = _cec4_config_changed_cb,
+  .alert                = _cec4_alert_cb,
+  .menuStateChanged     = _cec4_menu_state_changed_cb,
+  .sourceActivated      = _cec_source_activated_cb,
+#else
+  .CBCecKeyPress             = _cec_keypress_cb,
+  .CBCecCommand              = _cec_command_cb,
+  .CBCecLogMessage           = _cec_log_cb,
+  .CBCecAlert                = _cec_alert_cb,
+  .CBCecConfigurationChanged = _cec_config_changed_cb,
+  .CBCecSourceActivated      = _cec_source_activated_cb,
+  .CBCecMenuStateChanged     = _cec_menu_state_changed_cb,
+#endif
 };
 
 /*
@@ -276,15 +327,23 @@ static void _libcec_config_clear(libcec_configuration *p)
 #endif
   p->bAutodetectAddress = CEC_DEFAULT_SETTING_AUTODETECT_ADDRESS;
   p->bGetSettingsFromROM = CEC_DEFAULT_SETTING_GET_SETTINGS_FROM_ROM;
+#ifndef HAVE_LIBCEC_4
   p->bUseTVMenuLanguage = CEC_DEFAULT_SETTING_USE_TV_MENU_LANGUAGE;
+#endif
   p->bActivateSource = CEC_DEFAULT_SETTING_ACTIVATE_SOURCE;
+#ifndef HAVE_LIBCEC_4
   p->bPowerOffScreensaver = CEC_DEFAULT_SETTING_POWER_OFF_SCREENSAVER;
   p->bPowerOnScreensaver = CEC_DEFAULT_SETTING_POWER_ON_SCREENSAVER;
+#endif
   p->bPowerOffOnStandby = CEC_DEFAULT_SETTING_POWER_OFF_ON_STANDBY;
+#ifndef HAVE_LIBCEC_4
   p->bShutdownOnStandby = CEC_DEFAULT_SETTING_SHUTDOWN_ON_STANDBY;
   p->bSendInactiveSource = CEC_DEFAULT_SETTING_SEND_INACTIVE_SOURCE;
+#endif
   p->iFirmwareVersion = CEC_FW_VERSION_UNKNOWN;
+#ifndef HAVE_LIBCEC_4
   p->bPowerOffDevicesOnStandby = CEC_DEFAULT_SETTING_POWER_OFF_DEVICES_STANDBY;
+#endif
   memcpy(p->strDeviceLanguage, CEC_DEFAULT_DEVICE_LANGUAGE, 3);
   p->iFirmwareBuildDate = CEC_FW_BUILD_UNKNOWN;
   p->bMonitorOnly = 0;
