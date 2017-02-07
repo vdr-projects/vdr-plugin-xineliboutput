@@ -219,7 +219,7 @@ static void _cec4_keypress_cb(void *this_gen, const cec_keypress *keypress)
 
   alarm(3);
   fe->send_input_event(fe, keymap[keypress->keycode].map ? "CEC" : NULL,
-		       keymap[keypress->keycode].key, 0, 1);
+                       keymap[keypress->keycode].key, 0, 1);
   alarm(0);
 
   return;
@@ -523,13 +523,13 @@ static void *_cec_receiver_thread(void *fe_gen)
     switch (state) {
     case INIT:
       if (!(conn = _libcec_init(fe_gen))) {
-	return NULL;
+        return NULL;
       }
       state = WAIT_DEVICE;
       break;
     case WAIT_DEVICE:
       if (_libcec_open(conn)) {
-	state = RUNNING;
+        state = RUNNING;
       }
       usleep(5000*1000);
       break;
