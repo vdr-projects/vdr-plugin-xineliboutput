@@ -385,7 +385,7 @@ static void _libcec_config_clear(libcec_configuration *p)
   p->callbacks = NULL;
 }
 
-static int cec_parse_edid(uint8_t *edid, int size)
+static int _cec_parse_edid(uint8_t *edid, int size)
 {
   /* get cec physical address from edid vendor-specific block */
   int i;
@@ -404,7 +404,7 @@ static int cec_parse_edid(uint8_t *edid, int size)
   return -1;
 }
 
-static int detect_hdmi_address(frontend_t *fe_gen)
+static int _detect_hdmi_address(frontend_t *fe_gen)
 {
   if (cec_hdmi_port <= 0) {
     frontend_t *fe = (frontend_t*)fe_gen;
@@ -414,7 +414,7 @@ static int detect_hdmi_address(frontend_t *fe_gen)
       uint8_t *edid;
       edid = fe->fe_display_edid(fe, &size);
       if (edid) {
-        cec_hdmi_address = cec_parse_edid(edid, size);
+        cec_hdmi_address = _cec_parse_edid(edid, size);
         free(edid);
 
         if (cec_hdmi_address > 0) {
@@ -436,7 +436,7 @@ static libcec_connection_t _libcec_init(void *fe_gen)
 
   strncpy(config.strDeviceName, "VDR", sizeof(config.strDeviceName));
 
-  config.iPhysicalAddress = detect_hdmi_address(fe_gen);
+  config.iPhysicalAddress = _detect_hdmi_address(fe_gen);
   config.iHDMIPort = cec_hdmi_port;
   config.baseDevice = cec_dev_type;
 
@@ -497,7 +497,7 @@ static int _libcec_check_device(libcec_connection_t conn)
   return 1;
 }
 
-static void cleanup(void *p)
+static void _cleanup(void *p)
 {
 #ifdef HAVE_LIBCEC_3
   libcec_connection_t conn = *(libcec_connection_t *)p;
@@ -506,13 +506,13 @@ static void cleanup(void *p)
   libcec_destroy(conn);
 }
 
-static void *cec_receiver_thread(void *fe_gen)
+static void *_cec_receiver_thread(void *fe_gen)
 {
   libcec_connection_t conn;
 
   LOGDBG("started");
 
-  pthread_cleanup_push(cleanup, &conn);
+  pthread_cleanup_push(_cleanup, &conn);
 
   enum { INIT, WAIT_DEVICE, RUNNING } state = INIT;
 
@@ -565,7 +565,7 @@ void cec_start(struct frontend_s *fe, int hdmi_port, int dev_type)
     cec_dev_type = dev_type;
 
     if ((err = pthread_create (&cec_thread,
-                               NULL, cec_receiver_thread,
+                               NULL, _cec_receiver_thread,
                                (void*)fe)) != 0) {
       fprintf(stderr, "can't create new thread for HDMI-CEC (%s)\n",
               strerror(err));
