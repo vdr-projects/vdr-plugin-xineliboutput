@@ -168,12 +168,14 @@ test_library_pc(){
 
   log -n "Checking for pkg-config $libname ... "
   if $PKG_CONFIG --exists $libname; then
+   if $PKG_CONFIG --libs $libname >/dev/null; then
     add_flags LIBS_$subsys \
               `pkg-config --libs-only-L $libname` \
               `pkg-config --libs-only-l $libname`
     add_flags CFLAGS_$subsys `pkg-config --cflags-only-I $libname`
     log "yes"
     return 0
+   fi
   fi
   log "no"
   return 1
