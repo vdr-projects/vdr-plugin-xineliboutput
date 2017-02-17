@@ -290,8 +290,12 @@ void ts2es_dispose(ts2es_t *data)
 ts2es_t *ts2es_init(fifo_buffer_t *dst_fifo, ts_stream_type stream_type, uint stream_index)
 {
   ts2es_t *data = calloc(1, sizeof(ts2es_t));
-  data->fifo = dst_fifo;
 
+  if (!data) {
+    return NULL;
+  }
+
+  data->fifo = dst_fifo;
   data->stream_type = stream_type;
 
   switch(stream_type) {
