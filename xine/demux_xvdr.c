@@ -48,6 +48,10 @@
 #define VDR_SUBTITLES
 #define TEST_DVB_SPU
 
+#ifndef BUF_VIDEO_HEVC
+# warning xine-lib does not support HEVC
+#endif
+
 /*
  * logging
  */
