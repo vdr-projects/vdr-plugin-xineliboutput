@@ -145,12 +145,6 @@ static void make_dirs(const char *file)
 
 static void list_plugins_type(xine_t *xine, const char *msg, typeof (xine_list_audio_output_plugins) list_func)
 {
-  static xine_t *tmp_xine = NULL;
-  if(!xine) {
-    if(!tmp_xine)
-      xine_init(tmp_xine = xine_new());
-    xine = tmp_xine;
-  }
   const char *const *list = list_func(xine);
 
   printf("%s", msg);
