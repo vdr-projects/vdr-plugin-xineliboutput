@@ -276,11 +276,19 @@ static void post_sequence_end(fifo_buffer_t *fifo, uint32_t video_type)
 {
   uint8_t code;
   switch (video_type) {
-    case BUF_VIDEO_MPEG:  code = SC_SEQUENCE_END;
-    case BUF_VIDEO_H264:  code = NAL_END_SEQ;
-    case BUF_VIDEO_VC1:   code = NAL_END_SEQ;
+    case BUF_VIDEO_MPEG:
+      code = SC_SEQUENCE_END;
+      break;
+    case BUF_VIDEO_H264:
+      code = NAL_END_SEQ;
+      break;
+    case BUF_VIDEO_VC1:
+      code = NAL_END_SEQ;
+      break;
 #ifdef BUF_VIDEO_HEVC
-    case BUF_VIDEO_HEVC:  code = (H265_NAL_EOB_NUT << 1);
+    case BUF_VIDEO_HEVC:
+      code = (H265_NAL_EOB_NUT << 1);
+      break;
 #endif
     default:
       return;
