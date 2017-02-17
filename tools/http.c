@@ -284,7 +284,18 @@ bool cHttpStreamer::Seek(void)
     m_fds.write_cmd(HTTP_REPLY_416); // 416 Requested Range Not Satisfiable
     return false;
   }
-  
+
+  bool result;
+  if (m_Start > 0)
+    result = (lseek(m_fdf, (off_t)m_Start, SEEK_SET) == (off_t)m_Start);
+  else
+    result = (lseek(m_fdf, 0, SEEK_SET) == 0);
+  if (!result) {
+    LOGERR("cHttpStreamer: error seeking to %" PRId64, m_Start);
+    m_fds.write_cmd(HTTP_REPLY_416); // 416 Requested Range Not Satisfiable
+    return false;
+  }
+
   if(m_Start > 0) {
     if(m_End >= m_FileSize || m_End < 0)
       m_End = m_FileSize-1;
@@ -321,11 +332,6 @@ bool cHttpStreamer::Seek(void)
   else
     m_fds.write_cmd("Connection: Close\r\n"
 		    "\r\n");
-
-  if(m_Start)
-    lseek(m_fdf, (off_t)m_Start, SEEK_SET);
-  else
-    lseek(m_fdf, 0, SEEK_SET);
 
   return true;
 }
