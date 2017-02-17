@@ -245,6 +245,10 @@ void x_avahi_stop(void *h)
 
 #else /* HAVE_AVAHI */
 
+void *x_avahi_start(int port, int rtsp, int http)
+{
+  return NULL;
+}
 
 void x_avahi_stop(void *h)
 {
