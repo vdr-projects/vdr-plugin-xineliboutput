@@ -6,12 +6,14 @@ VDR Plugin 'xineliboutput' Revision History
 - Moved from CVS to GIT (see README)
 - Support vdr-2.3.1
 - Dropped support for vdr < 2.0
+- Fixed problems with xine-lib 1.2.7+
 - Fixed ts demuxing with some video streams (Thanks to Niedermeier Guenter).
 - Fixed primary device switching.
-- Fixed segfault when playing audio-only stream with visualization.
+- Fixed segfault when playing audio-only stream with visualization (Thanks to Tobias Grimm).
 - Fixed toggling fullscreen mode.
 - Fixed lost post processing when stream is reconnected.
 - Fixed HUD OSD crash with UHD resolution video output.
+- Added mDNS announces (tested with VLC).
 - Added an option to trigger vdr-suspendoutput when there are no connected clients.
 - Added HDMI-CEC input support (libcec).
 - Added support for cDevice::ScaleVideo().
