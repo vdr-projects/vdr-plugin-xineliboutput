@@ -214,6 +214,8 @@ void *x_avahi_start(int port, int rtsp, int http)
 
     if ((err = pthread_create (&d->thread, NULL, _avahi_run, h)) != 0) {
       LOGERR("AVAHI can't create new thread (%s)", strerror(err));
+      free(h);
+      h = NULL;
     }
   }
 
