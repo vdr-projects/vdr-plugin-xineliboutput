@@ -45,7 +45,7 @@ static void ts2es_parse_pes(ts2es_t *this)
   this->pes_error = 0;
 
   /* parse PES header */
-  uint    hdr_len = PES_HEADER_LEN(this->buf->content);
+  unsigned hdr_len = PES_HEADER_LEN(this->buf->content);
   uint8_t pes_pid = this->buf->content[3];
 
   /* Check if header is complete */
@@ -287,7 +287,7 @@ void ts2es_dispose(ts2es_t *data)
   }
 }
 
-ts2es_t *ts2es_init(fifo_buffer_t *dst_fifo, ts_stream_type stream_type, uint stream_index)
+ts2es_t *ts2es_init(fifo_buffer_t *dst_fifo, ts_stream_type stream_type, unsigned stream_index)
 {
   ts2es_t *data = calloc(1, sizeof(ts2es_t));
 

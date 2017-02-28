@@ -68,7 +68,7 @@ typedef struct fe_s {
   /* frontend */
   double      video_aspect;    /* aspect ratio of video frame */
   double      display_ratio;   /* aspect ratio of video window */
-  uint        terminate_key_pressed;
+  uint8_t     terminate_key_pressed;
   uint16_t    xpos, ypos;      /* position of video window */
   uint16_t    width;           /* size of video window */
   uint16_t    height;          /* */

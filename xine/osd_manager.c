@@ -194,7 +194,7 @@ static void clear_osdcmd(osd_command_t *cmd)
  */
 static void osdcmd_to_overlay(vo_overlay_t *ovl, osd_command_t *cmd)
 {
-  uint i;
+  unsigned i;
 
   ovl->rle       = (rle_elem_t*)cmd->data;
   ovl->data_size = cmd->datalen;

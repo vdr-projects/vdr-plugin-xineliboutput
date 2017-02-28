@@ -737,7 +737,7 @@ static int32_t parse_pes_for_pts(demux_xvdr_t *this, uint8_t *p, buf_element_t *
  */
 static int32_t parse_dvb_spu(demux_xvdr_t *this, uint8_t *p, buf_element_t *buf, int substream_header_len)
 {
-  uint spu_id = p[0] & 0x1f;
+  unsigned spu_id = p[0] & 0x1f;
   _x_select_spu_channel(this->stream, spu_id);
 
 # ifdef VDR_SUBTITLES

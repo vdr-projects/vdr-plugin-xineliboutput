@@ -49,7 +49,7 @@
 static uint32_t ts_compute_crc32(const uint8_t *data, uint32_t length, uint32_t crc32)
 {
   static uint32_t crc32_table[256];
-  static uint     init_done = 0;
+  static unsigned init_done = 0;
 
   if (!init_done) {
     uint32_t  i, j, k;
@@ -79,7 +79,7 @@ static uint32_t ts_compute_crc32(const uint8_t *data, uint32_t length, uint32_t 
 int ts_parse_pat(pat_data_t *pat, const uint8_t *pkt)
 {
   const uint8_t *original_pkt = pkt;
-  uint           pat_changed  = 0;
+  unsigned       pat_changed  = 0;
 
   if (! ts_PAYLOAD_START(pkt)) {
     LOGMSG ("parse_pat: PAT without payload unit start indicator");
@@ -93,13 +93,13 @@ int ts_parse_pat(pat_data_t *pat, const uint8_t *pkt)
     return 0;
   }
 
-  uint     section_syntax_indicator = ((pkt[6] >> 7) & 0x01) ;
-  uint     section_length           = ((pkt[6] & 0x03) << 8) | pkt[7];
-/*uint     transport_stream_id      = (pkt[8]  << 8) | pkt[9];*/
-  uint     version_number           = (pkt[10] >> 1) & 0x1f;
-  uint     current_next_indicator   = pkt[10] & 0x01;
-  uint     section_number           = pkt[11];
-  uint     last_section_number      = pkt[12];
+  unsigned section_syntax_indicator = ((pkt[6] >> 7) & 0x01) ;
+  unsigned section_length           = ((pkt[6] & 0x03) << 8) | pkt[7];
+/*unsigned transport_stream_id      = (pkt[8]  << 8) | pkt[9];*/
+  unsigned version_number           = (pkt[10] >> 1) & 0x1f;
+  unsigned current_next_indicator   = pkt[10] & 0x01;
+  unsigned section_number           = pkt[11];
+  unsigned last_section_number      = pkt[12];
   uint32_t crc32, calc_crc32;
 
   crc32 =  pkt[section_length + 4] << 24;
@@ -143,14 +143,14 @@ int ts_parse_pat(pat_data_t *pat, const uint8_t *pkt)
    */
 
   const uint8_t *program;
-  uint           program_count;
+  unsigned       program_count;
 
   program_count = 0;
   for (program = pkt + 13;
        program < pkt + 13 + section_length - 9;
        program += 4) {
-    uint program_number = (program[0] << 8) | program[1];
-    uint pmt_pid        = ((program[2] & 0x1f) << 8) | program[3];
+    unsigned program_number = (program[0] << 8) | program[1];
+    unsigned pmt_pid        = ((program[2] & 0x1f) << 8) | program[3];
 
     /* skip NIT pids */
     if (program_number == 0x0000)
@@ -209,7 +209,7 @@ static void ts_get_reg_desc(uint32_t *dest, const uint8_t *data, int length)
   *dest = 0;
 }
 
-static int find_audio_track(pmt_data_t *pmt, uint pid)
+static int find_audio_track(pmt_data_t *pmt, unsigned pid)
 {
   int i;
   for (i = 0; i < pmt->audio_tracks_count; i++) {
@@ -250,11 +250,11 @@ static ts_stream_type descriptor_to_stream_type(const uint8_t descriptor_tag)
  *
  * modified from xine-lib demux_ts.c
  */
-int ts_parse_pmt (pmt_data_t *pmt, uint program_no, const uint8_t *pkt)
+int ts_parse_pmt (pmt_data_t *pmt, unsigned program_no, const uint8_t *pkt)
 {
   const uint8_t *originalPkt = pkt;
   const uint8_t *ptr         = NULL;
-  uint           pusi        = ts_PAYLOAD_START(pkt);
+  unsigned       pusi        = ts_PAYLOAD_START(pkt);
 
   uint32_t section_syntax_indicator;
   uint32_t section_length = 0; /* to calm down gcc */
@@ -267,12 +267,12 @@ int ts_parse_pmt (pmt_data_t *pmt, uint program_no, const uint8_t *pkt)
   uint32_t crc32;
   uint32_t calc_crc32;
   uint32_t coded_length;
-  uint     pid;
+  unsigned pid;
   uint8_t *stream;
-  uint     i;
+  unsigned i;
   int      count;
   uint8_t  len;
-  uint     offset = 0;
+  unsigned offset = 0;
   uint32_t program_info_format_identifier = 0;
   uint8_t  hdmv_pmt = 0;
 
@@ -466,7 +466,7 @@ int ts_parse_pmt (pmt_data_t *pmt, uint program_no, const uint8_t *pkt)
           }
           /* DVBSUB */
           else if (stream[i] == STREAM_DESCR_DVBSUB) {
-            uint pos;
+            unsigned pos;
             for (pos = i + 2;
                  pos + 8 <= i + 2 + stream[i + 1]
                    && pmt->spu_tracks_count < TS_MAX_SPU_TRACKS;
@@ -589,7 +589,7 @@ static int ts_get_pcr_1(const uint8_t *pkt, int64_t *ppcr)
   pcr += (int64_t) ((pkt[10] & 0x80) >> 7);
 
 #ifdef LOG_PCR
-  uint epcr = ((pkt[10] & 0x1) << 8) | pkt[11];
+  unsigned epcr = ((pkt[10] & 0x1) << 8) | pkt[11];
   LOGPCR("ts_get_pcr: PCR: %"PRId64", EPCR: %u", pcr, epcr);
 #endif
 

@@ -148,7 +148,7 @@ typedef struct {
   uint8_t         *pmt_write_ptr;
 
   uint32_t         crc32;
-  uint             version_number;
+  unsigned         version_number;
 
   uint16_t         pcr_pid;
   uint16_t         video_pid;
@@ -178,7 +178,7 @@ typedef struct {
  * returns 1 : PMT parsed and changed
  *         0 : error or unchanged PMT
  */
-int ts_parse_pmt(pmt_data_t *pmt, uint program_no, const uint8_t *ts_data);
+int ts_parse_pmt(pmt_data_t *pmt, unsigned program_no, const uint8_t *ts_data);
 
 /*
  * PCR

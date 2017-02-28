@@ -25,23 +25,23 @@ struct osd_rle_elem_s;
 struct osd_clut_s;
 
 
-uint rle_compress(struct osd_rle_elem_s **rle_data, const uint8_t *data, uint w, uint h);
-uint rle_recompress_net(uint8_t *raw, osd_rle_elem_t *data, uint elems);
+unsigned rle_compress(struct osd_rle_elem_s **rle_data, const uint8_t *data, unsigned w, unsigned h);
+unsigned rle_recompress_net(uint8_t *raw, osd_rle_elem_t *data, unsigned elems);
 
-void rle_palette_to_argb(uint32_t *argb, const struct osd_clut_s *palette, uint entries);
-void rle_palette_to_rgba(uint32_t *rgba, const struct osd_clut_s *palette, uint entries);
+void rle_palette_to_argb(uint32_t *argb, const struct osd_clut_s *palette, unsigned entries);
+void rle_palette_to_rgba(uint32_t *rgba, const struct osd_clut_s *palette, unsigned entries);
 
 void rle_uncompress_lut8(uint8_t *dst,
-                         uint w, uint h, uint stride,
-                         const struct osd_rle_elem_s *rle_data, uint num_rle);
+                         unsigned w, unsigned h, unsigned stride,
+                         const struct osd_rle_elem_s *rle_data, unsigned num_rle);
 void rle_uncompress_argb(uint32_t *dst,
-                         uint w, uint h, uint stride,
-                         const struct osd_rle_elem_s *rle_data, uint num_rle,
-                         const struct osd_clut_s *palette, uint palette_entries);
+                         unsigned w, unsigned h, unsigned stride,
+                         const struct osd_rle_elem_s *rle_data, unsigned num_rle,
+                         const struct osd_clut_s *palette, unsigned palette_entries);
 void rle_uncompress_rgba(uint32_t *dst,
-                         uint w, uint h, uint stride,
-                         const struct osd_rle_elem_s *rle_data, uint num_rle,
-                         const struct osd_clut_s *palette, uint palette_entries);
+                         unsigned w, unsigned h, unsigned stride,
+                         const struct osd_rle_elem_s *rle_data, unsigned num_rle,
+                         const struct osd_clut_s *palette, unsigned palette_entries);
 
 /*
  * rle_scale_nearest()
@@ -51,17 +51,17 @@ void rle_uncompress_rgba(uint32_t *dst,
  */
 struct osd_rle_elem_s *rle_scale_nearest(const struct osd_rle_elem_s *old_rle,
                                           int *rle_elems,
-                                          uint w, uint h, uint new_w, uint new_h);
+                                          unsigned w, unsigned h, unsigned new_w, unsigned new_h);
 
 
 /*
  * HDMV (BluRay) presentation graphics format
  */
 
-size_t rle_compress_hdmv(uint8_t **rle_data, const uint8_t *data, uint w, uint h, int *num_rle);
+size_t rle_compress_hdmv(uint8_t **rle_data, const uint8_t *data, unsigned w, unsigned h, int *num_rle);
 int rle_uncompress_hdmv(struct osd_rle_elem_s **data,
-                        uint w, uint h,
-                        const uint8_t *rle_data, uint num_rle, size_t rle_size);
+                        unsigned w, unsigned h,
+                        const uint8_t *rle_data, unsigned num_rle, size_t rle_size);
 
 
 #if defined __cplusplus

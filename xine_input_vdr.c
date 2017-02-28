@@ -282,8 +282,8 @@ typedef struct vdr_input_class_s {
   int             smooth_scr_tuning;
   double          scr_tuning_step;
   int             num_buffers_hd;
-  uint            scr_treshold_sd;
-  uint            scr_treshold_hd;
+  unsigned        scr_treshold_sd;
+  unsigned        scr_treshold_hd;
 
 } vdr_input_class_t;
 
@@ -341,14 +341,14 @@ typedef struct vdr_input_plugin_s {
   uint8_t             is_trickspeed : 1;
   struct {
     /* buffer level data for scr tuning algorithm */
-    uint cnt;
-    uint fill_avg;
-    uint fill_min;
-    uint fill_max;
+    unsigned cnt;
+    unsigned fill_avg;
+    unsigned fill_min;
+    unsigned fill_max;
   } scr_buf;
-  uint                I_frames;   /* amount of I-frames passed to demux */
-  uint                B_frames;
-  uint                P_frames;
+  unsigned            I_frames;   /* amount of I-frames passed to demux */
+  unsigned            B_frames;
+  unsigned            P_frames;
 
   /* Network */
   pthread_t           control_thread;
@@ -371,12 +371,12 @@ typedef struct vdr_input_plugin_s {
 					all data before this offset will 
 					be discarded */
   uint64_t            discard_index_ds;
-  uint                discard_frame;
+  unsigned            discard_frame;
   uint64_t            guard_index;   /* data before this offset will not be discarded */
-  uint                guard_frame;
+  unsigned            guard_frame;
   uint64_t            curpos;        /* current position (demux side) */
-  uint                curframe;
-  uint                reserved_buffers;
+  unsigned            curframe;
+  unsigned            reserved_buffers;
 
   /* media player */
   slave_stream_t      slave;          /* slave stream (media player) data */
@@ -691,11 +691,11 @@ static void vdr_adjust_realtime_speed(vdr_input_plugin_t *this)
    */
 
   if (scr_tuning == SCR_TUNING_PAUSED) {
-    uint scr_treshold = 100 * num_used / (num_used + num_free);
+    unsigned scr_treshold = 100 * num_used / (num_used + num_free);
+    unsigned audio_treshold = 100 * this->stream->audio_fifo->size
+                              (this->stream->audio_fifo) / (this->stream->audio_fifo->size
+                              (this->stream->audio_fifo) + 500);
     LOGSCR("SCR-T %2d%%, FB %d, UB %d", scr_treshold, num_free, num_used);
-    uint audio_treshold = 100 * this->stream->audio_fifo->size
-                          (this->stream->audio_fifo) / (this->stream->audio_fifo->size
-                          (this->stream->audio_fifo) + 500);
     LOGSCR("Audio-T %2d%%, UB %d", audio_treshold, this->stream->audio_fifo->size
                                                   (this->stream->audio_fifo));
     if (   (this->hd_stream  && scr_treshold > this->class->scr_treshold_hd && (audio_treshold > 0 || scr_treshold > 65))

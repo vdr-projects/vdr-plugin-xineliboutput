@@ -826,7 +826,7 @@ static void update_mask(uint32_t* dst, int dst_pitch,
                         uint32_t* mask, int mask_pitch,
                         int *mask_changed, const struct osd_command_s *cmd)
 {
-  uint x, y;
+  unsigned x, y;
   *mask_changed = 0;
 
   dst  += dst_pitch  * cmd->y + cmd->x;
@@ -1429,7 +1429,7 @@ static void set_icon(sxfe_t *this)
 #else
   long      q[2+32*32];
   uint32_t *p = (uint32_t*)&vdrlogo_32x32;
-  uint      i;
+  unsigned  i;
   for (i = 0; i < 2 + vdrlogo_32x32.width*vdrlogo_32x32.height; i++)
     q[i] = p[i];
   XChangeProperty(this->display, this->window[0],

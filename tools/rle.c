@@ -26,10 +26,10 @@
  * rle_compress()
  *
  */
-uint rle_compress(osd_rle_elem_t **rle_data, const uint8_t *data, uint w, uint h)
+unsigned rle_compress(osd_rle_elem_t **rle_data, const uint8_t *data, unsigned w, unsigned h)
 {
   osd_rle_elem_t rle, *rle_p = 0, *rle_base;
-  uint x, y, num_rle = 0, rle_size = 8128;
+  unsigned x, y, num_rle = 0, rle_size = 8128;
   const uint8_t *c;
 
   rle_p = (osd_rle_elem_t*)malloc(4*rle_size);
@@ -69,10 +69,10 @@ uint rle_compress(osd_rle_elem_t **rle_data, const uint8_t *data, uint w, uint h
  *
  * recompress RLE-compressed OSD using variable sized RLE codewords
 */
-uint rle_recompress_net(uint8_t *raw, osd_rle_elem_t *data, uint elems)
+unsigned rle_recompress_net(uint8_t *raw, osd_rle_elem_t *data, unsigned elems)
 {
   uint8_t *raw0 = raw;
-  uint i;
+  unsigned i;
 
   for (i = 0; i < elems; i++) {
     uint16_t len   = data[i].len;
@@ -96,29 +96,29 @@ uint rle_recompress_net(uint8_t *raw, osd_rle_elem_t *data, uint elems)
  * - fast scaling in compressed form without decompression
  */
 osd_rle_elem_t *rle_scale_nearest(const osd_rle_elem_t *old_rle, int *rle_elems,
-                                   uint w, uint h, uint new_w, uint new_h)
+                                   unsigned w, unsigned h, unsigned new_w, unsigned new_h)
 {
   #define FACTORBASE      0x100
   #define FACTOR2PIXEL(f) ((f)>>8)
   #define SCALEX(x) FACTOR2PIXEL(factor_x*(x))
   #define SCALEY(y) FACTOR2PIXEL(factor_y*(y))
 
-  uint old_w = w, old_h = h;
-  uint old_y = 0, new_y = 0;
-  uint factor_x = FACTORBASE*new_w/old_w;
-  uint factor_y = FACTORBASE*new_h/old_h;
-  uint rle_size = MAX(8128, *rle_elems * new_h/h ); /* guess ... */
-  uint num_rle  = 0;
+  unsigned old_w = w, old_h = h;
+  unsigned old_y = 0, new_y = 0;
+  unsigned factor_x = FACTORBASE*new_w/old_w;
+  unsigned factor_y = FACTORBASE*new_h/old_h;
+  unsigned rle_size = MAX(8128, *rle_elems * new_h/h ); /* guess ... */
+  unsigned num_rle  = 0;
   osd_rle_elem_t *new_rle = (osd_rle_elem_t*)malloc(sizeof(osd_rle_elem_t)*rle_size);
   osd_rle_elem_t *new_rle_start = new_rle;
 
   /* we assume rle elements are breaked at end of line */
   while (old_y < old_h) {
-    uint elems_current_line = 0;
-    uint old_x = 0, new_x = 0;
+    unsigned elems_current_line = 0;
+    unsigned old_x = 0, new_x = 0;
 
     while (old_x < old_w) {
-      uint new_x_end = SCALEX(old_x + old_rle->len);
+      unsigned new_x_end = SCALEX(old_x + old_rle->len);
 
       if (new_x_end > new_w) {
         new_x_end = new_w;
@@ -159,7 +159,7 @@ osd_rle_elem_t *rle_scale_nearest(const osd_rle_elem_t *old_rle, int *rle_elems,
 
       while (dup-- && (new_y+1<new_h)) {
         osd_rle_elem_t *prevline;
-        uint n;
+        unsigned n;
         if ( (num_rle + elems_current_line + 1) >= rle_size ) {
           rle_size *= 2;
           new_rle_start = (osd_rle_elem_t*)realloc( new_rle_start, 4*rle_size);
@@ -177,7 +177,7 @@ osd_rle_elem_t *rle_scale_nearest(const osd_rle_elem_t *old_rle, int *rle_elems,
 
     } else if (factor_y < FACTORBASE) {
       /* scale down -- drop next line ? */
-      uint skip = new_y - SCALEY(old_y);
+      unsigned skip = new_y - SCALEY(old_y);
       if (old_y == old_h-1) {
         /* one (old) line left ; don't skip it if new rle is not complete */
         if (new_y < new_h)
@@ -201,11 +201,11 @@ osd_rle_elem_t *rle_scale_nearest(const osd_rle_elem_t *old_rle, int *rle_elems,
 /*
  * encode single HDMV PG rle element
  */
-static uint8_t *write_rle_hdmv(uint8_t *rle_data, uint color, uint len)
+static uint8_t *write_rle_hdmv(uint8_t *rle_data, unsigned color, unsigned len)
 {
   /* short non-transparent sequences are uncompressed */
   if (color && len < 4) {
-    uint i;
+    unsigned i;
     for (i = 0; i < len; i++) {
       *rle_data++ = color;
     }
@@ -239,9 +239,9 @@ static uint8_t *write_rle_hdmv(uint8_t *rle_data, uint color, uint len)
 /*
  * compress LUT8 image using HDMV PG compression algorithm
  */
-size_t rle_compress_hdmv(uint8_t **rle_data, const uint8_t *data, uint w, uint h, int *num_rle)
+size_t rle_compress_hdmv(uint8_t **rle_data, const uint8_t *data, unsigned w, unsigned h, int *num_rle)
 {
-  uint     y;
+  unsigned y;
   size_t   rle_size = 0;
   uint8_t *rle = NULL;
 
@@ -259,9 +259,9 @@ size_t rle_compress_hdmv(uint8_t **rle_data, const uint8_t *data, uint w, uint h
     }
 
     /* compress line */
-    uint color = *data;
-    uint len   = 1;
-    uint x     = 1;
+    unsigned color = *data;
+    unsigned len   = 1;
+    unsigned x     = 1;
 
     for (x = 1; x < w; x++) {
       if (data[x] == color) {
@@ -290,10 +290,10 @@ size_t rle_compress_hdmv(uint8_t **rle_data, const uint8_t *data, uint w, uint h
 
 
 int rle_uncompress_hdmv(osd_rle_elem_t **data,
-                        uint w, uint h,
-                        const uint8_t *rle_data, uint num_rle, size_t rle_size)
+                        unsigned w, unsigned h,
+                        const uint8_t *rle_data, unsigned num_rle, size_t rle_size)
 {
-  uint rle_count = 0, x = 0, y = 0;
+  unsigned rle_count = 0, x = 0, y = 0;
   osd_rle_elem_t *rlep = calloc(2*num_rle, sizeof(osd_rle_elem_t));
   const uint8_t *end = rle_data + rle_size;
 
@@ -309,7 +309,7 @@ int rle_uncompress_hdmv(osd_rle_elem_t **data,
     }
 
     /* decode RLE element */
-    uint byte = *rle_data++;
+    unsigned byte = *rle_data++;
     if (byte) {
       rlep->color = byte;
       rlep->len   = 1;
@@ -364,16 +364,16 @@ int rle_uncompress_hdmv(osd_rle_elem_t **data,
 }
 
 void rle_uncompress_lut8(uint8_t *dst,
-                         uint w, uint h, uint stride,
-                         const struct osd_rle_elem_s *rle_data, uint num_rle)
+                         unsigned w, unsigned h, unsigned stride,
+                         const struct osd_rle_elem_s *rle_data, unsigned num_rle)
 {
-  uint i, pixelcounter = 0;
-  uint idx = 0, line = 0;
+  unsigned i, pixelcounter = 0;
+  unsigned idx = 0, line = 0;
 
   for(i = 0; i < num_rle; ++i) {
-    uint8_t color = (rle_data + i)->color;
-    uint    len   = (rle_data + i)->len;
-    uint    j;
+    uint8_t  color = (rle_data + i)->color;
+    unsigned len   = (rle_data + i)->len;
+    unsigned j;
 
     for (j = 0; j < len; ++j) {
       if (pixelcounter >= w) {
@@ -389,9 +389,9 @@ void rle_uncompress_lut8(uint8_t *dst,
   }
 }
 
-void rle_palette_to_argb(uint32_t *argb, const struct osd_clut_s *palette, uint entries)
+void rle_palette_to_argb(uint32_t *argb, const struct osd_clut_s *palette, unsigned entries)
 {
-  uint i;
+  unsigned i;
   for (i = 0; i < entries; i++) {
     argb[i] = (palette[i].alpha << 24) |
               (palette[i].r     << 16) |
@@ -400,9 +400,9 @@ void rle_palette_to_argb(uint32_t *argb, const struct osd_clut_s *palette, uint 
   }
 }
 
-void rle_palette_to_rgba(uint32_t *rgba, const struct osd_clut_s *palette, uint entries)
+void rle_palette_to_rgba(uint32_t *rgba, const struct osd_clut_s *palette, unsigned entries)
 {
-  uint i;
+  unsigned i;
   for (i = 0; i < entries; i++) {
     rgba[i] = (palette[i].r     << 24) |
               (palette[i].g     << 16) |
@@ -412,17 +412,17 @@ void rle_palette_to_rgba(uint32_t *rgba, const struct osd_clut_s *palette, uint 
 }
 
 static void rle_uncompress_u32(uint32_t *dst,
-                               uint w, uint h, uint stride,
-                               const struct osd_rle_elem_s *rle_data, uint num_rle,
+                               unsigned w, unsigned h, unsigned stride,
+                               const struct osd_rle_elem_s *rle_data, unsigned num_rle,
                                uint32_t *lut)
 {
-  uint i, pixelcounter = 0;
-  uint idx = 0, line = 0;
+  unsigned i, pixelcounter = 0;
+  unsigned idx = 0, line = 0;
 
   for(i = 0; i < num_rle; ++i) {
     uint32_t color = lut[(rle_data + i)->color];
-    uint     len   = (rle_data + i)->len;
-    uint     j;
+    unsigned len   = (rle_data + i)->len;
+    unsigned j;
 
     for (j = 0; j < len; ++j) {
       if (pixelcounter >= w) {
@@ -439,9 +439,9 @@ static void rle_uncompress_u32(uint32_t *dst,
 }
 
 void rle_uncompress_argb(uint32_t *dst,
-                         uint w, uint h, uint stride,
-                         const struct osd_rle_elem_s *rle_data, uint num_rle,
-                         const struct osd_clut_s *palette, uint palette_entries)
+                         unsigned w, unsigned h, unsigned stride,
+                         const struct osd_rle_elem_s *rle_data, unsigned num_rle,
+                         const struct osd_clut_s *palette, unsigned palette_entries)
 {
   uint32_t lut[256] = {0};
 
@@ -454,9 +454,9 @@ void rle_uncompress_argb(uint32_t *dst,
 }
 
 void rle_uncompress_rgba(uint32_t *dst,
-                         uint w, uint h, uint stride,
-                         const struct osd_rle_elem_s *rle_data, uint num_rle,
-                         const struct osd_clut_s *palette, uint palette_entries)
+                         unsigned w, unsigned h, unsigned stride,
+                         const struct osd_rle_elem_s *rle_data, unsigned num_rle,
+                         const struct osd_clut_s *palette, unsigned palette_entries)
 {
   uint32_t lut[256] = {0};
 
