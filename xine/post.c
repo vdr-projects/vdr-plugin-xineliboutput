@@ -414,13 +414,13 @@ static void _vpplugin_rewire_from_post_elements(fe_t *fe, post_element_t **post_
 
     for(i = (post_elements_num - 1); i >= 0; i--) {
       const char *const *outs = xine_post_list_outputs(post_elements[i]->post);
-      const xine_post_out_t *vo_out = xine_post_output(post_elements[i]->post, (char *) *outs);
+      xine_post_out_t *vo_out = xine_post_output(post_elements[i]->post, *outs);
       if(i == (post_elements_num - 1)) {
         LOGDBG("        wiring %10s[out] -> [in]video_out", post_elements[i]->name);
-        xine_post_wire_video_port((xine_post_out_t *) vo_out, fe->video_port);
+        xine_post_wire_video_port(vo_out, fe->video_port);
       }
       else {
-        const xine_post_in_t *vo_in;
+        xine_post_in_t *vo_in;
 
         /* look for standard input names */
         vo_in = xine_post_input(post_elements[i + 1]->post, "video");
@@ -429,8 +429,7 @@ static void _vpplugin_rewire_from_post_elements(fe_t *fe, post_element_t **post_
 
         LOGDBG("        wiring %10s[out] -> [in]%-10s ",
                post_elements[i]->name, post_elements[i+1]->name);
-        xine_post_wire((xine_post_out_t *) vo_out,
-                       (xine_post_in_t *) vo_in);
+        xine_post_wire(vo_out, vo_in);
       }
     }
 
@@ -459,14 +458,14 @@ static void _applugin_rewire_from_post_elements(fe_t *fe, post_element_t **post_
 
     for(i = (post_elements_num - 1); i >= 0; i--) {
       const char *const *outs = xine_post_list_outputs(post_elements[i]->post);
-      const xine_post_out_t *ao_out = xine_post_output(post_elements[i]->post, (char *) *outs);
+      xine_post_out_t *ao_out = xine_post_output(post_elements[i]->post, *outs);
 
       if(i == (post_elements_num - 1)) {
         LOGDBG("        wiring %10s[out] -> [in]audio_out", post_elements[i]->name);
-        xine_post_wire_audio_port((xine_post_out_t *) ao_out, fe->audio_port);
+        xine_post_wire_audio_port(ao_out, fe->audio_port);
       }
       else {
-        const xine_post_in_t *ao_in;
+        xine_post_in_t *ao_in;
 
         /* look for standard input names */
         ao_in = xine_post_input(post_elements[i + 1]->post, "audio");
@@ -475,7 +474,7 @@ static void _applugin_rewire_from_post_elements(fe_t *fe, post_element_t **post_
 
         LOGDBG("        wiring %10s[out] -> [in]%-10s ",
                post_elements[i]->name, post_elements[i+1]->name);
-        xine_post_wire((xine_post_out_t *) ao_out, (xine_post_in_t *) ao_in);
+        xine_post_wire(ao_out, ao_in);
       }
     }
 
