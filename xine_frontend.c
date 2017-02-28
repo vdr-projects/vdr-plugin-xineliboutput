@@ -10,6 +10,10 @@
 
 #include "features.h"
 
+#ifndef _GNU_SOURCE
+# define _GNU_SOURCE // asprintf
+#endif
+
 #include <inttypes.h>
 #include <stdlib.h>
 #include <stdio.h>
