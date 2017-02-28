@@ -13,11 +13,12 @@
 #include "../logdefs.h"            // logging
 #include "../features.h"
 
+#include <stdlib.h>
+
 #ifdef HAVE_AVAHI_CLIENT
 
 #include <errno.h>
 #include <stdio.h>  // snprintf
-#include <stdlib.h>
 #include <string.h>
 
 #include <pthread.h>
