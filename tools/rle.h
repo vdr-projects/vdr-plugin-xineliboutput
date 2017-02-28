@@ -26,7 +26,6 @@ struct osd_clut_s;
 
 
 uint rle_compress(struct osd_rle_elem_s **rle_data, const uint8_t *data, uint w, uint h);
-uint rle_compress_net(uint8_t **rle_data, uint *elems, const uint8_t *data, uint w, uint h);
 uint rle_recompress_net(uint8_t *raw, osd_rle_elem_t *data, uint elems);
 
 void rle_palette_to_argb(uint32_t *argb, const struct osd_clut_s *palette, uint entries);

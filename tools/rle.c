@@ -64,12 +64,6 @@ uint rle_compress(osd_rle_elem_t **rle_data, const uint8_t *data, uint w, uint h
   return num_rle;
 }
 
-uint rle_compress_net(uint8_t **rle_data, uint *elems, const uint8_t *data, uint w, uint h)
-{
-  *elems = rle_compress((osd_rle_elem_t**)rle_data, data, w, h);
-  return rle_recompress_net(*rle_data, *(osd_rle_elem_t **)rle_data, *elems);
-}
-
 /*
  * rle_recompress_net()
  *
