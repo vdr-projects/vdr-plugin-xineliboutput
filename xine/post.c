@@ -33,10 +33,8 @@
 #include "post.h"
 
 #include <sys/types.h>
-#include <sys/syscall.h>
 #include <unistd.h>
 #include <errno.h>
-#include <syslog.h>
 
 #define LOG_MODULENAME "[xine-post] "
 #include "../logdefs.h"
