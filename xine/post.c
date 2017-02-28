@@ -305,6 +305,7 @@ static post_element_t **pplugin_parse_and_load(fe_t *fe,
   return post_elements;
 }
 
+static
 void pplugin_parse_and_store_post(fe_t *fe, int plugin_type,
                                   const char *post_chain)
 {

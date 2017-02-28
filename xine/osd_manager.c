@@ -138,7 +138,7 @@ static void release_ticket(osd_manager_impl_t *this)
 /*
  * get_overlay_manager()
  */
-video_overlay_manager_t *get_ovl_manager(osd_manager_impl_t *this)
+static video_overlay_manager_t *get_ovl_manager(osd_manager_impl_t *this)
 {
   /* Get overlay manager. We need ticket ... */
   acquire_ticket(this);

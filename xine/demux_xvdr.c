@@ -780,7 +780,7 @@ static int32_t parse_dvb_spu(demux_xvdr_t *this, uint8_t *p, buf_element_t *buf,
   return -1;
 }
 
-int detect_dvb_spu(demux_xvdr_t *this, uint8_t *p, buf_element_t *buf)
+static int detect_dvb_spu(demux_xvdr_t *this, uint8_t *p, buf_element_t *buf)
 {
   LOGSPU("%s%02x %02x %02x %02x   %02x %02x %02x %02x",
          this->pts>0?"* ":"  ",p[0], p[1], p[2], p[3],

@@ -59,8 +59,9 @@ RET vo_def_##NAME (vo_driver_t *self) {                \
  */
 
 DEF_HANDLER0(uint32_t,    get_capabilities);
-DEF_HANDLER0(vo_frame_t*, alloc_frame);
+static DEF_HANDLER0(vo_frame_t*, alloc_frame);
 
+static
 void vo_def_update_frame_format (vo_driver_t *self, vo_frame_t *img,
                                  uint32_t width, uint32_t height,
                                  double ratio, int format, int flags)
@@ -69,17 +70,17 @@ void vo_def_update_frame_format (vo_driver_t *self, vo_frame_t *img,
   return this->orig_driver-> update_frame_format (this->orig_driver, img, width, height, ratio, format, flags);
 }
 
-DEF_HANDLER1(void, display_frame,   vo_frame_t * );
-DEF_HANDLER2(void, overlay_begin,   vo_frame_t *, int             );
-DEF_HANDLER2(void, overlay_blend,   vo_frame_t *, vo_overlay_t *  );
-DEF_HANDLER1(void, overlay_end,     vo_frame_t *);
+static DEF_HANDLER1(void, display_frame,   vo_frame_t * );
+static DEF_HANDLER2(void, overlay_begin,   vo_frame_t *, int             );
+static DEF_HANDLER2(void, overlay_blend,   vo_frame_t *, vo_overlay_t *  );
+static DEF_HANDLER1(void, overlay_end,     vo_frame_t *);
 DEF_HANDLER1(int,  get_property,         int);
 DEF_HANDLER2(int,  set_property,         int, int);
-DEF_HANDLER3(void, get_property_min_max, int, int*, int*);
-DEF_HANDLER2(int,  gui_data_exchange,    int, void * );
-DEF_HANDLER0(int,  redraw_needed );
+static DEF_HANDLER3(void, get_property_min_max, int, int*, int*);
+static DEF_HANDLER2(int,  gui_data_exchange,    int, void * );
+static DEF_HANDLER0(int,  redraw_needed );
 #ifdef HAVE_XINE_GRAB_VIDEO_FRAME
-DEF_HANDLER0(xine_grab_video_frame_t*,  new_grab_video_frame );
+static DEF_HANDLER0(xine_grab_video_frame_t*,  new_grab_video_frame );
 #endif
 
 void vo_def_dispose(vo_driver_t *self)
