@@ -1,7 +1,7 @@
 /*
  * vdr-xineliboutput: xine-lib based output device plugin for VDR
  *
- * Copyright (C) 2003-2008 Petri Hintukainen <phintuka@users.sourceforge.net>
+ * Copyright (C) 2003-2017 Petri Hintukainen <phintuka@users.sourceforge.net>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,7 +43,7 @@
 
 //---------------------------------plugin-------------------------------------
 
-static const char *VERSION        = "2.0.0-git";
+static const char *VERSION        = "2.0.0";
 static const char *DESCRIPTION    = trNOOP("X11/xine-lib output plugin");
 static const char *MAINMENUENTRY  = trNOOP("Media Player");
 
