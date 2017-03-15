@@ -151,7 +151,7 @@ static inline uint32_t br_get_ue_golomb(br_state *br)
   int n = 0;
   while (!br_get_bit(br) && n < 32)
     n++;
-  return n ? ((1<<n) - 1) + br_get_bits(br, n) : 0;
+  return n ? (((uint64_t)1<<n) - 1) + br_get_bits(br, n) : 0;
 }
 
 static inline int32_t br_get_se_golomb(br_state *br)
