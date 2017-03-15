@@ -969,7 +969,7 @@ static ssize_t write_control_data(vdr_input_plugin_t *this, const void *str, siz
     }
 
     errno = 0;
-    ret = write (this->fd_control, str, len);
+    ret = send (this->fd_control, str, len, 0);
 
     if (ret <= 0) {
       if (ret == 0) {
