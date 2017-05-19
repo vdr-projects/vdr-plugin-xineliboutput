@@ -32,7 +32,13 @@
  * Logging functions, should not be used directly
  */
 
+#ifndef __WIN32__
 #include <syslog.h> /* logging levels: LOG_ERR, LOG_INFO, LOG_DEBUG */
+#else
+#define LOG_ERR     1
+#define LOG_INFO    2
+#define LOG_DEBUG   3
+#endif
 
 #define SYSLOGLEVEL_NONE    0
 #define SYSLOGLEVEL_ERRORS  1
@@ -55,7 +61,11 @@
   extern int LogToSysLog;
 
   void x_syslog(int level, const char *module, const char *fmt, ...)
+#ifdef __MINGW32__
+       __attribute__((format (gnu_printf, 3, 4)))
+#else
        __attribute__((format (printf, 3, 4)))
+#endif
        __attribute__((visibility("default")));
 
 #  ifdef __cplusplus
