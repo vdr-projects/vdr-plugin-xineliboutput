@@ -3145,6 +3145,40 @@ static void sxfe_display_close(frontend_t *this_gen)
 #endif
 }
 
+static int plugins_check(xine_t *xine)
+{
+  const char *const *list;
+  int basic = 0, advanced = 0;
+
+  list = xine_list_video_output_plugins(xine);
+  while (list && *list) {
+    /* Basic X11 plugins */
+    if (!strcmp(*list, "xshm") ||
+        !strcmp(*list, "xv")) {
+      basic = 1;
+    }
+    /* "preferred" X11 plugins */
+    if (!strcmp(*list, "vaapi") ||
+        !strcmp(*list, "vdpau") ||
+        !strcmp(*list, "opengl2")) {
+      advanced = 1;
+      break;
+    }
+    list++;
+  }
+
+  if (!advanced) {
+    if (!basic) {
+      LOGERR("FATAL: Required xine video output plugins are missing! Please install plugins.");
+      return -1;
+    } else {
+      LOGMSG("WARNING: Advanced xine video output plugins not found! Please install plugins for improved performance and OSD quality.");
+    }
+  }
+
+  return 0;
+}
+
 /*
  * sxfe_xine_open
  *
@@ -3167,6 +3201,11 @@ static int sxfe_xine_open(frontend_t *this_gen, const char *mrl)
       XStoreName(this->display, this->window[1], name);
       free(name);
     }
+  }
+
+  if (this->x.xine) {
+    if (plugins_check(this->x.xine) < 0)
+      result = 0;
   }
 
   return result;
