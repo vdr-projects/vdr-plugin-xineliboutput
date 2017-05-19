@@ -459,7 +459,7 @@ static void configure_audio_out(const fe_t *this, const char *audio_driver, cons
     
     /* define possible speaker arrangements */
     /* From xine audio_alsa_out.c ; must be synchronized ! */
-    static char *speaker_arrangement[] = 
+    static const char * const speaker_arrangement[] = 
       {"Mono 1.0", "Stereo 2.0", "Headphones 2.0", "Stereo 2.1",
        "Surround 3.0", "Surround 4.0", "Surround 4.1", 
        "Surround 5.0", "Surround 5.1", "Surround 6.0",
@@ -467,7 +467,7 @@ static void configure_audio_out(const fe_t *this, const char *audio_driver, cons
 
     x_reg_enum("audio.output.speaker_arrangement",
 	       STEREO,
-	       speaker_arrangement,
+	       (char**)(intptr_t)speaker_arrangement,
 	       _("speaker arrangement"),
 	       _("Select how your speakers are arranged, "
 		 "this determines which speakers xine uses for sound output. "
