@@ -1475,8 +1475,8 @@ static void *fe_control(frontend_t *this_gen, const char *cmd)
   /*LOGDBG("fe_control(\"%s\")", cmd);*/
 
   if(!cmd || !this) {
-    LOGMSG("fe_control(0x%lx,0x%lx) : invalid argument", 
-	   (unsigned long int)this_gen, (unsigned long int)cmd);
+    LOGMSG("fe_control(%p,%p) : invalid argument",
+           (const void *)this_gen, (const void *)cmd);
     return NULL;
   }
 
