@@ -28,7 +28,7 @@ void x_syslog(int level, const char *module, const char *fmt, ...)
   char buf[512];
 
   va_start(argp, fmt);
-  vsnprintf(buf, 512, fmt, argp);
+  vsnprintf(buf, sizeof(buf), fmt, argp);
   buf[sizeof(buf)-1] = 0;
 
 #if !defined(__APPLE__) && !defined(__FreeBSD__)
