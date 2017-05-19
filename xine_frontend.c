@@ -680,9 +680,10 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
 					      NULL);
   else
     this->video_port = xine_open_video_driver(this->xine,
-					      video_driver,
-					      this->xine_visual_type,
-					      (void *) &(this->vis));
+                                              video_driver,
+                                              this->xine_visual_type,
+                                              (void *) &(this->vis));
+
   if(!this->video_port) {
     LOGMSG("fe_xine_init: xine_open_video_driver(\"%s\") failed",
 	   video_driver?video_driver:"(NULL)"); 
@@ -1226,7 +1227,7 @@ static void fe_xine_close(frontend_t *this_gen)
     fe_xine_stop(this_gen);
 
     xine_close(this->stream);
-    if(this->postplugins->pip_stream) 
+    if (this->postplugins->pip_stream)
       xine_close(this->postplugins->pip_stream);
   }
 }
