@@ -149,10 +149,42 @@ static void make_dirs(const char *file)
  * list available plugins
  */
 
-static void list_plugins_type(xine_t *xine, const char *msg, typeof (xine_list_audio_output_plugins) list_func)
+static int plugins_check(xine_t *xine)
+{
+  const char *const *list;
+  int basic = 0, advanced = 0;
+
+  list = xine_list_video_decoder_plugins(xine);
+  while (list && *list) {
+    if (!strcmp(*list,  "ffmpegvideo") ||
+        !strncmp(*list, "vdpau_", 6) ||
+        !strcmp(*list,  "libmmal")) {
+      advanced = 1;
+      break;
+    }
+    if (!strcmp(*list,  "mpeg2")) {
+      basic = 1;
+    }
+    list++;
+  }
+
+  if (!advanced) {
+    if (!basic) {
+      LOGERR("FATAL: Required xine video decoder plugins are missing! Please install plugins.");
+      return -1;
+    } else {
+      LOGMSG("WARNING: Essential xine video decoder plugins not found! Please install plugins to display H.264 video.");
+    }
+  }
+
+  return 0;
+}
+
+#define LIST_FUNC __typeof__(xine_list_audio_output_plugins)
+
+static void list_plugins_type(xine_t *xine, const char *msg, LIST_FUNC list_func)
 {
   const char *const *list = list_func(xine);
-
   printf("%s", msg);
   while(list && *list)
     printf(" %s", *list++);
@@ -651,6 +683,9 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
 	     10, NULL, NULL);
 
   xine_init (this->xine);
+
+  if (plugins_check(this->xine) < 0)
+    return 0;
 
   x_upd_num("video.device.xv_double_buffer", 1);
   x_upd_num("engine.buffers.video_num_buffers", pes_buffers);
