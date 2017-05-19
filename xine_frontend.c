@@ -25,7 +25,9 @@
 # ifdef boolean
 #  define HAVE_BOOLEAN
 # endif
+# define INT32 jpegINT32
 # include <jpeglib.h>
+# undef INT32
 # undef boolean
 #endif
 
