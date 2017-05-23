@@ -1937,14 +1937,13 @@ static input_plugin_t *fifo_class_get_instance (input_class_t *class_gen,
 						const char *data) 
 {
   fifo_input_plugin_t *slave = calloc(1, sizeof(fifo_input_plugin_t));
-  unsigned long int imaster;
-  vdr_input_plugin_t *master;
+  void *vpmaster;
+
   LOGDBG("fifo_class_get_instance");
 
-  sscanf(data+15, "%lx", &imaster);
-  master = (vdr_input_plugin_t*)imaster;
+  sscanf(data+15, "%p", &vpmaster);
 
-  slave->master = (vdr_input_plugin_t*)master;
+  slave->master = (vdr_input_plugin_t*)vpmaster;
   slave->stream = stream;
   slave->buffer_pool = stream->video_fifo;
   slave->buffer = fifo_buffer_new(stream, 4, 4096);
@@ -2417,8 +2416,10 @@ static void close_slave_stream(vdr_input_plugin_t *this)
   xine_stop(this->slave.stream);
 
   if(this->funcs.fe_control) {
+    char tmp[64];
+    sprintf(tmp, "SLAVE %p\r\n", (void *)NULL);
     this->funcs.fe_control(this->funcs.fe_handle, "POST 0 Off\r\n");
-    this->funcs.fe_control(this->funcs.fe_handle, "SLAVE 0x0\r\n");
+    this->funcs.fe_control(this->funcs.fe_handle, tmp);
   }
   xine_close(this->slave.stream);
   xine_dispose(this->slave.stream);
@@ -2596,8 +2597,8 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
 	if(this->funcs.fe_control) {
 	  char tmp[128];
 	  int has_video;
-          sprintf(tmp, "SLAVE 0x%lx %s\r\n",
-                  (unsigned long int)this->slave.stream,
+          sprintf(tmp, "SLAVE %p %s\r\n",
+                  (void *)this->slave.stream,
                   mix_streams ? av : "");
 	  this->funcs.fe_control(this->funcs.fe_handle, tmp);
           has_video = _x_stream_info_get(this->slave.stream, XINE_STREAM_INFO_HAS_VIDEO);

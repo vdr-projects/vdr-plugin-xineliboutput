@@ -1567,9 +1567,9 @@ static void *fe_control(frontend_t *this_gen, const char *cmd)
     init_dummy_ports(this, 0);
     this->video_width = this->video_height = 0;
 
-  } else if(!strncmp(cmd, "SLAVE 0x", 8)) {
-    unsigned long pt;
-    if(1 == sscanf(cmd+8, "%lx", &pt)) {
+  } else if(!strncmp(cmd, "SLAVE ", 6)) {
+    void *pt;
+    if(1 == sscanf(cmd+6, "%p", &pt)) {
       xine_stream_t *slave_stream = (xine_stream_t*)pt;
       if(this->slave_stream != slave_stream) {
 
@@ -1618,8 +1618,8 @@ static void *fe_control(frontend_t *this_gen, const char *cmd)
 					    this->video_port);
       LOGMSG("  PIP %d: %dx%d @ (%d,%d)", pid & 0x0f, w, h, x, y);
       LOGMSG("create pip stream done");
-      sprintf(mrl, MRL_ID "+slave://0x%lx#nocache",
-	      (unsigned long int)this);
+      sprintf(mrl, MRL_ID "+slave://%p#nocache",
+	      (void *)this);
       if(!xine_open(posts->pip_stream, mrl) ||
 	 !xine_play(posts->pip_stream, 0, 0)) {
 	LOGERR("  pip stream open/play failed");
