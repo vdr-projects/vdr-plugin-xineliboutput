@@ -697,6 +697,20 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
 
   this->playback_finished = 0;
 
+  /* check X11 video driver type */
+  if (this->xine_visual_type == XINE_VISUAL_TYPE_X11) {
+    if (video_driver &&
+        ( !strcasecmp(video_driver, "xshm") ||
+          !strcasecmp(video_driver, "xv") ||
+          !strcasecmp(video_driver, "xcbshm") ||
+          !strcasecmp(video_driver, "xcbxv") ||
+          !strcasecmp(video_driver, "opengl") ||
+          !strcasecmp(video_driver, "xvmc") ||
+          !strcasecmp(video_driver, "xxmc"))) {
+      LOGMSG("WARNING: Using inefficient legacy video driver %s\n", video_driver);
+    }
+  }
+
   /* create video port */
   if(video_driver && !strcmp(video_driver, "none")) 
     this->video_port = xine_open_video_driver(this->xine,
