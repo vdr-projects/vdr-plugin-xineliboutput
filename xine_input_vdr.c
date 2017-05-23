@@ -2474,7 +2474,7 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
     this->loop_play = 0;
 
     /* mrlbase is needed for filename and for bgimage in remote mode */
-    char mrlbase[256];
+    char mrlbase[256] = "";
     if(this->fd_control >= 0) {
       char *host = strdup(strstr(this->mrl, "//")+2);
       char *port = strchr(host, ':');
