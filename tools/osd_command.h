@@ -51,15 +51,15 @@ typedef struct osd_clut_s {
   union {
     uint8_t cb  /*: 8*/;
     uint8_t g;
-  };
+  } PACKED;
   union {
     uint8_t cr  /*: 8*/;
     uint8_t b;
-  };
+  } PACKED;
   union {
     uint8_t y   /*: 8*/;
     uint8_t r;
-  };
+  } PACKED;
   uint8_t alpha /*: 8*/;
 } PACKED osd_clut_t; /* from xine, alphablend.h */
 
@@ -73,7 +73,7 @@ typedef struct osd_rect_s {
   uint16_t y1;
   uint16_t x2;
   uint16_t y2;
-} osd_rect_t;
+} PACKED osd_rect_t;
 
 typedef struct osd_command_s {
   uint8_t  size;     /* size of osd_command_t struct */
@@ -97,12 +97,12 @@ typedef struct osd_command_s {
     osd_rle_elem_t  *data; /* RLE compressed image */
     uint8_t         *raw_data;
     uint64_t         dummy01;
-  };
+  } PACKED;
   uint32_t colors;         /* palette size */
   union {
     osd_clut_t      *palette;  /* palette (YCrCb) */
     uint64_t         dummy02;
-  };
+  } PACKED;
 
   osd_rect_t dirty_area;
   uint8_t    flags;
