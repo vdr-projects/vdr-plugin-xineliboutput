@@ -63,6 +63,9 @@ typedef struct fe_s {
     fb_visual_t       vis_fb;
     x11_visual_t      vis_x11;
     raw_visual_t      vis_raw;
+#ifdef _WIN32
+    win32_visual_t    vis_win;
+#endif
   };
 
   /* frontend */
