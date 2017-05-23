@@ -2481,7 +2481,7 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
       int  iport = port ? atoi(port+1) : DEFAULT_VDR_PORT;
       if(port) *port = 0;
       snprintf(mrlbase, sizeof(mrlbase), "http://%s:%d/PLAYFILE",
-               host?:"127.0.0.1", iport);
+               *host ? host : "127.0.0.1", iport);
       free(host);
     }
 
