@@ -21,8 +21,11 @@
 #ifdef __FreeBSD__
 #include <string.h>
 #endif
-#include <poll.h>
 #include <unistd.h>
+#include <sys/select.h>
+#include <sys/time.h>
+#include <sys/types.h>
+
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -161,14 +164,19 @@ int udp_discovery_recv(int fd_discovery, char *buf, int timeout,
 		       struct sockaddr_in *source)
 {
   socklen_t sourcelen = sizeof(struct sockaddr_in);
-  struct pollfd pfd;
   int err;
 
-  pfd.fd = fd_discovery;
-  pfd.events = POLLIN;
+  struct timeval select_timeout;
+  fd_set fdset;
 
-  errno = 0;
-  err = poll(&pfd, 1, timeout);
+  FD_ZERO (&fdset);
+  FD_SET  (fd_discovery, &fdset);
+
+  select_timeout.tv_sec  = 0;
+  select_timeout.tv_usec = 1000 * timeout;
+
+  err = select (fd_discovery + 1, &fdset, NULL, NULL, &select_timeout);
+
   if(err < 1) {
     if(err < 0)
       LOGERR("broadcast poll error");
