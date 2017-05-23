@@ -722,26 +722,26 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
 
   /* create video port */
   if (!this->video_port) {
-  if(video_driver && !strcmp(video_driver, "none")) 
-    this->video_port = xine_open_video_driver(this->xine,
-					      video_driver,
-					      XINE_VISUAL_TYPE_NONE, 
-					      NULL);
-  else if(video_driver && !strcmp(video_driver, "dxr3"))
-    this->video_port = xine_open_video_driver(this->xine,
-					      video_driver,
-					      XINE_VISUAL_TYPE_X11, 
-					      NULL);
-  else if(video_driver && !strcmp(video_driver, "aadxr3"))
-    this->video_port = xine_open_video_driver(this->xine,
-					      video_driver,
-					      XINE_VISUAL_TYPE_AA, 
-					      NULL);
-  else
-    this->video_port = xine_open_video_driver(this->xine,
-                                              video_driver,
-                                              this->xine_visual_type,
-                                              (void *) &(this->vis));
+    if (video_driver && !strcmp(video_driver, "none"))
+      this->video_port = xine_open_video_driver(this->xine,
+                                                video_driver,
+                                                XINE_VISUAL_TYPE_NONE,
+                                                NULL);
+    else if (video_driver && !strcmp(video_driver, "dxr3"))
+      this->video_port = xine_open_video_driver(this->xine,
+                                                video_driver,
+                                                XINE_VISUAL_TYPE_X11,
+                                                NULL);
+    else if(video_driver && !strcmp(video_driver, "aadxr3"))
+      this->video_port = xine_open_video_driver(this->xine,
+                                                video_driver,
+                                                XINE_VISUAL_TYPE_AA,
+                                                NULL);
+    else
+      this->video_port = xine_open_video_driver(this->xine,
+                                                video_driver,
+                                                this->xine_visual_type,
+                                                (void *) &(this->vis));
   }
 
   if(!this->video_port) {
