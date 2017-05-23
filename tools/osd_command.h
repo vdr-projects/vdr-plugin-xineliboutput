@@ -111,7 +111,6 @@ typedef struct osd_command_s {
 } PACKED osd_command_t ALIGNED;
 
 
-#if __BYTE_ORDER == __LITTLE_ENDIAN
 # define hton_osdcmd(cmdP) \
   do { \
     cmdP.pts      = priv_htonll(cmdP.pts);           \
@@ -145,15 +144,6 @@ typedef struct osd_command_s {
     cmdP.dirty_area.x2 = ntohs(cmdP.dirty_area.x2);  \
     cmdP.dirty_area.y2 = ntohs(cmdP.dirty_area.y2);  \
   } while(0)
-
-#elif __BYTE_ORDER == __BIG_ENDIAN
-
-# define hton_osdcmd(cmd) do {} while(0)
-# define ntoh_osdcmd(cmd) do {} while(0)
-
-#else
-#  error __BYTE_ORDER undefined !
-#endif
 
 #if defined __cplusplus
 }
