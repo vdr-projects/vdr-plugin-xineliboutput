@@ -709,9 +709,19 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
           !strcasecmp(video_driver, "xxmc"))) {
       LOGMSG("WARNING: Using inefficient legacy video driver %s\n", video_driver);
     }
+    if (!video_driver) {
+      LOGMSG("WARNING: no video driver given. Trying OpenGL2.\n");
+      this->video_port = xine_open_video_driver(this->xine,
+                                                "opengl2",
+                                                this->xine_visual_type,
+                                                (void *) &(this->vis));
+      if (!this->video_port)
+        LOGMSG("Failed initializing OpenGL2 video output.\n");
+    }
   }
 
   /* create video port */
+  if (!this->video_port) {
   if(video_driver && !strcmp(video_driver, "none")) 
     this->video_port = xine_open_video_driver(this->xine,
 					      video_driver,
@@ -732,6 +742,7 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
                                               video_driver,
                                               this->xine_visual_type,
                                               (void *) &(this->vis));
+  }
 
   if(!this->video_port) {
     LOGMSG("fe_xine_init: xine_open_video_driver(\"%s\") failed",
