@@ -29,7 +29,6 @@
 #include <sys/socket.h>
 #include <errno.h>
 #include <sys/time.h>
-#include <dlfcn.h>
 #include <sys/resource.h> /* setpriority() */
 #include <sys/stat.h>
 #include <syslog.h>
@@ -176,21 +175,15 @@ void x_syslog(int level, const char *module, const char *fmt, ...)
 
 static void SetupLogLevel(void)
 {
-  void *lib = NULL;
-  if( !(lib = dlopen (NULL, RTLD_LAZY | RTLD_GLOBAL))) {
-    LOGERR("Can't dlopen self: %s", dlerror());
-  } else {
-    int *pLogToSyslog = (int*)dlsym(lib, "LogToSysLog");
-    int *pSysLogLevel = (int*)dlsym(lib, "SysLogLevel");
-    bLogToSysLog = pLogToSyslog && *pLogToSyslog;
-    iSysLogLevel = pSysLogLevel ? (*pSysLogLevel) : iSysLogLevel;
-    LOGDBG("Symbol SysLogLevel %s : value %d", 
-	   pSysLogLevel ? "found" : "not found", iSysLogLevel);
-    LOGDBG("Symbol LogToSysLog %s : value %s", 
-	   pLogToSyslog ? "found" : "not found", bLogToSysLog ? "yes" : "no");
-    bSymbolsFound = pSysLogLevel && pLogToSyslog;
-    dlclose(lib);
-  }
+  const char *pLogToSyslog = getenv("VDR_FE_SYSLOG");
+  const char *pSysLogLevel = getenv("VDR_FE_LOG_LEVEL");
+  bLogToSysLog = !!pLogToSyslog;
+  iSysLogLevel = pSysLogLevel ? atoi(pSysLogLevel) : iSysLogLevel;
+  LOGDBG("SysLogLevel %s : value %d",
+         pSysLogLevel ? "found" : "not found", iSysLogLevel);
+  LOGDBG("LogToSysLog %s : value %s",
+         pLogToSyslog ? "found" : "not found", bLogToSysLog ? "yes" : "no");
+  bSymbolsFound = pSysLogLevel || pLogToSyslog;
 }
 
 #ifdef LOG_SCR

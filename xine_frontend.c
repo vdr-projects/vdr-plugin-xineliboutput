@@ -642,6 +642,16 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
   this->audio_port      = NULL;
   this->input_plugin    = NULL;
 
+  /* Set log level for input plugin.
+   * Also inform input plugin we're not running in xine-ui etc.
+   */
+  static char log_level[16];
+  sprintf(log_level, "%d", SysLogLevel);
+  setenv("VDR_FE_LOG_LEVEL", log_level, 1);
+  if (LogToSysLog) {
+    setenv("VDR_FE_SYSLOG", "1", 1);
+  }
+
   /* create a new xine and load config file */
   this->xine = xine_new();
   if(!this->xine)
