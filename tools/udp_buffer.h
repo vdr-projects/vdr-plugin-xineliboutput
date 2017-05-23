@@ -128,7 +128,7 @@ class cUdpBackLog
       header->hdr_ext.hdr.type = htons(RTP_HEADER_EXT_X_TYPE);
 
       // UDP header
-      header->hdr_ext.pos = htonull(StreamPos);
+      header->hdr_ext.pos = priv_htonull(StreamPos);
       header->hdr_ext.seq = htons(m_SeqNo);
       header->hdr_ext.stream = (uint8_t)StreamId;
 

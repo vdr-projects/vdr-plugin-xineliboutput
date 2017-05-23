@@ -475,7 +475,7 @@ void cUdpScheduler::QueuePaddingInternal(void)
   stream_rtp_header_impl_t *Frame = m_BackLog->Get(PrevSeq);
   if (Frame) {
     int      PrevLen = m_BackLog->PayloadSize(PrevSeq);
-    uint64_t Pos     = ntohll(Frame->hdr_ext.pos) + PrevLen - 8;
+    uint64_t Pos     = priv_ntohll(Frame->hdr_ext.pos) + PrevLen - 8;
     m_BackLog->MakeFrame(sidPadding, Pos, Padding, 8);
   } else
     m_BackLog->MakeFrame(sidPadding, 0, Padding, 8);
@@ -909,19 +909,19 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
     stream_rtp_header_impl_t *frame = m_BackLog->Get(Seq1);
 
     if(frame) {
-      if(ntohull(frame->hdr_ext.pos) - Pos < 100000) {
+      if(priv_ntohull(frame->hdr_ext.pos) - Pos < 100000) {
 	send(fd,
 	     RTP_UDP_PAYLOAD(frame),
 	     m_BackLog->PayloadSize(Seq1) + sizeof(stream_udp_header_t),
 	     0);
 	LOGRESEND("cUdpScheduler::ReSend: %d (%d bytes) @%lld sent",
 		  Seq1, m_BackLog->PayloadSize(Seq1), Pos);
-	Pos = ntohull(frame->hdr_ext.pos) + m_BackLog->PayloadSize(Seq1);
+	Pos = priv_ntohull(frame->hdr_ext.pos) + m_BackLog->PayloadSize(Seq1);
 	continue;
       } else {
 	// buffer has been lost long time ago...
 	LOGRESEND("cUdpScheduler::ReSend: Requested position does not match "
-	       "(%lld ; has %lld)", Pos, ntohll(frame->hdr_ext.pos));
+	       "(%lld ; has %lld)", Pos, priv_ntohll(frame->hdr_ext.pos));
       }
     } else {
       LOGRESEND("cUdpScheduler::ReSend: %d @%lld missing", Seq1, Pos);
@@ -935,7 +935,7 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
     int Seq0 = Seq1;
     for(; Seq1 < Seq2; Seq1++) {
       stream_rtp_header_impl_t *frame = m_BackLog->Get(Seq1+1);
-      if(frame && (ntohull(frame->hdr_ext.pos) - Pos < 100000))
+      if(frame && (priv_ntohull(frame->hdr_ext.pos) - Pos < 100000))
 	break;
     }
 

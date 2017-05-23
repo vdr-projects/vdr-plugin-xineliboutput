@@ -259,7 +259,7 @@ int cTcpWriter::Put(eStreamId StreamId, uint64_t StreamPos,
                     const uchar *Data, int DataCount)
 {
   stream_tcp_header_t header;
-  header.pos = htonull(StreamPos);
+  header.pos = priv_htonull(StreamPos);
   header.len = htonl(DataCount);
   header.stream = (uint8_t)StreamId;
   return Put((uchar*)&header, sizeof(header), Data, DataCount);

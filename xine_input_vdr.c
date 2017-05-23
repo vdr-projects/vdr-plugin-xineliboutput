@@ -4144,7 +4144,7 @@ static buf_element_t *vdr_plugin_read_block_tcp(vdr_input_plugin_t *this)
     if (read_buffer->size == sizeof(stream_tcp_header_t)) {
       stream_tcp_header_t *hdr = ((stream_tcp_header_t *)read_buffer->content);
       hdr->len = ntohl(hdr->len);
-      hdr->pos = ntohull(hdr->pos);
+      hdr->pos = priv_ntohull(hdr->pos);
 
       todo += hdr->len;
 
@@ -4342,7 +4342,7 @@ static buf_element_t *udp_parse_header(buf_element_t *read_buffer, int rtp)
   stream_udp_header_t *pkt = (stream_udp_header_t*)read_buffer->content;
 
   pkt->seq = ntohs(pkt->seq);
-  pkt->pos = ntohull(pkt->pos);
+  pkt->pos = priv_ntohull(pkt->pos);
 
   return read_buffer;
 }

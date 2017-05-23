@@ -43,18 +43,17 @@
 #  error __BYTE_ORDER not defined !
 #endif
 
+#define priv_ntohll(val) ((int64_t)priv_ntohull((uint64_t)val))
+#define priv_htonll(val) ((int64_t)priv_htonull((uint64_t)val))
+
 #if __BYTE_ORDER == __BIG_ENDIAN
-#  define ntohll(val)  (val)
-#  define htonll(val)  (val)
-#  define ntohull(val) (val)
-#  define htonull(val) (val)
+#  define priv_ntohull(val) (val)
+#  define priv_htonull(val) (val)
 #else
-#  define ntohll(val) ((int64_t)ntohull((uint64_t)val))
-#  define htonll(val) ((int64_t)htonull((uint64_t)val))
-#  define ntohull(val) \
+#  define priv_ntohull(val) \
           ((uint64_t) ntohl((uint32_t)((val) >> 32)) |  \
            (uint64_t) ntohl((uint32_t)(val)) << 32)
-#  define htonull(val) \
+#  define priv_htonull(val) \
           ((uint64_t) htonl((uint32_t)((val) >> 32)) |  \
            (uint64_t) htonl((uint32_t)(val)) << 32)
 #endif

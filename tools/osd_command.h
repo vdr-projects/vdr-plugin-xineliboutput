@@ -114,7 +114,7 @@ typedef struct osd_command_s {
 #if __BYTE_ORDER == __LITTLE_ENDIAN
 # define hton_osdcmd(cmdP) \
   do { \
-    cmdP.pts      = htonll(cmdP.pts);                \
+    cmdP.pts      = priv_htonll(cmdP.pts);           \
     cmdP.delay_ms = htonl (cmdP.delay_ms);           \
     cmdP.x        = htons (cmdP.x);                  \
     cmdP.y        = htons (cmdP.y);                  \
@@ -131,7 +131,7 @@ typedef struct osd_command_s {
 
 # define ntoh_osdcmd(cmdP) \
   do { \
-    cmdP.pts      = ntohll(cmdP.pts);                \
+    cmdP.pts      = priv_ntohll(cmdP.pts);           \
     cmdP.delay_ms = ntohl (cmdP.delay_ms);           \
     cmdP.x        = ntohs (cmdP.x);                  \
     cmdP.y        = ntohs (cmdP.y);                  \
