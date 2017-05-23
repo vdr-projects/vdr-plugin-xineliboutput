@@ -648,7 +648,7 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
     return 0;
 
   /* Set xine engine logging verbosity */
-  this->xine->verbosity = (SysLogLevel>2);
+  this->xine->verbosity = (SysLogLevel>2) ? (SysLogLevel - 1) : 0;
 
   /*xine_register_log_cb(this->xine, xine_log_cb, this);*/
 
