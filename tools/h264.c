@@ -205,7 +205,7 @@ int h264_get_video_size(const uint8_t *buf, size_t len, video_size_t *size)
 
       if (0 < (nal_len = h264_nal_unescape(nal_data, buf+i+4, len-i-4))) {
 
-        h264_sps_data_t sps = {0};
+        h264_sps_data_t sps = {0, 0, { 0, 0 }};
 
         if (h264_parse_sps(nal_data, nal_len, &sps)) {
           size->width  = sps.width;

@@ -194,7 +194,7 @@ void cXinelibOsd::CmdSize(int Width, int Height)
   TRACEF("cXinelibOsd::CmdSize");
 
   if (m_Device && m_WindowHandles) {
-    osd_command_t osdcmd = {0};
+    osd_command_t osdcmd = {};
 
     osdcmd.cmd = OSD_Size;
     osdcmd.w   = Width;
@@ -216,7 +216,7 @@ void cXinelibOsd::CmdVideoWindow(int X, int Y, int W, int H)
   TRACEF("cXinelibOsd::CmdVideoWindow");
 
   if (m_Device && m_WindowHandles) {
-    osd_command_t osdcmd = {0};
+    osd_command_t osdcmd = {};
 
     for (int Wnd = 0; m_WindowHandles[Wnd] >= 0; Wnd++) {
       osdcmd.cmd = OSD_VideoWindow;
@@ -236,7 +236,7 @@ void cXinelibOsd::CmdMove(int Wnd, int NewX, int NewY)
   TRACEF("cXinelibOsd::CmdMove");
 
   if (m_Device && m_WindowHandles) {
-    osd_command_t osdcmd = {0};
+    osd_command_t osdcmd = {};
 
     osdcmd.cmd = OSD_Move;
     osdcmd.wnd = m_WindowHandles[Wnd];
@@ -253,7 +253,7 @@ void cXinelibOsd::CmdPalette(int Wnd, int Colors, unsigned int *Palette)
 
   if (m_Device) {
     osd_clut_t    clut[Colors];
-    osd_command_t osdcmd = {0};
+    osd_command_t osdcmd = {};
 
     osdcmd.cmd     = OSD_SetPalette;
     osdcmd.wnd     = m_WindowHandles[Wnd];
@@ -271,7 +271,7 @@ void cXinelibOsd::CmdClose(int Wnd)
   TRACEF("cXinelibOsd::CmdClose");
 
   if (m_Device) {
-    osd_command_t osdcmd = {0};
+    osd_command_t osdcmd = {};
 
     osdcmd.cmd = OSD_Close;
     osdcmd.wnd = m_WindowHandles[Wnd];
@@ -290,7 +290,7 @@ void cXinelibOsd::CmdFlush(void)
   TRACEF("cXinelibOsd::CmdFlush");
 
   if (m_Device) {
-    osd_command_t osdcmd = {0};
+    osd_command_t osdcmd = {};
 
     osdcmd.cmd = OSD_Flush;
 
@@ -322,7 +322,7 @@ void cXinelibOsd::CmdArgb(int X, int Y, int W, int H,
 
   if (m_Device) {
 
-    osd_command_t osdcmd = {0};
+    osd_command_t osdcmd = {};
 
     osdcmd.cmd   = OSD_Set_ARGB;
     osdcmd.wnd   = m_WindowHandles[0];
@@ -355,7 +355,7 @@ void cXinelibOsd::CmdLut8(int Wnd, int X0, int Y0,
   if (m_Device) {
 
     osd_clut_t    clut[Colors];
-    osd_command_t osdcmd = {0};
+    osd_command_t osdcmd = {};
 
     osdcmd.cmd   = OSD_Set_LUT8;
     osdcmd.wnd   = m_WindowHandles[Wnd];

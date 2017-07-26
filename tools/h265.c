@@ -117,7 +117,7 @@ int h265_get_video_size(const uint8_t *buf, size_t len, struct video_size_s *siz
 
       LOGDBG("H.265: Found NAL SPS at offset %zu/%zu", i, len);
       if (0 < (nal_len = h265_nal_unescape(nal_data, buf+i+5, len-i-5))) {
-        h265_sps_data_t sps = {0};
+        h265_sps_data_t sps = {0, 0};
 
         if (h265_parse_sps(nal_data, nal_len, &sps)) {
           size->width  = sps.width;
