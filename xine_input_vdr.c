@@ -138,7 +138,6 @@ typedef struct {
 #  include <linux/unistd.h> /* syscall(__NR_gettid) */
 #endif
 
-static const char module_revision[] = "$Id$";
 static const char log_module_input_vdr[] = "[input_vdr] ";
 #define LOG_MODULENAME log_module_input_vdr
 #define SysLogLevel    iSysLogLevel
@@ -5308,8 +5307,6 @@ static int vdr_plugin_open(input_plugin_t *this_gen)
   pthread_mutex_init (&this->vdr_entry_lock, NULL);
   pthread_mutex_init (&this->fd_control_lock, NULL);
   pthread_cond_init  (&this->engine_flushed, NULL);
-
-  LOGDBG("xine_input_xvdr: revision %s", module_revision);
 
   if (this->class->num_buffers_hd != HD_BUF_NUM_BUFS)
     LOGMSG("Using non-default \"media." MRL_ID ".num_buffers_hd:%d\"", this->class->num_buffers_hd);
