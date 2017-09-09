@@ -200,7 +200,9 @@ void        ts_state_reset(ts_state_t *ts);
 void        ts_state_dispose(ts_state_t *ts);
 
 int64_t ts_get_pts(ts_state_t *ts, const uint8_t *data);
+/*
 int     ts_get_picture_type(ts_state_t *ts, const uint8_t *data, int h264);
+*/
 int     ts_get_video_size(ts_state_t *ts, const uint8_t *data, struct video_size_s *size, ts_stream_type vid_type);
 
 

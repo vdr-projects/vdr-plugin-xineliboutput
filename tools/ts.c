@@ -769,13 +769,13 @@ int64_t ts_get_pts(ts_state_t *ts, const uint8_t *data)
 /*
  * ts_get_picture_type()
  */
-
+/*
 int ts_get_picture_type(ts_state_t *ts, const uint8_t *data, int h264)
 {
   int pic = NO_PICTURE;
   return pic;
 }
-
+*/
 /*
  * ts_get_video_size()
  */
