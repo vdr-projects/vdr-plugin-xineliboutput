@@ -1986,7 +1986,7 @@ static char *frame_compress_pnm(fe_t *this, int *size, vo_frame_t *frame)
 #endif /* HAVE_XINE_GRAB_VIDEO_FRAME */
 
 #ifdef HAVE_XINE_GRAB_VIDEO_FRAME
-static char *fe_compress_grab_frame(fe_t *this, int *size, int jpeg, int quality, int width, int height, xine_grab_video_frame_t *frame)
+static char *fe_compress_grab_frame(int *size, int jpeg, int quality, int width, int height, xine_grab_video_frame_t *frame)
 {
 #ifdef HAVE_LIBJPEG
   if (jpeg) {
@@ -2084,7 +2084,7 @@ static char *fe_grab(frontend_t *this_gen, int *size, int jpeg,
     grab_frame->width = width;
     grab_frame->height = height;
     if (!grab_frame->grab(grab_frame))
-      img = fe_compress_grab_frame(this, size, jpeg, quality, width, height, grab_frame);
+      img = fe_compress_grab_frame(size, jpeg, quality, width, height, grab_frame);
     grab_frame->dispose(grab_frame);
   }
   this->stream->xine->port_ticket->release(this->stream->xine->port_ticket, 0);
