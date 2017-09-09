@@ -638,7 +638,7 @@ void applugin_rewire_posts(fe_t *fe)
   _applugin_rewire(fe);
 }
 
-static int _pplugin_enable_post(post_plugins_t *fe, const char *name,
+static int _pplugin_enable_post(const char *name,
                                 const char *args,
                                 post_element_t **post_elements,
                                 int post_elements_num,
@@ -680,10 +680,10 @@ static int _vpplugin_enable_post(post_plugins_t *fe, const char *name,
 {
   int result = 0;
   if(!*found)
-    result = _pplugin_enable_post(fe, name, args, fe->post_video_elements,
+    result = _pplugin_enable_post(name, args, fe->post_video_elements,
                                   fe->post_video_elements_num, found);
   if(!*found)
-    result = _pplugin_enable_post(fe, name, args, fe->post_pip_elements,
+    result = _pplugin_enable_post(name, args, fe->post_pip_elements,
                                   fe->post_pip_elements_num, found);
   return result;
 }
@@ -693,10 +693,10 @@ static int _applugin_enable_post(post_plugins_t *fe, const char *name,
 {
   int result = 0;
   if(!*found)
-    result = _pplugin_enable_post(fe, name, args, fe->post_audio_elements,
+    result = _pplugin_enable_post(name, args, fe->post_audio_elements,
                                   fe->post_audio_elements_num, found);
   if(!*found)
-    result = _pplugin_enable_post(fe, name, args, fe->post_vis_elements,
+    result = _pplugin_enable_post(name, args, fe->post_vis_elements,
                                   fe->post_vis_elements_num, found);
   return result;
 }
@@ -775,7 +775,7 @@ int applugin_enable_post(post_plugins_t *fe, const char *initstr,
   return result;
 }
 
-static int _pplugin_disable_post(post_plugins_t *fe, const char *name,
+static int _pplugin_disable_post(const char *name,
                                  post_element_t **post_elements,
                                  int post_elements_num)
 {
@@ -795,9 +795,9 @@ static int _pplugin_disable_post(post_plugins_t *fe, const char *name,
 int vpplugin_disable_post(post_plugins_t *fe, const char *name)
 {
   /*TRACELINE;*/
-  if(_pplugin_disable_post(fe, name, fe->post_video_elements,
+  if(_pplugin_disable_post(name, fe->post_video_elements,
                            fe->post_video_elements_num) ||
-     _pplugin_disable_post(fe, name, fe->post_pip_elements,
+     _pplugin_disable_post(name, fe->post_pip_elements,
                            fe->post_pip_elements_num)) {
     _vpplugin_unwire(fe);
     return 1;
@@ -808,9 +808,9 @@ int vpplugin_disable_post(post_plugins_t *fe, const char *name)
 int applugin_disable_post(post_plugins_t *fe, const char *name)
 {
   /*TRACELINE;*/
-  if(_pplugin_disable_post(fe, name, fe->post_audio_elements,
+  if(_pplugin_disable_post(name, fe->post_audio_elements,
                            fe->post_audio_elements_num) ||
-     _pplugin_disable_post(fe, name, fe->post_vis_elements,
+     _pplugin_disable_post(name, fe->post_vis_elements,
                            fe->post_vis_elements_num)) {
     _applugin_unwire(fe);
     return 1;
