@@ -33,7 +33,6 @@
 
 /* static data */
 static pthread_t kbd_thread;
-static struct termios tm, saved_tm;
 
 /* xine_frontend_main.c: */
 extern int gui_hotkeys;
@@ -154,8 +153,9 @@ static uint64_t read_key_seq(void)
 
 static void kbd_receiver_thread_cleanup(void *arg)
 {
+  struct termios *saved_tm = arg;
   if (isatty(STDIN_FILENO)) {
-    tcsetattr(STDIN_FILENO, TCSANOW, &saved_tm);
+    tcsetattr(STDIN_FILENO, TCSANOW, saved_tm);
   }
   if (isatty(STDOUT_FILENO)) {
     int status;
@@ -168,6 +168,7 @@ static void kbd_receiver_thread_cleanup(void *arg)
 
 static void *kbd_receiver_thread(void *fe_gen)
 {
+  struct termios saved_tm;
   frontend_t *fe = (frontend_t*)fe_gen;
   uint64_t code = 0;
   char str[64];
@@ -183,6 +184,7 @@ static void *kbd_receiver_thread(void *fe_gen)
   }
 
   if (isatty(STDIN_FILENO)) {
+    struct termios tm;
     /* Set stdin to deliver keypresses without buffering whole lines */
     tcgetattr(STDIN_FILENO, &saved_tm);
     if (tcgetattr(STDIN_FILENO, &tm) == 0) {
@@ -194,7 +196,7 @@ static void *kbd_receiver_thread(void *fe_gen)
     }
   }
 
-  pthread_cleanup_push(kbd_receiver_thread_cleanup, NULL);
+  pthread_cleanup_push(kbd_receiver_thread_cleanup, &saved_tm);
 
   do {
     alarm(0);
@@ -249,19 +251,22 @@ static void *kbd_receiver_thread(void *fe_gen)
 
 static void slave_receiver_thread_cleanup(void *arg)
 {
+  struct termios *saved_tm = arg;
+
   /* restore terminal settings */
-  tcsetattr(STDIN_FILENO, TCSANOW, &saved_tm);
+  tcsetattr(STDIN_FILENO, TCSANOW, saved_tm);
   LOGDBG("Slave mode receiver terminated");
 }
 
 static void *slave_receiver_thread(void *fe_gen)
 {
+  struct termios saved_tm;
   frontend_t *fe = (frontend_t*)fe_gen;
   char str[128], *pt;
 
   tcgetattr(STDIN_FILENO, &saved_tm);
 
-  pthread_cleanup_push(slave_receiver_thread_cleanup, NULL);
+  pthread_cleanup_push(slave_receiver_thread_cleanup, &saved_tm);
 
   do {
     errno = 0;
