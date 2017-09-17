@@ -170,6 +170,7 @@ typedef struct {
     uint16_t       aux_page_id;
   } spu_tracks[TS_MAX_SPU_TRACKS];
 
+  uint8_t raw_pmt[4096];
 } pmt_data_t;
 
 /*

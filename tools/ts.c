@@ -285,9 +285,7 @@ int ts_parse_pmt (pmt_data_t *pmt, unsigned program_no, const uint8_t *pkt)
     pkt += pkt[4]; /* pointer */
     offset = 1;
 
-    if (pmt->pmt != NULL) 
-      free(pmt->pmt);
-    pmt->pmt = (uint8_t *) calloc(4096, sizeof(uint8_t));
+    pmt->pmt = pmt->raw_pmt;
     pmt->pmt_write_ptr = pmt->pmt;
 
     section_syntax_indicator  = (pkt[6] >> 7) & 0x01;
@@ -346,7 +344,6 @@ int ts_parse_pmt (pmt_data_t *pmt, unsigned program_no, const uint8_t *pkt)
   }
 
   if (!section_length) {
-    free(pmt->pmt);
     pmt->pmt = NULL;
     LOGMSG("parse_pmt: zero-length section");
     return 0;
