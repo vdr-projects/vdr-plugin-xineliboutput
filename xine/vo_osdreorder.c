@@ -96,6 +96,7 @@ vo_driver_t *osd_reorder_init(void)
   /* OSD interface */
   this->h.vo.overlay_blend    = osdreorder_overlay_blend;
   this->h.vo.overlay_end      = osdreorder_overlay_end;
+  this->h.vo.dispose          = vo_def_dispose;
 
   return &this->h.vo;
 }

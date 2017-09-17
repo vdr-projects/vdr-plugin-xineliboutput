@@ -101,6 +101,7 @@ vo_driver_t *vo_lastpts_init(void)
   lastpts_hook_t *this = calloc(1, sizeof(lastpts_hook_t));
 
   this->h.vo.display_frame = lastpts_display_frame;
+  this->h.vo.dispose       = vo_def_dispose;
 
   return &this->h.vo;
 }
