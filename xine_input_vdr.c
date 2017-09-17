@@ -5737,7 +5737,7 @@ static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host,
     LOGERR("Data stream poll failed (TCP)");
   } else if((n=read(fd_data, tmpbuf, sizeof(ackmsg))) <= 0) {
     LOGERR("Data stream read failed (TCP)");
-  } else if(n<sizeof(ackmsg) || strncmp(tmpbuf, ackmsg, sizeof(ackmsg))) {
+  } else if(n<(ssize_t)sizeof(ackmsg) || strncmp(tmpbuf, ackmsg, sizeof(ackmsg))) {
     tmpbuf[n] = 0;
     LOGMSG("Server does not support TCP ? (%s)", tmpbuf);
   } else {
