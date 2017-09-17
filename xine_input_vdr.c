@@ -435,16 +435,24 @@ static udp_data_t *init_udp_data(void)
   return data;
 }
 
-static void free_udp_data(udp_data_t *data)
+static void free_udp_data(udp_data_t **pdata)
 {
+  udp_data_t *data = *pdata;
   int i;
 
-  for (i = 0; i <= UDP_SEQ_MASK; i++)
+  if (!data) {
+    return;
+  }
+
+  for (i = 0; i <= UDP_SEQ_MASK; i++) {
     if (data->queue[i]) {
       data->queue[i]->free_buffer(data->queue[i]);
       data->queue[i] = NULL;
     }
-  free(data);
+  }
+
+  free(*pdata);
+  *pdata = NULL;
 }
 
 /********************* cancellable mutex locking *************************/
@@ -4595,7 +4603,7 @@ static buf_element_t *vdr_plugin_read_block_udp(vdr_input_plugin_t *this)
       /* reset link */
       LOGDBG("UDP: resetting link");
       memcpy(&sin, &udp->server_address, sizeof(sin));
-      free_udp_data(udp);
+      free_udp_data(&this->udp_data);
       udp = this->udp_data = init_udp_data();
       memcpy(&udp->server_address, &sin, sizeof(sin));
       read_buffer->free_buffer(read_buffer);
@@ -5227,8 +5235,7 @@ static void vdr_plugin_dispose (input_plugin_t *this_gen)
 
   free (this->mrl);
 
-  if(this->udp_data)
-    free_udp_data(this->udp_data);
+  free_udp_data(&this->udp_data);
 
   /* fifos */
   LOGDBG("Disposing fifos");
