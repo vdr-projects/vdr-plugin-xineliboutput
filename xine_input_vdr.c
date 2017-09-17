@@ -5705,7 +5705,8 @@ static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host,
   socklen_t len = sizeof(sinc);
   uint32_t ipc;
   char tmpbuf[256];
-  int fd_data, n;
+  int fd_data;
+  ssize_t n;
 
   /* Connect to server */
   fd_data = _x_io_tcp_connect(this->stream, host, port);
