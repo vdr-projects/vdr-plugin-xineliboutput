@@ -2617,9 +2617,11 @@ static unsigned char *sxfe_display_edid(frontend_t *this_gen, int *size)
       }
       if (output_info->connection != RR_Connected) {
         LOGDBG("edid: output %s not connected", output_info->name);
+        XRRFreeOutputInfo(output_info);
         continue;
       }
       LOGDBG("edid: checking connected output %s", output_info->name);
+      XRRFreeOutputInfo(output_info);
 
       int nprop, j;
       Atom *props = XRRListOutputProperties(this->display, res->outputs[o], &nprop);
@@ -2642,11 +2644,17 @@ static unsigned char *sxfe_display_edid(frontend_t *this_gen, int *size)
             *size = nitems;
             edid = malloc(*size);
             memcpy(edid, prop, *size);
+            XFree(atom_name);
+            XFree(prop);
             break;
           }
+          XFree(prop);
         }
+        XFree(atom_name);
       }
+      XFree(props);
     }
+    XRRFreeScreenResources(res);
   } while (0);
 
   XUnlockDisplay(this->display);
