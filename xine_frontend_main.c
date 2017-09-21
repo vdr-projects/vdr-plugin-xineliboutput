@@ -278,6 +278,7 @@ int main(int argc, char *argv[])
   const char *config_file = NULL;
   const char *power_off_cmd = NULL;
 
+  input_cec_t  *cec = NULL;
   input_kbd_t  *kbd = NULL;
   input_lirc_t *lirc = NULL;
 
@@ -703,7 +704,7 @@ int main(int argc, char *argv[])
       /* Start LIRC forwarding */
       lirc = lirc_start(fe, lirc_dev, repeat_emu, gui_hotkeys);
 
-      cec_start(fe, cec_hdmi_port, cec_dev_type);
+      cec = cec_start(fe, cec_hdmi_port, cec_dev_type);
 
       /* Start keyboard listener thread */
       if (!nokbd) {
@@ -741,7 +742,7 @@ int main(int argc, char *argv[])
 
   /* stop input threads */
   lirc_stop(&lirc);
-  cec_stop();
+  cec_stop(&cec);
   kbd_stop(&kbd);
 
   fe->fe_free(fe);

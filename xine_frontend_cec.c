@@ -31,6 +31,10 @@
 
 #ifdef HAVE_LIBCEC
 
+/*
+ * legacy libcec compat
+ */
+
 #if defined(CEC_LIB_VERSION_MAJOR) && CEC_LIB_VERSION_MAJOR >= 3
 #  define HAVE_LIBCEC_3
 #  if CEC_LIB_VERSION_MAJOR >= 4
@@ -47,12 +51,22 @@ typedef void * libcec_connection_t;
 #  define libcec_destroy(c) cec_destroy()
 #endif
 
-/* static data */
-static volatile int exit_req = 0;
-static pthread_t cec_thread;
-static int cec_hdmi_port = 0;
-static int cec_dev_type = 0; /* 0 - TV, 5 - AVR */
-static int cec_not_found = 0;
+/*
+ * data
+ */
+
+struct input_cec_s {
+  pthread_t   cec_thread;
+  frontend_t *fe;
+  int         cec_hdmi_port;
+  int         cec_dev_type; /* 0 - TV, 5 - AVR */
+  int         cec_not_found;
+  unsigned    last_key;
+};
+
+/*
+ * key mappings
+ */
 
 static const struct keymap_item {
   const uint8_t map;
@@ -199,18 +213,18 @@ static int _cec_log_cb(void *this_gen, const cec_log_message message)
 
 static void _cec4_keypress_cb(void *this_gen, const cec_keypress *keypress)
 {
-  frontend_t *fe = (frontend_t*)this_gen;
-  static unsigned int last_key = KEY_NONE;
+  input_cec_t *cec = this_gen;
+  frontend_t  *fe  = cec->fe;
 
   LOGVERBOSE("keypress 0x%x duration %d", keypress->keycode, keypress->duration);
 
-  if (keypress->keycode == last_key && keypress->duration > 0)
+  if (keypress->keycode == cec->last_key && keypress->duration > 0)
     return;
 
   if (keypress->duration > 0)
-    last_key = KEY_NONE;
+    cec->last_key = KEY_NONE;
   else
-    last_key = keypress->keycode;
+    cec->last_key = keypress->keycode;
 
   if (keypress->keycode >= sizeof(keymap) / sizeof(keymap[0]) ||
       !keymap[keypress->keycode].key[0]) {
@@ -407,10 +421,10 @@ static int _cec_parse_edid(uint8_t *edid, int size)
   return -1;
 }
 
-static int _detect_hdmi_address(frontend_t *fe_gen)
+static int _detect_hdmi_address(input_cec_t *cec)
 {
-  if (cec_hdmi_port <= 0) {
-    frontend_t *fe = (frontend_t*)fe_gen;
+  if (cec->cec_hdmi_port <= 0) {
+    frontend_t *fe = (frontend_t*)cec->fe;
     if (fe->fe_display_edid) {
       int cec_hdmi_address;
       int size = 0;
@@ -430,7 +444,7 @@ static int _detect_hdmi_address(frontend_t *fe_gen)
   return 0;
 }
 
-static libcec_connection_t _libcec_init(void *fe_gen)
+static libcec_connection_t _libcec_init(input_cec_t *cec)
 {
   libcec_configuration config;
   libcec_connection_t conn;
@@ -439,12 +453,12 @@ static libcec_connection_t _libcec_init(void *fe_gen)
 
   strncpy(config.strDeviceName, "VDR", sizeof(config.strDeviceName));
 
-  config.iPhysicalAddress = _detect_hdmi_address(fe_gen);
-  config.iHDMIPort = cec_hdmi_port;
-  config.baseDevice = cec_dev_type;
+  config.iPhysicalAddress = _detect_hdmi_address(cec);
+  config.iHDMIPort = cec->cec_hdmi_port;
+  config.baseDevice = cec->cec_dev_type;
 
   config.bActivateSource = 0;
-  config.callbackParam = fe_gen;
+  config.callbackParam = cec;
   config.callbacks = &callbacks;
 
   config.deviceTypes.types[0] = CEC_DEVICE_TYPE_PLAYBACK_DEVICE;
@@ -466,14 +480,14 @@ static libcec_connection_t _libcec_init(void *fe_gen)
  *
  */
 
-static int _libcec_open(libcec_connection_t conn)
+static int _libcec_open(input_cec_t *cec, libcec_connection_t conn)
 {
   cec_adapter devices[10];
   int count = libcec_find_adapters(conn, devices, 10, NULL);
   if (count < 1) {
-    if (!cec_not_found) {
+    if (!cec->cec_not_found) {
       LOGMSG("No HDMI-CEC adapters found");
-      cec_not_found = 1;
+      cec->cec_not_found = 1;
     }
     return 0;
   }
@@ -509,8 +523,10 @@ static void _cleanup(void *p)
   libcec_destroy(conn);
 }
 
-static void *_cec_receiver_thread(void *fe_gen)
+static void *_cec_receiver_thread(void *cec_gen)
 {
+  input_cec_t *cec = cec_gen;
+  frontend_t  *fe  = cec->fe;
   libcec_connection_t conn;
 
   LOGDBG("started");
@@ -519,19 +535,19 @@ static void *_cec_receiver_thread(void *fe_gen)
 
   enum { INIT, WAIT_DEVICE, RUNNING } state = INIT;
 
-  while (!exit_req) {
+  while (fe->xine_is_finished(fe, 0) != FE_XINE_EXIT) {
 
     pthread_testcancel();
 
     switch (state) {
     case INIT:
-      if (!(conn = _libcec_init(fe_gen))) {
+      if (!(conn = _libcec_init(cec))) {
         return NULL;
       }
       state = WAIT_DEVICE;
       break;
     case WAIT_DEVICE:
-      if (_libcec_open(conn)) {
+      if (_libcec_open(cec, conn)) {
         state = RUNNING;
       }
       usleep(5000*1000);
@@ -557,34 +573,53 @@ static void *_cec_receiver_thread(void *fe_gen)
  * interface
  */
 
-void cec_start(struct frontend_s *fe, int hdmi_port, int dev_type)
+input_cec_t *cec_start(struct frontend_s *fe, int hdmi_port, int dev_type)
 {
+  input_cec_t *cec = NULL;
+
 #ifdef HAVE_LIBCEC
-  if (hdmi_port >= 0) {
-    int err;
+  int err;
 
-    exit_req = 0;
-    cec_hdmi_port = hdmi_port;
-    cec_dev_type = dev_type;
+  if (hdmi_port < 0) {
+    return NULL;
+  }
 
-    if ((err = pthread_create (&cec_thread,
-                               NULL, _cec_receiver_thread,
-                               (void*)fe)) != 0) {
-      fprintf(stderr, "can't create new thread for HDMI-CEC (%s)\n",
-              strerror(err));
-    }
+  cec = calloc(1, sizeof(*cec));
+  if (!cec) {
+    return NULL;
+  }
+
+  cec->fe            = fe;
+  cec->cec_hdmi_port = hdmi_port;
+  cec->cec_dev_type  = dev_type;
+  cec->last_key      = KEY_NONE;
+
+  if ((err = pthread_create (&cec->cec_thread,
+                             NULL, _cec_receiver_thread,
+                             (void*)cec)) != 0) {
+    fprintf(stderr, "can't create new thread for HDMI-CEC (%s)\n",
+            strerror(err));
+    free(cec);
+    cec = NULL;
   }
 #endif /* HAVE_LIBCEC */
+
+  return cec;
 }
 
-void cec_stop(void)
+void cec_stop(input_cec_t **pcec)
 {
 #ifdef HAVE_LIBCEC
-  if (!exit_req) {
+  if (*pcec) {
+    input_cec_t *cec = *pcec;
     void *p;
-    exit_req = 1;
-    pthread_cancel (cec_thread);
-    pthread_join (cec_thread, &p);
+
+    *pcec = NULL;
+
+    pthread_cancel (cec->cec_thread);
+    pthread_join (cec->cec_thread, &p);
+
+    free(cec);
   }
 #endif /* HAVE_LIBCEC */
 }

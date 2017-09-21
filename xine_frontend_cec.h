@@ -13,7 +13,9 @@
 
 struct frontend_s;
 
-void cec_start(struct frontend_s *fe, int hdmi_port, int dev_type);
-void cec_stop(void);
+typedef struct input_cec_s input_cec_t;
+
+input_cec_t *cec_start(struct frontend_s *fe, int hdmi_port, int dev_type);
+void cec_stop(input_cec_t **);
 
 #endif /* XINE_FRONTEND_CEC_H */
