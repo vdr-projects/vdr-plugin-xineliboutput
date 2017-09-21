@@ -2255,6 +2255,24 @@ static int set_video_properties(vdr_input_plugin_t *this,
   return 0;
 }
 
+static void restore_video_properties(vdr_input_plugin_t *this)
+{
+  /* restore default/original values */
+  if (this->video_properties_saved) {
+    xine_set_param(this->stream, XINE_PARAM_VO_HUE, this->orig_hue);
+    xine_set_param(this->stream, XINE_PARAM_VO_SATURATION, this->orig_saturation);
+    xine_set_param(this->stream, XINE_PARAM_VO_BRIGHTNESS, this->orig_brightness);
+#ifdef XINE_PARAM_VO_SHARPNESS
+    xine_set_param(this->stream, XINE_PARAM_VO_SHARPNESS, this->orig_sharpness);
+#endif
+#ifdef XINE_PARAM_VO_NOISE_REDUCTION
+    xine_set_param(this->stream, XINE_PARAM_VO_NOISE_REDUCTION, this->orig_noise_reduction);
+#endif
+    xine_set_param(this->stream, XINE_PARAM_VO_CONTRAST, this->orig_contrast);
+    xine_set_param(this->stream, XINE_PARAM_VO_ASPECT_RATIO, this->orig_vo_aspect_ratio);
+  }
+}
+
 /*
  * slave stream
  */
@@ -5218,10 +5236,6 @@ static void vdr_plugin_dispose (input_plugin_t *this_gen)
     this->osd_manager = NULL;
   }
 
-  /* restore video properties */
-  if(this->video_properties_saved)
-    set_video_properties(this, -1,-1,-1,-1,-1, -1, -1); /* restore defaults */
-
   signal_buffer_pool_not_empty(this);
   signal_buffer_not_empty(this);
 
@@ -5247,6 +5261,8 @@ static void vdr_plugin_dispose (input_plugin_t *this_gen)
     this->block_buffer->dispose(this->block_buffer);
   if (this->hd_buffer)
     this->hd_buffer->dispose(this->hd_buffer);
+
+  restore_video_properties(this);
 
   free (this);
   LOGDBG("dispose done.");
