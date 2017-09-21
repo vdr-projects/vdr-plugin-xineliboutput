@@ -519,8 +519,10 @@ static void _cleanup(void *p)
 #ifdef HAVE_LIBCEC_3
   libcec_connection_t conn = *(libcec_connection_t *)p;
 #endif
-  libcec_close(conn);
-  libcec_destroy(conn);
+  if (conn) {
+    libcec_close(conn);
+    libcec_destroy(conn);
+  }
 }
 
 static void *_cec_receiver_thread(void *cec_gen)
