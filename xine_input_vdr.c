@@ -2124,9 +2124,9 @@ static void vdr_flush_engine(vdr_input_plugin_t *this, uint64_t discard_index)
   }
 
   /* reset speed */
-  if(xine_get_param(this->stream, XINE_PARAM_FINE_SPEED) <= 0) {
+  if(_x_get_fine_speed(this->stream) <= 0) {
     LOGMSG("vdr_flush_engine: playback is paused <0>");
-    xine_set_param(this->stream, XINE_PARAM_FINE_SPEED, XINE_FINE_SPEED_NORMAL);
+    _x_set_fine_speed(this->stream, XINE_FINE_SPEED_NORMAL);
   }
 
   /* suspend demuxer */
@@ -2135,9 +2135,9 @@ static void vdr_flush_engine(vdr_input_plugin_t *this, uint64_t discard_index)
   reset_scr_tuning(this);
 
   /* reset speed again (adjust_realtime_speed might have set pause) */
-  if(xine_get_param(this->stream, XINE_PARAM_FINE_SPEED) <= 0) {
+  if(_x_get_fine_speed(this->stream) <= 0) {
     LOGMSG("vdr_flush_engine: playback is paused <1>");
-    xine_set_param(this->stream, XINE_PARAM_FINE_SPEED, XINE_FINE_SPEED_NORMAL);
+    _x_set_fine_speed(this->stream, XINE_FINE_SPEED_NORMAL);
   }
 
 #if 0
