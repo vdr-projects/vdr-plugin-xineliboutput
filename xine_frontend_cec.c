@@ -541,21 +541,27 @@ static void *_cec_receiver_thread(void *cec_gen)
 
     switch (state) {
     case INIT:
+      pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
       if (!(conn = _libcec_init(cec))) {
         return NULL;
       }
+      pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
       state = WAIT_DEVICE;
       break;
     case WAIT_DEVICE:
+      pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
       if (_libcec_open(cec, conn)) {
         state = RUNNING;
       }
+      pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
       usleep(5000*1000);
       break;
     case RUNNING:
+      pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
       if (!_libcec_check_device(conn)) {
         state = WAIT_DEVICE;
       }
+      pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
       usleep(1000*1000);
       break;
     }
