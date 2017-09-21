@@ -93,6 +93,26 @@ static void lircd_connect(void)
   }
 }
 
+static int _select(int fd, int timeout)
+{
+  fd_set set;
+  int result;
+
+  FD_ZERO(&set);
+  FD_SET(fd, &set);
+
+  if (timeout >= 0) {
+    struct timeval tv;
+    tv.tv_sec  = timeout / 1000;
+    tv.tv_usec = (timeout % 1000) * 1000;
+    result = select(FD_SETSIZE, &set, NULL, NULL, &tv) > 0 && FD_ISSET(fd, &set);
+  } else {
+    result = select(FD_SETSIZE, &set, NULL, NULL, NULL) > 0 && FD_ISSET(fd, &set);
+  }
+
+  return result;
+}
+
 static void *lirc_receiver_thread(void *fe_gen)
 {
   frontend_t *fe = (frontend_t*)fe_gen;
@@ -113,20 +133,10 @@ static void *lirc_receiver_thread(void *fe_gen)
   lircd_connect();
 
   while (lirc_device_name && fd_lirc >= 0) {
-    fd_set set;
     int ready, ret = -1;
-    FD_ZERO(&set);
-    FD_SET(fd_lirc, &set);
 
     pthread_testcancel();
-    if (timeout >= 0) {
-      struct timeval tv;
-      tv.tv_sec  = timeout / 1000;
-      tv.tv_usec = (timeout % 1000) * 1000;
-      ready = select(FD_SETSIZE, &set, NULL, NULL, &tv) > 0 && FD_ISSET(fd_lirc, &set);
-    } else {
-      ready = select(FD_SETSIZE, &set, NULL, NULL, NULL) > 0 && FD_ISSET(fd_lirc, &set);
-    }
+    ready = _select(fd_lirc, timeout);
 
     pthread_testcancel();
     if (ready < 0) {
