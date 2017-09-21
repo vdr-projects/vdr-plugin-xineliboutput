@@ -263,6 +263,8 @@ int main(int argc, char *argv[])
   const char *config_file = NULL;
   const char *power_off_cmd = NULL;
 
+  input_kbd_t  *kbd = NULL;
+
   extern const fe_creator_f fe_creator;
   frontend_t *fe = NULL;
 
@@ -672,7 +674,7 @@ int main(int argc, char *argv[])
       /* Start keyboard listener thread */
       if (!nokbd) {
         PRINTF("\n\nPress Esc to exit\n\n");
-        kbd_start(fe, slave_mode);
+        kbd = kbd_start(fe, slave_mode, gui_hotkeys);
       }
     }
 
@@ -703,8 +705,7 @@ int main(int argc, char *argv[])
   /* stop input threads */
   lirc_stop();
   cec_stop();
-  if (!nokbd)
-    kbd_stop();
+  kbd_stop(&kbd);
 
   fe->fe_free(fe);
 

@@ -31,11 +31,11 @@
  * stdin (keyboard/slave mode) reading
  */
 
-/* static data */
-static pthread_t kbd_thread;
-
-/* xine_frontend_main.c: */
-extern int gui_hotkeys;
+struct input_kbd_s {
+  pthread_t   kbd_thread;
+  frontend_t *fe;
+  int         gui_hotkeys;
+};
 
 
 /*
@@ -166,10 +166,11 @@ static void kbd_receiver_thread_cleanup(void *arg)
   LOGMSG("Keyboard thread terminated");
 }
 
-static void *kbd_receiver_thread(void *fe_gen)
+static void *kbd_receiver_thread(void *kbd_gen)
 {
   struct termios saved_tm;
-  frontend_t *fe = (frontend_t*)fe_gen;
+  input_kbd_t *kbd = kbd_gen;
+  frontend_t  *fe = kbd->fe;
   uint64_t code = 0;
   char str[64];
 
@@ -212,7 +213,7 @@ static void *kbd_receiver_thread(void *fe_gen)
       break;
     }
 
-    if (gui_hotkeys) {
+    if (kbd->gui_hotkeys) {
       if (code == 'f' || code == 'F') {
         fe->send_event(fe, "TOGGLE_FULLSCREEN");
         continue;
@@ -258,10 +259,11 @@ static void slave_receiver_thread_cleanup(void *arg)
   LOGDBG("Slave mode receiver terminated");
 }
 
-static void *slave_receiver_thread(void *fe_gen)
+static void *slave_receiver_thread(void *kbd_gen)
 {
   struct termios saved_tm;
-  frontend_t *fe = (frontend_t*)fe_gen;
+  input_kbd_t *kbd = kbd_gen;
+  frontend_t  *fe = kbd->fe;
   char str[128], *pt;
 
   tcgetattr(STDIN_FILENO, &saved_tm);
@@ -319,16 +321,29 @@ static void *slave_receiver_thread(void *fe_gen)
  *
  * Start keyboard/slave mode reader thread
  */
-void kbd_start(frontend_t *fe, int slave_mode)
+input_kbd_t *kbd_start(frontend_t *fe, int slave_mode, int gui_hotkeys)
 {
+  input_kbd_t *kbd = calloc(1, sizeof(*kbd));
   int err;
-  if ((err = pthread_create (&kbd_thread,
+
+  if (!kbd) {
+    return NULL;
+  }
+
+  kbd->fe          = fe;
+  kbd->gui_hotkeys = gui_hotkeys;
+
+  if ((err = pthread_create (&kbd->kbd_thread,
                              NULL,
                              slave_mode ? slave_receiver_thread : kbd_receiver_thread,
-                             (void*)fe)) != 0) {
+                             (void*)kbd)) != 0) {
     fprintf(stderr, "Can't create new thread for keyboard (%s)\n",
             strerror(err));
+    free(kbd);
+    kbd = NULL;
   }
+
+  return kbd;
 }
 
 /*
@@ -336,12 +351,19 @@ void kbd_start(frontend_t *fe, int slave_mode)
  *
  * Stop keyboard/slave mode reader thread
  */
-void kbd_stop(void)
+void kbd_stop(input_kbd_t **pkbd)
 {
-  void *p;
+  if (*pkbd) {
+    input_kbd_t *kbd = *pkbd;
+    void        *p;
 
-  pthread_cancel(kbd_thread);
-  pthread_join(kbd_thread, &p);
+    *pkbd = NULL;
+
+    pthread_cancel (kbd->kbd_thread);
+    pthread_join (kbd->kbd_thread, &p);
+
+    free(kbd);
+  }
 }
 
 
