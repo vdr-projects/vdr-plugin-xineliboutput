@@ -527,7 +527,7 @@ static void *_cec_receiver_thread(void *cec_gen)
 {
   input_cec_t *cec = cec_gen;
   frontend_t  *fe  = cec->fe;
-  libcec_connection_t conn;
+  libcec_connection_t conn = NULL;
 
   LOGDBG("started");
 
