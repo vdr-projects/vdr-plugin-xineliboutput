@@ -561,6 +561,7 @@ static void *_cec_receiver_thread(void *cec_gen)
     case RUNNING:
       pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
       if (!_libcec_check_device(conn)) {
+        libcec_close(conn);
         state = WAIT_DEVICE;
       }
       pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
