@@ -141,6 +141,8 @@ static const struct keymap_item {
   [0xff] = {0, ""},
 };
 
+#define KEY_NONE (unsigned)-1
+
 /*
  * libcec callbacks
  */
@@ -198,14 +200,15 @@ static int _cec_log_cb(void *this_gen, const cec_log_message message)
 static void _cec4_keypress_cb(void *this_gen, const cec_keypress *keypress)
 {
   frontend_t *fe = (frontend_t*)this_gen;
-  static int last_key = -1;
+  static unsigned int last_key = KEY_NONE;
 
   LOGVERBOSE("keypress 0x%x duration %d", keypress->keycode, keypress->duration);
 
   if (keypress->keycode == last_key && keypress->duration > 0)
     return;
-  else if (keypress->duration > 0)
-    last_key = -1;
+
+  if (keypress->duration > 0)
+    last_key = KEY_NONE;
   else
     last_key = keypress->keycode;
 
