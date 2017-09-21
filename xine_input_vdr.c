@@ -229,7 +229,7 @@ static void SetupLogLevel(void)
 #ifdef LOG_GRAPH
 static void log_graph(int val, int symb)
 {
-  static char headr[] = "|<- 0                                                                                       100% ->|";
+  static const char headr[] = "|<- 0                                                                                       100% ->|";
   static char meter[sizeof(headr)];
 
   if (!symb || symb == 1) {
