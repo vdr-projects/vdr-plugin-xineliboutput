@@ -3899,16 +3899,16 @@ static void vdr_event_cb (void *user_data, const xine_event_t *event)
         update_dvd_title_number(this);
 
         printf_vdr(this, "INFO TITLE %s\r\n", data->str);
-	break;
       }
+      break;
 
     case XINE_EVENT_UI_NUM_BUTTONS:
       if (event->stream == this->slave.stream) {
 	xine_ui_data_t *data = (xine_ui_data_t*)event->data;
 	dvd_menu_domain(this, data->num_buttons > 0);
 	printf_vdr(this, "INFO DVDBUTTONS %d\r\n", data->num_buttons);
-	break;
       }
+      break;
 
     case XINE_EVENT_UI_CHANNELS_CHANGED:
       if (event->stream==this->slave.stream) {
