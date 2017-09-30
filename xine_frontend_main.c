@@ -413,7 +413,7 @@ int main(int argc, char *argv[])
               PRINTF("Shutdown after %d minutes of inactivity using %s\n", inactivity_timer, power_off_cmd);
               break;
     case 'P': if (static_post_plugins)
-                strcatrealloc(static_post_plugins, ";");
+                static_post_plugins = strcatrealloc(static_post_plugins, ";");
               static_post_plugins = strcatrealloc(static_post_plugins, optarg);
               PRINTF("Post plugins: %s\n", static_post_plugins);
               break;
