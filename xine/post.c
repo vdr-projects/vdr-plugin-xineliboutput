@@ -208,18 +208,23 @@ static void __pplugin_update_parameters(xine_post_t *post, char *args)
           }
         }
       }
+    }
 
+    if (pobj.properties_names) {
       i = 0;
 
       while(pobj.properties_names[i]) {
         free(pobj.properties_names[i]);
+        pobj.properties_names[i] = NULL;
         i++;
       }
 
       free(pobj.properties_names);
+      pobj.properties_names = NULL;
     }
 
     free(pobj.param_data);
+    pobj.param_data = NULL;
   }
 }
 
