@@ -5979,7 +5979,7 @@ static input_plugin_t *vdr_class_get_instance (input_class_t *class_gen,
 {
   vdr_input_class_t  *class = (vdr_input_class_t *) class_gen;
   vdr_input_plugin_t *this;
-  char               *mrl = (char *) data;
+  const char         *mrl = data;
   int                local_mode;
 
   LOGDBG("vdr_class_get_instance");
