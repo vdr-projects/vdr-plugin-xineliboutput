@@ -181,11 +181,14 @@ void cXinelibPlayer::SetSpeed(int Speed)
     case -3: Control("TRICKSPEED 4");   break;
     case -2: Control("TRICKSPEED 2");   break;
     case  0: Control("TRICKSPEED 0");   break;
-    default: m_Speed = 1;
     case  1: Control("TRICKSPEED 1");   break;
     case  2: Control("TRICKSPEED -2");  break;
     case  3: Control("TRICKSPEED -4");  break;
     case  4: Control("TRICKSPEED -12"); break;
+    default:
+      m_Speed = 1;
+      Control("TRICKSPEED 1");
+      break;
   }
 }
 
