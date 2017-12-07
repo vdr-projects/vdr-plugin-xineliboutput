@@ -11,6 +11,8 @@
 #ifndef _XINELIBOUTPUT_BITSTREAM_H_
 #define _XINELIBOUTPUT_BITSTREAM_H_
 
+#include <stdint.h>
+#include <stddef.h>
 
 # ifdef NOCACHE
 

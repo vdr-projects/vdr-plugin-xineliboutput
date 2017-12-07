@@ -11,6 +11,9 @@
 #ifndef __ISO_639_H
 #define __ISO_639_H
 
+#include <stddef.h>
+#include <string.h>
+
 static const struct {
   const char iso639_2[4];
   const char iso639_1[4];

@@ -16,6 +16,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+#include <stddef.h>
 
 #define SC_PICTURE      0x00  /* picture atart code */
 #define SC_SEQUENCE     0xb3  /* sequence header    */

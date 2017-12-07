@@ -15,6 +15,9 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+#include <stddef.h>
+
 typedef enum {
   scale_fast = 0,         /* simple pixel doubling/dropping */
   scale_good_BW = 1,      /* linear interpolation, palette re-generation */

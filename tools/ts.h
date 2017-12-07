@@ -15,6 +15,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+#include <stddef.h>
 
 /* Avoid warnings when included to VDR plugin */
 #undef TS_SYNC_BYTE

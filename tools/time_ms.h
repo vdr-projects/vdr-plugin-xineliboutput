@@ -11,6 +11,8 @@
 #ifndef XINELIBOUTPUT_TIME_MS_H_
 #define XINELIBOUTPUT_TIME_MS_H_
 
+#include <stdint.h>
+#include <stddef.h>
 #include <sys/time.h>
 
 static uint64_t time_ms(void)
