@@ -550,7 +550,7 @@ eOSState cMenuBrowseFiles::ProcessKey(eKeys Key)
                     break;
       case kGreen:  if (help[1])
                       return Open(true,
-                                  m_Mode == ShowMusic ? m_OnlyQueue=true : false,
+                                  m_Mode == ShowMusic ? (m_OnlyQueue=true) : false,
                                   m_Mode != ShowMusic);
                     break;
       case kYellow: if (help[2])
