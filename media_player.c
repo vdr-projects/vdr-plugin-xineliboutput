@@ -423,6 +423,7 @@ eOSState cPlaylistMenu::ProcessKey(eKeys Key)
 		      Set();
 	              return result;
                     }
+                    break;
       case kBlue:
                     Mark();
                     m_Marked = Current();
