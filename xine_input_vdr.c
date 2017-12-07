@@ -272,7 +272,7 @@ typedef struct slave_stream_s slave_stream_t;
 typedef struct vdr_input_class_s {
   input_class_t   input_class;
   xine_t         *xine;
-  char           *mrls[ 2 ];
+  const char     *mrls[ 2 ];
   int             fast_osd_scaling;
   int             smooth_scr_tuning;
   double          scr_tuning_step;
