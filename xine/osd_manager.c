@@ -528,10 +528,10 @@ static int exec_osd_set_rle(osd_manager_impl_t *this, osd_command_t *cmd)
 
   /* fill extra data */
   const vdr_osd_extradata_t extra_data = {
-    extent_width:  osd->extent_width,
-    extent_height: osd->extent_height,
-    layer:         cmd->layer,
-    scaling:       cmd->scaling
+    .extent_width  = osd->extent_width,
+    .extent_height = osd->extent_height,
+    .layer         = cmd->layer,
+    .scaling       = cmd->scaling
   };
   memcpy(ov_overlay.hili_color, &extra_data, sizeof(extra_data));
 
@@ -650,10 +650,10 @@ static int exec_osd_set_argb(osd_manager_impl_t *this, osd_command_t *cmd)
 
   /* fill extra data */
   const vdr_osd_extradata_t extra_data = {
-    extent_width:  osd->extent_width,
-    extent_height: osd->extent_height,
-    layer:         cmd->layer,
-    scaling:       cmd->scaling
+    .extent_width  = osd->extent_width,
+    .extent_height = osd->extent_height,
+    .layer         = cmd->layer,
+    .scaling       = cmd->scaling
   };
   memcpy(ov_overlay.hili_color, &extra_data, sizeof(extra_data));
 
