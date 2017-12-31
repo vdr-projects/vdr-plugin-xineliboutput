@@ -174,6 +174,10 @@ buf_element_t *ts2es_put(ts2es_t *this, uint8_t *data, fifo_buffer_t *src_fifo)
     LOGVERBOSE("ts2es: no payload, size %d", bytes);
     return NULL;
   }
+  if (bytes > TS_SIZE - 4) {
+    LOGDBG("ts2es: ts header error");
+    return NULL;
+  }
 
   /* drop broken PES packets */
   if (this->pes_error && !pusi) {
