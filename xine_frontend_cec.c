@@ -361,7 +361,7 @@ static void _libcec_config_clear(libcec_configuration *p)
   memset(p->strDeviceName, 0, sizeof(p->strDeviceName));
 
   //deviceTypes.Clear();
-  int i;
+  size_t i;
   for (i = 0; i < sizeof(p->deviceTypes.types) / sizeof(p->deviceTypes.types[0]); i++)
     p->deviceTypes.types[i] = CEC_DEVICE_TYPE_RESERVED;
   //logicalAddresses.Clear();
