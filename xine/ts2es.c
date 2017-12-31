@@ -28,7 +28,7 @@ struct ts2es_s {
   uint32_t       xine_buf_type;
 
   buf_element_t *buf;
-  int            pes_len;  /* PES payload length left */
+  unsigned       pes_len;  /* PES payload length left */
   uint8_t        first_pusi_seen;
   uint8_t        video;
   uint8_t        pes_error;
@@ -49,7 +49,7 @@ static void ts2es_parse_pes(ts2es_t *this)
   uint8_t pes_pid = this->buf->content[3];
 
   /* Check if header is complete */
-  if (this->buf->size < 9 || this->buf->size < hdr_len) {
+  if (this->buf->size < 9 || this->buf->size < (int)hdr_len) {
     LOGMSG("ts2es: PES header not in first TS fragment");
     this->pes_error = 1;
     return;
@@ -163,7 +163,7 @@ static void ts2es_parse_pes(ts2es_t *this)
 buf_element_t *ts2es_put(ts2es_t *this, uint8_t *data, fifo_buffer_t *src_fifo)
 {
   buf_element_t *result = NULL;
-  int            bytes  = ts_PAYLOAD_SIZE(data);
+  unsigned       bytes  = ts_PAYLOAD_SIZE(data);
   int            pusi   = ts_PAYLOAD_START(data);
 
   if (ts_HAS_ERROR(data)) {
