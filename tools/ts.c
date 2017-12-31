@@ -383,7 +383,7 @@ int ts_parse_pmt (pmt_data_t *pmt, unsigned program_no, const uint8_t *pkt)
   ts_get_reg_desc(&program_info_format_identifier,
                   &pmt->pmt[12], program_info_length);
   if (program_info_format_identifier) {
-    if ((program_info_format_identifier == (('H' << 24) | ('D' << 16) | ('M' << 8) | 'V'))) {
+    if (program_info_format_identifier == (('H' << 24) | ('D' << 16) | ('M' << 8) | 'V')) {
       LOGMSG("PMT program info has tag 0x05 (format_identifier), content HDMV (0x%x)\n", program_info_format_identifier);
       hdmv_pmt = 1;
     } else {
