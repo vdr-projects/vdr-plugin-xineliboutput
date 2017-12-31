@@ -108,6 +108,9 @@ else
     endif
 endif
 
+CFLAGS += -Wextra -Wno-unused-parameter
+CXXFLAGS += -Wextra -Wno-unused-parameter
+
 ### Allow user defined options to overwrite defaults:
 -include $(PLGCFG)
 
