@@ -2724,6 +2724,9 @@ static void XKeyEvent_handler(sxfe_t *this, XKeyEvent *kev)
         if (this->gui_hotkeys)
           fe_event = "TOGGLE_FULLSCREEN";
         break;
+      case XK_F11:
+        fe_event = "TOGGLE_FULLSCREEN";
+        break;
       case XK_d:
       case XK_D:
         if (this->gui_hotkeys)
