@@ -1284,7 +1284,7 @@ static void signal_buffer_not_empty(vdr_input_plugin_t *this)
   }
 }
 
-#if XINE_VERSION_CODE < 10190
+#if XINE_VERSION_CODE < 10190 || XINE_VERSION_CODE >= 10209
 #  define fifo_buffer_new(stream, n, s) _x_fifo_buffer_new(n, s)
 #else
 static void fifo_buffer_dispose (fifo_buffer_t *this)
@@ -1362,7 +1362,9 @@ static fifo_buffer_t *fifo_buffer_new (xine_stream_t *stream, int num_buffers, u
    */
 
 #if XINE_VERSION_CODE >= 10207
-  multi_buffer = this->buffer_pool_base = xine_malloc_aligned (num_buffers * buf_size);
+  size_t extra = sizeof(buf_element_t) + sizeof(extra_info_t) + 256;
+  size_t size = buf_size + extra;
+  multi_buffer = this->buffer_pool_base = xine_malloc_aligned (num_buffers * size);
 #else
   multi_buffer = this->buffer_pool_base = av_mallocz (num_buffers * buf_size);
 #endif
@@ -1377,10 +1379,10 @@ static fifo_buffer_t *fifo_buffer_new (xine_stream_t *stream, int num_buffers, u
   for (i = 0; i<num_buffers; i++) {
     buf_element_t *buf;
 
-    buf = calloc(1, sizeof (buf_element_t));
+    buf = calloc(1, sizeof (buf_element_t) + extra);
 
     buf->mem = multi_buffer;
-    multi_buffer += buf_size;
+    multi_buffer += buf_size + extra;
 
     buf->max_size    = buf_size;
     buf->free_buffer = buffer_pool_free;
