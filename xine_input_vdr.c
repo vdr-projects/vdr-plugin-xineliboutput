@@ -1070,11 +1070,11 @@ static ssize_t readline_control(vdr_input_plugin_t *this, char *buf, size_t maxl
       continue;
     }
     if (poll_result == XIO_ABORTED) {
-      LOGERR("readline_control: XIO_ABORTED at [%u]", (uint)total_bytes);
+      LOGERR("readline_control: XIO_ABORTED at [%zu]", total_bytes);
       continue;
     }
     if (poll_result != XIO_READY /* == XIO_ERROR */) {
-      LOGERR("readline_control: poll error at [%u]", (uint)total_bytes);
+      LOGERR("readline_control: poll error at [%zu]", total_bytes);
       return -1;
     }
 
@@ -1089,7 +1089,7 @@ static ssize_t readline_control(vdr_input_plugin_t *this, char *buf, size_t maxl
       if (read_result == 0)
         LOGERR("Control stream disconnected");
       else
-        LOGERR("readline_control: read error at [%u]", (uint)total_bytes);
+        LOGERR("readline_control: read error at [%zu]", total_bytes);
       if (read_result < 0 && (errno == EINTR || errno == EAGAIN))
         continue;
       return -1;
@@ -1156,7 +1156,7 @@ static ssize_t read_control(vdr_input_plugin_t *this, uint8_t *buf, size_t len)
 
     if (num_bytes <= 0) {
       if (this->control_running && num_bytes < 0)
-        LOGERR("read_control read() error");
+        LOGERR("read_control read() error  (%zu of %zu, res %zd)", total_bytes, len, num_bytes);
       return -1;
     }
     total_bytes += num_bytes;
