@@ -5792,10 +5792,10 @@ static int connect_pipe_data_stream(vdr_input_plugin_t *this)
     }
   }
 
-  _x_io_tcp_write(this->stream, this->fd_control, "PIPE\r\n", 6);
-
-  if(readline_control(this, tmpbuf, sizeof(tmpbuf), 4) <= 0) {
-    LOGMSG("Pipe request failed");
+  if (_x_io_tcp_write(this->stream, this->fd_control, "PIPE\r\n", 6) != 6) {
+    LOGMSG("Pipe request failed (write)");
+  } else if(readline_control(this, tmpbuf, sizeof(tmpbuf), 4) <= 0) {
+    LOGMSG("Pipe request failed (read)");
   } else if(strncmp(tmpbuf, "PIPE /", 6)) {
     LOGMSG("Server does not support pipes ? (%s)", tmpbuf);
   } else {
@@ -5808,9 +5808,9 @@ static int connect_pipe_data_stream(vdr_input_plugin_t *this)
       else
 	LOGERR("Pipe opening failed");
     } else {
-      _x_io_tcp_write(this->stream, this->fd_control, "PIPE OPEN\r\n", 11);
-      if(readline_control(this, tmpbuf, sizeof(tmpbuf)-1, 4) >6 &&
-	 !strncmp(tmpbuf, "PIPE OK", 7)) {
+      if (_x_io_tcp_write(this->stream, this->fd_control, "PIPE OPEN\r\n", 11) == 11 &&
+          readline_control(this, tmpbuf, sizeof(tmpbuf)-1, 4) >6 &&
+          !strncmp(tmpbuf, "PIPE OK", 7)) {
 	fcntl (fd_data, F_SETFL, fcntl (fd_data, F_GETFL) | O_NONBLOCK);
 	return fd_data;
       }
