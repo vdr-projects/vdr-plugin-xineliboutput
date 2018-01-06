@@ -23,7 +23,6 @@
 #include <sys/socket.h>
 #include <sys/ioctl.h>
 
-#include <vdr/config.h>
 #include <vdr/tools.h>
 #include <vdr/videodir.h>
 

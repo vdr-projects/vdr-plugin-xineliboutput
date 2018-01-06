@@ -22,9 +22,8 @@
 # endif
 #endif
 
-#include <vdr/config.h> 
-#include <vdr/tools.h> 
-#include <vdr/thread.h> 
+#include <vdr/tools.h>
+#include <vdr/thread.h>
 
 #include "../config.h"
 

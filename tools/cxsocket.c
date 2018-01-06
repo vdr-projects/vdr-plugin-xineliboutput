@@ -22,9 +22,6 @@
 #endif
 #include <netinet/tcp.h>
 
-#include <vdr/config.h>
-#include <vdr/tools.h>
-
 #include "../logdefs.h"
 
 #include "cxsocket.h"

@@ -13,7 +13,6 @@
 
 #include <string.h>
 
-#include <vdr/config.h>
 #include <vdr/tools.h>
 
 #include "../logdefs.h"

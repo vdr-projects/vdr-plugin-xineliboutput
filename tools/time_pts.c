@@ -14,8 +14,6 @@
 #include <unistd.h>
 #include <time.h>
 
-#include <vdr/config.h>
-
 #include "../logdefs.h"            // logging
 
 #include "time_pts.h"
