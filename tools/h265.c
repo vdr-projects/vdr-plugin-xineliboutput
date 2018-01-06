@@ -32,8 +32,8 @@ static int h265_parse_sps(const uint8_t *buf, size_t len, h265_sps_data_t *sps)
 
   br_skip_bits(&br, 1 + 8 + 32 + 4 + 43 + 1 + 8);
 
-  uint8_t sub_layer_profile_present_flag[8];
-  uint8_t sub_layer_level_present_flag[8];
+  uint8_t sub_layer_profile_present_flag[8] = {0,0,0,0, 0,0,0,0};
+  uint8_t sub_layer_level_present_flag[8] = {0,0,0,0, 0,0,0,0};
   for (i = 0; i < sps_max_sub_layers_minus1; i++) {
     sub_layer_profile_present_flag[i] = br_get_bit(&br);
     sub_layer_level_present_flag[i] = br_get_bit(&br);
