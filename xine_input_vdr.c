@@ -1115,12 +1115,12 @@ static ssize_t readline_control(vdr_input_plugin_t *this, char *buf, size_t maxl
 }
 
 /*
- * read_control()
+ * read_socket()
  *
- * - read len bytes from control socket
+ * - read len bytes from socket
  * - returns < 0 on error
  */
-static ssize_t read_control(vdr_input_plugin_t *this, uint8_t *buf, size_t len)
+static ssize_t read_socket(vdr_input_plugin_t *this, int fd, uint8_t *buf, size_t len)
 {
   int     poll_result;
   ssize_t num_bytes;
@@ -1132,7 +1132,7 @@ static ssize_t read_control(vdr_input_plugin_t *this, uint8_t *buf, size_t len)
       return -1;
 
     pthread_testcancel();
-    poll_result = io_select_rd(this->fd_control);
+    poll_result = io_select_rd(fd);
     pthread_testcancel();
 
     if (!this->control_running)
@@ -1142,21 +1142,21 @@ static ssize_t read_control(vdr_input_plugin_t *this, uint8_t *buf, size_t len)
       continue;
     }
     if (poll_result == XIO_ABORTED) {
-      LOGERR("read_control: XIO_ABORTED");
+      LOGERR("read_socket: XIO_ABORTED");
       continue;
     }
     if (poll_result == XIO_ERROR) {
-      LOGERR("read_control: poll error");
+      LOGERR("read_socket: poll error");
       return -1;
     }
 
     errno = 0;
-    num_bytes = recv (this->fd_control, buf + total_bytes, len - total_bytes, 0);
+    num_bytes = recv (fd, buf + total_bytes, len - total_bytes, 0);
     pthread_testcancel();
 
     if (num_bytes <= 0) {
       if (this->control_running && num_bytes < 0)
-        LOGERR("read_control read() error  (%zu of %zu, res %zd)", total_bytes, len, num_bytes);
+        LOGERR("read_socket read() error  (%zu of %zu, res %zd)", total_bytes, len, num_bytes);
       return -1;
     }
     total_bytes += num_bytes;
@@ -2798,7 +2798,7 @@ LOGMSG("  pip stream created");
  * OSD
  */
 
-static int handle_control_osdcmd(vdr_input_plugin_t *this)
+static int handle_osdcmd(vdr_input_plugin_t *this, int fd)
 {
   osd_command_t osdcmd = {0};
   int err = CONTROL_OK;
@@ -2809,8 +2809,8 @@ static int handle_control_osdcmd(vdr_input_plugin_t *this)
   /* read struct size first */
   size_t   todo, expect = sizeof(osd_command_t);
   uint8_t *pt = (uint8_t*)&osdcmd;
-  if (read_control(this, pt, sizeof(osdcmd.size)) != sizeof(osdcmd.size)) {
-    LOGMSG("control: error reading OSDCMD data length");
+  if (read_socket(this, fd, pt, sizeof(osdcmd.size)) != sizeof(osdcmd.size)) {
+    LOGMSG("error reading OSDCMD data length");
     return CONTROL_DISCONNECTED;
   }
   pt     += sizeof(osdcmd.size);
@@ -2819,8 +2819,8 @@ static int handle_control_osdcmd(vdr_input_plugin_t *this)
 
   /* read data */
   ssize_t bytes = MIN(todo, expect);
-  if (read_control(this, pt, bytes) != bytes) {
-    LOGMSG("control: error reading OSDCMD data");
+  if (read_socket(this, fd, pt, bytes) != bytes) {
+    LOGMSG("error reading OSDCMD data");
     return CONTROL_DISCONNECTED;
   }
 
@@ -2829,8 +2829,8 @@ static int handle_control_osdcmd(vdr_input_plugin_t *this)
     ssize_t skip = todo - expect;
     uint8_t dummy[skip];
     LOGMSG("osd_command_t size %d, expected %zu", osdcmd.size, expect);
-    if (read_control(this, dummy, skip) != skip) {
-      LOGMSG("control: error reading OSDCMD data (unknown part)");
+    if (read_socket(this, fd, dummy, skip) != skip) {
+      LOGMSG("error reading OSDCMD data (unknown part)");
       return CONTROL_DISCONNECTED;
     }
   }
@@ -2841,8 +2841,8 @@ static int handle_control_osdcmd(vdr_input_plugin_t *this)
   if (osdcmd.palette && osdcmd.colors>0) {
     ssize_t bytes = sizeof(osd_clut_t) * osdcmd.colors;
     osdcmd.palette = malloc(bytes);
-    if (read_control(this, (unsigned char *)osdcmd.palette, bytes) != bytes) {
-      LOGMSG("control: error reading OSDCMD palette");
+    if (read_socket(this, fd, (unsigned char *)osdcmd.palette, bytes) != bytes) {
+      LOGMSG("error reading OSDCMD palette");
       err = CONTROL_DISCONNECTED;
     }
   } else {
@@ -2852,9 +2852,9 @@ static int handle_control_osdcmd(vdr_input_plugin_t *this)
   /* read (RLE) data */
   if (err == CONTROL_OK && osdcmd.data && osdcmd.datalen>0) {
     osdcmd.data = (osd_rle_elem_t *)malloc(osdcmd.datalen);
-    if(read_control(this, (unsigned char *)osdcmd.data, osdcmd.datalen)
+    if(read_socket(this, fd, (unsigned char *)osdcmd.data, osdcmd.datalen)
        != (ssize_t)osdcmd.datalen) {
-      LOGMSG("control: error reading OSDCMD bitmap");
+      LOGMSG("error reading OSDCMD bitmap");
       err = CONTROL_DISCONNECTED;
     } else {
       if (osdcmd.cmd == OSD_Set_HDMV) {
@@ -3165,7 +3165,7 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
   LOGVERBOSE("<control> %s",cmd);
 
   if(!strncasecmp(cmd, "OSDCMD", 6)) {
-    err = handle_control_osdcmd(this);
+    err = handle_osdcmd(this, this->fd_control);
 
   } else if(!strncasecmp(cmd, "VIDEO_PROPERTIES ", 17)) {
     int hue, saturation, brightness, sharpness, noise_reduction, contrast, vo_aspect_ratio;
