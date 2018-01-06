@@ -104,8 +104,6 @@ class cXinelibOsd : public cOsd, public cListObject
                  int W, int H, unsigned char *Data,
                  int Colors, unsigned int *Palette,
                  osd_rect_t *DirtyArea);
-    void CmdPalette(int Wnd, int Colors, unsigned int *Palette);
-    void CmdMove(int Wnd, int Width, int Height);
     void CmdClose(int Wnd);
     void CmdFlush(void);
 
@@ -228,41 +226,6 @@ void cXinelibOsd::CmdVideoWindow(int X, int Y, int W, int H)
 
       m_Device->OsdCmd((void*)&osdcmd);
     }
-  }
-}
-
-void cXinelibOsd::CmdMove(int Wnd, int NewX, int NewY)
-{
-  TRACEF("cXinelibOsd::CmdMove");
-
-  if (m_Device && m_WindowHandles) {
-    osd_command_t osdcmd = {};
-
-    osdcmd.cmd = OSD_Move;
-    osdcmd.wnd = m_WindowHandles[Wnd];
-    osdcmd.x   = NewX;
-    osdcmd.y   = NewY;
-
-    m_Device->OsdCmd((void*)&osdcmd);
-  }
-}
-
-void cXinelibOsd::CmdPalette(int Wnd, int Colors, unsigned int *Palette)
-{
-  TRACEF("cXinelibOsd::CmdPalette");
-
-  if (m_Device) {
-    osd_clut_t    clut[Colors];
-    osd_command_t osdcmd = {};
-
-    osdcmd.cmd     = OSD_SetPalette;
-    osdcmd.wnd     = m_WindowHandles[Wnd];
-    osdcmd.palette = clut;
-    osdcmd.colors  = Colors;
-
-    prepare_palette(&clut[0], Palette, Colors, /*Top*/(Prev() == NULL), true);
-
-    m_Device->OsdCmd((void*)&osdcmd);
   }
 }
 

@@ -28,10 +28,7 @@ typedef enum  {
   OSD_Nop         = 0,    /* Do nothing ; used to initialize delay_ms counter */
   OSD_Size        = 1,    /* Set size of VDR OSD area (usually 720x576) */
   OSD_Set_RLE     = 2,    /* Create/update OSD window. Data is rle-compressed. */
-  OSD_SetPalette  = 3,    /* Modify palette of already created OSD window */ 
-  OSD_Move        = 4,    /* Change x/y position of already created OSD window */ 
   OSD_Close       = 5,    /* Close OSD window */
-  OSD_Set_YUV     = 6,    /* Create/update OSD window. Data is in YUV420 format. */
   OSD_Commit      = 7,    /* All OSD areas have been updated, commit changes to display */
   OSD_Flush       = 8,    /* Flush all pending OSD operations immediately */
   OSD_VideoWindow = 9,    /* Set video window inside OSD */

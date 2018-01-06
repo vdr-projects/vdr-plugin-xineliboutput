@@ -1049,18 +1049,6 @@ static int hud_osd_command(frontend_t *this_gen, struct osd_command_s *cmd)
       hud_osd_draw(this, cmd);
       break;
 
-    case OSD_SetPalette: /* Modify palette of already created OSD window */
-      LOGDBG("HUD OSD SetPalette");
-      break;
-
-    case OSD_Move:       /* Change x/y position of already created OSD window */
-      LOGDBG("HUD OSD Move");
-      break;
-
-    case OSD_Set_YUV:    /* Create/update OSD window. Data is in YUV420 format. */
-      LOGDBG("HUD OSD Set YUV");
-      break;
-
     case OSD_VideoWindow:
       break;
 

@@ -751,83 +751,6 @@ static int exec_osd_set_argb(osd_manager_impl_t *this, osd_command_t *cmd)
 }
 
 /*
- * exec_osd_set_palette()
- *
- * - replace palette of an already existing OSD
- */
-static int exec_osd_set_palette(osd_manager_impl_t *this, osd_command_t *cmd)
-{
-  osd_data_t *osd = &this->osd[cmd->wnd];
-
-  if (!osd->cmd.data) {
-    LOGMSG("OSD_SetPalette(%d): old RLE data missing !", cmd->wnd);
-    return CONTROL_PARAM_ERROR;
-  }
-  if (!cmd->palette) {
-    LOGMSG("OSD_SetPalette(%d): new palette missing !", cmd->wnd);
-    return CONTROL_PARAM_ERROR;
-  }
-
-  /* use cached event to re-create Set_RLE command with modified palette */
-  osd_command_t tmp;
-  /* steal the original command */
-  memcpy(&tmp, &osd->cmd, sizeof(osd_command_t));
-  memset(&osd->cmd, 0, sizeof(osd_command_t));
-
-  /* replace palette */
-  tmp.cmd      = OSD_Set_RLE;
-  free(tmp.palette);
-  tmp.palette  = malloc(cmd->colors * sizeof(osd_rle_elem_t));
-  memcpy(tmp.palette, cmd->palette, cmd->colors * sizeof(osd_rle_elem_t));
-  tmp.colors   = cmd->colors;
-  tmp.pts      = cmd->pts;
-  tmp.delay_ms = cmd->delay_ms;
-  tmp.flags   |= cmd->flags & OSDFLAG_YUV_CLUT;
-
-  /* redraw */
-  int r = exec_osd_set_rle(this, &tmp);
-  clear_osdcmd(&tmp);
-  return r;
-}
-
-/*
- * exec_osd_move()
- *
- * - move existing OSD to new position
- */
-static int exec_osd_move(osd_manager_impl_t *this, osd_command_t *cmd)
-{
-  osd_data_t *osd = &this->osd[cmd->wnd];
-
-  if (!osd->cmd.data) {
-    LOGMSG("OSD_Move(%d): old RLE data missing !", cmd->wnd);
-    return CONTROL_PARAM_ERROR;
-  }
-  if (!osd->cmd.palette) {
-    LOGMSG("OSD_Move(%d): old palette missing !", cmd->wnd);
-    return CONTROL_PARAM_ERROR;
-  }
-
-  /* use cached event to re-create Set_RLE command with modified palette */
-  osd_command_t tmp;
-  /* steal the original command */
-  memcpy(&tmp, &osd->cmd, sizeof(osd_command_t));
-  memset(&osd->cmd, 0, sizeof(osd_command_t));
-
-  /* replace position */
-  tmp.cmd      = OSD_Set_RLE;
-  tmp.x        = cmd->x;
-  tmp.y        = cmd->y;
-  tmp.pts      = cmd->pts;
-  tmp.delay_ms = cmd->delay_ms;
-
-  /* redraw */
-  int r = exec_osd_set_rle(this, &tmp);
-  clear_osdcmd(&tmp);
-  return r;
-}
-
-/*
  * exec_osd_command_internal()
  */
 static int exec_osd_command_internal(osd_manager_impl_t *this, struct osd_command_s *cmd)
@@ -837,8 +760,6 @@ static int exec_osd_command_internal(osd_manager_impl_t *this, struct osd_comman
   switch (cmd->cmd) {
   case OSD_Nop:        return exec_osd_nop(this, cmd);
   case OSD_Size:       return exec_osd_size(this, cmd);
-  case OSD_SetPalette: return exec_osd_set_palette(this, cmd);
-  case OSD_Move:       return exec_osd_move(this, cmd);
   case OSD_Flush:      return exec_osd_flush(this, cmd);
   case OSD_Set_RLE:    return exec_osd_set_rle(this, cmd);
   case OSD_Set_LUT8:   return exec_osd_set_lut8(this, cmd);
@@ -849,10 +770,6 @@ static int exec_osd_command_internal(osd_manager_impl_t *this, struct osd_comman
     /* All OSD areas have been updated, commit changes to display */
     /* - not used with traditional xine-lib OSD */
     return CONTROL_OK;
-  case OSD_Set_YUV:
-    /* TODO */
-    LOGMSG("OSD_Set_YUV not implemented !");
-    return CONTROL_PARAM_ERROR;
   default:
     LOGMSG("Unknown OSD command %d", cmd->cmd);
     return CONTROL_PARAM_ERROR;
