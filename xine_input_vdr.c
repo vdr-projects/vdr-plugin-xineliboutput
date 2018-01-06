@@ -1366,6 +1366,7 @@ static fifo_buffer_t *fifo_buffer_new (xine_stream_t *stream, int num_buffers, u
   size_t size = buf_size + extra;
   multi_buffer = this->buffer_pool_base = xine_malloc_aligned (num_buffers * size);
 #else
+  size_t extra = 0;
   multi_buffer = this->buffer_pool_base = av_mallocz (num_buffers * buf_size);
 #endif
   pthread_mutex_init (&this->buffer_pool_mutex, NULL);
