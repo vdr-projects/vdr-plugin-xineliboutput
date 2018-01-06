@@ -623,7 +623,7 @@ void cUdpScheduler::Send_SAP(bool Announce)
   if(!local_addr)
     return;
 
-  uint32_t payload_type = VDRVERSNUM > 10702 ? SDP_PAYLOAD_MPEG_TS : SDP_PAYLOAD_MPEG_PES;
+  uint32_t payload_type = SDP_PAYLOAD_MPEG_TS /*: SDP_PAYLOAD_MPEG_PES*/;
   const char *sdp_descr = vdr_sdp_description(ip,
                                               2001,
                                               xc.listen_port,

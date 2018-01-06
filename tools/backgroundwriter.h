@@ -39,11 +39,7 @@ class cBackgroundWriterI : public cThread
     void Cork(void);
 
   public:
-#if VDRVERSNUM >= 10708
     cBackgroundWriterI(int fd, int Size = KILOBYTE(2048), int Margin = 0);
-#else
-    cBackgroundWriterI(int fd, int Size = KILOBYTE(512), int Margin = 0);
-#endif
     virtual ~cBackgroundWriterI();
 
     // Add PES frame to buffer
@@ -75,11 +71,7 @@ class cTcpWriter : public cBackgroundWriterI
 	    const uchar *Data,   int DataCount);
 
   public:
-#if VDRVERSNUM >= 10708
     cTcpWriter(int fd, int Size = KILOBYTE(2048));
-#else
-    cTcpWriter(int fd, int Size = KILOBYTE(512));
-#endif
 
     virtual ~cTcpWriter() {};
 
