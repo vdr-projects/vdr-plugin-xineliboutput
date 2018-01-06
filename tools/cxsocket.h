@@ -12,11 +12,13 @@
 #define __CXSOCKET_H
 
 #include <inttypes.h>
+#include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #ifdef __FreeBSD__
 #include <netinet/in.h>
 #endif
+#include <unistd.h> // close()
 
 #define CLOSESOCKET(fd) do { if(fd>=0) { ::close(fd); fd=-1; } } while(0)
 

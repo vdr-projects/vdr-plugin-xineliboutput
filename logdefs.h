@@ -84,6 +84,7 @@
  */
 
 #include <errno.h>
+#include <string.h> // strerror()
 
 #define LOG_ERRNO                                                     \
         x_syslog(LOG_ERR, LOG_MODULENAME, "   (ERROR (%s,%d): %s)",   \

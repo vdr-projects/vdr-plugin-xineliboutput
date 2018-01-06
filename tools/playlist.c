@@ -10,7 +10,8 @@
 
 #include "../features.h"
 
-#include <stdlib.h> 
+#include <stdlib.h>
+#include <unistd.h> // nice()
 
 #ifdef HAVE_LIBEXTRACTOR
 # include <extractor.h>
