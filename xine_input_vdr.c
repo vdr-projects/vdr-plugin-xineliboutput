@@ -1079,7 +1079,7 @@ static ssize_t readline_control(vdr_input_plugin_t *this, char *buf, size_t maxl
     }
 
     errno = 0;
-    read_result = read (this->fd_control, buf + total_bytes, 1);
+    read_result = recv (this->fd_control, buf + total_bytes, 1, 0);
     pthread_testcancel();
 
     if (!this->control_running && timeout < 0)
@@ -1151,7 +1151,7 @@ static ssize_t read_control(vdr_input_plugin_t *this, uint8_t *buf, size_t len)
     }
 
     errno = 0;
-    num_bytes = read (this->fd_control, buf + total_bytes, len - total_bytes);
+    num_bytes = recv (this->fd_control, buf + total_bytes, len - total_bytes, 0);
     pthread_testcancel();
 
     if (num_bytes <= 0) {
@@ -4153,7 +4153,10 @@ static buf_element_t *vdr_plugin_read_block_tcp(vdr_input_plugin_t *this)
 
     /* Read data */
     errno = 0;
-    n = read(this->fd_data, read_buffer->content + read_buffer->size, todo - read_buffer->size);
+    if (this->tcp)
+      n = recv(this->fd_data, read_buffer->content + read_buffer->size, todo - read_buffer->size, 0);
+    else
+      n = read(this->fd_data, read_buffer->content + read_buffer->size, todo - read_buffer->size);
     if (n <= 0) {
       if (!n || (errno != EINTR && errno != EAGAIN)) {
         if (n < 0 && this->fd_data >= 0)
@@ -5878,7 +5881,7 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
 
     if(this->fd_data < 0 && this->rtp) {
       /* flush control buffer (if PIPE was tried first) */
-      while(0 < read(this->fd_control, tmpbuf, 255)) ;
+      while(0 < recv(this->fd_control, tmpbuf, 255, 0)) ;
       if((this->fd_data = connect_rtp_data_stream(this)) < 0) {
 	LOGMSG("Data stream connection failed (RTP)");
 	this->rtp = 0;
@@ -5894,7 +5897,7 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
     if(this->fd_data < 0 && !this->tcp) {
       LOGMSG("Connecting (data) to udp://%s ...", host);
       /* flush control buffer (if RTP was tried first) */
-      while(0 < read(this->fd_control, tmpbuf, 255)) ;
+      while(0 < recv(this->fd_control, tmpbuf, 255, 0)) ;
       if((this->fd_data = connect_udp_data_stream(this)) < 0) {
 	LOGMSG("Data stream connection failed (UDP)");
 	this->udp = 0;
