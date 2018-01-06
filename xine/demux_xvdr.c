@@ -561,7 +561,7 @@ static void post_frame_end(demux_xvdr_t *this, buf_element_t *vid_buf)
 
   if (!this->bih_posted) {
 
-    video_size_t size = {0};
+    video_size_t size = {0, 0, { 0, 0 }};
     if (pes_get_video_size(vid_buf->content, vid_buf->size, &size, this->video_type == BUF_VIDEO_H264)) {
 
       /* reset decoder buffer */
