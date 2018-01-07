@@ -623,17 +623,14 @@ void cUdpScheduler::Send_SAP(bool Announce)
     return;
 
   uint32_t payload_type = SDP_PAYLOAD_MPEG_TS /*: SDP_PAYLOAD_MPEG_PES*/;
-  const char *sdp_descr = vdr_sdp_description(ip,
-                                              2001,
-                                              xc.listen_port,
-                                              xc.remote_rtp_addr,
-                                              m_ssrc,
-                                              payload_type,
-                                              xc.remote_rtp_port,
-                                              xc.remote_rtp_ttl);
-  if(!sdp_descr)
-    return;
-
+  cString sdp_descr = vdr_sdp_description(ip,
+                                          2001,
+                                          xc.listen_port,
+                                          xc.remote_rtp_addr,
+                                          m_ssrc,
+                                          payload_type,
+                                          xc.remote_rtp_port,
+                                          xc.remote_rtp_ttl);
 #if 1
   /* store copy of SDP data */
   if(m_fd_sap < 0) {
@@ -647,7 +644,7 @@ void cUdpScheduler::Send_SAP(bool Announce)
 						  ip));
     FILE *fp = fopen(fname, "w");
     if(fp) {
-      fprintf(fp, "%s", sdp_descr);
+      fprintf(fp, "%s", (const char *)sdp_descr);
       fclose(fp);
     }
   }
@@ -657,7 +654,7 @@ void cUdpScheduler::Send_SAP(bool Announce)
 				  Announce, 
 				  (m_ssrc >> 16 | m_ssrc) & 0xffff,
 				  "application/sdp",
-				  sdp_descr);
+				  (const char *)sdp_descr);
       
   if(!sap_send_pdu(&m_fd_sap, pdu, 0))
     LOGERR("SAP/SDP announce failed");

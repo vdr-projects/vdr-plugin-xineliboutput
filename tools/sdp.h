@@ -11,30 +11,37 @@
 #ifndef XINELIBOUTPUT_SDP_H_
 #define XINELIBOUTPUT_SDP_H_
 
+#define __STDC_FORMAT_MACROS
+#define __STDC_CONSTANT_MACROS
+#include <inttypes.h>
+#include <unistd.h>  // gethostmane
+#include <time.h>
+
+#include <vdr/tools.h>  // cString
 
 #define SDP_MIME_TYPE  "application/sdp"
 
 #define SDP_PAYLOAD_MPEG_PES  96
 #define SDP_PAYLOAD_MPEG_TS   33
 
-static const char *vdr_sdp_description(const char *vdr_ip,
-                                       int vdr_svdrp_port,
-                                       int vdr_xineliboutput_port,
-                                       const char *rtp_ip,
-                                       uint32_t rtp_ssrc,
-                                       uint32_t payload_type,
-                                       int rtp_port,
-                                       int rtp_ttl)
+static cString vdr_sdp_description(const char *vdr_ip,
+                                   int vdr_svdrp_port,
+                                   int vdr_xineliboutput_port,
+                                   const char *rtp_ip,
+                                   uint32_t rtp_ssrc,
+                                   uint32_t payload_type,
+                                   int rtp_port,
+                                   int rtp_ttl)
 {
   static uint8_t s_serial = 0;
-  static cString s_data;
-  static char    s_hostname[257] = {0};
 
+  char     hostname[256];
   uint64_t serial = (time(NULL) << 2) + ((s_serial++) & 0x03);
   cString  payload;
 
-  if (!s_hostname[0])
-    gethostname(s_hostname, 256);
+  if (gethostname(hostname, sizeof(hostname)) < 0)
+    strcpy(hostname, "localhost");
+  hostname[sizeof(hostname)-1] = 0;
 
   if (payload_type == SDP_PAYLOAD_MPEG_PES) {
     payload = cString::sprintf(
@@ -51,7 +58,7 @@ static const char *vdr_sdp_description(const char *vdr_ip,
                                );
   }
 
-  s_data = cString::sprintf(
+  return cString::sprintf(
            /*** session ***/
            /* version    */        "v=0"
            /* origin     */ "\r\n" "o=%s %u %" PRIu64 " IN IP4 %s"
@@ -86,7 +93,7 @@ static const char *vdr_sdp_description(const char *vdr_ip,
            , "vdr", rtp_ssrc, serial, vdr_ip
 
            /* name */
-           , "vdr", s_hostname, rtp_ip, rtp_port
+           , "vdr", hostname, rtp_ip, rtp_port
 
            /* media */
            , rtp_ip, rtp_ttl
@@ -105,7 +112,6 @@ static const char *vdr_sdp_description(const char *vdr_ip,
            , vdr_ip
            , vdr_svdrp_port
                             );
-  return s_data;
 }
 
 

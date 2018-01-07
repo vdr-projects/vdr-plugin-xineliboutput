@@ -1551,24 +1551,22 @@ void cXinelibServer::Handle_Control_RTSP(int cli, const char *arg)
         if (fd_control[cli].getsockname((struct sockaddr *)&sin, &len) < 0) {
           LOGERR("Error getting control socket address");
         }
-        const char *sdp_descr = vdr_sdp_description(cxSocket::ip2txt(sin.sin_addr.s_addr,
-                                                                     sin.sin_port, buf),
-                                                    2001,
-                                                    xc.listen_port,
-                                                    xc.remote_rtp_addr,
-                                                    payload_type,
-                                                    /*m_ssrc*/0x4df73452,
-                                                    xc.remote_rtp_port,
-                                                    xc.remote_rtp_ttl);
-        size_t sdplen = sdp_descr ? strlen(sdp_descr) : 0;
+        cString sdp_descr = vdr_sdp_description(cxSocket::ip2txt(sin.sin_addr.s_addr,
+                                                                 sin.sin_port, buf),
+                                                2001,
+                                                xc.listen_port,
+                                                xc.remote_rtp_addr,
+                                                payload_type,
+                                                /*m_ssrc*/0x4df73452,
+                                                xc.remote_rtp_port,
+                                                xc.remote_rtp_ttl);
+        size_t sdplen = strlen(sdp_descr);
         RTSPOUT(RTSP_200_OK
                 "Content-Type: application/sdp\r\n"
-                "Content-Length: %lu\r\n"
+                "Content-Length: %zu\r\n"
                 "\r\n",
-                CSeq, (unsigned long)sdplen);
-        if (sdplen) {
-          fd_control[cli].write_cmd(sdp_descr, sdplen);
-        }
+                CSeq, sdplen);
+        fd_control[cli].write_cmd(sdp_descr, sdplen);
       } else {
         RTSPOUT(RTSP_415 /*UNSUPPORTED_MEDIATYPE*/);
       }
