@@ -703,12 +703,20 @@ static int exec_osd_set_argb(osd_manager_impl_t *this, osd_command_t *cmd)
 
   /* blend */
   dst += cmd->y * osd->extent_width + cmd->x;
-  for (; lines > 0; lines--) {
-    memcpy(dst, src, stride * sizeof(uint32_t));
-    src += cmd->w;
-    dst += osd->extent_width;
+  if (cmd->cmd == OSD_Set_ARGBRLE) {
+    int res = rle_uncompress_argbrle(dst, cmd->w, lines, osd->extent_width,
+                                     cmd->raw_data, cmd->num_rle,
+                                     cmd->datalen);
+    if (res < 0)
+      LOGMSG("ARGB uncompress failed: %d", res);
+    /* ignore failure, can be caused by cropping */
+  } else {
+    for (; lines > 0; lines--) {
+      memcpy(dst, src, stride * sizeof(uint32_t));
+      src += cmd->w;
+      dst += osd->extent_width;
+    }
   }
-
   /* set dirty area. not used in opengl2 driver ... */
 #if 0
   /* this can't work... There's no way to know if driver has
@@ -763,6 +771,7 @@ static int exec_osd_command_internal(osd_manager_impl_t *this, struct osd_comman
   case OSD_Flush:      return exec_osd_flush(this, cmd);
   case OSD_Set_RLE:    return exec_osd_set_rle(this, cmd);
   case OSD_Set_LUT8:   return exec_osd_set_lut8(this, cmd);
+  case OSD_Set_ARGBRLE:
   case OSD_Set_ARGB:   return exec_osd_set_argb(this, cmd);
   case OSD_Close:      return exec_osd_close(this, cmd);
   case OSD_VideoWindow:return exec_osd_video_window(this, cmd);

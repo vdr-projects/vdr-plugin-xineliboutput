@@ -8,8 +8,10 @@
  *
  */
 
+#include <assert.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 #ifdef __FreeBSD__
 #include <sys/types.h>
 #endif
@@ -199,6 +201,201 @@ osd_rle_elem_t *rle_scale_nearest(const osd_rle_elem_t *old_rle, int *rle_elems,
 }
 
 /*
+ * Compress ARGB overlays
+ */
+
+static uint8_t *write_u32(uint8_t *rle_data, uint32_t color)
+{
+  *rle_data++ = color >> 24;
+  *rle_data++ = color >> 16;
+  *rle_data++ = color >> 8;
+  *rle_data++ = color;
+  return rle_data;
+}
+
+static uint8_t *write_rle_argb(uint8_t *rle_data,
+                               uint32_t color, unsigned len)
+{
+  uint8_t alpha = color >> 24;
+
+  if (alpha && len < 2) {
+    /* single non-transparent pixel, write as plain */
+    unsigned i;
+    for (i = 0; i < len; i++) {
+      rle_data = write_u32(rle_data, color);
+    }
+    return rle_data;
+  }
+
+  /* rle code marker */
+  *rle_data++ = 0;
+
+  if (!color) {
+    /* transparent */
+    if (len < 64) {
+      *rle_data++ = len;
+    } else {
+      *rle_data++ = 0x40 | ((len >> 8) & 0x3f);
+      *rle_data++ = len & 0xff;
+    }
+  } else {
+    if (len < 64) {
+      *rle_data++ = 0x80 | len;
+    } else {
+      *rle_data++ = 0x80 | 0x40 | ((len >> 8) & 0x3f);
+      *rle_data++ = len & 0xff;
+    }
+
+    rle_data = write_u32(rle_data, color);
+  }
+
+  return rle_data;
+}
+
+size_t rle_compress_argbrle(uint8_t **rle_data, const uint32_t *data,
+                            unsigned w, unsigned h, int *num_rle)
+{
+  unsigned y;
+  size_t   rle_size = 0;
+  uint8_t *rle = NULL;
+
+  *rle_data = NULL;
+  *num_rle = 0;
+
+  assert(h > 0);
+  assert(w <= 0x3fff);
+
+  for (y = 0; y < h; y++) {
+
+    /* grow buffer ? */
+    if ((ssize_t)(rle_size - ((const uint8_t *)rle - *rle_data)) < w * 4 * 4) {
+      size_t used = (const uint8_t *)rle - *rle_data;
+      rle_size = rle_size < 1 ? w*h/16 : rle_size*2;
+      *rle_data = realloc(*rle_data, rle_size);
+      rle = *rle_data + used;
+    }
+
+    /* compress line */
+    uint32_t color = *data;
+    uint32_t len   = 1;
+    unsigned x     = 1;
+
+    for (x = 1; x < w; x++) {
+      if (data[x] == color) {
+        len++;
+      } else {
+        rle = write_rle_argb(rle, color, len);
+        (*num_rle)++;
+        color = data[x];
+        len   = 1;
+      }
+    }
+
+    if (len) {
+      rle = write_rle_argb(rle, color, len);
+      (*num_rle)++;
+    }
+
+    /* end of line marker */
+    rle = write_rle_argb(rle, 0, 0);
+    (*num_rle)++;
+    data += w;
+  }
+
+  return (rle - *rle_data);
+}
+
+/*
+ * Uncompress ARGB RLE
+ */
+
+static const uint8_t *read_u32_argb(const uint8_t *rle_data, uint32_t *color)
+{
+  *color = (rle_data[0] << 24) |
+           (rle_data[1] << 16) |
+           (rle_data[2] << 8) |
+           (rle_data[3]);
+  return rle_data + 4;
+}
+
+static const uint8_t *decode_len(const uint8_t *rle_data, uint32_t *len)
+{
+  uint8_t byte = *rle_data++;
+  if (!(byte & 0x40))
+    *len = byte & 0x3f;
+  else
+    *len = ((byte & 0x3f) << 8) | *rle_data++;
+  return rle_data;
+}
+
+int rle_uncompress_argbrle(uint32_t *dst,
+                           unsigned w, unsigned h, unsigned stride,
+                           const uint8_t *rle_data, unsigned num_rle, size_t rle_size)
+{
+  unsigned rle_count = 0, x = 0, y = 0;
+  const uint8_t *end = rle_data + rle_size;
+
+  while (y < h) {
+
+    if (rle_data >= end || rle_count >= num_rle) {
+      return -1 - (rle_data >= end);
+    }
+    rle_count++;
+
+    /* decode RLE element */
+
+    if (*rle_data) {
+      /* plain dword */
+      rle_data = read_u32_argb(rle_data, dst + x);
+      x++;
+
+    } else {
+      /* compressed */
+      rle_data++; /* skip marker */
+
+      uint32_t dw, len;
+      if (!(*rle_data & 0x80)) {
+        /* transparent */
+        rle_data = decode_len(rle_data, &len);
+        if (x + len > w)
+          return -9999;
+
+        if (len) {
+          memset(dst + x, 0, len * sizeof(uint32_t));
+        } else {
+          /* end of line marker (00 00) */
+          if (x < w-1) {
+            memset(dst + x, 0, (w - x - 1) * 4);
+          }
+          x = 0;
+          dst += stride;
+          y++;
+        }
+      } else {
+        /* color */
+        rle_data = decode_len(rle_data, &len);
+        if (x+len > w)
+          return -9999;
+
+        rle_data = read_u32_argb(rle_data, &dw);
+        for (unsigned i = 0; i < len; i++)
+          dst[x + i] = dw;
+      }
+      x += len;
+    }
+
+    if (x > w) {
+      return -99;
+    }
+  }
+
+  if (rle_count != num_rle)
+    return -100000 - (num_rle - rle_count);
+
+  return rle_count;
+}
+
+/*
  * encode single HDMV PG rle element
  */
 static uint8_t *write_rle_hdmv(uint8_t *rle_data, unsigned color, unsigned len)
@@ -245,6 +442,8 @@ size_t rle_compress_hdmv(uint8_t **rle_data, const uint8_t *data, unsigned w, un
   size_t   rle_size = 0;
   uint8_t *rle = NULL;
 
+  assert(w <= 0x3fff);
+
   *rle_data = NULL;
   *num_rle = 0;
 
@@ -287,7 +486,6 @@ size_t rle_compress_hdmv(uint8_t **rle_data, const uint8_t *data, unsigned w, un
 
   return rle - *rle_data;
 }
-
 
 int rle_uncompress_hdmv(osd_rle_elem_t **data,
                         unsigned w, unsigned h,
@@ -362,6 +560,10 @@ int rle_uncompress_hdmv(osd_rle_elem_t **data,
 
   return rle_count;
 }
+
+/*
+ * uncompress LUT8 RLE to surfaces
+ */
 
 void rle_uncompress_lut8(uint8_t *dst,
                          unsigned w, unsigned h, unsigned stride,

@@ -120,6 +120,7 @@ protected:
     bool m_bMulticast [MAXCLIENTS];  // Client uses multicast RTP
     bool m_bConfigOk  [MAXCLIENTS];  // Client has been configured
     bool m_bArgbOSD   [MAXCLIENTS];  // Client supports ARGB OSD
+    bool m_bRleArgbOSD[MAXCLIENTS];  // Client supports RLE ARGB OSD
     int  m_iMulticastMask; // bit [cli] is 1 or 0. 1 == multicast in use.
     int  m_MasterCli;      // Master client (controls playback speed)
 

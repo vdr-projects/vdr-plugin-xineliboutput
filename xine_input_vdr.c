@@ -3672,7 +3672,7 @@ static void *vdr_control_thread(void *this_gen)
 
   if (this->osd_manager && this->osd_manager->argb_supported(this->stream)) {
     LOGMSG("ARGB OSD supported by video driver");
-    puts_vdr(this, "INFO ARGBOSD\r\n");
+    puts_vdr(this, "INFO ARGBOSD RLE\r\n");
   }
 
   write_control(this, "CONFIG\r\n");

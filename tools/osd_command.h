@@ -35,6 +35,7 @@ typedef enum  {
   OSD_Set_HDMV    = 10,   /* Create/update OSD window. Data is RLE compressed. */
   OSD_Set_LUT8    = 11,   /* Create/update OSD window. Data is uncompressed. */
   OSD_Set_ARGB    = 12,   /* Create/update OSD window. Data is uncompressed. */
+  OSD_Set_ARGBRLE = 13,   /* Create/update OSD window. Data is RLE compressed. */
 } osd_command_id_t;
 
 #define OSDFLAG_YUV_CLUT        0x01 /* palette is in YUV format */

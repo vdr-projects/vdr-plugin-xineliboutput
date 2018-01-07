@@ -854,6 +854,11 @@ static void hud_fill_img_memory(uint32_t* dst, int dst_pitch,
   } else if (cmd->cmd == OSD_Set_ARGB) {
     hud_fill_argb(dst, dst_pitch, cmd);
 
+  } else if (cmd->cmd == OSD_Set_ARGBRLE) {
+    rle_uncompress_argbrle(dst + cmd->y * dst_pitch + cmd->x,
+                           cmd->w, cmd->h, dst_pitch,
+                           cmd->raw_data, cmd->num_rle, cmd->datalen);
+
   } else if (cmd->cmd == OSD_Set_RLE) {
     rle_uncompress_argb(dst + cmd->y * dst_pitch + cmd->x,
                         cmd->w, cmd->h, dst_pitch,
@@ -1044,6 +1049,7 @@ static int hud_osd_command(frontend_t *this_gen, struct osd_command_s *cmd)
 
     case OSD_Set_LUT8:
     case OSD_Set_ARGB:
+    case OSD_Set_ARGBRLE:
     case OSD_Set_RLE: /* Create/update OSD window. Data is rle-compressed. */
       LOGVERBOSE("HUD OSD Set");
       hud_osd_draw(this, cmd);
@@ -1545,6 +1551,17 @@ static void opengl_fill_argb(uint32_t* dst, int dst_pitch,
   }
 }
 
+static void _argb2rgba(uint32_t *p, int w, int h, int pitch)
+{
+  for (int y = h; y; y--){
+    for (int x = 0; x < w; x++) {
+      uint32_t value = p[x];
+      p[x] = (value<<8)|((value>>24)&0xFF);
+    }
+    p += pitch;
+  }
+}
+
 static void opengl_osd_draw(sxfe_t *this, const struct osd_command_s *cmd)
 {
   // Copy the image to the texture and inform the opengl thread
@@ -1559,6 +1576,14 @@ static void opengl_osd_draw(sxfe_t *this, const struct osd_command_s *cmd)
 
     case OSD_Set_ARGB:
       opengl_fill_argb(dst, this->osd_width, cmd);
+      break;
+
+    case OSD_Set_ARGBRLE:
+      rle_uncompress_argbrle(dst + cmd->y * this->osd_width + cmd->x,
+                             cmd->w, cmd->h, this->osd_width,
+                             cmd->raw_data, cmd->num_rle, cmd->datalen);
+      _argb2rgba(dst + cmd->y * this->osd_width + cmd->x,
+                 cmd->w, cmd->h, this->osd_width);
       break;
 
     case OSD_Set_RLE:
@@ -1628,6 +1653,7 @@ static int opengl_osd_command(frontend_t *this_gen, struct osd_command_s *cmd)
 
       case OSD_Set_LUT8:
       case OSD_Set_ARGB:
+      case OSD_Set_ARGBRLE:
       case OSD_Set_RLE: /* Create/update OSD window. Data is rle-compressed. */
         LOGDBG("OpenGL OSD Set");
         opengl_osd_draw(this, cmd);
@@ -3223,7 +3249,7 @@ static int sxfe_xine_play(frontend_t *this_gen)
       this->x.input_plugin->f.fe_handle     = this_gen;
       this->x.input_plugin->f.intercept_osd = hud_osd_command;
 
-      this->x.fe.send_event((frontend_t*)this, "INFO ARGBOSD");
+      this->x.fe.send_event((frontend_t*)this, "INFO ARGBOSD RLE");
     }
 #endif /* HAVE_XRENDER */
 #ifdef HAVE_OPENGL
@@ -3232,7 +3258,7 @@ static int sxfe_xine_play(frontend_t *this_gen)
       this->x.input_plugin->f.fe_handle     = this_gen;
       this->x.input_plugin->f.intercept_osd = opengl_osd_command;
 
-      this->x.fe.send_event((frontend_t*)this, "INFO ARGBOSD");
+      this->x.fe.send_event((frontend_t*)this, "INFO ARGBOSD RLE");
     }
 #endif /* HAVE_OPENGL */
   }

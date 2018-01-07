@@ -66,6 +66,15 @@ int rle_uncompress_hdmv(struct osd_rle_elem_s **data,
                         unsigned w, unsigned h,
                         const uint8_t *rle_data, unsigned num_rle, size_t rle_size);
 
+/*
+ * ARGB overlay compression
+ */
+size_t rle_compress_argbrle(uint8_t **rle_data, const uint32_t *data,
+                            unsigned w, unsigned h, int *num_rle);
+int rle_uncompress_argbrle(uint32_t *dst,
+                           unsigned w, unsigned h, unsigned stride,
+                           const uint8_t *rle_data, unsigned num_rle,
+                           size_t rle_size);
 
 #if defined __cplusplus
 }

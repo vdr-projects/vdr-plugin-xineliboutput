@@ -130,6 +130,7 @@ cXinelibServer::cXinelibServer(cXinelibDevice *Dev, int listen_port) :
     m_bMulticast[i] = 0;
     m_bConfigOk[i] = false;
     m_bArgbOSD[i] = false;
+    m_bRleArgbOSD[i] = false;
     m_bUdp[i] = 0;
     m_ConnType[i] = ctDetecting;
   }
@@ -227,6 +228,7 @@ void cXinelibServer::CloseDataConnection(int cli)
   m_bMulticast[cli] = false;
   m_bConfigOk[cli] = false;
   m_bArgbOSD[cli] = false;
+  m_bRleArgbOSD[cli] = false;
 
   m_iMulticastMask &= ~(1<<cli);
 
@@ -314,7 +316,9 @@ void cXinelibServer::OsdCmd(void *cmd_gen)
     void *compressed_data = NULL;
     osd_command_t *cmd = (osd_command_t*)cmd_gen;
     osd_command_t cmdnet;
+    osd_command_t cmdnet_argbrle;
     memcpy(&cmdnet, cmd, sizeof(osd_command_t));
+    memset(&cmdnet_argbrle, 0, sizeof(cmdnet_argbrle));
 
     if (cmd->data) {
       // compress data
@@ -329,6 +333,17 @@ void cXinelibServer::OsdCmd(void *cmd_gen)
         cmdnet.raw_data = (uint8_t *)malloc(cmd->datalen);
         cmdnet.datalen  = rle_recompress_net(cmdnet.raw_data, cmd->data, cmd->num_rle);
         compressed_data = cmdnet.raw_data; // free it later
+
+      } else if (cmd->cmd == OSD_Set_ARGB) {
+        int num_rle = 0;
+        memcpy(&cmdnet_argbrle, cmd, sizeof(osd_command_t));
+        cmdnet_argbrle.datalen  = rle_compress_argbrle(&cmdnet_argbrle.raw_data,
+                                                    (const uint32_t *)cmd->raw_data,
+                                                    cmd->w, cmd->h, &num_rle);
+        cmdnet_argbrle.num_rle  = num_rle;
+        cmdnet_argbrle.cmd      = OSD_Set_ARGBRLE;
+        compressed_data         = cmdnet_argbrle.raw_data; // free it later
+        hton_osdcmd(cmdnet_argbrle);
       }
     }
 
@@ -337,7 +352,13 @@ void cXinelibServer::OsdCmd(void *cmd_gen)
 
     for(i = 0; i < MAXCLIENTS; i++) {
       if(fd_control[i].open() && m_bConfigOk[i]) {
-        int r = write_osd_command(fd_control[i], &cmdnet);
+        int r;
+        if (m_bRleArgbOSD[i] && cmdnet_argbrle.data) {
+          r = write_osd_command(fd_control[i], &cmdnet_argbrle);
+        } else {
+          r = write_osd_command(fd_control[i], &cmdnet);
+        }
+
         if(r < 0) {
           LOGMSG("Send OSD command failed, closing connection");
           CloseConnection(i);
@@ -1705,6 +1726,9 @@ void cXinelibServer::Handle_Control(int cli, const char *cmd)
 
     if(!strncmp(cmd, "INFO ARGBOSD", 12))
       m_bArgbOSD[cli] = true;
+
+    if(!strncmp(cmd, "INFO ARGBOSD RLE", 16))
+      m_bRleArgbOSD[cli] = true;
 
     if(!*xc.local_frontend || !strncmp(xc.local_frontend, "none", 4))
       cXinelibThread::InfoHandler(cmd+5);
