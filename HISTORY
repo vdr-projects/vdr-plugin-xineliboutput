@@ -1,6 +1,19 @@
 VDR Plugin 'xineliboutput' Revision History
 -------------------------------------------
 
+2018-01-10: Version 2.1.0
+
+- Fixed HD buffering issues with recent xine-lib versions.
+- Fixed concatenating multiple --post command line options.
+- Fixed leaks.
+- Added ARGB overlay compression.
+- Added mapping of F11 key to fullscreen toggle (sxfe).
+- Added check for missing xine plugins.
+- Improved stability and error resilence.
+- Improved portability.
+- Default to OpenGL 2 video output when available. Warn when inefficient video output is used.
+- "Dust removal".
+
 2017-03-12: Version 2.0.0
 
 - Moved from CVS to GIT (see README)
