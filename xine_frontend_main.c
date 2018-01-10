@@ -547,8 +547,7 @@ int main(int argc, char *argv[])
     }
   }
 
-  if (mrl &&
-      strncmp(mrl, MRL_ID ":", MRL_ID_LEN+1) &&
+  if (strncmp(mrl, MRL_ID ":", MRL_ID_LEN+1) &&
       strncmp(mrl, MRL_ID "+", MRL_ID_LEN+1)) {
     char *mrl2 = mrl;
     PRINTF("WARNING: MRL does not start with \'" MRL_ID ":\' (%s)\n", mrl);
