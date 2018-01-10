@@ -2814,6 +2814,10 @@ static int handle_osdcmd(vdr_input_plugin_t *this, int fd)
     LOGMSG("error reading OSDCMD data length");
     return CONTROL_DISCONNECTED;
   }
+  if (osdcmd.size < 2) { /* avoid integer overflow when calculating todo */
+    LOGMSG("invalid OSDCMD data length");
+    return CONTROL_DISCONNECTED;
+  }
   pt     += sizeof(osdcmd.size);
   expect -= sizeof(osdcmd.size);
   todo    = osdcmd.size - sizeof(osdcmd.size);
