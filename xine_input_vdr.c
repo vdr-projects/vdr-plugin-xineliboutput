@@ -935,7 +935,7 @@ static int io_select_rd (int fd)
  */
 static ssize_t write_control_data(vdr_input_plugin_t *this, const void *str, size_t len)
 {
-  size_t ret, result = len;
+  size_t result = len;
 
   while (len > 0) {
 
@@ -968,7 +968,7 @@ static ssize_t write_control_data(vdr_input_plugin_t *this, const void *str, siz
     }
 
     errno = 0;
-    ret = send (this->fd_control, str, len, 0);
+    ssize_t ret = send (this->fd_control, str, len, 0);
 
     if (ret <= 0) {
       if (ret == 0) {
