@@ -585,7 +585,7 @@ void cUdpScheduler::Send_RTCP(void)
     msg->hdr.length = htons(1 + 1 + ((it->length - 2) + 3) / 4);
 
     content += sizeof(rtcp_common_t) + 4*ntohs(msg->hdr.length);
-    msg = (rtcp_packet_t *)content;
+    //msg = (rtcp_packet_t *)content;
 
     // Send
 #ifndef LOG_RTCP

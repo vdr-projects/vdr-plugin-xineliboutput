@@ -654,7 +654,7 @@ static int32_t parse_pes_for_pts(demux_xvdr_t *this, uint8_t *p, buf_element_t *
       this->pts |= (p[ 2] & 0xFE) << 14 ;
       this->pts |=  p[ 3]         <<  7 ;
       this->pts |= (p[ 4] & 0xFE) >>  1 ;
-      p   += 5;
+      //p   += 5;
       header_len+= 5;
       this->packet_len -=5;
       return header_len;
@@ -671,12 +671,12 @@ static int32_t parse_pes_for_pts(demux_xvdr_t *this, uint8_t *p, buf_element_t *
       this->dts |=  p[ 8]         <<  7 ;
       this->dts |= (p[ 9] & 0xFE) >>  1 ;
 
-      p   += 10;
+      //p   += 10;
       header_len += 10;
       this->packet_len -= 10;
       return header_len;
     } else {
-      p++;
+      //p++;
       header_len++;
       this->packet_len--;
       return header_len;

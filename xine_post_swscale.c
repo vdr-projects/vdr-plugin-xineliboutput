@@ -376,8 +376,8 @@ static void init_tables_yuy2(int newwidth, int newheight, int oldwidth, int oldh
     k = j>>8;
     wY2 = j - (k << 8); /* luma weight of right pixel */
     wY1 = 256 - wY2;    /* luma weight of left pixel  */
-    wUV2 = (k%2)  ?  128 + (wY2 >> 1)  :  wY2 >> 1;
-    wUV1 = 256 - wUV2;
+    //wUV2 = (k%2)  ?  128 + (wY2 >> 1)  :  wY2 >> 1;
+    //wUV1 = 256 - wUV2;
     
     if (k > oldwidth - 2) {
       hControl[i*3+5] = oldwidth - 1;    /* point to last byte      */
