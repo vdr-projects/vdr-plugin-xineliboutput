@@ -530,8 +530,10 @@ int main(int argc, char *argv[])
       if (mrl) {
         char *tmp = mrl;
         mrl = NULL;
-        if (asprintf(&mrl, "%s//%s:%d", tmp, address, port) < 0)
+        if (asprintf(&mrl, "%s//%s:%d", tmp, address, port) < 0) {
+          free(tmp);
           return -1;
+        }
         free(tmp);
       } else
         if (asprintf(&mrl, MRL_ID "://%s:%d", address, port) < 0)
@@ -550,8 +552,10 @@ int main(int argc, char *argv[])
       strncmp(mrl, MRL_ID "+", MRL_ID_LEN+1)) {
     char *mrl2 = mrl;
     PRINTF("WARNING: MRL does not start with \'" MRL_ID ":\' (%s)\n", mrl);
-    if (asprintf(&mrl, MRL_ID "://%s", mrl) < 0)
+    if (asprintf(&mrl, MRL_ID "://%s", mrl) < 0) {
+      free(mrl2);
       return -1;
+    }
     free(mrl2);
   }
 
@@ -582,6 +586,7 @@ int main(int argc, char *argv[])
   fe = (*fe_creator)();
   if (!fe) {
     fprintf(stderr, "Error initializing frontend\n");
+    free(mrl);
     return -3;
   }
 
@@ -592,6 +597,7 @@ int main(int argc, char *argv[])
                            aspect_controller, window_id)) {
     fprintf(stderr, "Error opening display\n");
     fe->fe_free(fe);
+    free(mrl);
     return -4;
   }
 
@@ -601,6 +607,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "Error initializing xine\n");
     list_xine_plugins(fe, SysLogLevel>2);
     fe->fe_free(fe);
+    free(mrl);
     return -5;
   }
   if (power_off_cmd) {
