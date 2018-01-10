@@ -146,13 +146,16 @@ static inline int sap_send_pdu(int *pfd, sap_pdu_t *pdu, uint32_t dst_ip)
     }
 
     // Connect to multicast address
-    struct sockaddr_in sin;
-    memset(&sin, 0, sizeof(sin));
-    sin.sin_family = AF_INET;
-    sin.sin_port = htons(SAP_UDP_PORT);
-    sin.sin_addr.s_addr = dst_ip ? dst_ip : inet_addr(SAP_IP_ADDRESS_GLOBAL);
+    union {
+      struct sockaddr    sa;
+      struct sockaddr_in in;
+    } addr;
+    memset(&addr, 0, sizeof(addr));
+    addr.in.sin_family = AF_INET;
+    addr.in.sin_port = htons(SAP_UDP_PORT);
+    addr.in.sin_addr.s_addr = dst_ip ? dst_ip : inet_addr(SAP_IP_ADDRESS_GLOBAL);
   
-    if(connect(fd, (struct sockaddr *)&sin, sizeof(sin))==-1) 
+    if (connect(fd, &addr.sa, sizeof(addr)) == -1)
       LOGERR("UDP/SAP multicast connect() failed.");
     
     // Set to non-blocking mode

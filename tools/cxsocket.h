@@ -149,16 +149,19 @@ static inline void set_socket_buffers(int s, int txbuf, int rxbuf)
 //
 static inline int sock_connect(int fd_control, int port, int type)
 {
-  struct sockaddr_in sin;
-  socklen_t len = sizeof(sin);
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } addr;
+  socklen_t len = sizeof(addr);
   int             s, one = 1;
 
-  if(getpeername(fd_control, (struct sockaddr *)&sin, &len)) {
+  if (getpeername(fd_control, &addr.sa, &len) < 0) {
     LOGERR("sock_connect: getpeername failed");
     return -1;
   }
 
-  uint32_t tmp = ntohl(sin.sin_addr.s_addr);
+  uint32_t tmp = ntohl(addr.in.sin_addr.s_addr);
   LOGMSG("Client address: %d.%d.%d.%d", 
 	 ((tmp>>24)&0xff), ((tmp>>16)&0xff), 
 	 ((tmp>>8)&0xff), ((tmp)&0xff));
@@ -181,10 +184,10 @@ static inline int sock_connect(int fd_control, int port, int type)
   if(setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &one, sizeof(int)) < 0)
     LOGERR("sock_connect: setsockopt(SO_REUSEADDR) failed");
 
-  sin.sin_family = AF_INET;
-  sin.sin_port   = htons(port);
+  addr.in.sin_family = AF_INET;
+  addr.in.sin_port   = htons(port);
   
-  if (connect(s, (struct sockaddr *)&sin, sizeof(sin))==-1 && 
+  if (connect(s, &addr.sa, sizeof(addr)) < 0 &&
       errno != EINPROGRESS) {
     LOGERR("connect() failed");
     CLOSESOCKET(s);

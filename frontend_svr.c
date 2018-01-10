@@ -870,18 +870,21 @@ bool cXinelibServer::Listen(int listen_port)
     CLOSESOCKET(fd_listen);
 
     int iReuse = 1;
-    struct sockaddr_in name;
-    memset(&name, 0, sizeof(name));
-    name.sin_family = AF_INET;
-    name.sin_addr.s_addr = htonl(INADDR_ANY);
-    name.sin_port = htons(m_Port);
+    union {
+      struct sockaddr    sa;
+      struct sockaddr_in in;
+    } addr;
+    memset(&addr, 0, sizeof(addr));
+    addr.in.sin_family = AF_INET;
+    addr.in.sin_addr.s_addr = htonl(INADDR_ANY);
+    addr.in.sin_port = htons(m_Port);
 
     if(xc.remote_local_ip[0]) {
       uint32_t ip = inet_addr(xc.remote_local_ip);
       if(ip != INADDR_NONE) {
         char txt[128];
-        name.sin_addr.s_addr = ip;
-        LOGDBG("Binding server to %s", cxSocket::ip2txt(name.sin_addr.s_addr, htons(m_Port), txt));
+        addr.in.sin_addr.s_addr = ip;
+        LOGDBG("Binding server to %s", cxSocket::ip2txt(addr.in.sin_addr.s_addr, htons(m_Port), txt));
       } else {
         LOGERR("Local interface address %s is invalid !", xc.remote_local_ip);
       }
@@ -894,7 +897,7 @@ bool cXinelibServer::Listen(int listen_port)
         LOGERR("cXinelibServer: error setting REUSE for listen socket");
       }
 
-    if (bind(fd_listen, (struct sockaddr *)&name, sizeof(name)) < 0) {
+    if (bind(fd_listen, &addr.sa, sizeof(addr)) < 0) {
       LOGERR("cXinelibServer: bind error %s port %d: %s",
              xc.remote_local_ip[0] ? xc.remote_local_ip : "",
              m_Port, strerror(errno));
@@ -1544,15 +1547,18 @@ void cXinelibServer::Handle_Control_RTSP(int cli, const char *arg)
     else if(!strcmp(m_State[cli]->Name(), "DESCRIBE")) {
       cHeader *accept = m_State[cli]->Header("Accept");
       if(accept && strstr(accept->Value(), "application/sdp")) {
-        struct sockaddr_in sin;
-        socklen_t len = sizeof(sin);
+        union {
+          struct sockaddr    sa;
+          struct sockaddr_in in;
+        } addr;
+        socklen_t len = sizeof(addr);
         char buf[64];
         uint32_t payload_type = VDRVERSNUM > 10702 ? SDP_PAYLOAD_MPEG_TS : SDP_PAYLOAD_MPEG_PES;
-        if (fd_control[cli].getsockname((struct sockaddr *)&sin, &len) < 0) {
+        if (fd_control[cli].getsockname(&addr.sa, &len) < 0) {
           LOGERR("Error getting control socket address");
         }
-        cString sdp_descr = vdr_sdp_description(cxSocket::ip2txt(sin.sin_addr.s_addr,
-                                                                 sin.sin_port, buf),
+        cString sdp_descr = vdr_sdp_description(cxSocket::ip2txt(addr.in.sin_addr.s_addr,
+                                                                 addr.in.sin_port, buf),
                                                 2001,
                                                 xc.listen_port,
                                                 xc.remote_rtp_addr,
@@ -1779,25 +1785,28 @@ void cXinelibServer::Read_Control(int cli)
 void cXinelibServer::Handle_ClientConnected(int fd)
 {
   char buf[64];
-  struct sockaddr_in sin;
-  socklen_t len = sizeof(sin);
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } addr;
+  socklen_t len = sizeof(addr);
   int cli;
 
   for(cli=0; cli<MAXCLIENTS; cli++)
     if(!fd_control[cli].open())
       break;
 
-  if(getpeername(fd, (struct sockaddr *)&sin, &len)) {
+  if (getpeername(fd, &addr.sa, &len) < 0) {
     LOGERR("getpeername() failed, dropping new incoming connection %d", cli);
     CLOSESOCKET(fd);
     return;
   }
 
   LOGMSG("Client %d connected: %s", cli,
-         cxSocket::ip2txt(sin.sin_addr.s_addr, sin.sin_port, buf));
+         cxSocket::ip2txt(addr.in.sin_addr.s_addr, addr.in.sin_port, buf));
 
   cAllowedHosts AllowedHosts(m_AllowedHostsFile);
-  if (!AllowedHosts.Acceptable(sin.sin_addr.s_addr)) {
+  if (!AllowedHosts.Acceptable(addr.in.sin_addr.s_addr)) {
     const char *msg = "Access denied.\r\n";
     ssize_t len = strlen(msg);
     LOGMSG("Address not allowed to connect (%s)", *m_AllowedHostsFile);

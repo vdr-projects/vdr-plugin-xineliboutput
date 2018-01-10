@@ -4292,13 +4292,15 @@ static buf_element_t *read_socket_udp(vdr_input_plugin_t *this)
   /*
    * Receive frame from socket and check for errors
    */
-
-  struct sockaddr_in server_address;
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } server_address;
   socklen_t          address_len = sizeof(server_address);
 
   ssize_t n = recvfrom(this->fd_data, read_buffer->mem,
                        read_buffer->max_size, MSG_TRUNC,
-                       &server_address, &address_len);
+                       &server_address.sa, &address_len);
   if (n <= 0) {
     if (!n || (errno != EINTR && errno != EAGAIN)) {
       LOGERR("read_socket_udp(): recvfrom() failed");
@@ -4313,11 +4315,11 @@ static buf_element_t *read_socket_udp(vdr_input_plugin_t *this)
    * check source address
    */
 
-  if ((server_address.sin_addr.s_addr !=
+  if ((server_address.in.sin_addr.s_addr !=
        udp->server_address.sin_addr.s_addr) ||
-      server_address.sin_port != udp->server_address.sin_port) {
+      server_address.in.sin_port != udp->server_address.sin_port) {
 #ifdef LOG_UDP
-    uint32_t tmp_ip = ntohl(server_address.sin_addr.s_addr);
+    uint32_t tmp_ip = ntohl(server_address.in.sin_addr.s_addr);
     LOGUDP("Received data from unknown sender: %d.%d.%d.%d:%d",
            ((tmp_ip>>24)&0xff), ((tmp_ip>>16)&0xff),
            ((tmp_ip>>8)&0xff), ((tmp_ip)&0xff),
@@ -5395,11 +5397,14 @@ static void set_recv_buffer_size(int fd, unsigned max_buf)
 static int alloc_udp_data_socket(int firstport, int trycount, int *port)
 {
   int fd, one = 1;
-  struct sockaddr_in name;
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } name;
 
-  name.sin_family = AF_INET;
-  name.sin_port   = htons(firstport);
-  name.sin_addr.s_addr = htonl(INADDR_ANY);
+  name.in.sin_family = AF_INET;
+  name.in.sin_port   = htons(firstport);
+  name.in.sin_addr.s_addr = htonl(INADDR_ANY);
 
   fd = socket(PF_INET, SOCK_DGRAM, 0/*IPPROTO_UDP*/);
   if (fd < 0) {
@@ -5411,18 +5416,18 @@ static int alloc_udp_data_socket(int firstport, int trycount, int *port)
   if(setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &one, sizeof(int)) < 0)
     LOGERR("UDP data stream: setsockopt(SO_REUSEADDR) failed");
 
-  while(bind(fd, (struct sockaddr *)&name, sizeof(name)) < 0) {
+  while (bind(fd, &name.sa, sizeof(name)) < 0) {
     if(!--trycount) {
       LOGMSG("UDP Data stream: bind error, no free port found");
       close(fd);
       return -1;
     }
     LOGERR("UDP Data stream: bind error, port %d: %s",
-	   name.sin_port, strerror(errno));
-    name.sin_port = htons(++firstport);
+           name.in.sin_port, strerror(errno));
+    name.in.sin_port = htons(++firstport);
   }
 
-  *port = ntohs(name.sin_port);
+  *port = ntohs(name.in.sin_port);
   return fd;
 }
 
@@ -5511,14 +5516,16 @@ static int connect_rtp_data_stream(vdr_input_plugin_t *this)
   char cmd[256];
   unsigned int ip0, ip1, ip2, ip3, port;
   int fd=-1, one = 1, retries = 0;
-  struct sockaddr_in multicastAddress;
   struct ip_mreq mreq;
-  struct sockaddr_in server_address, sin;
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } multicastAddress, server_address, sin;
   socklen_t len = sizeof(sin);
   stream_rtp_header_impl_t tmp_rtp;
 
   /* get server IP address */
-  if(getpeername(this->fd_control, (struct sockaddr *)&server_address, &len)) {
+  if (getpeername(this->fd_control, &server_address.sa, &len)) {
     LOGERR("getpeername(fd_control) failed");
     /* close(fd); */
     return -1;
@@ -5548,9 +5555,9 @@ static int connect_rtp_data_stream(vdr_input_plugin_t *this)
   
   LOGMSG("Connecting (data) to rtp://@%u.%u.%u.%u:%u ...", 
 	 ip0, ip1, ip2, ip3, port);
-  multicastAddress.sin_family = AF_INET;
-  multicastAddress.sin_port   = htons(port);
-  multicastAddress.sin_addr.s_addr = htonl((ip0<<24)|(ip1<<16)|(ip2<<8)|ip3);
+  multicastAddress.in.sin_family = AF_INET;
+  multicastAddress.in.sin_port   = htons(port);
+  multicastAddress.in.sin_addr.s_addr = htonl((ip0<<24)|(ip1<<16)|(ip2<<8)|ip3);
 
   if((fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
     LOGERR("socket() failed");
@@ -5564,8 +5571,7 @@ static int connect_rtp_data_stream(vdr_input_plugin_t *this)
     return -1;
   }
 
-  if(bind(fd, (struct sockaddr *)&multicastAddress, 
-	  sizeof(multicastAddress)) < 0) {
+  if (bind(fd, &multicastAddress.sa, sizeof(multicastAddress)) < 0) {
     LOGERR("bind() to multicast address failed");
     close(fd);
     return -1;
@@ -5574,7 +5580,7 @@ static int connect_rtp_data_stream(vdr_input_plugin_t *this)
   /* Join to multicast group */
 
   memset(&mreq, 0, sizeof(mreq));
-  mreq.imr_multiaddr.s_addr = multicastAddress.sin_addr.s_addr;
+  mreq.imr_multiaddr.s_addr = multicastAddress.in.sin_addr.s_addr;
   mreq.imr_interface.s_addr = htonl(INADDR_ANY);
   /*mreq.imr_ifindex = 0;*/
   if(setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq))) {
@@ -5607,16 +5613,16 @@ retry_recvfrom:
 
   /* check sender address */
 
-  if (recvfrom(fd, &tmp_rtp, sizeof(tmp_rtp), 0, &sin, &len) < 0) {
+  if (recvfrom(fd, &tmp_rtp, sizeof(tmp_rtp), 0, &sin.sa, &len) < 0) {
     LOGERR("RTP recvrom() failed");
     return -1;
   }
-  if(sin.sin_addr.s_addr != server_address.sin_addr.s_addr) {
-    uint32_t tmp_ip = ntohl(sin.sin_addr.s_addr);
+  if (sin.in.sin_addr.s_addr != server_address.in.sin_addr.s_addr) {
+    uint32_t tmp_ip = ntohl(sin.in.sin_addr.s_addr);
     LOGMSG("Received UDP/RTP multicast from unknown sender: %d.%d.%d.%d:%d",
 	   ((tmp_ip>>24)&0xff), ((tmp_ip>>16)&0xff), 
 	   ((tmp_ip>>8)&0xff), ((tmp_ip)&0xff), 
-	   sin.sin_port);
+	   sin.in.sin_port);
 
     if(XIO_READY == _x_io_select(this->stream, fd, XIO_READ_READY, 0))
       goto retry_recvfrom;
@@ -5641,19 +5647,22 @@ retry_recvfrom:
 static int connect_udp_data_stream(vdr_input_plugin_t *this)
 {
   char cmd[256];
-  struct sockaddr_in server_address, sin;
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } server_address, sin;
   socklen_t len = sizeof(sin);
   uint32_t  tmp_ip;
   stream_udp_header_t tmp_udp;
   int retries = 0, port = -1, fd = -1;
 
   /* get server IP address */
-  if(getpeername(this->fd_control, (struct sockaddr *)&server_address, &len)) {
+  if (getpeername(this->fd_control, &server_address.sa, &len)) {
     LOGERR("getpeername(fd_control) failed");
     /* close(fd); */
     return -1;
   }
-  tmp_ip = ntohl(server_address.sin_addr.s_addr);
+  tmp_ip = ntohl(server_address.in.sin_addr.s_addr);
 
   LOGDBG("VDR server address: %d.%d.%d.%d", 
 	 ((tmp_ip>>24)&0xff), ((tmp_ip>>16)&0xff), 
@@ -5701,16 +5710,16 @@ retry_recvfrom:
 
   /* check sender address */
 
-  if (recvfrom(fd, &tmp_udp, sizeof(tmp_udp), 0, &sin, &len) < 0) {
+  if (recvfrom(fd, &tmp_udp, sizeof(tmp_udp), 0, &sin.sa, &len) < 0) {
     LOGERR("UDP recvrom() failed");
     return -1;
   }
-  if(sin.sin_addr.s_addr != server_address.sin_addr.s_addr) {
-    tmp_ip = ntohl(sin.sin_addr.s_addr);
+  if (sin.in.sin_addr.s_addr != server_address.in.sin_addr.s_addr) {
+    tmp_ip = ntohl(sin.in.sin_addr.s_addr);
     LOGMSG("Received UDP packet from unknown sender: %d.%d.%d.%d:%d",
 	   ((tmp_ip>>24)&0xff), ((tmp_ip>>16)&0xff),
 	   ((tmp_ip>>8)&0xff), ((tmp_ip)&0xff),
-	   sin.sin_port);
+           sin.in.sin_port);
 
     if(XIO_READY == _x_io_select(this->stream, fd, XIO_READ_READY, 0))
       goto retry_recvfrom;
@@ -5730,12 +5739,15 @@ retry_recvfrom:
   return fd;
 }
 
-static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host, 
-				   int port)
+static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host,
+                                   int port)
 {
   static const char ackmsg[] = {'D','A','T','A','\r','\n'};
-  struct sockaddr_in sinc;
-  socklen_t len = sizeof(sinc);
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } addr;
+  socklen_t len = sizeof(addr);
   uint32_t ipc;
   char tmpbuf[256];
   int fd_data;
@@ -5755,13 +5767,17 @@ static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host,
 
   /* request data connection */
 
-  getsockname(this->fd_control, (struct sockaddr *)&sinc, &len);
-  ipc = ntohl(sinc.sin_addr.s_addr);
+  if (getsockname(this->fd_control, &addr.sa, &len) < 0) {
+    LOGERR("getsockname(fd_control) failed");
+    close(fd_data);
+    return -1;
+  }
+  ipc = ntohl(addr.in.sin_addr.s_addr);
   sprintf(tmpbuf, 
 	  "DATA %d 0x%x:%u %d.%d.%d.%d\r\n", 
 	  this->client_id, 
 	  (unsigned int)ipc,
-	  (unsigned int)ntohs(sinc.sin_port),
+          (unsigned int)ntohs(addr.in.sin_port),
 	  ((ipc>>24)&0xff), ((ipc>>16)&0xff), ((ipc>>8)&0xff), ((ipc)&0xff)
 	  );
   if(_x_io_tcp_write(this->stream, fd_data, tmpbuf, strlen(tmpbuf)) < 0) {
@@ -5790,14 +5806,19 @@ static int connect_pipe_data_stream(vdr_input_plugin_t *this)
 
   /* check if IP address matches */
   if(!strstr(this->mrl, "127.0.0.1")) {
-    struct sockaddr_in sinc;
-    struct sockaddr_in sins;
-    socklen_t len = sizeof(sinc);
-    getsockname(this->fd_control, &sinc, &len);
-    getpeername(this->fd_control, &sins, &len);
-    if(sinc.sin_addr.s_addr != sins.sin_addr.s_addr) {
+    union {
+      struct sockaddr    sa;
+      struct sockaddr_in in;
+    } addr_cli, addr_svr;
+    socklen_t lenc = sizeof(addr_cli);
+    socklen_t lens = sizeof(addr_svr);
+    if (getsockname(this->fd_control, &addr_cli.sa, &lenc) < 0)
+      LOGERR("getsockname(fd_control) failed");
+    else if (getpeername(this->fd_control, &addr_svr.sa, &lens) < 0)
+      LOGERR("getpeername(fd_control) failed");
+    else if (addr_cli.in.sin_addr.s_addr != addr_svr.in.sin_addr.s_addr) {
       LOGMSG("connect_pipe_data_stream: client ip=0x%x != server ip=0x%x !",
-	     (unsigned int)sinc.sin_addr.s_addr, (unsigned int)sins.sin_addr.s_addr);
+             (unsigned int)addr_cli.in.sin_addr.s_addr, (unsigned int)addr_svr.in.sin_addr.s_addr);
 #if 0
       return -1;
 #endif

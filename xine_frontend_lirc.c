@@ -64,7 +64,10 @@ extern int gui_hotkeys;
 
 static void lircd_connect(void)
 {
-  struct sockaddr_un addr;
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_un un;
+  } addr;
 
   if (fd_lirc >= 0) {
     close(fd_lirc);
@@ -76,16 +79,16 @@ static void lircd_connect(void)
     return;
   }
 
-  addr.sun_family = AF_UNIX;
-  strncpy(addr.sun_path, (char*)lirc_device_name, sizeof(addr.sun_path));
-  addr.sun_path[sizeof(addr.sun_path)-1] = 0;
+  addr.un.sun_family = AF_UNIX;
+  strncpy(addr.un.sun_path, (char*)lirc_device_name, sizeof(addr.un.sun_path));
+  addr.un.sun_path[sizeof(addr.un.sun_path)-1] = 0;
 
   if ((fd_lirc = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
     LOGERR("lirc error: socket() < 0");
     return;
   }
 
-  if (connect(fd_lirc, (struct sockaddr *)&addr, sizeof(addr))) {
+  if (connect(fd_lirc, &addr.sa, sizeof(addr))) {
     LOGERR("lirc error: connect(%s) < 0", lirc_device_name);
     close(fd_lirc);
     fd_lirc = -1;

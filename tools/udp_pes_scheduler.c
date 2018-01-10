@@ -184,14 +184,17 @@ bool cUdpScheduler::AddRtp(void)
   }
 
   if(xc.remote_local_ip[0]) {
-    struct sockaddr_in name;
-    memset(&name, 0, sizeof(name));
-    name.sin_family = AF_INET;
-    name.sin_addr.s_addr = inet_addr(xc.remote_local_ip);
-    if(name.sin_addr.s_addr == INADDR_NONE)
+    union {
+      struct sockaddr    sa;
+      struct sockaddr_in in;
+    } addr;
+    memset(&addr, 0, sizeof(addr));
+    addr.in.sin_family = AF_INET;
+    addr.in.sin_addr.s_addr = inet_addr(xc.remote_local_ip);
+    if(addr.in.sin_addr.s_addr == INADDR_NONE)
       LOGERR("Local address %s is invalid", xc.remote_local_ip);
-    name.sin_port = htons(xc.remote_rtp_port);
-    if (bind(m_fd_rtp.handle(), (struct sockaddr *)&name, sizeof(name)) < 0)
+    addr.in.sin_port = htons(xc.remote_rtp_port);
+    if (bind(m_fd_rtp.handle(), &addr.sa, sizeof(addr)) < 0)
       LOGERR("bind(%s:%d) failed for udp/rtp multicast", xc.remote_local_ip, xc.remote_rtp_port);
 #if 0
     struct ip_mreqn mreqn;
@@ -226,12 +229,15 @@ bool cUdpScheduler::AddRtp(void)
     m_fd_rtcp.close();
 
   if(xc.remote_local_ip[0]) {
-    struct sockaddr_in name;
-    memset(&name, 0, sizeof(name));
-    name.sin_family = AF_INET;
-    name.sin_addr.s_addr = inet_addr(xc.remote_local_ip);
-    name.sin_port = htons(xc.remote_rtp_port+1);
-    if (bind(m_fd_rtcp.handle(), (struct sockaddr *)&name, sizeof(name)) < 0)
+    union {
+      struct sockaddr    sa;
+      struct sockaddr_in in;
+    } addr;
+    memset(&addr, 0, sizeof(addr));
+    addr.in.sin_family = AF_INET;
+    addr.in.sin_addr.s_addr = inet_addr(xc.remote_local_ip);
+    addr.in.sin_port = htons(xc.remote_rtp_port+1);
+    if (bind(m_fd_rtcp.handle(), &addr.sa, sizeof(addr)) < 0)
       LOGERR("bind(%s:%d) failed for udp/rtp multicast", xc.remote_local_ip, xc.remote_rtp_port);
 #if 0
     struct ip_mreqn mreqn;

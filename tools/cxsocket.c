@@ -33,11 +33,16 @@ bool cxSocket::connect(struct sockaddr *addr, socklen_t len)
 
 bool cxSocket::connect(const char *ip, int port)
 {
-  struct sockaddr_in sin;
-  sin.sin_family = AF_INET;
-  sin.sin_port = htons(port);
-  sin.sin_addr.s_addr = inet_addr(ip);
-  return connect((struct sockaddr *)&sin, sizeof(sin));
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } addr;
+
+  addr.in.sin_family = AF_INET;
+  addr.in.sin_port = htons(port);
+  addr.in.sin_addr.s_addr = inet_addr(ip);
+
+  return connect(&addr.sa, sizeof(addr));
 }
 
 bool cxSocket::set_blocking(bool state)
@@ -347,11 +352,14 @@ uint32_t cxSocket::get_local_address(char *ip_address)
   struct ifreq buf[3];
   unsigned int n;
 
-  struct sockaddr_in sin;
-  socklen_t len = sizeof(sin);
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } addr;
+  socklen_t len = sizeof(addr);
 
-  if(!getsockname((struct sockaddr *)&sin, &len)) {
-    local_addr = sin.sin_addr.s_addr;
+  if (!getsockname(&addr.sa, &len)) {
+    local_addr = addr.in.sin_addr.s_addr;
 
   } else {
     //LOGERR("getsockname failed");

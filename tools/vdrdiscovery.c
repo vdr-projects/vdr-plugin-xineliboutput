@@ -60,7 +60,10 @@ static inline int discovery_init(int port)
 {
   int fd_discovery = -1;
   int iBroadcast = 1, iReuse = 1;
-  struct sockaddr_in sin;
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } addr;
 
   if ((fd_discovery = socket(PF_INET, SOCK_DGRAM, 0/*IPPROTO_TCP*/)) < 0) {
     LOGERR("discovery_init: socket() failed");
@@ -73,11 +76,11 @@ static inline int discovery_init(int port)
   if (setsockopt(fd_discovery, SOL_SOCKET, SO_REUSEADDR, &iReuse, sizeof(int)) < 0)
     LOGERR("discovery_init: setsockopt(SO_REUSEADDR) failed");
 
-  sin.sin_family = AF_INET;
-  sin.sin_port   = htons(port);
-  sin.sin_addr.s_addr = htonl(INADDR_BROADCAST);
+  addr.in.sin_family = AF_INET;
+  addr.in.sin_port   = htons(port);
+  addr.in.sin_addr.s_addr = htonl(INADDR_BROADCAST);
 
-  if (bind(fd_discovery, (struct sockaddr *)&sin, sizeof(sin)) < 0) {
+  if (bind(fd_discovery, &addr.sa, sizeof(addr)) < 0) {
     LOGERR("discovery_init: bind() failed");
     close(fd_discovery);
     return -1;
@@ -93,15 +96,17 @@ int udp_discovery_init(void)
 
 static inline int udp_discovery_send(int fd_discovery, int port, char *msg)
 {
-  struct sockaddr_in sin;
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } addr;
   int len = strlen(msg);
 
-  sin.sin_family = AF_INET;
-  sin.sin_port   = htons(port);
-  sin.sin_addr.s_addr = INADDR_BROADCAST;
+  addr.in.sin_family = AF_INET;
+  addr.in.sin_port   = htons(port);
+  addr.in.sin_addr.s_addr = INADDR_BROADCAST;
 
-  if(len != sendto(fd_discovery, msg, len, 0,
-		   (struct sockaddr *)&sin, sizeof(sin))) {
+  if (len != sendto(fd_discovery, msg, len, 0, &addr.sa, sizeof(addr))) {
     LOGERR("UDP broadcast send failed (discovery)");
     return -1;
   }
