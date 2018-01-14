@@ -634,7 +634,7 @@ ts_state_t *ts_state_init(size_t buffer_size)
   if (buffer_size < 8 * TS_SIZE)
     buffer_size = 8 * TS_SIZE;
   if (buffer_size > 4*1024*1024) {
-    LOGMSG("ERROR: ts_state_init(%zd)", buffer_size);
+    LOGMSG("ERROR: ts_state_init(%zu)", buffer_size);
     buffer_size = 4*1024*1024;
   }
 
