@@ -887,7 +887,9 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
     snprintf(udp_ctrl.payload, sizeof(udp_ctrl.payload),
              "UDP MISSING %d-%d %" PRIu64,
              Seq1, (Seq2 & UDP_BUFFER_MASK), Pos);
-    send(fd, &udp_ctrl, sizeof(udp_ctrl), 0);
+    if (send(fd, &udp_ctrl, sizeof(udp_ctrl), 0) != sizeof(udp_ctrl)) {
+      LOGERR("cUdpScheduler: UDP/RTP re-send() failed !");
+    }
     return;
   }
 
@@ -906,12 +908,13 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
 
     if(frame) {
       if(priv_ntohull(frame->hdr_ext.pos) - Pos < 100000) {
-	send(fd,
-	     RTP_UDP_PAYLOAD(frame),
-	     m_BackLog->PayloadSize(Seq1) + sizeof(stream_udp_header_t),
-	     0);
-	LOGRESEND("cUdpScheduler::ReSend: %d (%d bytes) @%lld sent",
-		  Seq1, m_BackLog->PayloadSize(Seq1), Pos);
+        ssize_t pac_len = m_BackLog->PayloadSize(Seq1) + sizeof(stream_udp_header_t);
+        if (send(fd, RTP_UDP_PAYLOAD(frame), pac_len, 0) != pac_len) {
+          LOGERR("cUdpScheduler: UDP/RTP re-send() failed !");
+        } else {
+          LOGRESEND("cUdpScheduler::ReSend: %d (%d bytes) @%lld sent",
+                    Seq1, m_BackLog->PayloadSize(Seq1), Pos);
+        }
 	Pos = priv_ntohull(frame->hdr_ext.pos) + m_BackLog->PayloadSize(Seq1);
 	continue;
       } else {
@@ -939,6 +942,8 @@ void cUdpScheduler::ReSend(int fd, uint64_t Pos, int Seq1, int Seq2)
              "UDP MISSING %d-%d %" PRIu64,
              Seq0, (Seq1 & UDP_BUFFER_MASK), Pos);
 
-    send(fd, &udp_ctrl, sizeof(udp_ctrl), 0);
+    if (send(fd, &udp_ctrl, sizeof(udp_ctrl), 0) != sizeof(udp_ctrl)) {
+      LOGERR("cUdpScheduler: UDP/RTP control send() failed !");
+    }
   }
 }
