@@ -677,6 +677,11 @@ static size_t ts_add_payload(ts_state_t *ts, const uint8_t *data)
     ts->buf_len   = 0;
   }
 
+  if (ts->buf_size < 2*TS_SIZE) {
+    LOGMSG("ts_add_payload(): assertion failed: buf_size < 2*TS_SIZE");
+    return 0;
+  }
+
   if (ts->buf_len >= ts->buf_size - TS_SIZE) {
     LOGDBG("ts_add_payload: buffer full");
     ts->buf_len -= TS_SIZE;
