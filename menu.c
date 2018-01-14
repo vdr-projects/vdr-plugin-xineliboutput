@@ -200,8 +200,8 @@ char *cMenuBrowseFiles::GetLastDir(void)
   switch (m_Mode) {
     case ShowMusic:  return xc.browse_music_dir;
     case ShowImages: return xc.browse_images_dir;
-    default:
     case ShowFiles:  return xc.browse_files_dir;
+    default: break;
   }
   return xc.browse_files_dir;
 }
