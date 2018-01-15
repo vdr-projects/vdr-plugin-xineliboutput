@@ -308,6 +308,21 @@ static post_element_t **pplugin_parse_and_load(fe_t *fe,
   return post_elements;
 }
 
+static void strcat_n(size_t sz, char *dst, const char *src)
+{
+  size_t len = strlen(dst) + strlen(src);
+  if (sz < 1)
+    return;
+  if (len + 6 > sz) {
+    while (len + 1 < sz) {
+      dst[len++] = '.';
+    }
+    dst[sz-1] = 0;
+    return;
+  }
+  strcat(dst, src);
+}
+
 static
 void pplugin_parse_and_store_post(fe_t *fe, int plugin_type,
                                   const char *post_chain)
@@ -364,12 +379,12 @@ void pplugin_parse_and_store_post(fe_t *fe, int plugin_type,
         if((*_post_elements)[i])
           if(((*_post_elements)[i])->post) {
             if(((*_post_elements)[i])->enable)
-              strcat(s, "*");
+              strcat_n(sizeof(s), s, "*");
             if(((*_post_elements)[i])->name)
-              strcat(s, ((*_post_elements)[i])->name);
+              strcat_n(sizeof(s), s, ((*_post_elements)[i])->name);
             else
-              strcat(s, "<no name!>");
-            strcat(s, " ");
+              strcat_n(sizeof(s), s, "<no name!>");
+            strcat_n(sizeof(s), s, " ");
             }
       LOGDBG("    loaded plugins (type %d.%d): %s",
              (plugin_type>>16), (plugin_type&0xffff), s);
