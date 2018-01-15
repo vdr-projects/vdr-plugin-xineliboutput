@@ -815,7 +815,7 @@ bool config_t::ProcessArgs(int argc, char *argv[])
     case 'h': //ProcessArg("Fullscreen", "0");
               ProcessArg("X11.WindowHeight", optarg);
               break;
-    case 'g': {
+    case 'g': if (optarg) {
                 int _width = width, _height = height, _xpos = 0, _ypos = 0;
                 sscanf (optarg, "%dx%d+%d+%d", &_width, &_height, &_xpos, &_ypos);
                 ProcessArg("X11.WindowWidth",  *cString::sprintf("%d", _width));
@@ -832,7 +832,7 @@ bool config_t::ProcessArgs(int argc, char *argv[])
               break;
     //case 'm': ProcessArg("Modeline", optarg);
     //          break;
-    case 'r': if(strcmp(optarg, "none")) {
+    case 'r': if (optarg && strcmp(optarg, "none")) {
                 if(strchr(optarg, ':')) {
 		  char *tmp = strdup(optarg);
 		  char *pt = strchr(tmp,':');
@@ -851,7 +851,7 @@ bool config_t::ProcessArgs(int argc, char *argv[])
               break;
     case 'V': ProcessArg("Video.Driver", optarg);
               break;
-    case 'A': if(strchr(optarg,':')) {
+    case 'A': if (optarg && strchr(optarg,':')) {
                 char *tmp = strdup(optarg);
 		char *pt = strchr(tmp,':');
 		*pt = 0;
@@ -865,7 +865,10 @@ bool config_t::ProcessArgs(int argc, char *argv[])
                 post_plugins = strcatrealloc(post_plugins, ";");
               post_plugins = strcatrealloc(post_plugins, optarg);
               break;
-    case 'C': config_file = strdup(optarg);
+    case 'C': if (optarg) {
+                free(config_file);
+                config_file = strdup(optarg);
+              }
               break;
     case 'p': ProcessArg("ForcePrimaryDevice", "1");
               break;
