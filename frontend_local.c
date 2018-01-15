@@ -256,7 +256,6 @@ int cXinelibLocal::Xine_Control(const char *cmd)
 frontend_t *cXinelibLocal::load_frontend(const char *fe_name)
 {
   Dl_info info;
-  struct stat statbuffer;
   char libname[4096]="";
   void *lib = NULL;
   fe_creator_f *fe_creator = NULL;
@@ -285,14 +284,15 @@ frontend_t *cXinelibLocal::load_frontend(const char *fe_name)
   do {
     strncat(libname, xc.s_frontend_files[fe_ind], 64);
     LOGDBG("Probing %s", libname);
-
+#if 0
+    struct stat statbuffer;
     if (stat(libname, &statbuffer)) {
       LOGERR("load_frontend: can't stat %s", libname);
     } else if((statbuffer.st_mode & S_IFMT) != S_IFREG) {
       LOGMSG("load_frontend: %s not regular file ! trying to load anyway ...",
              libname);
     }
-
+#endif
     if ( !(lib = dlopen (libname, RTLD_LAZY | RTLD_GLOBAL))) {
       LOGERR("load_frontend: cannot dlopen file %s: %s", libname, dlerror());
 
