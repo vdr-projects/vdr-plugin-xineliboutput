@@ -399,9 +399,11 @@ int main(int argc, char *argv[])
               PRINTF("Buffers: %d\n", pes_buffers);
               break;
     case 'T': tty = optarg;
+#if 0
               if (access(tty, R_OK | W_OK) < 0) {
                 EXIT("Can't access terminal: %s\n", tty);
               }
+#endif
               PRINTF("Terminal: %s\n", tty);
               break;
     case 'n': scale_video = 0;
@@ -503,7 +505,14 @@ int main(int argc, char *argv[])
     /* claim new controlling terminal */
     stdin  = freopen(tty, "r", stdin);
     stdout = freopen(tty, "w", stdout);
+    if (!stdin || !stdout) {
+      EXIT("Can't access terminal: %s\n", tty);
+    }
     stderr = freopen(tty, "w", stderr);
+    if (!stderr) {
+      printf("Error reopening stderr\n");
+      exit(-1);
+    }
   }
 
 #if 1
