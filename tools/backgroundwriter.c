@@ -353,6 +353,13 @@ void cRawWriter::Action(void)
         LOGMSG("cBackgroundWriter @NextHeaderPos: Count < header size !");
 
       int packlen = DATA_IS_TS(Data) ? TS_SIZE : pes_packet_len(Data, Count);
+      if (packlen < 1) {
+        LOGMSG("cBackgroundWriter: garbage in input ? clearing buffer");
+        Lock();
+        m_DiscardEnd = m_PutPos;
+        Unlock();
+        continue;
+      }
 
       if (Count < packlen)
         ;//LOGMSG("Count = %d < %d", Count,
