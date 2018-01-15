@@ -99,14 +99,23 @@ static inline int pes_is_mpeg1(const uint8_t *header)
 static inline int pes_packet_len(const uint8_t *data, const int len)
 {
   if (IS_VIDEO_PACKET(data) || IS_AUDIO_PACKET(data)) {
+    if (len < 6)
+      return 0;
     return 6 + (data[4] << 8 | data[5]);
   } else if (data[3] == PADDING_STREAM) {
+    if (len < 6)
+      return 0;
     return 6 + (data[4] << 8 | data[5]);
   } else if (data[3] == 0xBA) {
+    if (len < 5)
+      return 0;
     if ((data[4] & 0x40) == 0)  /* mpeg1 */
       return 12;
-    else  /* mpeg 2 */
+    else  { /* mpeg 2 */
+      if (len < 14)
+        return 0;
       return 14 + (data[0xD] & 0x07);
+    }
   } else if (data[3] <= 0xB9) {
     return -3;
   }
