@@ -76,7 +76,7 @@ static void update_DFBARGS(const char *fb_dev)
   const char *env_old = getenv("DFBARGS");
   char *env_new = NULL;
 
-  if (env_old) {
+  if (env_old && env_old[0]) {
     char *env_tmp = strdup(env_old);
     char *head    = strstr(env_tmp, "fbdev=");
 
@@ -92,7 +92,7 @@ static void update_DFBARGS(const char *fb_dev)
         return;
       }
     } else {
-      if(asprintf(&env_new, "fbdev=%s%s%s", fb_dev, env_tmp ? "," : "", env_tmp ?: "") < 0) {
+      if (asprintf(&env_new, "fbdev=%s,%s", fb_dev, env_tmp) < 0) {
         free(env_tmp);
         return;
       }
