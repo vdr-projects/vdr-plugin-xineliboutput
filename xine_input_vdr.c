@@ -2319,13 +2319,15 @@ static void dvd_set_speed(const char *device, int speed)
   if (!device) return;
   if (!speed) return;
 
-  if (stat(device, &st) == -1) return;
-
-  if (!S_ISBLK(st.st_mode)) return; /* not a block device */
-  
   if ((fd = open(device, O_RDWR | O_NONBLOCK)) == -1) {
     LOGMSG("set_dvd_speed: error opening DVD device %s for read/write", device);
     return;
+  }
+
+  if (fstat(fd, &st) < 0 ||
+      !S_ISBLK(st.st_mode)) {
+    close(fd);
+    return; /* not a block device */
   }
 
   memset(&sghdr, 0, sizeof(sghdr));
