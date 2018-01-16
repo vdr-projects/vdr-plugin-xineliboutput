@@ -823,9 +823,9 @@ int cXinelibServer::PlayFileCtrl(const char *Cmd, int TimeoutMs)
   }
 
   int  result;
-  bool bPlayfile = false;
-  if((!strncmp(Cmd, "PLAYFILE", 8) && (bPlayfile=true)) ||
-     (!strncmp(Cmd, "GET", 3)                         )) {  // GETPOS, GETLENGTH, ...
+  bool bPlayfile = !strncmp(Cmd, "PLAYFILE", 8);
+  if (bPlayfile ||
+      !strncmp(Cmd, "GET", 3)) {  // GETPOS, GETLENGTH, ...
 
     if(TimeoutMs < 0)
       TimeoutMs = bPlayfile ? PLAYFILE_TIMEOUT : PLAYFILE_CTRL_TIMEOUT;
@@ -1582,9 +1582,9 @@ void cXinelibServer::Handle_Control_RTSP(int cli, const char *arg)
       cHeader *transport = m_State[cli]->Header("Transport");
       int urtp=0, mrtp=0, tcp=0;
       if(transport &&
-         ( (strstr(transport->Value(), "RTP/AVP;multicast") && (mrtp=1)) ||
-           (strstr(transport->Value(), "RTP/AVP;unicast") && (urtp=1)) ||
-           (strstr(transport->Value(), "RTP/AVP;interleaved") && (tcp=1)))) {
+         ( (mrtp = !!strstr(transport->Value(), "RTP/AVP;multicast")) ||
+           (urtp = !!strstr(transport->Value(), "RTP/AVP;unicast")) ||
+           (tcp  = !!strstr(transport->Value(), "RTP/AVP;interleaved")))) {
         //if(!mrtp)
         //  sprintf(buf, "RTSP/1.0 461 Unsupported transport\r\n" RTSP_H_CSEQ RTSP_OK_FIN);
         //else
