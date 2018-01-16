@@ -2713,6 +2713,16 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
  * grab
  */
 
+static void _send_grab_data(vdr_input_plugin_t *this, const grab_data_t *data)
+{
+  char s[128];
+  sprintf(s, "GRAB %d %lu\r\n", this->token, (unsigned long)data->size);
+  mutex_lock_cancellable (&this->fd_control_lock);
+  write_control_data(this, s, strlen(s));
+  write_control_data(this, data->data, data->size);
+  mutex_unlock_cancellable (&this->fd_control_lock);
+}
+
 static int handle_control_grab(vdr_input_plugin_t *this, const char *cmd)
 {
   int quality, width, height, jpeg;
@@ -2734,12 +2744,7 @@ static int handle_control_grab(vdr_input_plugin_t *this, const char *cmd)
 	data = (grab_data_t*)(this->funcs.fe_control(this->funcs.fe_handle, cmd));
       
       if(data && data->size>0 && data->data) {
-	char s[128];
-	sprintf(s, "GRAB %d %lu\r\n", this->token, (unsigned long)data->size);
-	mutex_lock_cancellable (&this->fd_control_lock);
-	write_control_data(this, s, strlen(s));
-	write_control_data(this, data->data, data->size);
-	mutex_unlock_cancellable (&this->fd_control_lock);
+        _send_grab_data(this, data);
       } else {
 	/* failed */
 	printf_control(this, "GRAB %d 0\r\n", this->token);
