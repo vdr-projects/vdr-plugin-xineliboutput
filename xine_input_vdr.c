@@ -5866,7 +5866,7 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
 
   if(strchr(this->mrl, '#')) 
     *strchr(this->mrl, '#') = 0;
-  if((this->rtp = !strncasecmp(this->mrl, MRL_ID "+tcp://",  MRL_ID_LEN+7)) ||
+  if((this->tcp = !strncasecmp(this->mrl, MRL_ID "+tcp://",  MRL_ID_LEN+7)) ||
      (this->udp = !strncasecmp(this->mrl, MRL_ID "+udp://",  MRL_ID_LEN+7)) ||
      (this->rtp = !strncasecmp(this->mrl, MRL_ID "+rtp://",  MRL_ID_LEN+7)) ||
      (!strncasecmp(this->mrl, MRL_ID "+pipe://", MRL_ID_LEN+8)) ||
