@@ -2214,6 +2214,25 @@ static void *opengl_draw_frame_thread(void *arg)
   return NULL;
 }
 
+static void _opengl_cleanup(sxfe_t *this)
+{
+  free(this->opengl_osd_texture_img);
+}
+
+static void opengl_stop(sxfe_t *this)
+{
+  if (this->opengl_always || this->opengl_hud) {
+    void *status;
+    this->opengl_deinit = 1;
+    opengl_trigger_drawing_thread(this);
+    if (pthread_join(this->opengl_drawing_thread, &status)) {
+      LOGERR("sxfe_display_close: can not join opengl drawing thread!");
+    }
+
+    _opengl_cleanup(this);
+  }
+}
+
 static int opengl_start(sxfe_t *this)
 {
   LOGDBG("sxfe_display_open: starting opengl drawing thread");
@@ -2250,6 +2269,7 @@ static int opengl_start(sxfe_t *this)
     pthread_attr_destroy(&attr);
     LOGERR("sxfe_display_open: can not start OpenGL drawing thread");
     this->opengl_always = this->opengl_hud = 0; /* avoid pthread_join segfault */
+    _opengl_cleanup(this);
     return 0;
   }
   pthread_attr_destroy(&attr);
@@ -3125,15 +3145,7 @@ static void sxfe_display_close(frontend_t *this_gen)
   if(this->display) {
 
 #ifdef HAVE_OPENGL
-    if (this->opengl_always || this->opengl_hud) {
-      void *status;
-      this->opengl_deinit = 1;
-      opengl_trigger_drawing_thread(this);
-      if (pthread_join(this->opengl_drawing_thread, &status)) {
-        LOGERR("sxfe_display_close: can not join opengl drawing thread!");
-      }
-      free(this->opengl_osd_texture_img);
-    }
+    opengl_stop(this);
 #endif
 
 #ifdef HAVE_XRENDER
