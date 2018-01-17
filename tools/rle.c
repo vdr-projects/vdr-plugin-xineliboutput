@@ -262,8 +262,11 @@ size_t rle_compress_argbrle(uint8_t **rle_data, const uint32_t *data,
   *rle_data = NULL;
   *num_rle = 0;
 
-  assert(h > 0);
-  assert(w <= 0x3fff);
+  assert(w > 0);       /* avoid overreading data */
+  assert(w <= 0x3fff); /* larger value does not fit in codeword */
+
+  if (w < 1 || h < 1)
+    return 0;
 
   for (y = 0; y < h; y++) {
 
@@ -442,10 +445,14 @@ size_t rle_compress_hdmv(uint8_t **rle_data, const uint8_t *data, unsigned w, un
   size_t   rle_size = 0;
   uint8_t *rle = NULL;
 
-  assert(w <= 0x3fff);
+  assert(w > 0);       /* avoid overreading data */
+  assert(w <= 0x3fff); /* larger value does not fit in codeword */
 
   *rle_data = NULL;
   *num_rle = 0;
+
+  if (w < 1 || h < 1)
+    return 0;
 
   for (y = 0; y < h; y++) {
 
