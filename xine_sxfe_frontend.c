@@ -2217,6 +2217,10 @@ static void *opengl_draw_frame_thread(void *arg)
 static void _opengl_cleanup(sxfe_t *this)
 {
   free(this->opengl_osd_texture_img);
+  pthread_cond_destroy(&this->opengl_redraw_cv);
+  pthread_cond_destroy(&this->opengl_redraw_finished_cv);
+  pthread_mutex_destroy(&this->opengl_redraw_mutex);
+  pthread_mutex_destroy(&this->opengl_osd_texture_img_mutex);
 }
 
 static void opengl_stop(sxfe_t *this)
