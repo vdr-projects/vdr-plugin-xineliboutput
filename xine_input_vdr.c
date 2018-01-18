@@ -2530,10 +2530,9 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
 	  if(sub) *sub = 0;
 	  sprintf(mrl, "%s%s", mrlbase, filename + is_file_mrl);
 	  if(sub) {
+            size_t len = strlen(mrl);
 	    sub += 10; /*strlen("#subtitle:");*/
-	    strcat(mrl, "#subtitle:");
-	    strcat(mrl, mrlbase);
-	    strcat(mrl, sub);
+            snprintf(mrl + len, sizeof(mrl) - len, "#subtitle:%s%s", mrlbase, sub);
 	  }
 	  LOGMSG("  -> trying to stream from server (%s) ...", mrl);
 	  strn0cpy(filename, mrl, sizeof(filename));
