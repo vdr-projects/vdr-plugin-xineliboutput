@@ -5179,14 +5179,18 @@ static void vdr_plugin_dispose (input_plugin_t *this_gen)
 
     if(fc >= 0) {
       LOGDBG("Shutdown control");
-      setsockopt(fc, SOL_SOCKET, SO_LINGER, &l, sizeof(struct linger));
-      shutdown(fc, SHUT_RDWR);
+      if (setsockopt(fc, SOL_SOCKET, SO_LINGER, &l, sizeof(struct linger)) < 0)
+        LOGDBG("setsockopt(control, SO_LINGER) failed");
+      if (shutdown(fc, SHUT_RDWR) < 0)
+        LOGDBG("shutdown(control) failed");
     }
 
     if(fd >= 0 && this->tcp) {
       LOGDBG("Shutdown data");
-      setsockopt(fd, SOL_SOCKET, SO_LINGER, &l, sizeof(struct linger));
-      shutdown(fd, SHUT_RDWR);
+      if (setsockopt(fd, SOL_SOCKET, SO_LINGER, &l, sizeof(struct linger)) < 0)
+        LOGDBG("setsockopt(data, SO_LINGER) failed");
+      if (shutdown(fd, SHUT_RDWR) < 0)
+        LOGDBG("shutdown(data) failed");
     }
   }
 
@@ -5390,7 +5394,8 @@ static void set_recv_buffer_size(int fd, unsigned max_buf)
   /*}*/
   max_buf = 256;
   /* not going to send anything, so shrink send buffer ... */
-  setsockopt(fd, SOL_SOCKET, SO_SNDBUF, &max_buf, sizeof(int));
+  if (setsockopt(fd, SOL_SOCKET, SO_SNDBUF, &max_buf, sizeof(int)) < 0)
+    LOGDBG("Shrinking data socket buffer failed");
 }
 
 static int alloc_udp_data_socket(int firstport, int trycount, int *port)
@@ -5503,7 +5508,8 @@ static int connect_control_stream(vdr_input_plugin_t *this, const char *host,
 
   /* set control socket to deliver data immediately 
      instead of waiting for full TCP segments */
-  setsockopt(fd_control, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(int));
+  if (setsockopt(fd_control, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(int)) < 0)
+    LOGERR("Failed setting control socket TCP_NODELAY");
 
   this->fd_control = saved_fd;
   return fd_control;
@@ -5892,7 +5898,8 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
       LOGERR("Can't connect to tcp://%s:%d", host, iport);
       return 0;
     }
-    setsockopt(this->fd_control, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(int));
+    if (setsockopt(this->fd_control, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(int)) < 0)
+      LOGERR("Failed setting TCP_NODELAY for control socket");
 
     LOGMSG("Connected (control) to tcp://%s:%d", host, iport);
 
