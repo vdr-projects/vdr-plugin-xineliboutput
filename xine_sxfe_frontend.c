@@ -884,7 +884,7 @@ static void hud_osd_draw(sxfe_t *this, const struct osd_command_s *cmd)
 
   XDouble scale_x  = (XDouble)this->x.width  / (XDouble)this->osd_width;
   XDouble scale_y  = (XDouble)this->x.height / (XDouble)this->osd_height;
-  int     mask_changed;
+  int     mask_changed = 0;
 
 #ifdef HAVE_XSHAPE
   Xrender_Surf *dst_surf = this->surf_back_img ? this->surf_back_img       : this->surf_win;
