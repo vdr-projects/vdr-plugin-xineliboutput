@@ -65,9 +65,13 @@
 #undef  MIN
 #define MIN(a,b) ( (a) < (b) ? (a) : (b))
 
-typedef struct {
+typedef struct grab_result {
   int    Size;
   uchar *Data;
+  grab_result() {
+    Size = 0;
+    Data = NULL;
+  }
 } grab_result_t;
 
 class cStcFuture : public cFuture<int64_t> {};
