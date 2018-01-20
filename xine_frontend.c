@@ -686,6 +686,14 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
 	       "also increased latency and memory "
 	       "consumption."),
 	     20, NULL, NULL);
+  x_reg_num ("engine.buffers.audio_num_buffers",
+	     500,
+	     _("number of audio buffers"),
+	     _("The number of audio buffers (each is 8k in size) "
+	       "xine uses in its internal queue. Higher values "
+	       "mean smoother playback for unreliable inputs, but "
+	       "also increased latency and memory consumption."),
+	     20, NULL, NULL);
   x_reg_bool("gui.osd_use_unscaled",
 	     0,
 	     _("Use unscaled OSD"),
