@@ -1262,7 +1262,9 @@ void cXinelibServer::Handle_Control_CONFIG(int cli)
     }
   }
 
+  Unlock();  /* avoid deadlock if OSD update is already waiting in OsdCmd() */
   cXinelibOsdProvider::RefreshOsd();
+  Lock();
 }
 
 void cXinelibServer::Handle_Control_UDP_RESEND(int cli, const char *arg)
