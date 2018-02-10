@@ -271,9 +271,13 @@ size_t rle_compress_argbrle(uint8_t **rle_data, const uint32_t *data,
   for (y = 0; y < h; y++) {
 
     /* grow buffer ? */
-    if ((ssize_t)(rle_size - ((const uint8_t *)rle - *rle_data)) < w * 4 * 4) {
-      size_t used = (const uint8_t *)rle - *rle_data;
-      rle_size = rle_size < 1 ? w*h/16 : rle_size*2;
+    size_t used = rle - *rle_data;
+    /* RLE worst case is 4 bytes => 4 bytes, factor 1.0 */
+    if ((ssize_t)(rle_size - ((const uint8_t *)rle - *rle_data)) < w * 6) {
+      /* start with about two to three lines buffer, then try to guess a
+       * good size based on the previously used space. Add one line to
+       * make sure rle_size always grows here */
+      rle_size = rle_size < 1 ? w*6*2 : rle_size * h / y + w*6;
       *rle_data = realloc(*rle_data, rle_size);
       rle = *rle_data + used;
     }
