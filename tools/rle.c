@@ -230,7 +230,7 @@ static uint8_t *write_rle_argb(uint8_t *rle_data,
   /* rle code marker */
   *rle_data++ = 0;
 
-  if (!color) {
+  if (!alpha) {
     /* transparent */
     if (len < 64) {
       *rle_data++ = len;
