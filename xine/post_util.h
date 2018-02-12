@@ -19,7 +19,7 @@
  * class util prototypes
  */
 
-static void *init_plugin(xine_t *xine, void *data);
+static void *init_plugin(xine_t *xine, const void *data);
 #if POST_PLUGIN_IFACE_VERSION < 10
 static char *get_identifier(post_class_t *class_gen);
 static char *get_description(post_class_t *class_gen);
@@ -51,7 +51,7 @@ static void           draw_internal(vo_frame_t *frame, vo_frame_t *new_frame);
  * class utils
  */
 
-static void *init_plugin(xine_t *xine, void *data)
+static void *init_plugin(xine_t *xine, const void *data)
 {
   post_class_t *class = calloc(1, sizeof(post_class_t));
 

@@ -6180,7 +6180,11 @@ static void vdr_class_dispose (input_class_t *this_gen)
   free (this);
 }
 
+#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_VIDEO_OUT_GL)
+static void *input_xvdr_init_class (xine_t *xine, const void *data)
+#else
 static void *input_xvdr_init_class (xine_t *xine, void *data)
+#endif
 {
   vdr_input_class_t  *this;
   config_values_t     *config = xine->config;
@@ -6276,7 +6280,11 @@ static void *input_xvdr_init_class (xine_t *xine, void *data)
  * demuxer (xine/demux_xvdr.c)
  */
 
+#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_VIDEO_OUT_GL)
+void *demux_xvdr_init_class (xine_t *xine, const void *data);
+#else
 void *demux_xvdr_init_class (xine_t *xine, void *data);
+#endif
 
 static const demuxer_info_t demux_info_xvdr = {
   100                      /* priority */

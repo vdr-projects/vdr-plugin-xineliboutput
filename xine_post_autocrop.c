@@ -1867,7 +1867,11 @@ static void autocrop_class_dispose(post_class_t *class_gen)
 }
 #endif
 
+#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_VIDEO_OUT_GL)
+static void *autocrop_init_plugin(xine_t *xine, const void *data)
+#else
 static void *autocrop_init_plugin(xine_t *xine, void *data)
+#endif
 {
   post_class_t *class = calloc(1, sizeof(post_class_t));
   

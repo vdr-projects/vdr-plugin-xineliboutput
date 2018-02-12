@@ -1478,7 +1478,11 @@ static void calculate_factors(warp_plugin_t *this)
  *
  */
 
+#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_VIDEO_OUT_GL)
+void *warp_init_plugin(xine_t *xine, const void *data)
+#else
 void *warp_init_plugin(xine_t *xine, void *data)
+#endif
 {
 #if !defined(__x86_64__)
   /* Need at least MMX */
