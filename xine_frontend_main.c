@@ -19,7 +19,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#ifndef _WIN32
 #include <syslog.h>
+#endif
 #include <getopt.h>
 #include <signal.h>
 
@@ -31,6 +33,7 @@
 #include "xine_frontend.h"
 #include "xine/input_xvdr_mrl.h"
 #include "tools/vdrdiscovery.h"
+
 #include "xine_frontend_cec.h"
 #include "xine_frontend_lirc.h"
 #include "xine_frontend_kbd.h"
@@ -40,11 +43,16 @@
 /* next symbol is dynamically linked from input plugin */
 int SysLogLevel __attribute__((visibility("default"))) = SYSLOGLEVEL_INFO; /* errors and info, no debug */
 
+#ifdef _WIN32
+static const int last_signal = 0;
+#else
 volatile int   last_signal = 0;
+#endif
 
 /*
  * SignalHandler()
  */
+#ifndef _WIN32
 static void SignalHandler(int signum)
 {
   LOGMSG("caught signal %d", signum);
@@ -65,6 +73,7 @@ static void SignalHandler(int signum)
 
   signal(signum, SignalHandler);
 }
+#endif
 
 /*
  * strcatrealloc()
@@ -156,7 +165,9 @@ static const char help_str[] =
     "   -C, --config=file             Use config file (default: ~/.xine/config_xineliboutput).\n"
     "   -v, --verbose                 Verbose debug output\n"
     "   -s, --silent                  Silent mode (report only errors)\n"
+#ifndef _WIN32
     "   -l, --syslog                  Write all output to system log\n"
+#endif
     "   -k, --nokbd                   Disable console keyboard input\n"
 #ifndef IS_FBFE
     "   -x, --noxkbd                  Disable X11 keyboard input\n"
@@ -215,7 +226,9 @@ static const struct option long_options[] = {
 
   { "verbose", no_argument,  NULL, 'v' },
   { "silent",  no_argument,  NULL, 's' },
+#ifndef _WIN32
   { "syslog",  no_argument,  NULL, 'l' },
+#endif
   { "nokbd",   no_argument,  NULL, 'k' },
   { "noxkbd",  no_argument,  NULL, 'x' },
   { "hotkeys", no_argument,  NULL, 'o' },
@@ -453,9 +466,11 @@ int main(int argc, char *argv[])
     case 'S': slave_mode = 1;
               PRINTF("Slave mode\n");
               break;
+#ifndef _WIN32
     case 'l': LogToSysLog = 1;
               openlog(exec_name, LOG_PID|LOG_CONS, LOG_USER);
               break;
+#endif
     case 'k': nokbd = 1;
               PRINTF("Keyboard input disabled\n");
               break;
@@ -504,6 +519,7 @@ int main(int argc, char *argv[])
 
   PRINTF("\n");
 
+#ifndef _WIN32
   if (tty) {
     /* claim new controlling terminal */
     stdin  = freopen(tty, "r", stdin);
@@ -517,6 +533,7 @@ int main(int argc, char *argv[])
       exit(-1);
     }
   }
+#endif
 
 #if 1
   /* backward compability */
@@ -537,7 +554,7 @@ int main(int argc, char *argv[])
     char address[1024] = "";
     int port = -1;
     PRINTF("VDR server not given, searching ...\n");
-    if (udp_discovery_find_server(&port, &address[0])) {
+    if (udp_discovery_find_server(&port, address, sizeof(address))) {
       PRINTF("Found VDR server: host %s, port %d\n", address, port);
       if (mrl) {
         char *tmp = mrl;
@@ -584,6 +601,7 @@ int main(int argc, char *argv[])
     }
   }
 
+#ifndef _WIN32
   if (daemon_mode) {
     PRINTF("Entering daemon mode\n\n");
     if (daemon(1, 0) == -1) {
@@ -592,6 +610,7 @@ int main(int argc, char *argv[])
       return -2;
     }
   }
+#endif
 
   /* Create front-end */
   fe = (*fe_creator)();
@@ -629,11 +648,12 @@ int main(int argc, char *argv[])
     list_xine_plugins(fe, SysLogLevel>2);
 
   /* signal handlers */
-
+#ifndef _WIN32
   if (signal(SIGHUP,  SignalHandler) == SIG_IGN) signal(SIGHUP,  SIG_IGN);
   if (signal(SIGINT,  SignalHandler) == SIG_IGN) signal(SIGINT,  SIG_IGN);
   if (signal(SIGTERM, SignalHandler) == SIG_IGN) signal(SIGTERM, SIG_IGN);
   if (signal(SIGPIPE, SignalHandler) == SIG_IGN) signal(SIGPIPE, SIG_IGN);
+#endif
 
   do {
 
@@ -691,9 +711,11 @@ int main(int argc, char *argv[])
     fe->xine_close(fe);
     firsttry = 0;
 
+#ifndef _WIN32
     /* HUP reconnects */
     if (last_signal == SIGHUP)
       last_signal = 0;
+#endif
 
   } while (!last_signal && xine_finished != FE_XINE_EXIT && reconnect);
 
