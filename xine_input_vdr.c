@@ -2876,9 +2876,9 @@ static int handle_osdcmd(vdr_input_plugin_t *this, int fd)
 
   /* read palette */
   if (osdcmd.palette && osdcmd.colors>0) {
-    ssize_t bytes = sizeof(osd_clut_t) * osdcmd.colors;
-    osdcmd.palette = malloc(bytes);
-    if (read_socket(this, fd, (unsigned char *)osdcmd.palette, bytes) != bytes) {
+    ssize_t clut_bytes = sizeof(osd_clut_t) * osdcmd.colors;
+    osdcmd.palette = malloc(clut_bytes);
+    if (read_socket(this, fd, (unsigned char *)osdcmd.palette, clut_bytes) != clut_bytes) {
       LOGMSG("error reading OSDCMD palette");
       err = CONTROL_DISCONNECTED;
     }
