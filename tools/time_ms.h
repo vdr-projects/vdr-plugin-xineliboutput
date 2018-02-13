@@ -15,7 +15,7 @@
 #include <stddef.h>
 #include <sys/time.h>
 
-static uint64_t time_ms(void)
+static inline uint64_t time_ms(void)
 {
   struct timeval t;
 #ifdef XINEUTILS_H
@@ -27,7 +27,7 @@ static uint64_t time_ms(void)
   return 0;
 }
 
-static uint64_t elapsed(uint64_t t)
+static inline uint64_t elapsed(uint64_t t)
 {
   return time_ms() - t;
 }
