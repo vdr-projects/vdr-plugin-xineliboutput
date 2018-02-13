@@ -891,7 +891,7 @@ static void create_timeout_time(struct timespec *abstime, int timeout_ms)
 
 /**************************** socket I/O *********************************/
 
-int io_set_nonblock(int fd)
+static int io_set_nonblock(int fd)
 {
   int flags, result;
 
