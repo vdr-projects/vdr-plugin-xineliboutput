@@ -41,7 +41,6 @@
 int SysLogLevel __attribute__((visibility("default"))) = SYSLOGLEVEL_INFO; /* errors and info, no debug */
 
 volatile int   last_signal = 0;
-int            gui_hotkeys = 0;
 
 /*
  * SignalHandler()
@@ -242,6 +241,7 @@ int main(int argc, char *argv[])
   int scale_video = 1, aspect = 1, modeswitch = 0;
   int daemon_mode = 0, nokbd = 0, noxkbd = 0, slave_mode = 0;
   int repeat_emu = 0;
+  int gui_hotkeys = 0;
   int touchscreen = 0;
   int window_id = WINDOW_ID_NONE;
   int xmajor, xminor, xsub;
@@ -264,6 +264,7 @@ int main(int argc, char *argv[])
   const char *power_off_cmd = NULL;
 
   input_kbd_t  *kbd = NULL;
+  input_lirc_t *lirc = NULL;
 
   extern const fe_creator_f fe_creator;
   frontend_t *fe = NULL;
@@ -667,7 +668,7 @@ int main(int argc, char *argv[])
     if (firsttry) {
 
       /* Start LIRC forwarding */
-      lirc_start(fe, lirc_dev, repeat_emu);
+      lirc = lirc_start(fe, lirc_dev, repeat_emu, gui_hotkeys);
 
       cec_start(fe, cec_hdmi_port, cec_dev_type);
 
@@ -703,7 +704,7 @@ int main(int argc, char *argv[])
   fe->send_event(fe, "QUIT");
 
   /* stop input threads */
-  lirc_stop();
+  lirc_stop(&lirc);
   cec_stop();
   kbd_stop(&kbd);
 

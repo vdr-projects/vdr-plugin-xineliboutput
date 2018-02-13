@@ -25,6 +25,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #ifdef __FreeBSD__
 #include <string.h>
 #endif
@@ -53,45 +54,45 @@
 #define LIRC_BUFFER_SIZE 128
 #define MIN_LIRCD_CMD_LEN  5
 
-/* static data */
-static pthread_t lirc_thread;
-static volatile const char *lirc_device_name = NULL;
-static volatile int fd_lirc = -1;
-static int lirc_repeat_emu = 0;
+struct input_lirc_s {
+  pthread_t   lirc_thread;
+  frontend_t *fe;
+  char       *lirc_device_name;
+  int         fd_lirc;
+  uint8_t     lirc_repeat_emu;
+  uint8_t     gui_hotkeys;
+};
 
-/* xine_frontend_main.c: */
-extern int gui_hotkeys;
-
-static void lircd_connect(void)
+static void lircd_connect(input_lirc_t *this)
 {
   union {
     struct sockaddr    sa;
     struct sockaddr_un un;
   } addr;
 
-  if (fd_lirc >= 0) {
-    close(fd_lirc);
-    fd_lirc = -1;
+  if (this->fd_lirc >= 0) {
+    close(this->fd_lirc);
+    this->fd_lirc = -1;
   }
 
-  if (!lirc_device_name) {
+  if (!this->lirc_device_name) {
     LOGDBG("no lirc device given");
     return;
   }
 
   addr.un.sun_family = AF_UNIX;
-  strncpy(addr.un.sun_path, (char*)lirc_device_name, sizeof(addr.un.sun_path));
+  strncpy(addr.un.sun_path, this->lirc_device_name, sizeof(addr.un.sun_path));
   addr.un.sun_path[sizeof(addr.un.sun_path)-1] = 0;
 
-  if ((fd_lirc = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
+  if ((this->fd_lirc = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
     LOGERR("lirc error: socket() < 0");
     return;
   }
 
-  if (connect(fd_lirc, &addr.sa, sizeof(addr))) {
-    LOGERR("lirc error: connect(%s) < 0", lirc_device_name);
-    close(fd_lirc);
-    fd_lirc = -1;
+  if (connect(this->fd_lirc, &addr.sa, sizeof(addr))) {
+    LOGERR("lirc error: connect(%s) < 0", this->lirc_device_name);
+    close(this->fd_lirc);
+    this->fd_lirc = -1;
     return;
   }
 }
@@ -116,9 +117,10 @@ static int _select(int fd, int timeout)
   return result;
 }
 
-static void *lirc_receiver_thread(void *fe_gen)
+static void *lirc_receiver_thread(void *this_gen)
 {
-  frontend_t *fe = (frontend_t*)fe_gen;
+  input_lirc_t *this = this_gen;
+  frontend_t   *fe = this->fe;
   const int   priority = -1;
   int      timeout = -1;
   int      repeat = 0;
@@ -133,13 +135,13 @@ static void *lirc_receiver_thread(void *fe_gen)
   if ((nice(priority) == -1) && errno)
     LOGDBG("LIRC: Can't nice to value: %d", priority);
 
-  lircd_connect();
+  lircd_connect(this);
 
-  while (lirc_device_name && fd_lirc >= 0) {
+  while (fe->xine_is_finished(fe, 0) != FE_XINE_EXIT && this->fd_lirc >= 0) {
     int ready, ret = -1;
 
     pthread_testcancel();
-    ready = _select(fd_lirc, timeout);
+    ready = _select(this->fd_lirc, timeout);
 
     pthread_testcancel();
     if (ready < 0) {
@@ -151,20 +153,20 @@ static void *lirc_receiver_thread(void *fe_gen)
 
       do {
         errno = 0;
-        ret = read(fd_lirc, buf, sizeof(buf));
+        ret = read(this->fd_lirc, buf, sizeof(buf));
         pthread_testcancel();
       } while (ret < 0 && errno == EINTR);
 
       if (ret <= 0 ) {
         /* try reconnecting */
         LOGERR("LIRC connection lost");
-        lircd_connect();
-        while (lirc_device_name && fd_lirc < 0) {
+        lircd_connect(this);
+        while (this->fd_lirc < 0) {
           pthread_testcancel();
           sleep(RECONNECTDELAY/1000);
-          lircd_connect();
+          lircd_connect(this);
         }
-        if (fd_lirc >= 0)
+        if (this->fd_lirc >= 0)
           LOGMSG("LIRC reconnected");
 	continue;
       }
@@ -180,7 +182,7 @@ static void *lirc_receiver_thread(void *fe_gen)
           continue;
         }
 
-        if (lirc_repeat_emu)
+        if (this->lirc_repeat_emu)
           if (strcmp(KeyName, LastKeyName) == 0 && elapsed(LastTime) < REPEATDELAY)
             count = repeat + 1;
 
@@ -203,7 +205,7 @@ static void *lirc_receiver_thread(void *fe_gen)
             continue; /* repeat function kicks in after a short delay */
 
           if (elapsed(FirstTime) < REPEATDELAY) {
-            if (lirc_repeat_emu)
+            if (this->lirc_repeat_emu)
               LastTime = time_ms();
             continue; /* skip keys coming in too fast */
           }
@@ -212,7 +214,7 @@ static void *lirc_receiver_thread(void *fe_gen)
         }
         LastTime = time_ms();
 
-        if (gui_hotkeys) {
+        if (this->gui_hotkeys) {
           if (!strcmp(KeyName, "Quit")) {
             fe->send_event(fe, "QUIT");
             break;
@@ -253,38 +255,60 @@ static void *lirc_receiver_thread(void *fe_gen)
   }
 
 
-  if (fd_lirc >= 0)
-    close(fd_lirc);
-  fd_lirc = -1;
+  if (this->fd_lirc >= 0)
+    close(this->fd_lirc);
+  this->fd_lirc = -1;
   pthread_exit(NULL);
   return NULL; /* never reached */
 }
 
-void lirc_start(struct frontend_s *fe, const char *lirc_dev, int repeat_emu)
+input_lirc_t *lirc_start(struct frontend_s *fe, const char *lirc_dev, int repeat_emu, int gui_hotkeys)
 {
-  if (lirc_dev) {
-    int err;
-    lirc_device_name = lirc_dev;
-    lirc_repeat_emu = repeat_emu;
-    if ((err = pthread_create (&lirc_thread,
-                               NULL, lirc_receiver_thread,
-                               (void*)fe)) != 0) {
-      fprintf(stderr, "can't create new thread for lirc (%s)\n",
-              strerror(err));
-    }
+  int err;
+  input_lirc_t *this;
+
+  if (!lirc_dev) {
+    return NULL;
   }
+
+  this = calloc(1, sizeof(*this));
+  if (!this) {
+    return NULL;
+  }
+
+  this->fe               = fe;
+  this->lirc_device_name = strdup(lirc_dev);
+  this->lirc_repeat_emu  = repeat_emu;
+  this->gui_hotkeys      = gui_hotkeys;
+  this->fd_lirc          = -1;
+
+  if ((err = pthread_create (&this->lirc_thread,
+                             NULL, lirc_receiver_thread,
+                             (void*)this)) != 0) {
+    fprintf(stderr, "can't create new thread for lirc (%s)\n",
+            strerror(err));
+
+    free(this->lirc_device_name);
+    free(this);
+  }
+
+  return this;
 }
 
-void lirc_stop(void)
+void lirc_stop(input_lirc_t **plirc)
 {
-  if (lirc_device_name) {
+  if (*plirc) {
+    input_lirc_t *this = *plirc;
     void *p;
-    /*free(lirc_device_name);*/
-    lirc_device_name = NULL;
-    if (fd_lirc >= 0)
-      close(fd_lirc);
-    fd_lirc = -1;
-    pthread_cancel (lirc_thread);
-    pthread_join (lirc_thread, &p);
+
+    pthread_cancel (this->lirc_thread);
+    pthread_join (this->lirc_thread, &p);
+
+    if (this->fd_lirc >= 0)
+      close(this->fd_lirc);
+    this->fd_lirc = -1;
+
+    free(this->lirc_device_name);
+    free(this);
   }
 }
