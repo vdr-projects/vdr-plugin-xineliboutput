@@ -22,6 +22,17 @@
  *
  */
 
+#include "xine_frontend_lirc.h"
+
+#ifdef _WIN32
+input_lirc_t *lirc_start(struct frontend_s *fe, const char *lirc_dev, int repeat_emu, int gui_hotkeys)
+{
+  return NULL;
+}
+void lirc_stop(input_lirc_t **)
+{
+}
+#else
 
 #include <stdint.h>
 #include <stdio.h>
@@ -40,8 +51,6 @@
 #include "logdefs.h"
 
 #include "xine_frontend.h"
-#include "xine_frontend_lirc.h"
-
 
 #define REPEATDELAY     350 /* ms */
 #define REPEATFREQ      100 /* ms */
@@ -310,3 +319,5 @@ void lirc_stop(input_lirc_t **plirc)
     free(this);
   }
 }
+
+#endif /* WIN32 */
