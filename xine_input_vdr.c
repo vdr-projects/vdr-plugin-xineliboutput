@@ -1821,11 +1821,13 @@ static void queue_nosignal(vdr_input_plugin_t *this)
 #define extern static
 #include "nosignal_720x576.c"
 #undef extern
-  char          *data = NULL, *tmp = NULL;
+  const uint8_t *data = NULL;
+  void          *tmp = NULL;
   int            datalen = 0, pos = 0;
   buf_element_t *buf  = NULL;
   fifo_buffer_t *fifo = this->stream->video_fifo;
-  char *path, *home;
+  const char    *path;
+  char          *home;
 
   if (fifo->num_free(fifo) < 10) {
     LOGMSG("queue_nosignal: not enough free buffers (%d) !",
@@ -1842,8 +1844,8 @@ static void queue_nosignal(vdr_input_plugin_t *this)
   if(fd<0) fd = open(path="/video/plugins/xine/noSignal.mpg", O_RDONLY);
   if(fd<0) fd = open(path=NOSIGNAL_IMAGE_FILE, O_RDONLY);
   if(fd>=0) {
-    tmp = data = malloc(NOSIGNAL_MAX_SIZE);
-    datalen = read(fd, data, NOSIGNAL_MAX_SIZE);
+    data = tmp = malloc(NOSIGNAL_MAX_SIZE);
+    datalen = read(fd, tmp, NOSIGNAL_MAX_SIZE);
     if(datalen==NOSIGNAL_MAX_SIZE) {
 	LOGMSG("WARNING: custom \"no signal\" image %s too large", path);
     } else if(datalen<=0) {
@@ -1856,7 +1858,7 @@ static void queue_nosignal(vdr_input_plugin_t *this)
   free(home);
 
   if(datalen<=0) {
-    data    = (char*)&v_mpg_nosignal[0];
+    data    = v_mpg_nosignal;
     datalen = v_mpg_nosignal_length;
   }
 
