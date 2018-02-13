@@ -6185,7 +6185,7 @@ static void vdr_class_dispose (input_class_t *this_gen)
   config_values_t *config = this->xine->config;
 
   config->unregister_callback(config, "media." MRL_ID ".default_mrl");
-  config->unregister_callback(config, "media." MRL_ID ".osd.fast_scaling");
+  config->unregister_callback(config, "media." MRL_ID ".fast_osd_scaling");
   config->unregister_callback(config, "media." MRL_ID ".scr_tuning_step");
   config->unregister_callback(config, "media." MRL_ID ".smooth_scr_tuning");
   free (this);
