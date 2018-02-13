@@ -14,8 +14,9 @@
 
 #include <stdint.h>
 #include <unistd.h>
-#ifdef __FreeBSD__
+
 #include <sys/socket.h>
+#ifdef __FreeBSD__
 #include <netinet/in.h>
 #endif
 #include <netinet/tcp.h> // CORK, NODELAY
