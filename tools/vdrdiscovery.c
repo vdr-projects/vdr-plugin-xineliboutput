@@ -28,7 +28,6 @@
 
 #include <netinet/in.h>
 #include <sys/socket.h>
-#include <sys/un.h>
 #include <arpa/inet.h>
 
 #define LOG_MODULENAME "[discovery] "

@@ -28,7 +28,6 @@
 #include <sys/socket.h>
 #include <errno.h>
 #include <sys/time.h>
-#include <sys/resource.h> /* setpriority() */
 #include <sys/stat.h>
 #include <syslog.h>
 #include <ctype.h>
