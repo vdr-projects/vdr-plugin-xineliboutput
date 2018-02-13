@@ -12,7 +12,6 @@
 #define XINELIBOUTPUT_SDP_H_
 
 #define __STDC_FORMAT_MACROS
-#define __STDC_CONSTANT_MACROS
 #include <inttypes.h>
 #include <unistd.h>  // gethostmane
 #include <time.h>
