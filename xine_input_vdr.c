@@ -72,6 +72,7 @@
 #include "xine/adjustable_scr.h"
 #include "xine/osd_manager.h"
 #include "xine/xvdr_metronom.h"
+#include "xine/xvdr_plugin.h"
 
 #include "xine_input_vdr.h"
 #include "xine_input_vdr_net.h"
@@ -6188,9 +6189,9 @@ static void vdr_class_dispose (input_class_t *this_gen)
 }
 
 #if XINE_VERSION_CODE > 10209 || defined(PLUGIN_VIDEO_OUT_GL)
-static void *input_xvdr_init_class (xine_t *xine, const void *data)
+void *input_xvdr_init_class (xine_t *xine, const void *data)
 #else
-static void *input_xvdr_init_class (xine_t *xine, void *data)
+void *input_xvdr_init_class (xine_t *xine, void *data)
 #endif
 {
   vdr_input_class_t  *this;
@@ -6286,12 +6287,6 @@ static void *input_xvdr_init_class (xine_t *xine, void *data)
 /*
  * demuxer (xine/demux_xvdr.c)
  */
-
-#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_VIDEO_OUT_GL)
-void *demux_xvdr_init_class (xine_t *xine, const void *data);
-#else
-void *demux_xvdr_init_class (xine_t *xine, void *data);
-#endif
 
 static const demuxer_info_t demux_info_xvdr = {
   100                      /* priority */

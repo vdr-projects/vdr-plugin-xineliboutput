@@ -40,6 +40,7 @@
 #include "ts2es.h"
 #include "demux_xvdr_tsdata.h"
 #include "xvdr_metronom.h"
+#include "xvdr_plugin.h"
 
 /*
  * features
