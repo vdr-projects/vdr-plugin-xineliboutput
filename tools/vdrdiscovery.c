@@ -285,7 +285,7 @@ static int _udp_discovery_find_server(int fd_discovery, int *port, char *address
   return 0;
 }
 
-int udp_discovery_find_server(int *port, char *address)
+int udp_discovery_find_server(int *port, char *address, size_t address_size)
 {
   int fd_discovery;
   int ret = 0;
