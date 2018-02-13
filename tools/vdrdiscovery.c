@@ -18,9 +18,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
-#ifdef __FreeBSD__
 #include <string.h>
-#endif
 #include <unistd.h>
 #include <sys/select.h>
 #include <sys/time.h>
