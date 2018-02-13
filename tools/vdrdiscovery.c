@@ -20,13 +20,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/select.h>
 #include <sys/time.h>
 #include <sys/types.h>
 
-#include <netinet/in.h>
+#ifndef _WIN32
+#include <sys/select.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 #include <arpa/inet.h>
+#else
+#include <winsock2.h>
+#include <ws2tcpip.h>  // socklen_t
+#endif
 
 #define LOG_MODULENAME "[discovery] "
 #include "../logdefs.h"

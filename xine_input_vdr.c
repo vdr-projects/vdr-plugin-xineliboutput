@@ -21,18 +21,25 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <string.h>
+
+#ifndef _WIN32
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
+#include <syslog.h>
+#else  /* _WIN32 */
+# include <winsock2.h>
+# include <ws2tcpip.h>  // socklen_t
+#endif /* _WIN32 */
+
 #include <errno.h>
 #include <sys/time.h>
 #include <sys/stat.h>
-#include <syslog.h>
 #include <ctype.h>
 
-#if !defined(__APPLE__) && !defined(__FreeBSD__)
+#if !defined(__APPLE__) && !defined(__FreeBSD__) && !defined(_WIN32)
 # define DVD_STREAMING_SPEED
 #endif
 
