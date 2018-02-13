@@ -17,7 +17,7 @@ extern "C" {
 
 #include <xine/input_plugin.h>
 
-#include "xine_input_vdr_mrl.h"
+#include "xine/input_xvdr_mrl.h"
 
 struct input_plugin_s;
 struct vdr_input_plugin_if_s;

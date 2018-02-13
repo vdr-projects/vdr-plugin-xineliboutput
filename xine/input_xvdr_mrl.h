@@ -1,5 +1,5 @@
 /*
- * xine_input_vdr_mrl.h:  
+ * input_xvdr_mrl.h:
  *
  * See the main source file 'xineliboutput.c' for copyright information and
  * how to reach the author.

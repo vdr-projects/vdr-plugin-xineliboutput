@@ -28,8 +28,8 @@
 #define LOG_MODULENAME "[vdr-fe]    "
 #include "logdefs.h"
 
-#include "xine_input_vdr_mrl.h"
 #include "xine_frontend.h"
+#include "xine/input_xvdr_mrl.h"
 #include "tools/vdrdiscovery.h"
 #include "xine_frontend_cec.h"
 #include "xine_frontend_lirc.h"

@@ -30,13 +30,13 @@
 #include <xine/xineutils.h>
 #include <xine/demux.h>
 
-#include "../xine_input_vdr_mrl.h"
 #include "../tools/mpeg.h"
 #include "../tools/h264.h"
 #include "../tools/h265.h"
 #include "../tools/pes.h"
 #include "../tools/ts.h"
 
+#include "input_xvdr_mrl.h"
 #include "ts2es.h"
 #include "demux_xvdr_tsdata.h"
 #include "xvdr_metronom.h"
