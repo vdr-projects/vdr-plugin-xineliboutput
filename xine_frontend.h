@@ -15,6 +15,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 #define FE_VERSION_STR  XINELIBOUTPUT_VERSION /*"1.0.0pre1"*/
 
 typedef struct frontend_config_s frontend_config_t;
