@@ -497,6 +497,9 @@ class cXinelibPlayerControl : public cControl
 
     static cXinelibPlayer *OpenPlayer(cXinelibDevice *Dev, const char *File, bool Queue = false, const char *SubFile = NULL);
 
+    uint64_t m_Rand;
+    int GetRand(int Range);
+
  protected:
     static cXinelibPlayer *m_Player;
 
@@ -547,6 +550,7 @@ cXinelibPlayerControl::cXinelibPlayerControl(cXinelibDevice *Dev, eMainMenuMode 
   m_RandomPlay = false;
   m_AutoShowStart = time(NULL);
   m_BlinkState = true;
+  m_Rand = time(NULL);
 
   number = 0;
   lastTime.Set();
@@ -562,6 +566,12 @@ cXinelibPlayerControl::~cXinelibPlayerControl()
 
   MsgReplaying(NULL, NULL);
   Close();
+}
+
+int cXinelibPlayerControl::GetRand(int Range)
+{
+  m_Rand = m_Rand * UINT64_C(6364136223846793005) + UINT64_C(1);
+  return Range ? ((uint32_t)(m_Rand >> 32)) % Range : 0;
 }
 
 void cXinelibPlayerControl::CloseMenus(void)
@@ -692,8 +702,7 @@ eOSState cXinelibPlayerControl::ProcessKey(eKeys Key)
     }
     int Jump = 1;
     if(m_RandomPlay) {
-      srand((unsigned int)time(NULL));
-      Jump = (random() % m_Player->Files()) - m_Player->CurrentFile();
+      Jump = GetRand(m_Player->Files()) - m_Player->CurrentFile();
     } 
     if(m_Player->Files() < 2 || !m_Player->NextFile(Jump)) {
       Hide();
@@ -791,8 +800,7 @@ eOSState cXinelibPlayerControl::ProcessKey(eKeys Key)
                     break;
       case kNext:
       case kRight:  if(m_RandomPlay) {
-                      srand((unsigned int)time(NULL));
-                      m_Player->NextFile((random() % m_Player->Files()) - m_Player->CurrentFile());
+                      m_Player->NextFile(GetRand(m_Player->Files()) - m_Player->CurrentFile());
                     }
                     else {
                       m_Player->NextFile(1);
