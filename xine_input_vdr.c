@@ -5408,7 +5408,8 @@ static void set_recv_buffer_size(int fd, unsigned max_buf)
     LOGERR("setsockopt(SO_RCVBUF,%d) failed", max_buf);
     /*max_buf >>= 1;*/
   } else {
-    unsigned int tmp = 0, len = sizeof(int);;
+    unsigned int tmp = 0;
+    socklen_t len = sizeof(int);
     if(getsockopt(fd, SOL_SOCKET, SO_RCVBUF, &tmp, &len) < 0) {
       LOGERR("getsockopt(SO_RCVBUF,%d) failed", max_buf);
       /*max_buf >>= 1;*/
