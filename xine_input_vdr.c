@@ -140,7 +140,7 @@ typedef struct {
 
 /******************************* LOG ***********************************/
 
-#if !defined(__APPLE__) && !defined(__FreeBSD__)
+#if defined(__linux__)
 #  include <linux/unistd.h> /* syscall(__NR_gettid) */
 #endif
 
@@ -161,17 +161,20 @@ void x_syslog(int level, const char *module, const char *fmt, ...)
   va_start(argp, fmt);
   vsnprintf(buf, sizeof(buf), fmt, argp);
   buf[sizeof(buf)-1] = 0;
-#if defined(__APPLE__) || defined(__FreeBSD__)
-  if(!bLogToSysLog) {
-    fprintf(stderr, "%s%s\n", module, buf);
-  } else {
-    syslog(level, "%s%s", module, buf);
-  }
-#else
+
+#if defined(_WIN32)
+  fprintf(stderr, "[%lu] %s%s\n", (unsigned long)GetCurrentThreadId(), module, buf);
+#elif defined(__linux__)
   if(!bLogToSysLog) {
     fprintf(stderr,"[%ld] %s%s\n", syscall(__NR_gettid), module, buf);
   } else {
     syslog(level, "[%ld] %s%s", syscall(__NR_gettid), module, buf);
+  }
+#else
+  if (!bLogToSysLog) {
+    fprintf(stderr, "%s%s\n", module, buf);
+  } else {
+    syslog(level, "%s%s", module, buf);
   }
 #endif
   va_end(argp);
