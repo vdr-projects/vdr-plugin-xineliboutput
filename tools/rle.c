@@ -376,12 +376,13 @@ int rle_uncompress_argbrle(uint32_t *dst,
         }
       } else {
         /* color */
+        unsigned i;
         rle_data = decode_len(rle_data, &len);
         if (x+len > w)
           return -9999;
 
         rle_data = read_u32_argb(rle_data, &dw);
-        for (unsigned i = 0; i < len; i++)
+        for (i = 0; i < len; i++)
           dst[x + i] = dw;
       }
       x += len;
