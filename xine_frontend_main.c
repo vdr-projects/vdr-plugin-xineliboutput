@@ -181,6 +181,7 @@ static const char help_str[] =
     "                                 log to syslog and fork to background)\n"
     "   -S, --slave                   Enable slave mode (read commands from stdin)\n"
     "   -R, --reconnect               Automatically reconnect when connection has been lost\n"
+    "   -c, --waitvdr                 Wait for VDR to start (retry connecting)\n"
     "   -t, --tcp                     Use TCP transport\n"
     "   -u, --udp                     Use UDP transport\n"
     "   -r, --rtp                     Use RTP transport\n\n"
@@ -237,6 +238,7 @@ static const struct option long_options[] = {
   { "slave",   no_argument,  NULL, 'S' },
 
   { "reconnect", no_argument,  NULL, 'R' },
+  { "waitvdr",   no_argument,  NULL, 'c' },
   { "tcp",       no_argument,  NULL, 't' },
   { "udp",       no_argument,  NULL, 'u' },
   { "rtp",       no_argument,  NULL, 'r' },
@@ -248,7 +250,7 @@ static const struct option long_options[] = {
 
 int main(int argc, char *argv[])
 {
-  int ftcp = 0, fudp = 0, frtp = 0, reconnect = 0, firsttry = 1;
+  int ftcp = 0, fudp = 0, frtp = 0, reconnect = 0, firsttry = 1, waitvdr = 0;
   int fullscreen = 0, hud = 0, opengl = 0, xpos = 0, ypos = 0, width = 720, height = 576;
   int pes_buffers = 250;
   int scale_video = 1, aspect = 1, modeswitch = 0;
@@ -497,6 +499,9 @@ int main(int argc, char *argv[])
     case 'R': reconnect = 1;
               PRINTF("Automatic reconnection enabled\n");
               break;
+    case 'c': waitvdr = 1;
+              PRINTF("Wait for VDR startup enabled\n");
+              break;
     case 't': ftcp = 1;
               PRINTF("Protocol: TCP\n");
               break;
@@ -544,7 +549,7 @@ int main(int argc, char *argv[])
 #endif
 
   /* If server address not given, try to find server automatically */
-  if (!mrl ||
+  while (!mrl ||
       !strcmp(mrl, MRL_ID ":") ||
       !strcmp(mrl, MRL_ID "+tcp:") ||
       !strcmp(mrl, MRL_ID "+udp:") ||
@@ -567,6 +572,10 @@ int main(int argc, char *argv[])
         if (asprintf(&mrl, MRL_ID "://%s:%d", address, port) < 0)
           EXIT("asprintf failed");
     } else {
+      if (waitvdr) {
+        sleep(1);
+        continue;
+      }
       PRINTF("---------------------------------------------------------------\n"
              "WARNING: MRL not given and server not found from local network.\n"
              "         Trying to connect to default port on local host.\n"
@@ -669,6 +678,11 @@ int main(int argc, char *argv[])
         PRINTF("Error opening %s\n", mrl);
         continue;
       }
+      if (waitvdr) {
+        PRINTF("Connection to server failed. Trying again after two seconds...\n");
+        sleep(2);
+        continue;
+      }
       fprintf(stderr, "Error opening %s\n", mrl);
       fe->fe_free(fe);
       return -6;
@@ -709,6 +723,7 @@ int main(int argc, char *argv[])
 
     fe->xine_close(fe);
     firsttry = 0;
+    waitvdr = 0;
 
 #ifndef _WIN32
     /* HUP reconnects */
@@ -716,7 +731,7 @@ int main(int argc, char *argv[])
       last_signal = 0;
 #endif
 
-  } while (!last_signal && xine_finished != FE_XINE_EXIT && reconnect);
+  } while (!last_signal && xine_finished != FE_XINE_EXIT && (reconnect || (!reconnect && waitvdr)));
 
   /* Clean up */
 
