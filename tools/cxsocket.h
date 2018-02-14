@@ -12,6 +12,7 @@
 #define __CXSOCKET_H
 
 #include <inttypes.h>
+#include <string.h>
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -19,6 +20,8 @@
 #include <netinet/in.h>
 #endif
 #include <unistd.h> // close()
+
+#include "../logdefs.h"
 
 #define CLOSESOCKET(fd) do { if(fd>=0) { ::close(fd); fd=-1; } } while(0)
 

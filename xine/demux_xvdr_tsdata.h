@@ -11,6 +11,12 @@
 #ifndef _DEMUX_XVDR_TSDATA_H_
 #define _DEMUX_XVDR_TSDATA_H_
 
+#include <stdint.h>
+
+#include <xine/buffer.h>
+
+#include "../tools/ts.h"  // TS_MAX_AUDIO_TRACKS
+
 struct ts2es_s;
 
 struct ts_data_s {

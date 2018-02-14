@@ -11,6 +11,8 @@
 #ifndef _XINELIBOUTPUT_VO_OSDSCALER_H
 #define _XINELIBOUTPUT_VO_OSDSCALER_H
 
+#include <xine/video_out.h>
+
 vo_driver_t *osdscaler_init(void);
 
 #endif /* _XINELIBOUTPUT_VO_OSDSCALER_H */

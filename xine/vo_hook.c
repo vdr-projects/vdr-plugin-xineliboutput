@@ -8,6 +8,8 @@
  *
  */
 
+#include "vo_hook.h"
+
 #include <stdlib.h>
 
 #include <xine/video_out.h>
@@ -15,7 +17,6 @@
 #define LOG_MODULENAME "[xine-vo  ] "
 #include "../logdefs.h"
 
-#include "vo_hook.h"
 #include "vo_post.h"
 
 /* This module supports only video driver interface version 21 */

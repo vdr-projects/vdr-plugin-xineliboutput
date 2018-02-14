@@ -13,6 +13,7 @@
 
 #include <xine.h>
 #include <xine/input_plugin.h>
+#include <xine/video_out.h>
 
 #include "xine_frontend.h"
 #include "xine_input_vdr.h"

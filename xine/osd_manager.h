@@ -19,6 +19,8 @@
  * - generate xine overlay events
  */
 
+#include <xine.h>
+
 struct osd_command_s;
 
 typedef struct osd_manager_s osd_manager_t;

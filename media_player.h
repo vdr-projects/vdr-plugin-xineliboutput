@@ -11,6 +11,8 @@
 #ifndef __XINELIB_PLAYER_H
 #define __XINELIB_PLAYER_H
 
+#include <vdr/device.h>  // ePlayMode
+
 class cPlaylist;
 class cXinelibDevice;
 

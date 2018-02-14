@@ -11,6 +11,8 @@
 #ifndef _XINELIBOUTPUT_VO_LASTPTS_H
 #define _XINELIBOUTPUT_VO_LASTPTS_H
 
+#include <xine/video_out.h>
+
 vo_driver_t *vo_lastpts_init(void);
 
 #endif /* _XINELIBOUTPUT_VO_LASTPTS_H */

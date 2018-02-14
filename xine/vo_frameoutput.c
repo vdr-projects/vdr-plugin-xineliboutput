@@ -8,6 +8,8 @@
  *
  */
 
+#include "vo_frameoutput.h"
+
 #include <stdlib.h>
 
 #include <xine/xine_internal.h>
@@ -17,9 +19,6 @@
 
 #define LOG_MODULENAME "[frame_out] "
 #include "../logdefs.h"
-
-#include "vo_frameoutput.h"
-
 
 /*
  *  frameoutput_hook_t

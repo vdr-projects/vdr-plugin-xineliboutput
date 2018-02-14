@@ -13,6 +13,8 @@
 
 #include <vdr/menuitems.h>
 
+#include "config.h" // eMainMenuMode
+
 class cXinelibDevice;
 
 class cMenuXinelib : public cMenuSetupPage

@@ -11,6 +11,10 @@
 #ifndef XINELIBOUTPUT_ADJUSTABLE_SCR_H_
 #define XINELIBOUTPUT_ADJUSTABLE_SCR_H_
 
+#include <stdint.h>
+
+#include <xine/metronom.h>
+
 /******************************* SCR *************************************
  *
  * unix System Clock Reference + fine tuning

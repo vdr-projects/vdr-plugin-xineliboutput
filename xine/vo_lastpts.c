@@ -8,6 +8,8 @@
  *
  */
 
+#include "vo_lastpts.h"
+
 #include <stdlib.h>
 
 #include <xine/xine_internal.h>
@@ -20,8 +22,6 @@
 
 #define LOG_MODULENAME "[lastpts  ] "
 #include "../logdefs.h"
-
-#include "vo_lastpts.h"
 
 /*
  *  lastpts_hook_t

@@ -16,6 +16,8 @@
 #include <vdr/tools.h>
 #include <vdr/thread.h>
 
+#include "config.h"
+
 class cXinelibStatusMonitor;
 class cXinelibThread;
 class cChannel;

@@ -11,6 +11,10 @@
 #ifndef XINELIBOUTPUT_VO_PROPS_H_
 #define XINELIBOUTPUT_VO_PROPS_H_
 
+#include <stdint.h>
+
+#include <xine/video_out.h>  // VO_CAP_*
+
 /*
  * Extended vo capabilities
  */

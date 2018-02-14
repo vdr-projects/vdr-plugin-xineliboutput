@@ -11,6 +11,12 @@
 #ifndef _DEMUX_XVDR_TS2ES_H_
 #define _DEMUX_XVDR_TS2ES_H_
 
+#include <stdint.h>
+
+#include <xine/buffer.h>
+
+#include "../tools/ts.h"  // ts_stream_type
+
 typedef struct ts2es_s ts2es_t;
 
 ts2es_t        *ts2es_init    (fifo_buffer_t *dst_fifo, ts_stream_type stream_type, unsigned stream_index);

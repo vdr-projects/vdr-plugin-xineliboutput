@@ -13,6 +13,7 @@
 
 #include <vdr/tools.h>
 #include <vdr/thread.h>
+#include <vdr/device.h>
 
 #include "xine_input_vdr_net.h" // eStreamId
 
