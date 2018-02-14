@@ -529,8 +529,7 @@ int main(int argc, char *argv[])
     }
     stderr = freopen(tty, "w", stderr);
     if (!stderr) {
-      printf("Error reopening stderr\n");
-      exit(-1);
+      EXIT("Error reopening stderr\n");
     }
   }
 #endif
@@ -561,12 +560,12 @@ int main(int argc, char *argv[])
         mrl = NULL;
         if (asprintf(&mrl, "%s//%s:%d", tmp, address, port) < 0) {
           free(tmp);
-          return -1;
+          EXIT("asprintf failed");
         }
         free(tmp);
       } else
         if (asprintf(&mrl, MRL_ID "://%s:%d", address, port) < 0)
-          return -1;
+          EXIT("asprintf failed");
     } else {
       PRINTF("---------------------------------------------------------------\n"
              "WARNING: MRL not given and server not found from local network.\n"
@@ -582,7 +581,7 @@ int main(int argc, char *argv[])
     PRINTF("WARNING: MRL does not start with \'" MRL_ID ":\' (%s)\n", mrl);
     if (asprintf(&mrl, MRL_ID "://%s", mrl) < 0) {
       free(mrl2);
-      return -1;
+      EXIT("asprintf failed");
     }
     free(mrl2);
   }
