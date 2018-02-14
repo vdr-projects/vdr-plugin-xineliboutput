@@ -263,6 +263,7 @@ int main(int argc, char *argv[])
   int c;
   int xine_finished = FE_XINE_ERROR;
   int inactivity_timer = 0;
+  int result = 0;
   char *mrl = NULL;
   char *video_driver = NULL;
   char *audio_driver = NULL;
@@ -581,6 +582,7 @@ int main(int argc, char *argv[])
              "WARNING: MRL not given and server not found from local network.\n"
              "         Trying to connect to default port on local host.\n"
              "---------------------------------------------------------------\n");
+      free(mrl);
       mrl = strdup(MRL_ID "://127.0.0.1");
     }
   }
@@ -616,7 +618,8 @@ int main(int argc, char *argv[])
     if (daemon(1, 0) == -1) {
       fprintf(stderr, "%s: %m\n", exec_name);
       LOGERR("daemon() failed");
-      return -2;
+      result = -2;
+      goto exit;
     }
   }
 #endif
@@ -625,8 +628,8 @@ int main(int argc, char *argv[])
   fe = (*fe_creator)();
   if (!fe) {
     fprintf(stderr, "Error initializing frontend\n");
-    free(mrl);
-    return -3;
+    result = -3;
+    goto exit;
   }
 
   /* Initialize display */
@@ -635,9 +638,8 @@ int main(int argc, char *argv[])
                            video_port, scale_video,
                            aspect_controller, window_id)) {
     fprintf(stderr, "Error opening display\n");
-    fe->fe_free(fe);
-    free(mrl);
-    return -4;
+    result = -4;
+    goto exit;
   }
 
   /* Initialize xine */
@@ -645,9 +647,8 @@ int main(int argc, char *argv[])
                      pes_buffers, static_post_plugins, config_file)) {
     fprintf(stderr, "Error initializing xine\n");
     list_xine_plugins(fe, SysLogLevel>2);
-    fe->fe_free(fe);
-    free(mrl);
-    return -5;
+    result = -5;
+    goto exit;
   }
   if (power_off_cmd) {
     fe->shutdown_init(fe, power_off_cmd, inactivity_timer * 60);
@@ -685,8 +686,8 @@ int main(int argc, char *argv[])
         continue;
       }
       fprintf(stderr, "Error opening %s\n", mrl);
-      fe->fe_free(fe);
-      return -6;
+      result = -6;
+      goto exit;
     }
 
     if (!fe->xine_play(fe)) {
@@ -695,8 +696,8 @@ int main(int argc, char *argv[])
         continue;
       }
       fprintf(stderr, "Error playing %s\n", argv[1]);
-      fe->fe_free(fe);
-      return -7;
+      result = -7;
+      goto exit;
     }
 
     if (firsttry) {
@@ -740,12 +741,15 @@ int main(int argc, char *argv[])
 
   fe->send_event(fe, "QUIT");
 
+ exit:
+
   /* stop input threads */
   lirc_stop(&lirc);
   cec_stop(&cec);
   kbd_stop(&kbd);
 
-  fe->fe_free(fe);
+  if (fe)
+    fe->fe_free(fe);
 
   free(static_post_plugins);
   free(mrl);
@@ -753,5 +757,5 @@ int main(int argc, char *argv[])
   free(video_driver);
   free(lirc_dev);
 
-  return xine_finished==FE_XINE_EXIT ? 0 : 1;
+  return result ? result : xine_finished==FE_XINE_EXIT ? 0 : 1;
 }
