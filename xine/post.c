@@ -36,6 +36,8 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include <xine.h>
+
 #define LOG_MODULENAME "[xine-post] "
 #include "../logdefs.h"
 
@@ -120,7 +122,7 @@ static void __pplugin_update_parameters(xine_post_t *post, char *args)
     if(pobj.properties_names && args && *args) {
       char *param;
 
-      while((param = xine_strsep(&args, ",")) != NULL) {
+      while ((param = strsep(&args, ",")) != NULL) {
 
         p = param;
 
@@ -243,7 +245,7 @@ static post_element_t **pplugin_parse_and_load(fe_t *fe,
 
     freeme = post_chain = strdup(pchain);
 
-    while((p = xine_strsep(&post_chain, ";"))) {
+    while ((p = strsep(&post_chain, ";"))) {
 
       if(p && strlen(p)) {
         char          *plugin, *args = NULL;
