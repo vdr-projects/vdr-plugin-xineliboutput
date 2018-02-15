@@ -656,15 +656,14 @@ void cUdpScheduler::Send_SAP(bool Announce)
   }
 #endif
 
-  sap_pdu_t *pdu = sap_create_pdu(local_addr,
-				  Announce, 
-				  (m_ssrc >> 16 | m_ssrc) & 0xffff,
-				  "application/sdp",
-				  (const char *)sdp_descr);
-      
-  if(!sap_send_pdu(&m_fd_sap, pdu, 0))
+  if (!sap_send_announce(&m_fd_sap, 0,
+                         local_addr,
+                         (m_ssrc >> 16 | m_ssrc) & 0xffff,
+                         Announce,
+                         "application/sdp",
+                         (const char *)sdp_descr)) {
     LOGERR("SAP/SDP announce failed");
-  free(pdu);
+  }
 
   if(!Announce)
     CLOSESOCKET(m_fd_sap);
