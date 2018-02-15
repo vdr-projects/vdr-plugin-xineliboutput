@@ -13,7 +13,6 @@
 
 #include <stdint.h>
 
-#include <vdr/tools.h>  // uchar
 #include <vdr/thread.h>
 
 #include "cxsocket.h"
@@ -40,7 +39,7 @@ class cUdpScheduler : public cThread
 
     bool Clients(void) { return m_Handles[0] >= 0; }
     int  Poll(int TimeoutMs, bool Master);
-    bool Queue(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int Length);
+    bool Queue(eStreamId StreamId, uint64_t StreamPos, const uint8_t *Data, int Length);
     void QueuePadding(void);
     void ReSend(int fd, uint64_t Pos, int Seq1, int Seq2);
 
@@ -99,7 +98,7 @@ class cUdpScheduler : public cThread
     cCondWait    m_CondWait;
 
     int          CalcElapsedVtime(int64_t pts, ScrSource_t ScrSource);
-    void         Schedule(const uchar *Data, int Length);
+    void         Schedule(const uint8_t *Data, int Length);
     void         Scheduler_Sleep(int ms);
     void         QueuePaddingInternal(void);
 

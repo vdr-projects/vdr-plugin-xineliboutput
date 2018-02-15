@@ -49,7 +49,7 @@ class cBackgroundWriterI : public cThread
     // Error:       0       (write error ; socket disconnected)
     // Buffer full: -Count  (no bytes will be pushed to queue)
     //
-    virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int DataCount) = 0;
+    virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uint8_t *Data, int DataCount) = 0;
 
     int  Free(void);           // Return largest possible Put size
     void Clear(void);          // Drop all data (only complete frames) from buffer
@@ -67,15 +67,15 @@ class cTcpWriter : public cBackgroundWriterI
   protected:
     virtual void Action(void);
 
-    int Put(const uchar *Header, int HeaderCount, 
-	    const uchar *Data,   int DataCount);
+    int Put(const uint8_t *Header, int HeaderCount,
+            const uint8_t *Data,   int DataCount);
 
   public:
     cTcpWriter(int fd, int Size = KILOBYTE(2048));
 
     virtual ~cTcpWriter() {};
 
-    virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int DataCount);
+    virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uint8_t *Data, int DataCount);
 };
 
 
@@ -93,7 +93,7 @@ class cRawWriter : public cBackgroundWriterI
     cRawWriter(int fd, int Size = KILOBYTE(512));
     virtual ~cRawWriter() {};
 
-    virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int DataCount);
+    virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uint8_t *Data, int DataCount);
 };
 
 
@@ -110,7 +110,7 @@ class cTsWriter : public cBackgroundWriterI
     cTsWriter(int fd, int Size = KILOBYTE(512));
     virtual ~cTsWriter() {};
 
-    virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int DataCount);
+    virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uint8_t *Data, int DataCount);
 };
 
 
@@ -131,7 +131,7 @@ class cRtspMuxWriter : public cBackgroundWriterI
     cRtspMuxWriter(int fd, int Size = KILOBYTE(512));
     virtual ~cRtspMuxWriter() {};
 
-    virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int DataCount);
+    virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uint8_t *Data, int DataCount);
 };
 
 
@@ -155,7 +155,7 @@ class cRtspRemuxWriter : public cBackgroundWriterI
     cRtspRemuxWriter(int fd, int Size = KILOBYTE(512));
     virtual ~cRtspRemuxWriter() {};
 
-    virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int DataCount);
+    virtual int Put(eStreamId StreamId, uint64_t StreamPos, const uint8_t *Data, int DataCount);
 };
 
 

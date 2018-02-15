@@ -84,7 +84,7 @@ class cUdpBackLog
     }
 
     stream_rtp_header_impl_t *MakeFrame(eStreamId StreamId, uint64_t StreamPos,
-                                        const uchar *Data, int DataLen)
+                                        const uint8_t *Data, int DataLen)
     {
       int UdpPacketLen = DataLen + sizeof(stream_rtp_header_impl_t);
       int BufIndex = m_SeqNo & UDP_BUFFER_MASK;
@@ -97,7 +97,7 @@ class cUdpBackLog
 
       // no buffer ? alloc it
       if(!m_UdpBuffer[BufIndex]) {
-	m_UdpBuffer[BufIndex] = (stream_rtp_header_impl_t*)new uchar[UdpPacketLen];
+        m_UdpBuffer[BufIndex] = (stream_rtp_header_impl_t*)new uint8_t[UdpPacketLen];
 	m_UdpBufLen[BufIndex] = UdpPacketLen;
       }
       m_PayloadSize[BufIndex] = DataLen;

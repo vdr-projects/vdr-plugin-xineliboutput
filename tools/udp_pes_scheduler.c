@@ -438,7 +438,7 @@ void cUdpScheduler::SetScrSpeed(const int Speed)
   m_RtpScr.SetScrSpeed(Speed);
 }
 
-bool cUdpScheduler::Queue(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int Length)
+bool cUdpScheduler::Queue(eStreamId StreamId, uint64_t StreamPos, const uint8_t *Data, int Length)
 {
   cMutexLock ml(&m_Lock);
 
@@ -673,7 +673,7 @@ void cUdpScheduler::Send_SAP(bool Announce)
 static const char ScrSourceName[][6] = {"???", "VIDEO", "PS1", "AUDIO", "PCR"};
 #endif
 
-void cUdpScheduler::Schedule(const uchar *Data, int Length)
+void cUdpScheduler::Schedule(const uint8_t *Data, int Length)
 {
   int64_t     pts       = NO_PTS;
   int         elapsed   = 0;

@@ -21,8 +21,6 @@
 #endif
 #include <netinet/tcp.h> // CORK, NODELAY
 
-#include <vdr/tools.h>
-
 #include "../logdefs.h"
 #include "../xine_input_vdr_net.h" // stream_tcp_header_t
 #include "ts.h"
@@ -169,7 +167,7 @@ void cTcpWriter::Action(void)
     uint64_t StartPos;
     int      Count = 0;
     int      n;
-    uchar   *Data = m_RingBuffer.Get(Count);
+    uint8_t *Data = m_RingBuffer.Get(Count);
 
     if (!Data || Count <= 0)
       continue;
@@ -256,17 +254,17 @@ void cTcpWriter::Action(void)
 }
 
 int cTcpWriter::Put(eStreamId StreamId, uint64_t StreamPos,
-                    const uchar *Data, int DataCount)
+                    const uint8_t *Data, int DataCount)
 {
   stream_tcp_header_t header;
   header.pos = priv_htonull(StreamPos);
   header.len = htonl(DataCount);
   header.stream = (uint8_t)StreamId;
-  return Put((uchar*)&header, sizeof(header), Data, DataCount);
+  return Put((uint8_t*)&header, sizeof(header), Data, DataCount);
 }
 
-int cTcpWriter::Put(const uchar *Header, int HeaderCount,
-                    const uchar *Data, int DataCount)
+int cTcpWriter::Put(const uint8_t *Header, int HeaderCount,
+                    const uint8_t *Data, int DataCount)
 {
   if (Running()) {
 
@@ -325,7 +323,7 @@ void cRawWriter::Action(void)
     uint64_t StartPos;
     int      Count = 0;
     int      n;
-    uchar   *Data = m_RingBuffer.Get(Count);
+    uint8_t *Data = m_RingBuffer.Get(Count);
 
     if (!Data || Count <= 0)
       continue;
@@ -398,7 +396,7 @@ void cRawWriter::Action(void)
 }
 
 int cRawWriter::Put(eStreamId StreamId, uint64_t StreamPos,
-                    const uchar *Data, int DataCount)
+                    const uint8_t *Data, int DataCount)
 {
   if (Running() && StreamId == sidVdr) {
 
@@ -447,7 +445,7 @@ void cTsWriter::Action(void)
 {
 }
 
-int cTsWriter::Put(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int DataCount)
+int cTsWriter::Put(eStreamId StreamId, uint64_t StreamPos, const uint8_t *Data, int DataCount)
 {
   return 0;
 }
@@ -472,7 +470,7 @@ void cRtspMuxWriter::Action(void)
 {
 }
 
-int cRtspMuxWriter::Put(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int DataCount)
+int cRtspMuxWriter::Put(eStreamId StreamId, uint64_t StreamPos, const uint8_t *Data, int DataCount)
 {
   return 0;
 }
@@ -500,7 +498,7 @@ void cRtspRemuxWriter::Action(void)
 {
 }
 
-int cRtspRemuxWriter::Put(eStreamId StreamId, uint64_t StreamPos, const uchar *Data, int DataCount)
+int cRtspRemuxWriter::Put(eStreamId StreamId, uint64_t StreamPos, const uint8_t *Data, int DataCount)
 {
   return 0;
 }
