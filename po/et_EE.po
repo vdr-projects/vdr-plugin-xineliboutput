@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xineliboutput 1.1.0\n"
 "Report-Msgid-Bugs-To: <phintuka@users.sourceforge.net>\n"
-"POT-Creation-Date: 2015-04-22 11:16+0300\n"
+"POT-Creation-Date: 2018-02-15 12:25+0200\n"
 "PO-Revision-Date: 2008-10-06 11:19+0200\n"
 "Last-Translator: Arthur Konovalov\n"
 "Language-Team: Estonian <vdr@linuxtv.org>\n"
@@ -15,109 +15,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "Play movie title"
-msgstr ""
-
-msgid "Play disc"
-msgstr ""
-
-msgid "Images"
-msgstr "Pildid"
-
-msgid "Play music"
-msgstr "Muusika esitamine"
-
-msgid "Add to playlist"
-msgstr "Lisada esitusnimekirja"
-
-msgid "Play file"
-msgstr "Faili esitamine"
-
-msgid "Button$Queue"
-msgstr "Esitusnimekiri"
-
-msgid "Media"
-msgstr "Meedia"
-
-msgid "View images"
-msgstr "Piltide kuvamine"
-
-msgid "Play DVD disc"
-msgstr "DVD plaadi esitamine"
-
-msgid "Play BluRay disc"
-msgstr "BluRay plaadi esitamine"
-
-msgid "Play audio CD"
-msgstr "CD plaadi esitamine"
-
-msgid "Video settings"
-msgstr "Videoseaded"
-
-msgid "Play only audio"
-msgstr "Ainult heli esitamine"
-
-msgid "Crop letterbox 4:3 to 16:9"
-msgstr "4:3-letterbox 16:9:ks kärpimine"
-
-msgid "Overscan (crop image borders)"
-msgstr "Pildiservade kärpimine (overscan)"
-
-msgid "Off"
-msgstr "väljas"
-
-msgid "Audio settings"
-msgstr "Heliseaded"
-
-msgid "Audio Compression"
-msgstr "Heli kompresseerimine"
-
-msgid "Audio equalizer"
-msgstr "Ekvalaiser"
-
-msgid "Local Frontend"
-msgstr "Lokaalne liides"
-
-msgid "Aspect ratio"
-msgstr "Külgsuhe"
-
-msgid "Video aspect ratio"
-msgstr "Video külgsuhe"
-
-msgid "automatic"
-msgstr "automaatne"
-
-msgid "On"
-msgstr "sees"
-
-msgid "Deinterlacing"
-msgstr "Deinterlace"
-
-msgid "Upmix stereo to 5.1"
-msgstr "Stereo 5.1-ks miksimine"
-
-msgid "Downmix AC3 to surround"
-msgstr "AC3 surroundiks miksimine"
-
-msgid "Default playlist not found"
-msgstr "Vaikimisi esitusnimekiri ei ole leitav"
-
-msgid "Default playlist is not symlink"
-msgstr "Vaikimisi esitusnimekiri ei ole symbollink"
-
-msgid "Default playlist not defined"
-msgstr "Vaikimisi esitusnimekiri määritlemata"
-
-msgid "Delay"
-msgstr "Viivitus"
-
-msgid "ms"
-msgstr "ms"
-
-#, c-format
-msgid "xineliboutput: hotkey %s not binded"
-msgstr "xineliboutput: kiirklahv %s sidumata"
 
 msgid "Audio"
 msgstr "Heli"
@@ -130,6 +27,24 @@ msgstr "raualine"
 
 msgid "Software"
 msgstr "tarkvaraline"
+
+msgid "Delay"
+msgstr "Viivitus"
+
+msgid "ms"
+msgstr "ms"
+
+msgid "Off"
+msgstr "väljas"
+
+msgid "Audio Compression"
+msgstr "Heli kompresseerimine"
+
+msgid "Upmix stereo to 5.1"
+msgstr "Stereo 5.1-ks miksimine"
+
+msgid "Downmix AC3 to surround"
+msgstr "AC3 surroundiks miksimine"
 
 msgid "Mix to headphones"
 msgstr "Miksimine kuularitesse"
@@ -178,6 +93,12 @@ msgstr "pool (alumine)"
 
 msgid "Video"
 msgstr "Video"
+
+msgid "Aspect ratio"
+msgstr "Külgsuhe"
+
+msgid "Crop letterbox 4:3 to 16:9"
+msgstr "4:3-letterbox 16:9:ks kärpimine"
 
 msgid "Use driver crop"
 msgstr ""
@@ -233,6 +154,9 @@ msgstr "Videosuuruse muutmine"
 msgid "Allow downscaling"
 msgstr "Allaskaleerimise lubamine"
 
+msgid "Overscan (crop image borders)"
+msgstr "Pildiservade kärpimine (overscan)"
+
 msgid "Post processing (ffmpeg)"
 msgstr "Järeltöötlus (ffmpeg)"
 
@@ -241,6 +165,9 @@ msgstr "Kvaliteet"
 
 msgid "Mode"
 msgstr "Mudel"
+
+msgid "Deinterlacing"
+msgstr "Deinterlace"
 
 msgid "Method"
 msgstr "Meetod"
@@ -367,6 +294,9 @@ msgstr "Puhvri suurus"
 
 msgid "Number of PES packets"
 msgstr "PES-pakettide määr"
+
+msgid "Local Frontend"
+msgstr "Lokaalne liides"
 
 msgid "Local Display Frontend"
 msgstr "Lokaalne ekraaniliides"
@@ -500,6 +430,30 @@ msgstr ""
 msgid "Media Player"
 msgstr "Meediapleier"
 
+msgid "Play file"
+msgstr "Faili esitamine"
+
+msgid "Play music"
+msgstr "Muusika esitamine"
+
+msgid "View images"
+msgstr "Piltide kuvamine"
+
+msgid "Play DVD disc"
+msgstr "DVD plaadi esitamine"
+
+msgid "Play audio CD"
+msgstr "CD plaadi esitamine"
+
+msgid "Play BluRay disc"
+msgstr "BluRay plaadi esitamine"
+
+msgid "Video settings"
+msgstr "Videoseaded"
+
+msgid "Audio settings"
+msgstr "Heliseaded"
+
 msgid "Grayscale"
 msgstr "Halltoonid"
 
@@ -512,77 +466,54 @@ msgstr "Ekraanimenüü"
 msgid "Test Images"
 msgstr "Testipildid"
 
-msgid "X11/xine-lib output plugin"
-msgstr "X11/xine-lib kuvar"
+msgid "Play movie title"
+msgstr ""
 
-msgid "Frontend initialization failed"
-msgstr "Liidese lähtestamine nurjus"
+msgid "Play disc"
+msgstr ""
 
-msgid "Server initialization failed"
-msgstr "Serveri lätestamine nurjus"
+msgid "Images"
+msgstr "Pildid"
 
-msgid "Playlist"
+msgid "Add to playlist"
+msgstr "Lisada esitusnimekirja"
+
+msgid "Button$Queue"
 msgstr "Esitusnimekiri"
 
-msgid "Button$Random"
-msgstr "Juhuslik"
+msgid "Media"
+msgstr "Meedia"
 
-msgid "Button$Normal"
-msgstr "Normaalne"
+msgid "Play only audio"
+msgstr "Ainult heli esitamine"
 
-msgid "Button$Add files"
-msgstr "Lisada"
+msgid "Audio equalizer"
+msgstr "Ekvalaiser"
 
-msgid "Button$Remove"
-msgstr "Eemaldada"
+msgid "Video aspect ratio"
+msgstr "Video külgsuhe"
 
-msgid "Button$Mark"
-msgstr ""
+msgid "automatic"
+msgstr "automaatne"
 
-msgid "Queued to playlist"
-msgstr "Lisatud esitusnimekirja"
+msgid "On"
+msgstr "sees"
 
-msgid "Random play"
-msgstr "Juhuesitus"
+msgid "Default playlist not found"
+msgstr "Vaikimisi esitusnimekiri ei ole leitav"
 
-msgid "Normal play"
-msgstr "Normaalne esitus"
+msgid "Default playlist is not symlink"
+msgstr "Vaikimisi esitusnimekiri ei ole symbollink"
 
-msgid "DVD Menu"
-msgstr "DVD menüü"
+msgid "Default playlist not defined"
+msgstr "Vaikimisi esitusnimekiri määritlemata"
 
-msgid "Exit DVD menu"
-msgstr "Väljumine DVD menüüst"
+#, c-format
+msgid "xineliboutput: hotkey %s not binded"
+msgstr "xineliboutput: kiirklahv %s sidumata"
 
-msgid "DVD Root menu"
-msgstr "DVD juurmenüü"
-
-msgid "DVD Title menu"
-msgstr "DVD peamemüü"
-
-msgid "DVD SPU menu"
-msgstr "DVD SPU menüü"
-
-msgid "DVD Audio menu"
-msgstr "DVD audio menüü"
-
-msgid "Close menu"
-msgstr "Menüü sulgemine"
-
-msgid "BluRay Top menu"
-msgstr ""
-
-msgid "Toggle Pop-Up menu"
-msgstr ""
-
-msgid "Next title"
-msgstr ""
-
-msgid "Previous title"
-msgstr ""
-
-msgid "Delete image ?"
-msgstr "Kustutada pilt ?"
+msgid "X11/xine-lib output plugin"
+msgstr "X11/xine-lib kuvar"
 
 msgid "custom"
 msgstr "oma"
@@ -727,6 +658,75 @@ msgstr ""
 
 msgid "all"
 msgstr "kõik"
+
+msgid "Frontend initialization failed"
+msgstr "Liidese lähtestamine nurjus"
+
+msgid "Server initialization failed"
+msgstr "Serveri lätestamine nurjus"
+
+msgid "Playlist"
+msgstr "Esitusnimekiri"
+
+msgid "Button$Random"
+msgstr "Juhuslik"
+
+msgid "Button$Normal"
+msgstr "Normaalne"
+
+msgid "Button$Add files"
+msgstr "Lisada"
+
+msgid "Button$Remove"
+msgstr "Eemaldada"
+
+msgid "Button$Mark"
+msgstr ""
+
+msgid "Queued to playlist"
+msgstr "Lisatud esitusnimekirja"
+
+msgid "Random play"
+msgstr "Juhuesitus"
+
+msgid "Normal play"
+msgstr "Normaalne esitus"
+
+msgid "DVD Menu"
+msgstr "DVD menüü"
+
+msgid "Exit DVD menu"
+msgstr "Väljumine DVD menüüst"
+
+msgid "DVD Root menu"
+msgstr "DVD juurmenüü"
+
+msgid "DVD Title menu"
+msgstr "DVD peamemüü"
+
+msgid "DVD SPU menu"
+msgstr "DVD SPU menüü"
+
+msgid "DVD Audio menu"
+msgstr "DVD audio menüü"
+
+msgid "Close menu"
+msgstr "Menüü sulgemine"
+
+msgid "BluRay Top menu"
+msgstr ""
+
+msgid "Toggle Pop-Up menu"
+msgstr ""
+
+msgid "Next title"
+msgstr ""
+
+msgid "Previous title"
+msgstr ""
+
+msgid "Delete image ?"
+msgstr "Kustutada pilt ?"
 
 #~ msgid "normal"
 #~ msgstr "normaalne"

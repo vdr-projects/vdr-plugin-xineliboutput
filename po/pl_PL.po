@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xineliboutput 1.1.0\n"
 "Report-Msgid-Bugs-To: <phintuka@users.sourceforge.net>\n"
-"POT-Creation-Date: 2015-04-22 11:16+0300\n"
+"POT-Creation-Date: 2018-02-15 12:25+0200\n"
 "PO-Revision-Date: 2014-11-16 20:03+0100\n"
 "Last-Translator: Tomasz Maciej Nowak <tomek_n@o2.pl>\n"
 "Language-Team: Polish <vdr@linuxtv.org>\n"
@@ -16,109 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.10\n"
-
-msgid "Play movie title"
-msgstr "Odtwarzaj film"
-
-msgid "Play disc"
-msgstr "Odtwarzaj dysk"
-
-msgid "Images"
-msgstr "Zdjęcia"
-
-msgid "Play music"
-msgstr "Odtwarzaj muzykę"
-
-msgid "Add to playlist"
-msgstr "Dodaj do listy odtwarzania"
-
-msgid "Play file"
-msgstr "Odtwarzaj plik"
-
-msgid "Button$Queue"
-msgstr "Zakolejkuj"
-
-msgid "Media"
-msgstr "Media"
-
-msgid "View images"
-msgstr "Wyświetlaj zdjęcia"
-
-msgid "Play DVD disc"
-msgstr "Odtwarzaj DVD"
-
-msgid "Play BluRay disc"
-msgstr "Odtwarzaj BluRay"
-
-msgid "Play audio CD"
-msgstr "Odtwarzaj CD"
-
-msgid "Video settings"
-msgstr "Ustawienia obrazu"
-
-msgid "Play only audio"
-msgstr "Odtwarzaj tylko dźwięk"
-
-msgid "Crop letterbox 4:3 to 16:9"
-msgstr "Przytnij letterbox z 4:3 na 16:9"
-
-msgid "Overscan (crop image borders)"
-msgstr "Przycięcie krawędzi obrazu"
-
-msgid "Off"
-msgstr "Wyłączone"
-
-msgid "Audio settings"
-msgstr "Ustawienia dźwięku"
-
-msgid "Audio Compression"
-msgstr "Kompresja dźwięku"
-
-msgid "Audio equalizer"
-msgstr "Equalizer dźwięku"
-
-msgid "Local Frontend"
-msgstr "Klienci lokalni"
-
-msgid "Aspect ratio"
-msgstr "Proporcje obrazu"
-
-msgid "Video aspect ratio"
-msgstr "Proporcje obrazu wideo"
-
-msgid "automatic"
-msgstr "automatyczne"
-
-msgid "On"
-msgstr "Włączone"
-
-msgid "Deinterlacing"
-msgstr "Usuwanie przeplotu"
-
-msgid "Upmix stereo to 5.1"
-msgstr "Miksuj stereo do 5.1"
-
-msgid "Downmix AC3 to surround"
-msgstr "Miksuj AC3 do Surround"
-
-msgid "Default playlist not found"
-msgstr "Nie odnaleziono standardowej listy odtwarzania"
-
-msgid "Default playlist is not symlink"
-msgstr "Standardowa lista odtwarzania to nie symlink"
-
-msgid "Default playlist not defined"
-msgstr "Nie zdefiniowano standardowej listy odtwarzania"
-
-msgid "Delay"
-msgstr "Opóźnienie"
-
-msgid "ms"
-msgstr "ms"
-
-#, c-format
-msgid "xineliboutput: hotkey %s not binded"
-msgstr "xineliboutput: klawisz %s nie jest przypisany"
 
 msgid "Audio"
 msgstr "Dźwięk"
@@ -131,6 +28,24 @@ msgstr "Sprzętowo"
 
 msgid "Software"
 msgstr "Programowo"
+
+msgid "Delay"
+msgstr "Opóźnienie"
+
+msgid "ms"
+msgstr "ms"
+
+msgid "Off"
+msgstr "Wyłączone"
+
+msgid "Audio Compression"
+msgstr "Kompresja dźwięku"
+
+msgid "Upmix stereo to 5.1"
+msgstr "Miksuj stereo do 5.1"
+
+msgid "Downmix AC3 to surround"
+msgstr "Miksuj AC3 do Surround"
 
 msgid "Mix to headphones"
 msgstr "Przełącz na słuchawki"
@@ -179,6 +94,12 @@ msgstr "połowa (dół)"
 
 msgid "Video"
 msgstr "Obraz"
+
+msgid "Aspect ratio"
+msgstr "Proporcje obrazu"
+
+msgid "Crop letterbox 4:3 to 16:9"
+msgstr "Przytnij letterbox z 4:3 na 16:9"
 
 msgid "Use driver crop"
 msgstr "Użyj przycięcia"
@@ -237,6 +158,9 @@ msgstr "Zmień rozmiar obrazu"
 msgid "Allow downscaling"
 msgstr "Pozwól na zmniejszenie"
 
+msgid "Overscan (crop image borders)"
+msgstr "Przycięcie krawędzi obrazu"
+
 msgid "Post processing (ffmpeg)"
 msgstr "Przetwarzanie końcowe (ffmpeg)"
 
@@ -245,6 +169,9 @@ msgstr "Jakość"
 
 msgid "Mode"
 msgstr "Tryb"
+
+msgid "Deinterlacing"
+msgstr "Usuwanie przeplotu"
 
 msgid "Method"
 msgstr "Metoda"
@@ -372,6 +299,9 @@ msgstr "Rozmiar bufora"
 
 msgid "Number of PES packets"
 msgstr "Liczba pakietów PES"
+
+msgid "Local Frontend"
+msgstr "Klienci lokalni"
 
 msgid "Local Display Frontend"
 msgstr "Lokalny klient emisji"
@@ -505,6 +435,30 @@ msgstr "Pamiętaj miejsce zatrzymania odtwarzania"
 msgid "Media Player"
 msgstr "Odtwarzacz multimediów"
 
+msgid "Play file"
+msgstr "Odtwarzaj plik"
+
+msgid "Play music"
+msgstr "Odtwarzaj muzykę"
+
+msgid "View images"
+msgstr "Wyświetlaj zdjęcia"
+
+msgid "Play DVD disc"
+msgstr "Odtwarzaj DVD"
+
+msgid "Play audio CD"
+msgstr "Odtwarzaj CD"
+
+msgid "Play BluRay disc"
+msgstr "Odtwarzaj BluRay"
+
+msgid "Video settings"
+msgstr "Ustawienia obrazu"
+
+msgid "Audio settings"
+msgstr "Ustawienia dźwięku"
+
 msgid "Grayscale"
 msgstr "Odcień szarości"
 
@@ -517,77 +471,54 @@ msgstr "OSD"
 msgid "Test Images"
 msgstr "Obrazy testowe"
 
+msgid "Play movie title"
+msgstr "Odtwarzaj film"
+
+msgid "Play disc"
+msgstr "Odtwarzaj dysk"
+
+msgid "Images"
+msgstr "Zdjęcia"
+
+msgid "Add to playlist"
+msgstr "Dodaj do listy odtwarzania"
+
+msgid "Button$Queue"
+msgstr "Zakolejkuj"
+
+msgid "Media"
+msgstr "Media"
+
+msgid "Play only audio"
+msgstr "Odtwarzaj tylko dźwięk"
+
+msgid "Audio equalizer"
+msgstr "Equalizer dźwięku"
+
+msgid "Video aspect ratio"
+msgstr "Proporcje obrazu wideo"
+
+msgid "automatic"
+msgstr "automatyczne"
+
+msgid "On"
+msgstr "Włączone"
+
+msgid "Default playlist not found"
+msgstr "Nie odnaleziono standardowej listy odtwarzania"
+
+msgid "Default playlist is not symlink"
+msgstr "Standardowa lista odtwarzania to nie symlink"
+
+msgid "Default playlist not defined"
+msgstr "Nie zdefiniowano standardowej listy odtwarzania"
+
+#, c-format
+msgid "xineliboutput: hotkey %s not binded"
+msgstr "xineliboutput: klawisz %s nie jest przypisany"
+
 msgid "X11/xine-lib output plugin"
 msgstr "Emisja poprzez X11/xine-lib"
-
-msgid "Frontend initialization failed"
-msgstr "Inicjalizacja klienta nie powiodła się"
-
-msgid "Server initialization failed"
-msgstr "Inicjalizacja serwera nie powiodła się"
-
-msgid "Playlist"
-msgstr "Lista odtwarzania"
-
-msgid "Button$Random"
-msgstr "Losowo"
-
-msgid "Button$Normal"
-msgstr "Standardowe"
-
-msgid "Button$Add files"
-msgstr "Dodaj pliki"
-
-msgid "Button$Remove"
-msgstr "Usuń"
-
-msgid "Button$Mark"
-msgstr "Zaznacz"
-
-msgid "Queued to playlist"
-msgstr "Dodane do listy odtwarzania"
-
-msgid "Random play"
-msgstr "Odtwarzanie losowe"
-
-msgid "Normal play"
-msgstr "Odtwarzanie"
-
-msgid "DVD Menu"
-msgstr "Menu DVD"
-
-msgid "Exit DVD menu"
-msgstr "Wyjdź z menu DVD"
-
-msgid "DVD Root menu"
-msgstr "Menu główne DVD"
-
-msgid "DVD Title menu"
-msgstr "Menu tytułów DVD"
-
-msgid "DVD SPU menu"
-msgstr "Menu SPU DVD"
-
-msgid "DVD Audio menu"
-msgstr "Menu dźwięku DVD"
-
-msgid "Close menu"
-msgstr "Zamknij menu"
-
-msgid "BluRay Top menu"
-msgstr "Menu główne BluRay"
-
-msgid "Toggle Pop-Up menu"
-msgstr "Przełącz na menu Pop-Up"
-
-msgid "Next title"
-msgstr "Następny tytuł"
-
-msgid "Previous title"
-msgstr "Poprzedni tytuł"
-
-msgid "Delete image ?"
-msgstr "Usunąć zdjęcie?"
 
 msgid "custom"
 msgstr "własny"
@@ -733,6 +664,75 @@ msgstr "bez klucza"
 
 msgid "all"
 msgstr "wszystko"
+
+msgid "Frontend initialization failed"
+msgstr "Inicjalizacja klienta nie powiodła się"
+
+msgid "Server initialization failed"
+msgstr "Inicjalizacja serwera nie powiodła się"
+
+msgid "Playlist"
+msgstr "Lista odtwarzania"
+
+msgid "Button$Random"
+msgstr "Losowo"
+
+msgid "Button$Normal"
+msgstr "Standardowe"
+
+msgid "Button$Add files"
+msgstr "Dodaj pliki"
+
+msgid "Button$Remove"
+msgstr "Usuń"
+
+msgid "Button$Mark"
+msgstr "Zaznacz"
+
+msgid "Queued to playlist"
+msgstr "Dodane do listy odtwarzania"
+
+msgid "Random play"
+msgstr "Odtwarzanie losowe"
+
+msgid "Normal play"
+msgstr "Odtwarzanie"
+
+msgid "DVD Menu"
+msgstr "Menu DVD"
+
+msgid "Exit DVD menu"
+msgstr "Wyjdź z menu DVD"
+
+msgid "DVD Root menu"
+msgstr "Menu główne DVD"
+
+msgid "DVD Title menu"
+msgstr "Menu tytułów DVD"
+
+msgid "DVD SPU menu"
+msgstr "Menu SPU DVD"
+
+msgid "DVD Audio menu"
+msgstr "Menu dźwięku DVD"
+
+msgid "Close menu"
+msgstr "Zamknij menu"
+
+msgid "BluRay Top menu"
+msgstr "Menu główne BluRay"
+
+msgid "Toggle Pop-Up menu"
+msgstr "Przełącz na menu Pop-Up"
+
+msgid "Next title"
+msgstr "Następny tytuł"
+
+msgid "Previous title"
+msgstr "Poprzedni tytuł"
+
+msgid "Delete image ?"
+msgstr "Usunąć zdjęcie?"
 
 #~ msgid "normal"
 #~ msgstr "Normalne"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xineliboutput 1.1.0\n"
 "Report-Msgid-Bugs-To: <phintuka@users.sourceforge.net>\n"
-"POT-Creation-Date: 2015-04-22 11:16+0300\n"
+"POT-Creation-Date: 2018-02-15 12:25+0200\n"
 "PO-Revision-Date: 2008-10-06 11:19+0200\n"
 "Last-Translator: Rolf Ahrenberg\n"
 "Language-Team: Finnish <vdr@linuxtv.org>\n"
@@ -16,109 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "Play movie title"
-msgstr "Toista elokuva"
-
-msgid "Play disc"
-msgstr "Toista levy"
-
-msgid "Images"
-msgstr "Kuvat"
-
-msgid "Play music"
-msgstr "Toista musiikkia"
-
-msgid "Add to playlist"
-msgstr "Lisää soittolistalle"
-
-msgid "Play file"
-msgstr "Toista tiedosto"
-
-msgid "Button$Queue"
-msgstr "Soittolistalle"
-
-msgid "Media"
-msgstr "Media"
-
-msgid "View images"
-msgstr "Katsele kuvia"
-
-msgid "Play DVD disc"
-msgstr "Toista DVD-levy"
-
-msgid "Play BluRay disc"
-msgstr "Toista BluRay-levy"
-
-msgid "Play audio CD"
-msgstr "Toista CD-levy"
-
-msgid "Video settings"
-msgstr "Videoasetukset"
-
-msgid "Play only audio"
-msgstr "Toista pelkkä ääni"
-
-msgid "Crop letterbox 4:3 to 16:9"
-msgstr "Leikkaa 4:3-letterbox 16:9:ksi"
-
-msgid "Overscan (crop image borders)"
-msgstr "Leikkaa kuvan reunoja (overscan)"
-
-msgid "Off"
-msgstr "ei käytössä"
-
-msgid "Audio settings"
-msgstr "Ääniasetukset"
-
-msgid "Audio Compression"
-msgstr "Voimista hiljaisia ääniä"
-
-msgid "Audio equalizer"
-msgstr "Taajuuskorjain"
-
-msgid "Local Frontend"
-msgstr "Paikallinen näyttö"
-
-msgid "Aspect ratio"
-msgstr "Kuvasuhde"
-
-msgid "Video aspect ratio"
-msgstr "Videon kuvasuhde"
-
-msgid "automatic"
-msgstr "automaattinen"
-
-msgid "On"
-msgstr "Käytössä"
-
-msgid "Deinterlacing"
-msgstr "Lomituksen poisto"
-
-msgid "Upmix stereo to 5.1"
-msgstr "Miksaa stereoääni 5.1-kanavaiseksi"
-
-msgid "Downmix AC3 to surround"
-msgstr "Miksaa AC3-ääni surroundiksi"
-
-msgid "Default playlist not found"
-msgstr "Oletussoittolistaa ei löydetä"
-
-msgid "Default playlist is not symlink"
-msgstr "Oletussoittolista ei ole symbolinen linkki"
-
-msgid "Default playlist not defined"
-msgstr "Oletussoittolistaa ei ole määritelty"
-
-msgid "Delay"
-msgstr "Viive"
-
-msgid "ms"
-msgstr "ms"
-
-#, c-format
-msgid "xineliboutput: hotkey %s not binded"
-msgstr "xineliboutput: pikanäppäintä %s ei ole kytketty"
 
 msgid "Audio"
 msgstr "Ääni"
@@ -131,6 +28,24 @@ msgstr "laitteistolla"
 
 msgid "Software"
 msgstr "ohjelmallisesti"
+
+msgid "Delay"
+msgstr "Viive"
+
+msgid "ms"
+msgstr "ms"
+
+msgid "Off"
+msgstr "ei käytössä"
+
+msgid "Audio Compression"
+msgstr "Voimista hiljaisia ääniä"
+
+msgid "Upmix stereo to 5.1"
+msgstr "Miksaa stereoääni 5.1-kanavaiseksi"
+
+msgid "Downmix AC3 to surround"
+msgstr "Miksaa AC3-ääni surroundiksi"
 
 msgid "Mix to headphones"
 msgstr "Miksaa kuulokkeille"
@@ -179,6 +94,12 @@ msgstr "ylempi puolisko"
 
 msgid "Video"
 msgstr "Kuva"
+
+msgid "Aspect ratio"
+msgstr "Kuvasuhde"
+
+msgid "Crop letterbox 4:3 to 16:9"
+msgstr "Leikkaa 4:3-letterbox 16:9:ksi"
 
 msgid "Use driver crop"
 msgstr "Leikkaa videoajurilla"
@@ -234,6 +155,9 @@ msgstr "Muuta videokuvan kokoa"
 msgid "Allow downscaling"
 msgstr "Salli skaalaus pienemmäksi"
 
+msgid "Overscan (crop image borders)"
+msgstr "Leikkaa kuvan reunoja (overscan)"
+
 msgid "Post processing (ffmpeg)"
 msgstr "Käytä jälkikäsittelyä (ffmpeg)"
 
@@ -242,6 +166,9 @@ msgstr "Laatu"
 
 msgid "Mode"
 msgstr "Moodi"
+
+msgid "Deinterlacing"
+msgstr "Lomituksen poisto"
 
 msgid "Method"
 msgstr "Menetelmä"
@@ -368,6 +295,9 @@ msgstr "Puskurin koko"
 
 msgid "Number of PES packets"
 msgstr "PES-pakettien lukumäärä"
+
+msgid "Local Frontend"
+msgstr "Paikallinen näyttö"
 
 msgid "Local Display Frontend"
 msgstr "Paikallinen näyttö"
@@ -501,6 +431,30 @@ msgstr "Muista edellinen toistokohta"
 msgid "Media Player"
 msgstr "Mediasoitin"
 
+msgid "Play file"
+msgstr "Toista tiedosto"
+
+msgid "Play music"
+msgstr "Toista musiikkia"
+
+msgid "View images"
+msgstr "Katsele kuvia"
+
+msgid "Play DVD disc"
+msgstr "Toista DVD-levy"
+
+msgid "Play audio CD"
+msgstr "Toista CD-levy"
+
+msgid "Play BluRay disc"
+msgstr "Toista BluRay-levy"
+
+msgid "Video settings"
+msgstr "Videoasetukset"
+
+msgid "Audio settings"
+msgstr "Ääniasetukset"
+
 msgid "Grayscale"
 msgstr "Harmaasävy"
 
@@ -513,77 +467,54 @@ msgstr "Kuvaruutunäyttö"
 msgid "Test Images"
 msgstr "Testikuvat"
 
+msgid "Play movie title"
+msgstr "Toista elokuva"
+
+msgid "Play disc"
+msgstr "Toista levy"
+
+msgid "Images"
+msgstr "Kuvat"
+
+msgid "Add to playlist"
+msgstr "Lisää soittolistalle"
+
+msgid "Button$Queue"
+msgstr "Soittolistalle"
+
+msgid "Media"
+msgstr "Media"
+
+msgid "Play only audio"
+msgstr "Toista pelkkä ääni"
+
+msgid "Audio equalizer"
+msgstr "Taajuuskorjain"
+
+msgid "Video aspect ratio"
+msgstr "Videon kuvasuhde"
+
+msgid "automatic"
+msgstr "automaattinen"
+
+msgid "On"
+msgstr "Käytössä"
+
+msgid "Default playlist not found"
+msgstr "Oletussoittolistaa ei löydetä"
+
+msgid "Default playlist is not symlink"
+msgstr "Oletussoittolista ei ole symbolinen linkki"
+
+msgid "Default playlist not defined"
+msgstr "Oletussoittolistaa ei ole määritelty"
+
+#, c-format
+msgid "xineliboutput: hotkey %s not binded"
+msgstr "xineliboutput: pikanäppäintä %s ei ole kytketty"
+
 msgid "X11/xine-lib output plugin"
 msgstr "X11/xine-lib näyttölaite"
-
-msgid "Frontend initialization failed"
-msgstr "Näyttölaitteen alustus epäonnistui"
-
-msgid "Server initialization failed"
-msgstr "Palvelimen käynnistys epäonnistui"
-
-msgid "Playlist"
-msgstr "Soittolista"
-
-msgid "Button$Random"
-msgstr "Satunnaistoisto"
-
-msgid "Button$Normal"
-msgstr "Normaali toisto"
-
-msgid "Button$Add files"
-msgstr "Lisää"
-
-msgid "Button$Remove"
-msgstr "Poista"
-
-msgid "Button$Mark"
-msgstr "Merkitse"
-
-msgid "Queued to playlist"
-msgstr "Lisätty soittolistalle"
-
-msgid "Random play"
-msgstr "Satunnaistoisto"
-
-msgid "Normal play"
-msgstr "Normaali toisto"
-
-msgid "DVD Menu"
-msgstr "DVD-valikot"
-
-msgid "Exit DVD menu"
-msgstr "Sulje DVD:n valikko"
-
-msgid "DVD Root menu"
-msgstr "DVD:n päävalikko"
-
-msgid "DVD Title menu"
-msgstr "DVD:n ohjelmavalikko"
-
-msgid "DVD SPU menu"
-msgstr "DVD:n tekstitysvalikko"
-
-msgid "DVD Audio menu"
-msgstr "DVD:n äänivalikko"
-
-msgid "Close menu"
-msgstr "Sulje valikko"
-
-msgid "BluRay Top menu"
-msgstr "BluRay-levyn päävalikko"
-
-msgid "Toggle Pop-Up menu"
-msgstr ""
-
-msgid "Next title"
-msgstr ""
-
-msgid "Previous title"
-msgstr ""
-
-msgid "Delete image ?"
-msgstr "Poistetaanko kuva ?"
 
 msgid "custom"
 msgstr "oma"
@@ -728,6 +659,75 @@ msgstr "ei avainruutuja"
 
 msgid "all"
 msgstr "kaikki"
+
+msgid "Frontend initialization failed"
+msgstr "Näyttölaitteen alustus epäonnistui"
+
+msgid "Server initialization failed"
+msgstr "Palvelimen käynnistys epäonnistui"
+
+msgid "Playlist"
+msgstr "Soittolista"
+
+msgid "Button$Random"
+msgstr "Satunnaistoisto"
+
+msgid "Button$Normal"
+msgstr "Normaali toisto"
+
+msgid "Button$Add files"
+msgstr "Lisää"
+
+msgid "Button$Remove"
+msgstr "Poista"
+
+msgid "Button$Mark"
+msgstr "Merkitse"
+
+msgid "Queued to playlist"
+msgstr "Lisätty soittolistalle"
+
+msgid "Random play"
+msgstr "Satunnaistoisto"
+
+msgid "Normal play"
+msgstr "Normaali toisto"
+
+msgid "DVD Menu"
+msgstr "DVD-valikot"
+
+msgid "Exit DVD menu"
+msgstr "Sulje DVD:n valikko"
+
+msgid "DVD Root menu"
+msgstr "DVD:n päävalikko"
+
+msgid "DVD Title menu"
+msgstr "DVD:n ohjelmavalikko"
+
+msgid "DVD SPU menu"
+msgstr "DVD:n tekstitysvalikko"
+
+msgid "DVD Audio menu"
+msgstr "DVD:n äänivalikko"
+
+msgid "Close menu"
+msgstr "Sulje valikko"
+
+msgid "BluRay Top menu"
+msgstr "BluRay-levyn päävalikko"
+
+msgid "Toggle Pop-Up menu"
+msgstr ""
+
+msgid "Next title"
+msgstr ""
+
+msgid "Previous title"
+msgstr ""
+
+msgid "Delete image ?"
+msgstr "Poistetaanko kuva ?"
 
 #~ msgid "normal"
 #~ msgstr "normaali"

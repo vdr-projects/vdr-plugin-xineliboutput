@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xineliboutput 1.1.0\n"
 "Report-Msgid-Bugs-To: <phintuka@users.sourceforge.net>\n"
-"POT-Creation-Date: 2015-04-22 11:16+0300\n"
+"POT-Creation-Date: 2018-02-15 12:25+0200\n"
 "PO-Revision-Date: 2012-11-29 13:34+0100\n"
 "Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
 "Language-Team: Ukrainian <vdr@linuxtv.org>\n"
@@ -16,109 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\\n\n"
-
-msgid "Play movie title"
-msgstr "Програвати кінострічку"
-
-msgid "Play disc"
-msgstr "Програвати диск"
-
-msgid "Images"
-msgstr "Малюнки"
-
-msgid "Play music"
-msgstr "Програвати музику"
-
-msgid "Add to playlist"
-msgstr "Додати до списку програвання"
-
-msgid "Play file"
-msgstr "Програвати файл"
-
-msgid "Button$Queue"
-msgstr "Черга"
-
-msgid "Media"
-msgstr "Медіа"
-
-msgid "View images"
-msgstr "Переглядати зображення"
-
-msgid "Play DVD disc"
-msgstr "Програвати диск DVD"
-
-msgid "Play BluRay disc"
-msgstr "Програвати диск  BluRay"
-
-msgid "Play audio CD"
-msgstr "Програвати аудіо CD"
-
-msgid "Video settings"
-msgstr "Налаштування відео"
-
-msgid "Play only audio"
-msgstr "Програвати тільки аудіо"
-
-msgid "Crop letterbox 4:3 to 16:9"
-msgstr "Змінити зображення з 4:3 до 16:9"
-
-msgid "Overscan (crop image borders)"
-msgstr "Пересканувати (обрізати границі зображення)"
-
-msgid "Off"
-msgstr "Виключити"
-
-msgid "Audio settings"
-msgstr "Налаштування аудіо"
-
-msgid "Audio Compression"
-msgstr "Компресія аудіо"
-
-msgid "Audio equalizer"
-msgstr "Аудіо еквалайзер"
-
-msgid "Local Frontend"
-msgstr "Локальний фронтенд"
-
-msgid "Aspect ratio"
-msgstr "Пропорція"
-
-msgid "Video aspect ratio"
-msgstr "Пропорція відео"
-
-msgid "automatic"
-msgstr "автоматично"
-
-msgid "On"
-msgstr "Вкл"
-
-msgid "Deinterlacing"
-msgstr "Деінтерлесінг"
-
-msgid "Upmix stereo to 5.1"
-msgstr "Перетворити стерео до 5.1"
-
-msgid "Downmix AC3 to surround"
-msgstr "Перетворити AC3 до surround"
-
-msgid "Default playlist not found"
-msgstr "Типовий список програвання не знайдено"
-
-msgid "Default playlist is not symlink"
-msgstr "Типовий список програвання не є символьним посиланням"
-
-msgid "Default playlist not defined"
-msgstr "Типовий список програвання не визначено"
-
-msgid "Delay"
-msgstr "Затримка"
-
-msgid "ms"
-msgstr "мс"
-
-#, c-format
-msgid "xineliboutput: hotkey %s not binded"
-msgstr "xineliboutput: скорочення %s нічому не відповідає"
 
 msgid "Audio"
 msgstr "Аудіо"
@@ -131,6 +28,24 @@ msgstr "Апаратне"
 
 msgid "Software"
 msgstr "Програмне"
+
+msgid "Delay"
+msgstr "Затримка"
+
+msgid "ms"
+msgstr "мс"
+
+msgid "Off"
+msgstr "Виключити"
+
+msgid "Audio Compression"
+msgstr "Компресія аудіо"
+
+msgid "Upmix stereo to 5.1"
+msgstr "Перетворити стерео до 5.1"
+
+msgid "Downmix AC3 to surround"
+msgstr "Перетворити AC3 до surround"
 
 msgid "Mix to headphones"
 msgstr "Міксувати до навушників"
@@ -179,6 +94,12 @@ msgstr "половина (нижня)"
 
 msgid "Video"
 msgstr "Відео"
+
+msgid "Aspect ratio"
+msgstr "Пропорція"
+
+msgid "Crop letterbox 4:3 to 16:9"
+msgstr "Змінити зображення з 4:3 до 16:9"
 
 msgid "Use driver crop"
 msgstr "Використати обрізання з драйвера"
@@ -234,6 +155,9 @@ msgstr "Змінити розмір відео"
 msgid "Allow downscaling"
 msgstr "Дозволити масштабування з зменшенням якості"
 
+msgid "Overscan (crop image borders)"
+msgstr "Пересканувати (обрізати границі зображення)"
+
 msgid "Post processing (ffmpeg)"
 msgstr "Післяобробка (ffmpeg)"
 
@@ -242,6 +166,9 @@ msgstr "Якість"
 
 msgid "Mode"
 msgstr "Режим"
+
+msgid "Deinterlacing"
+msgstr "Деінтерлесінг"
 
 msgid "Method"
 msgstr "Метод"
@@ -368,6 +295,9 @@ msgstr "Розмір буфера"
 
 msgid "Number of PES packets"
 msgstr "Кількість PES пакетів"
+
+msgid "Local Frontend"
+msgstr "Локальний фронтенд"
 
 msgid "Local Display Frontend"
 msgstr "Локальний фронтенд показу"
@@ -501,6 +431,30 @@ msgstr ""
 msgid "Media Player"
 msgstr "Програвач медіа"
 
+msgid "Play file"
+msgstr "Програвати файл"
+
+msgid "Play music"
+msgstr "Програвати музику"
+
+msgid "View images"
+msgstr "Переглядати зображення"
+
+msgid "Play DVD disc"
+msgstr "Програвати диск DVD"
+
+msgid "Play audio CD"
+msgstr "Програвати аудіо CD"
+
+msgid "Play BluRay disc"
+msgstr "Програвати диск  BluRay"
+
+msgid "Video settings"
+msgstr "Налаштування відео"
+
+msgid "Audio settings"
+msgstr "Налаштування аудіо"
+
 msgid "Grayscale"
 msgstr "Відтінки сірого"
 
@@ -513,77 +467,54 @@ msgstr "Екранне меню"
 msgid "Test Images"
 msgstr "Тестові зображення"
 
+msgid "Play movie title"
+msgstr "Програвати кінострічку"
+
+msgid "Play disc"
+msgstr "Програвати диск"
+
+msgid "Images"
+msgstr "Малюнки"
+
+msgid "Add to playlist"
+msgstr "Додати до списку програвання"
+
+msgid "Button$Queue"
+msgstr "Черга"
+
+msgid "Media"
+msgstr "Медіа"
+
+msgid "Play only audio"
+msgstr "Програвати тільки аудіо"
+
+msgid "Audio equalizer"
+msgstr "Аудіо еквалайзер"
+
+msgid "Video aspect ratio"
+msgstr "Пропорція відео"
+
+msgid "automatic"
+msgstr "автоматично"
+
+msgid "On"
+msgstr "Вкл"
+
+msgid "Default playlist not found"
+msgstr "Типовий список програвання не знайдено"
+
+msgid "Default playlist is not symlink"
+msgstr "Типовий список програвання не є символьним посиланням"
+
+msgid "Default playlist not defined"
+msgstr "Типовий список програвання не визначено"
+
+#, c-format
+msgid "xineliboutput: hotkey %s not binded"
+msgstr "xineliboutput: скорочення %s нічому не відповідає"
+
 msgid "X11/xine-lib output plugin"
 msgstr "X11/xine-lib output плагін"
-
-msgid "Frontend initialization failed"
-msgstr "Ініціалізація фронтенду не вдалася"
-
-msgid "Server initialization failed"
-msgstr "Ініціалізація сервера не вдалася"
-
-msgid "Playlist"
-msgstr "Список програвання"
-
-msgid "Button$Random"
-msgstr "Випадково"
-
-msgid "Button$Normal"
-msgstr "Нормально"
-
-msgid "Button$Add files"
-msgstr "Додати файли"
-
-msgid "Button$Remove"
-msgstr "Видалити"
-
-msgid "Button$Mark"
-msgstr "Позначка"
-
-msgid "Queued to playlist"
-msgstr "Додано до списку програвання"
-
-msgid "Random play"
-msgstr "Випадкове програвання"
-
-msgid "Normal play"
-msgstr "Нормальне програвання"
-
-msgid "DVD Menu"
-msgstr "Меню DVD"
-
-msgid "Exit DVD menu"
-msgstr "Вийти з меню DVD"
-
-msgid "DVD Root menu"
-msgstr "Корінне меню DVD"
-
-msgid "DVD Title menu"
-msgstr "Меню заголовків DVD"
-
-msgid "DVD SPU menu"
-msgstr "Меню DVD SPU"
-
-msgid "DVD Audio menu"
-msgstr "Меню DVD аудіо"
-
-msgid "Close menu"
-msgstr "Закрити меню"
-
-msgid "BluRay Top menu"
-msgstr "Меню BluRay"
-
-msgid "Toggle Pop-Up menu"
-msgstr "Включити вигулькне меню"
-
-msgid "Next title"
-msgstr "Наступний заголовок"
-
-msgid "Previous title"
-msgstr "Попередній заголовок"
-
-msgid "Delete image ?"
-msgstr "Видалити зображення?"
 
 msgid "custom"
 msgstr "користувача"
@@ -728,6 +659,75 @@ msgstr "безклавішний"
 
 msgid "all"
 msgstr "все"
+
+msgid "Frontend initialization failed"
+msgstr "Ініціалізація фронтенду не вдалася"
+
+msgid "Server initialization failed"
+msgstr "Ініціалізація сервера не вдалася"
+
+msgid "Playlist"
+msgstr "Список програвання"
+
+msgid "Button$Random"
+msgstr "Випадково"
+
+msgid "Button$Normal"
+msgstr "Нормально"
+
+msgid "Button$Add files"
+msgstr "Додати файли"
+
+msgid "Button$Remove"
+msgstr "Видалити"
+
+msgid "Button$Mark"
+msgstr "Позначка"
+
+msgid "Queued to playlist"
+msgstr "Додано до списку програвання"
+
+msgid "Random play"
+msgstr "Випадкове програвання"
+
+msgid "Normal play"
+msgstr "Нормальне програвання"
+
+msgid "DVD Menu"
+msgstr "Меню DVD"
+
+msgid "Exit DVD menu"
+msgstr "Вийти з меню DVD"
+
+msgid "DVD Root menu"
+msgstr "Корінне меню DVD"
+
+msgid "DVD Title menu"
+msgstr "Меню заголовків DVD"
+
+msgid "DVD SPU menu"
+msgstr "Меню DVD SPU"
+
+msgid "DVD Audio menu"
+msgstr "Меню DVD аудіо"
+
+msgid "Close menu"
+msgstr "Закрити меню"
+
+msgid "BluRay Top menu"
+msgstr "Меню BluRay"
+
+msgid "Toggle Pop-Up menu"
+msgstr "Включити вигулькне меню"
+
+msgid "Next title"
+msgstr "Наступний заголовок"
+
+msgid "Previous title"
+msgstr "Попередній заголовок"
+
+msgid "Delete image ?"
+msgstr "Видалити зображення?"
 
 #~ msgid "normal"
 #~ msgstr "нормально"

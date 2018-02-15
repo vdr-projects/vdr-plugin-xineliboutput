@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xineliboutput 1.1.0\n"
 "Report-Msgid-Bugs-To: <phintuka@users.sourceforge.net>\n"
-"POT-Creation-Date: 2015-04-22 11:16+0300\n"
+"POT-Creation-Date: 2018-02-15 12:25+0200\n"
 "PO-Revision-Date: 2008-03-20 23:57+0100\n"
 "Last-Translator: Maya <maja373@gmail.com>\n"
 "Language-Team: Czech <vdr@linuxtv.org>\n"
@@ -16,109 +16,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Czech\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
-
-msgid "Play movie title"
-msgstr ""
-
-msgid "Play disc"
-msgstr ""
-
-msgid "Images"
-msgstr "Obrázky"
-
-msgid "Play music"
-msgstr "Přehrát hudbu"
-
-msgid "Add to playlist"
-msgstr "Přidat do seznamu stop"
-
-msgid "Play file"
-msgstr "Přehrát soubor"
-
-msgid "Button$Queue"
-msgstr "Fronta"
-
-msgid "Media"
-msgstr "Média"
-
-msgid "View images"
-msgstr "Prohlížet obrázky"
-
-msgid "Play DVD disc"
-msgstr "Přehrát DVD"
-
-msgid "Play BluRay disc"
-msgstr "Přehrát BluRay"
-
-msgid "Play audio CD"
-msgstr "Přehrát zvukové CD"
-
-msgid "Video settings"
-msgstr "Nastavení obrazu"
-
-msgid "Play only audio"
-msgstr "Přehrávat pouze zvuk"
-
-msgid "Crop letterbox 4:3 to 16:9"
-msgstr "Oříznout letterbox 4:3 na 16:9"
-
-msgid "Overscan (crop image borders)"
-msgstr "Overscan (ořez okrajů obrazu)"
-
-msgid "Off"
-msgstr "vypnuto"
-
-msgid "Audio settings"
-msgstr "Nastavení zvuku"
-
-msgid "Audio Compression"
-msgstr ""
-
-msgid "Audio equalizer"
-msgstr "Korekce zvuku (ekvalizér)"
-
-msgid "Local Frontend"
-msgstr "Lokální rozhraní"
-
-msgid "Aspect ratio"
-msgstr "Poměr stran"
-
-msgid "Video aspect ratio"
-msgstr "Poměr stran obrazu"
-
-msgid "automatic"
-msgstr "automaticky"
-
-msgid "On"
-msgstr "zapnuto"
-
-msgid "Deinterlacing"
-msgstr "Odstranění prokládání"
-
-msgid "Upmix stereo to 5.1"
-msgstr "Převzorkovat stereo na 5.1"
-
-msgid "Downmix AC3 to surround"
-msgstr "Převzorkovat AC3 na surround"
-
-msgid "Default playlist not found"
-msgstr "Výchozí seznam stop nenalezen"
-
-msgid "Default playlist is not symlink"
-msgstr "Výchozí seznam stop není symbolický odkaz"
-
-msgid "Default playlist not defined"
-msgstr "Výchozí seznam stop není definován"
-
-msgid "Delay"
-msgstr "Zpoždění"
-
-msgid "ms"
-msgstr "ms"
-
-#, c-format
-msgid "xineliboutput: hotkey %s not binded"
-msgstr "xineliboutput:  horká klávesa %s není přiřazena"
 
 msgid "Audio"
 msgstr "Zvuk"
@@ -131,6 +28,24 @@ msgstr "hardwarové"
 
 msgid "Software"
 msgstr "softwarové"
+
+msgid "Delay"
+msgstr "Zpoždění"
+
+msgid "ms"
+msgstr "ms"
+
+msgid "Off"
+msgstr "vypnuto"
+
+msgid "Audio Compression"
+msgstr ""
+
+msgid "Upmix stereo to 5.1"
+msgstr "Převzorkovat stereo na 5.1"
+
+msgid "Downmix AC3 to surround"
+msgstr "Převzorkovat AC3 na surround"
 
 msgid "Mix to headphones"
 msgstr ""
@@ -179,6 +94,12 @@ msgstr ""
 
 msgid "Video"
 msgstr "Obraz"
+
+msgid "Aspect ratio"
+msgstr "Poměr stran"
+
+msgid "Crop letterbox 4:3 to 16:9"
+msgstr "Oříznout letterbox 4:3 na 16:9"
 
 msgid "Use driver crop"
 msgstr ""
@@ -234,6 +155,9 @@ msgstr "Změnit velikost obrazu"
 msgid "Allow downscaling"
 msgstr "Povolit zmenšení"
 
+msgid "Overscan (crop image borders)"
+msgstr "Overscan (ořez okrajů obrazu)"
+
 msgid "Post processing (ffmpeg)"
 msgstr "Post processing (ffmpeg)"
 
@@ -242,6 +166,9 @@ msgstr "Kvalita"
 
 msgid "Mode"
 msgstr "Mód"
+
+msgid "Deinterlacing"
+msgstr "Odstranění prokládání"
 
 msgid "Method"
 msgstr "Metoda"
@@ -368,6 +295,9 @@ msgstr "Velikost vyrovnávací paměti"
 
 msgid "Number of PES packets"
 msgstr "Počet PES paketů"
+
+msgid "Local Frontend"
+msgstr "Lokální rozhraní"
 
 msgid "Local Display Frontend"
 msgstr "Lokální zobrazovací rozhraní"
@@ -501,6 +431,30 @@ msgstr ""
 msgid "Media Player"
 msgstr "Přehrávač médií"
 
+msgid "Play file"
+msgstr "Přehrát soubor"
+
+msgid "Play music"
+msgstr "Přehrát hudbu"
+
+msgid "View images"
+msgstr "Prohlížet obrázky"
+
+msgid "Play DVD disc"
+msgstr "Přehrát DVD"
+
+msgid "Play audio CD"
+msgstr "Přehrát zvukové CD"
+
+msgid "Play BluRay disc"
+msgstr "Přehrát BluRay"
+
+msgid "Video settings"
+msgstr "Nastavení obrazu"
+
+msgid "Audio settings"
+msgstr "Nastavení zvuku"
+
 msgid "Grayscale"
 msgstr "Odstíny šedi"
 
@@ -513,77 +467,54 @@ msgstr "OSD"
 msgid "Test Images"
 msgstr "Zkušební obrazce"
 
+msgid "Play movie title"
+msgstr ""
+
+msgid "Play disc"
+msgstr ""
+
+msgid "Images"
+msgstr "Obrázky"
+
+msgid "Add to playlist"
+msgstr "Přidat do seznamu stop"
+
+msgid "Button$Queue"
+msgstr "Fronta"
+
+msgid "Media"
+msgstr "Média"
+
+msgid "Play only audio"
+msgstr "Přehrávat pouze zvuk"
+
+msgid "Audio equalizer"
+msgstr "Korekce zvuku (ekvalizér)"
+
+msgid "Video aspect ratio"
+msgstr "Poměr stran obrazu"
+
+msgid "automatic"
+msgstr "automaticky"
+
+msgid "On"
+msgstr "zapnuto"
+
+msgid "Default playlist not found"
+msgstr "Výchozí seznam stop nenalezen"
+
+msgid "Default playlist is not symlink"
+msgstr "Výchozí seznam stop není symbolický odkaz"
+
+msgid "Default playlist not defined"
+msgstr "Výchozí seznam stop není definován"
+
+#, c-format
+msgid "xineliboutput: hotkey %s not binded"
+msgstr "xineliboutput:  horká klávesa %s není přiřazena"
+
 msgid "X11/xine-lib output plugin"
 msgstr "X11/xine-lib výstupní plugin"
-
-msgid "Frontend initialization failed"
-msgstr "Inicializace rozhraní selhala"
-
-msgid "Server initialization failed"
-msgstr "Inicializace serveru selhala"
-
-msgid "Playlist"
-msgstr "Seznam stop"
-
-msgid "Button$Random"
-msgstr "Náhodné"
-
-msgid "Button$Normal"
-msgstr "Normální"
-
-msgid "Button$Add files"
-msgstr "Přidat soubory"
-
-msgid "Button$Remove"
-msgstr "Odstranit"
-
-msgid "Button$Mark"
-msgstr ""
-
-msgid "Queued to playlist"
-msgstr "Přidáno do seznamu stop"
-
-msgid "Random play"
-msgstr "Náhodné přehrávání"
-
-msgid "Normal play"
-msgstr "Normální přehrávání"
-
-msgid "DVD Menu"
-msgstr ""
-
-msgid "Exit DVD menu"
-msgstr ""
-
-msgid "DVD Root menu"
-msgstr ""
-
-msgid "DVD Title menu"
-msgstr ""
-
-msgid "DVD SPU menu"
-msgstr ""
-
-msgid "DVD Audio menu"
-msgstr ""
-
-msgid "Close menu"
-msgstr ""
-
-msgid "BluRay Top menu"
-msgstr ""
-
-msgid "Toggle Pop-Up menu"
-msgstr ""
-
-msgid "Next title"
-msgstr ""
-
-msgid "Previous title"
-msgstr ""
-
-msgid "Delete image ?"
-msgstr "Smazat obrázek ?"
 
 msgid "custom"
 msgstr "uživatelský"
@@ -728,6 +659,75 @@ msgstr ""
 
 msgid "all"
 msgstr ""
+
+msgid "Frontend initialization failed"
+msgstr "Inicializace rozhraní selhala"
+
+msgid "Server initialization failed"
+msgstr "Inicializace serveru selhala"
+
+msgid "Playlist"
+msgstr "Seznam stop"
+
+msgid "Button$Random"
+msgstr "Náhodné"
+
+msgid "Button$Normal"
+msgstr "Normální"
+
+msgid "Button$Add files"
+msgstr "Přidat soubory"
+
+msgid "Button$Remove"
+msgstr "Odstranit"
+
+msgid "Button$Mark"
+msgstr ""
+
+msgid "Queued to playlist"
+msgstr "Přidáno do seznamu stop"
+
+msgid "Random play"
+msgstr "Náhodné přehrávání"
+
+msgid "Normal play"
+msgstr "Normální přehrávání"
+
+msgid "DVD Menu"
+msgstr ""
+
+msgid "Exit DVD menu"
+msgstr ""
+
+msgid "DVD Root menu"
+msgstr ""
+
+msgid "DVD Title menu"
+msgstr ""
+
+msgid "DVD SPU menu"
+msgstr ""
+
+msgid "DVD Audio menu"
+msgstr ""
+
+msgid "Close menu"
+msgstr ""
+
+msgid "BluRay Top menu"
+msgstr ""
+
+msgid "Toggle Pop-Up menu"
+msgstr ""
+
+msgid "Next title"
+msgstr ""
+
+msgid "Previous title"
+msgstr ""
+
+msgid "Delete image ?"
+msgstr "Smazat obrázek ?"
 
 #~ msgid "normal"
 #~ msgstr "normální"
