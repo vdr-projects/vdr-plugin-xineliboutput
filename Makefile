@@ -114,6 +114,18 @@ CXXFLAGS += -Wextra -Wno-unused-parameter
 ### Allow user defined options to overwrite defaults:
 -include $(PLGCFG)
 
+#
+# Silent rules falback
+#
+ifndef Q
+ifdef VERBOSE
+Q =
+else
+Q = @
+endif
+export Q
+endif
+
 ###
 ### run configure script
 ###
@@ -245,7 +257,8 @@ OBJS_XINE = $(OBJS_XINEINPUTVDR) xine_post_autocrop.o xine_post_swscale.o xine_p
 ###
 
 %.o: %.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) $(CFLAGS_VDR) -o $@ $<
+	@echo CXX $@
+	$(Q)$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) $(CFLAGS_VDR) -o $@ $<
 
 
 ###
@@ -270,22 +283,27 @@ DEFINES += -Wall
 ###
 
 mpg2c: mpg2c.c
-	$(CC) $(CFLAGS) $(LDFLAGS) mpg2c.c -o $@
+	@echo CCLD $@
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) mpg2c.c -o $@
 
 # data
 black_720x576.c: mpg2c black_720x576.mpg
-	@./mpg2c black black_720x576.mpg black_720x576.c
+	@echo GEN $@
+	$(Q)./mpg2c black black_720x576.mpg black_720x576.c
 nosignal_720x576.c: mpg2c nosignal_720x576.mpg
-	@./mpg2c nosignal nosignal_720x576.mpg nosignal_720x576.c
+	@echo GEN $@
+	$(Q)./mpg2c nosignal nosignal_720x576.mpg nosignal_720x576.c
 vdrlogo_720x576.c: mpg2c vdrlogo_720x576.mpg
-	@./mpg2c vdrlogo vdrlogo_720x576.mpg vdrlogo_720x576.c
+	@echo GEN $@
+	$(Q)./mpg2c vdrlogo vdrlogo_720x576.mpg vdrlogo_720x576.c
 
 # C code (xine plugins and frontends)
 
 xine_input_vdr.o: nosignal_720x576.c
 
 $(sort $(OBJS_SXFE) $(OBJS_FBFE) $(OBJS_XINE)): %.o: %.c
-	$(CC) $(CFLAGS) -c $(DEFINES) $(INCLUDES) $(CFLAGS_X11) $(CFLAGS_AVUTIL) $(OPTFLAGS) -o $@ $<
+	@echo CC $@
+	$(Q)$(CC) $(CFLAGS) -c $(DEFINES) $(INCLUDES) $(CFLAGS_X11) $(CFLAGS_AVUTIL) $(OPTFLAGS) -o $@ $<
 
 ### Internationalization (I18N):
 PODIR     = po
@@ -296,13 +314,16 @@ I18Nmsgs  = $(addprefix $(DESTDIR)$(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLU
 I18Npot   = $(PODIR)/$(PLUGIN).pot
 
 %.mo: %.po
-	msgfmt -c -o $@ $<
+	@echo MO $@
+	$(Q)msgfmt -c -o $@ $<
 
 $(I18Npot): $(wildcard *.c)
-	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --package-name=vdr-$(PLUGIN) --package-version=$(VERSION) --msgid-bugs-address='<phintuka@users.sourceforge.net>' -o $@ $^
+	@echo GT $@
+	$(Q)xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --package-name=vdr-$(PLUGIN) --package-version=$(VERSION) --msgid-bugs-address='<phintuka@users.sourceforge.net>' -o $@ `ls $^`
 
 %.po: $(I18Npot)
-	msgmerge -U --no-wrap --no-location --backup=none -q -N $@ $<
+	@echo PO $@
+	$(Q)msgmerge -U --no-wrap --no-location --backup=none -q -N $@ $<
 	@touch $@
 
 $(I18Nmsgs): $(DESTDIR)$(LOCDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
@@ -345,7 +366,8 @@ config: config.mak
 #
 
 $(VDRPLUGIN): $(OBJS) $(OBJS_MPG)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS_SO) $(LDFLAGS) -shared $(OBJS) $(OBJS_MPG) $(LIBS) $(LIBS_VDR) -o $@
+	@echo LD $@
+	$(Q)$(CXX) $(CXXFLAGS) $(LDFLAGS_SO) $(LDFLAGS) -shared $(OBJS) $(OBJS_MPG) $(LIBS) $(LIBS_VDR) -o $@
 ifeq ($(VDR_TREE), yes)
 	$(INSTALL) $@ $(LIBDIR)/
 endif
@@ -364,37 +386,45 @@ install: install-lib install-i18n
 #
 
 $(VDRPLUGIN_SXFE): $(OBJS_SXFE_SO)
-	$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $(OBJS_SXFE_SO) $(LIBS_X11) $(LIBS_XINE) $(LIBS_JPEG) -o $@
+	@echo LD $@
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $(OBJS_SXFE_SO) $(LIBS_X11) $(LIBS_XINE) $(LIBS_JPEG) -o $@
 ifeq ($(VDR_TREE), yes)
 	$(INSTALL) $@ $(LIBDIR)/
 endif
 $(VDRSXFE): $(OBJS_SXFE)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS_SXFE) $(LIBS_X11) $(LIBS_XINE) $(LIBS_JPEG) $(LIBS_CEC) $(LIBS_PTHREAD) -o $@
+	@echo LD $@
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS_SXFE) $(LIBS_X11) $(LIBS_XINE) $(LIBS_JPEG) $(LIBS_CEC) $(LIBS_PTHREAD) -o $@
 
 #
 # vdr-fbfe
 #
 
 $(VDRPLUGIN_FBFE): $(OBJS_FBFE_SO)
-	$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $(OBJS_FBFE_SO) $(LIBS_XINE) $(LIBS_JPEG) -o $@
+	@echo LD $@
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $(OBJS_FBFE_SO) $(LIBS_XINE) $(LIBS_JPEG) -o $@
 ifeq ($(VDR_TREE), yes)
 	$(INSTALL) $@ $(LIBDIR)/
 endif
 $(VDRFBFE): $(OBJS_FBFE)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS_FBFE) $(LIBS_XINE) $(LIBS_JPEG) $(LIBS_CEC) $(LIBS_PTHREAD) -o $@
+	@echo LD $@
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS_FBFE) $(LIBS_XINE) $(LIBS_JPEG) $(LIBS_CEC) $(LIBS_PTHREAD) -o $@
 
 #
 # xine plugins
 #
 
 $(XINEINPUTVDR): $(OBJS_XINEINPUTVDR)
-	$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $(OBJS_XINEINPUTVDR) $(LIBS_XINE) $(LIBS_AVUTIL) $(LIBS_PTHREAD) -o $@
+	@echo LD $@
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $(OBJS_XINEINPUTVDR) $(LIBS_XINE) $(LIBS_AVUTIL) $(LIBS_PTHREAD) -o $@
 $(XINEPOSTAUTOCROP): xine_post_autocrop.o
-	$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $< -o $@ $(LIBS_XINE)
+	@echo LD $@
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $< -o $@ $(LIBS_XINE)
 $(XINEPOSTSWSCALE): xine_post_swscale.o
-	$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $< -o $@ $(LIBS_XINE)
+	@echo LD $@
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $< -o $@ $(LIBS_XINE)
 $(XINEPOSTAUDIOCHANNEL): xine_post_audiochannel.o
-	$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $< -o $@ $(LIBS_XINE)
+	@echo LD $@
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $< -o $@ $(LIBS_XINE)
 
 #
 # install
