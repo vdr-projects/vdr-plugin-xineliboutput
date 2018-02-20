@@ -121,10 +121,20 @@ int pes_is_frame_h264(const uint8_t *buf, int len)
 
 uint8_t pes_get_picture_type(const uint8_t *buf, int len)
 {
-  int i = PES_HEADER_LEN(buf);
+  int header_len;
 
-  buf += i;
-  len -= i;
+  if (len < 8)
+    return NO_PICTURE;
+
+  header_len = PES_HEADER_LEN(buf);
+  if (len < header_len)
+    return NO_PICTURE;
+
+  buf += header_len;
+  len -= header_len;
+
+  if (len < 4)
+    return NO_PICTURE;
 
   if (buf[0] == 0x00 && buf[1] == 0x00 && buf[2] == 0x01) {
     if (buf[3] == NAL_AUD)
