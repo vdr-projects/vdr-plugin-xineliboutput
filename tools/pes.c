@@ -133,8 +133,14 @@ uint8_t pes_get_picture_type(const uint8_t *buf, int len)
   buf += header_len;
   len -= header_len;
 
-  if (len < 4)
+  if (len < 5)
     return NO_PICTURE;
+
+  if (buf[0] == 0x00 && buf[1] == 0x00 && buf[2] == 0x00) {
+    /* H.264 00 00 00 01 09 */
+    buf++;
+    len--;
+  }
 
   if (buf[0] == 0x00 && buf[1] == 0x00 && buf[2] == 0x01) {
     if (buf[3] == NAL_AUD)
