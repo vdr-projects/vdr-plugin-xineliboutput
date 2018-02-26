@@ -1064,7 +1064,7 @@ void cXinelibServer::Handle_Control_PIPE(int cli, const char *arg)
     delete m_Writer[cli];
   m_Writer[cli] = new cTcpWriter(fd);
 
-  if (m_Header)
+  if (m_Header && m_HeaderLength)
     m_Writer[cli]->Put(sidVdr, 0, m_Header, m_HeaderLength);
 
   fd_data[cli] = fd;
@@ -1139,7 +1139,7 @@ void cXinelibServer::Handle_Control_DATA(int cli, const char *arg)
     delete m_Writer[cli];
   m_Writer[cli] = new cTcpWriter(fd_data[cli]);
 
-  if (m_Header)
+  if (m_Header && m_HeaderLength)
     m_Writer[cli]->Put(sidVdr, 0, m_Header, m_HeaderLength);
 
   /* not anymore control connection, so dec primary device reference counter */
@@ -1169,7 +1169,7 @@ void cXinelibServer::Handle_Control_RTP(int cli, const char *arg)
   // Send padding packet before header (PAT/PMT).
   // Client uses first received UDP/RTP packet to test connection.
   m_Scheduler->QueuePadding();
-  if (m_Header)
+  if (m_Header && m_HeaderLength)
     m_Scheduler->Queue(sidVdr, 0, m_Header, m_HeaderLength);
 }
 
