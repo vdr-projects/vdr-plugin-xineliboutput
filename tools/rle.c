@@ -294,7 +294,8 @@ size_t rle_compress_argbrle(uint8_t **rle_data, const uint32_t *data,
       }
     }
 
-    if (len) {
+    if (len &&
+        (color >> 24) /* transparent tail can be ignored, EOL takes care of it */) {
       rle = write_rle_argb(rle, color, len);
       (*num_rle)++;
     }
