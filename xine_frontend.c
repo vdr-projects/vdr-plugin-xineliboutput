@@ -1567,7 +1567,7 @@ static void *fe_control(frontend_t *this_gen, const char *cmd)
     return NULL;
   }
 
-  if(!strncmp(cmd, "SLAVE CLOSED", 16)) {
+  if(!strncmp(cmd, "SLAVE CLOSED", 12)) {
     /*LOGMSG("fe_control : slave closed");*/
     if(this->slave_stream)
       fe_control(this_gen, "SLAVE 0x0\r\n");
