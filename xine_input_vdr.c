@@ -6226,7 +6226,7 @@ const plugin_info_t xine_plugin_info[] __attribute__((visibility("default"))) = 
 
   { PLUGIN_DEMUX, DEMUXER_PLUGIN_IFACE_VERSION, MRL_ID, XINE_VERSION_CODE, &demux_info_xvdr, demux_xvdr_init_class },
 
-  { PLUGIN_NONE, 0, "", 0, NULL, NULL }
+  { PLUGIN_NONE, 0, NULL, 0, NULL, NULL }
 };
 
 const plugin_info_t *xine_plugin_info_xvdr = xine_plugin_info;

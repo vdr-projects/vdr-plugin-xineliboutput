@@ -328,6 +328,6 @@ plugin_info_t xine_plugin_info[] __attribute__((visibility("default"))) =
 {
   /* type, API, "name", version, special_info, init_function */
   { PLUGIN_POST, POST_PLUGIN_IFACE_VERSION, "audiochannel", XINE_VERSION_CODE, &audioch_info, &audioch_init_plugin },
-  { PLUGIN_NONE, 0, "", 0, NULL, NULL }
+  { PLUGIN_NONE, 0, NULL, 0, NULL, NULL }
 };
 #endif
