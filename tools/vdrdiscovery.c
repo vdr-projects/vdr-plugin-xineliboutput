@@ -215,13 +215,74 @@ int udp_discovery_is_valid_search(const char *buf)
   return 0;
 }
 
-static int _udp_discovery_find_server(int fd_discovery, int *port, char *address)
+/*
+ * server list
+ */
+
+static void _free_server(vdr_server **p)
+{
+  vdr_server *s = *p;
+  if (s) {
+    free(s->host);
+    free(s->descr);
+    free(s);
+    *p = NULL;
+  }
+}
+
+static vdr_server *_new_server(const char *host, int port, const char *descr)
+{
+  vdr_server *r = (vdr_server *)calloc(1, sizeof(*r));
+  if (r) {
+    r->host  = strdup(host);
+    r->port  = port;
+    r->descr = strdup(descr ? descr : "");
+  }
+  return r;
+}
+
+void udp_discovery_free_servers(vdr_server ***p)
+{
+  vdr_server **s = *p;
+  if (s) {
+    for (; *s; s++) {
+      _free_server(s);
+    }
+    free(*p);
+    *p = NULL;
+  }
+}
+
+vdr_server **_add_server(vdr_server **l, vdr_server *s)
+{
+  size_t cnt;
+  vdr_server **r;
+  for (cnt = 0; l && l[cnt]; cnt++)
+    ;
+  r = (vdr_server **)realloc(l, sizeof(*l) * (cnt + 2));
+  if (!r) {
+    _free_server(&s);
+    return l;
+  }
+  r[cnt] = s;
+  r[cnt + 1] = NULL;
+  return r;
+}
+
+/*
+ * server search
+ */
+
+static vdr_server **_udp_discovery_find_servers(int fd_discovery, int fast)
 {
   static const char mystring[] = DISCOVERY_1_0_HDR "Server port: ";
   struct sockaddr_in from;
   char buf[DISCOVERY_MSG_MAXSIZE];
   int trycount = 0;
   int err = 0;
+  vdr_server **svrs = NULL;
+  int port;
+  char address[16];
 
   while(err >= 0 && ++trycount < 4) {
 
@@ -268,35 +329,73 @@ static int _udp_discovery_find_server(int fd_discovery, int *port, char *address
 	    }
 	  }
 
-	  *port = -1;
-          if(1 == sscanf(buf + strlen(mystring), "%d", port) &&
-             *port >= 1000 && *port <= 0xffff) {
-	    return 1;
+          port = -1;
+          if (1 == sscanf(buf + strlen(mystring), "%d", &port) &&
+              port >= 1000 && port <= 0xffff) {
+
+            /* valid entry */
+
+            char *descr = strstr(buf, "Server version: ");
+            if (descr) {
+              descr += strlen("Server version: ");
+              char *lf = strchr(descr, '\r');
+              if (lf) {
+                *lf = 0;
+              } else {
+                descr = NULL;
+              }
+            }
+
+            svrs = _add_server(svrs, _new_server(address, port, descr));
+            if (fast)
+              return svrs;
+          } else {
+            LOGMSG("Server-given port is invalid !");
           }
-	  LOGMSG("Server-given port is invalid !");
 	} else {
 	  LOGDBG("NOT valid discovery message");
 	}
       }
+
+      /* return if found */
+      if (svrs)
+        return svrs;
     }
   }
 
+  if (err >= 0)
+    return _add_server(svrs, NULL);  /* no error, return empty list */
+
   /* failed */
-  return 0;
+  return NULL;
 }
 
-int udp_discovery_find_server(int *port, char *address, size_t address_size)
+vdr_server **udp_discovery_find_servers(int fast)
 {
   int fd_discovery;
-  int ret = 0;
-
-  *port = DISCOVERY_PORT;
-  strcpy(address, "vdr");
+  vdr_server **ret = NULL;
 
   if((fd_discovery = discovery_init(DISCOVERY_PORT)) >= 0) {
-    ret = _udp_discovery_find_server(fd_discovery, port, address);
+    ret = _udp_discovery_find_servers(fd_discovery, fast);
     close(fd_discovery);
   }
 
   return ret;
+}
+
+int udp_discovery_find_server(int *port, char *address, size_t address_size)
+{
+  vdr_server **svrs;
+
+  svrs = udp_discovery_find_servers(1);
+  if (!svrs || !svrs[0]) {
+    return 0;
+  }
+
+  strncpy(address, svrs[0]->host, address_size);
+  address[address_size - 1] = 0;
+  *port = svrs[0]->port;
+
+  udp_discovery_free_servers(&svrs);
+  return 1;
 }

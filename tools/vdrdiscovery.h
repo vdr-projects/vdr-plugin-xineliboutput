@@ -26,6 +26,32 @@ struct sockaddr_in;
  * Client interface
  */
 
+typedef struct {
+  char *host;   /* server address */
+  int   port;   /* server port */
+  char *descr;  /* server description (name, version) */
+} vdr_server;
+
+/*
+ * udp_discovery_find_servers()
+ *
+ * Search for servers.
+ * Return null-terminated array of pointers to server records, or NULL on error.
+ * Application must free returned records with vdr_discovery_free_servers().
+ *
+ * parameters:
+ *  fast  return immediately when first server is found.
+ */
+vdr_server **udp_discovery_find_servers(int fast);
+
+/*
+ * void udp_discovery_free_servers()
+ *
+ * Free array of server records returned from udp_discovery_find_servers().
+ *
+ */
+void udp_discovery_free_servers(vdr_server ***);
+
 /*
  * udp_discovery_find_server()
  *
