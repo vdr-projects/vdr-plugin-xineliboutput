@@ -140,8 +140,6 @@ typedef struct autocrop_post_plugin_s
 {
   post_plugin_t  post_plugin;
 
-  xine_post_in_t parameter_input;
-
   /* setup */
   int autodetect;
   int autodetect_rate;
@@ -1664,8 +1662,8 @@ static xine_post_api_descr_t *autocrop_get_param_descr(void)
 
 static int autocrop_set_parameters(xine_post_t *this_gen, void *param_gen)
 {
+  const autocrop_parameters_t *param = (const autocrop_parameters_t *)param_gen;
   autocrop_post_plugin_t *this = (autocrop_post_plugin_t *)this_gen;
-  autocrop_parameters_t *param = (autocrop_parameters_t *)param_gen;
 
   this->autodetect  = param->enable_autodetect;
   this->autodetect_rate = param->autodetect_rate;
@@ -1783,11 +1781,18 @@ static post_plugin_t *autocrop_open_plugin(post_class_t *class_gen,
     post_in_t           *input;
     post_out_t          *output;
     post_video_port_t   *port;
-    xine_post_in_t      *input_param;
 
-    static xine_post_api_t post_api =
-      { autocrop_set_parameters, autocrop_get_parameters, 
-	autocrop_get_param_descr, autocrop_get_help };
+    static const xine_post_api_t post_api = {
+      .set_parameters  = autocrop_set_parameters,
+      .get_parameters  = autocrop_get_parameters,
+      .get_param_descr = autocrop_get_param_descr,
+      .get_help        = autocrop_get_help,
+    };
+    static const xine_post_in_t input_param = {
+      .name = "parameters",
+      .type = XINE_POST_DATA_PARAMETERS,
+      .data = (void *)&post_api,
+    };
 
     if (this) {
       _x_post_init(&this->post_plugin, 0, 1);
@@ -1808,14 +1813,10 @@ static post_plugin_t *autocrop_open_plugin(post_class_t *class_gen,
       this->post_plugin.xine_post.video_input[ 0 ] = &port->new_port;
       this->post_plugin.dispose = autocrop_dispose;
 
-      input_param       = &this->parameter_input;
-      input_param->name = "parameters";
-      input_param->type = XINE_POST_DATA_PARAMETERS;
-      input_param->data = &post_api;
 #if XINE_VERSION_CODE >= 10102
-      xine_list_push_back(this->post_plugin.input, input_param);
+      xine_list_push_back(this->post_plugin.input, (void *)&input_param);
 #else
-      xine_list_append_content(this->post_plugin.input, input_param);
+      xine_list_append_content(this->post_plugin.input, (void *)&input_param);
 #endif
       this->autodetect  = 1;
       this->autodetect_rate = DEFAULT_AUTODETECT_RATE;

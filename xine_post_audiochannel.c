@@ -56,7 +56,6 @@ END_PARAM_DESCR(audioch_param_descr)
 typedef struct audioch_post_plugin_s
 {
   post_plugin_t  post_plugin;
-  xine_post_in_t parameter_input;
 
   /* Config */
   int channel; /* 0 - left, 1 - right */
@@ -179,8 +178,8 @@ static xine_post_api_descr_t *audioch_get_param_descr(void)
 
 static int audioch_set_parameters(xine_post_t *this_gen, void *param_gen)
 {
+  const audioch_parameters_t *param = (const audioch_parameters_t *)param_gen;
   audioch_post_plugin_t *this = (audioch_post_plugin_t *)this_gen;
-  audioch_parameters_t *param = (audioch_parameters_t *)param_gen;
 
   this->channel = param->channel;
   return 1;
@@ -226,11 +225,18 @@ static post_plugin_t *audioch_open_plugin(post_class_t *class_gen,
   post_in_t             *input;
   post_out_t            *output;
   post_audio_port_t     *port;
-  xine_post_in_t        *input_param;
 
-  static xine_post_api_t post_api =
-    { audioch_set_parameters,  audioch_get_parameters, 
-      audioch_get_param_descr, audioch_get_help };
+  static const xine_post_api_t post_api = {
+    .set_parameters  = audioch_set_parameters,
+    .get_parameters  = audioch_get_parameters,
+    .get_param_descr = audioch_get_param_descr,
+    .get_help        = audioch_get_help,
+  };
+  static const xine_post_in_t input_param = {
+    .name = "parameters",
+    .type = XINE_POST_DATA_PARAMETERS,
+    .data = (void *)&post_api,
+  };
 
   if (!this || !audio_target || !audio_target[0] ) {
     free(this);
@@ -252,14 +258,10 @@ static post_plugin_t *audioch_open_plugin(post_class_t *class_gen,
   this->post_plugin.xine_post.audio_input[ 0 ] = &port->new_port;
   this->post_plugin.dispose = audioch_dispose;
 
-  input_param       = &this->parameter_input;
-  input_param->name = "parameters";
-  input_param->type = XINE_POST_DATA_PARAMETERS;
-  input_param->data = &post_api;
 #if XINE_VERSION_CODE >= 10102
-  xine_list_push_back(this->post_plugin.input, input_param);
+  xine_list_push_back(this->post_plugin.input, (void *)&input_param);
 #else
-  xine_list_append_content(this->post_plugin.input, input_param);
+  xine_list_append_content(this->post_plugin.input, (void *)&input_param);
 #endif
 
   this->channel = 0;

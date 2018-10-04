@@ -1339,8 +1339,6 @@ END_PARAM_DESCR(warp_param_descr)
 typedef struct {
   post_plugin_t  post;
 
-  xine_post_in_t parameter_input;
-
   /* User config  (changes to actual config are delayed) */
   warp_parameters_t config;
 
@@ -1503,12 +1501,21 @@ static post_plugin_t *open_plugin(post_class_t *class_gen, int inputs,
   post_plugin_t     *this_gen = (post_plugin_t *) this;
   post_in_t         *input;
   post_out_t        *output;
-  xine_post_in_t    *input_param;
   post_video_port_t *port;
 
-  static xine_post_api_t post_api =
-    { warp_set_parameters,  warp_get_parameters, warp_get_param_descr, warp_get_help };
-  
+  static const xine_post_api_t post_api =  {
+    .set_parameters  = warp_set_parameters,
+    .get_parameters  = warp_get_parameters,
+    .get_param_descr = warp_get_param_descr,
+    .get_help        = warp_get_help,
+  };
+
+  static const xine_post_in_t input_param = {
+    .name = "parameters",
+    .type = XINE_POST_DATA_PARAMETERS,
+    .data = (void *)&post_api,
+  };
+
   if (!this || !video_target || !video_target[0]) {
     free(this);
     return NULL;
@@ -1525,11 +1532,7 @@ static post_plugin_t *open_plugin(post_class_t *class_gen, int inputs,
 
   this_gen->dispose = warp_dispose;
 
-  input_param       = &this->parameter_input;
-  input_param->name = "parameters";
-  input_param->type = XINE_POST_DATA_PARAMETERS;
-  input_param->data = &post_api;
-  xine_list_push_back(this_gen->input, input_param);
+  xine_list_push_back(this_gen->input, (void *)&input_param);
 
   this->config.output_aspect  = 0.0; /* -> do not change aspect ratio */
   this->config.output_width   = 0;   /* -> do not change width */
@@ -1679,8 +1682,8 @@ static xine_post_api_descr_t *warp_get_param_descr(void)
 
 static int warp_set_parameters(xine_post_t *this_gen, void *param_gen)
 {
+  const warp_parameters_t *params = (const warp_parameters_t *)param_gen;
   warp_plugin_t *this = (warp_plugin_t *)this_gen;
-  warp_parameters_t *params = (warp_parameters_t *)param_gen;
 
   memcpy(&this->config, params, sizeof(warp_parameters_t));  
   this->input_width = this->input_height = 0;
