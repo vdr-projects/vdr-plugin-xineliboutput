@@ -13,7 +13,7 @@
 
 #include <xine.h>
 
-#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_VIDEO_OUT_GL)
+#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_XINE_MODULE)
 void *input_xvdr_init_class (xine_t *xine, const void *data);
 void *demux_xvdr_init_class (xine_t *xine, const void *data);
 #else

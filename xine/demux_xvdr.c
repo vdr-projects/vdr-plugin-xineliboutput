@@ -1311,7 +1311,7 @@ static void demux_xvdr_class_dispose (demux_class_t *this_gen)
 }
 #endif
 
-#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_VIDEO_OUT_GL)
+#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_XINE_MODULE)
 void *demux_xvdr_init_class (xine_t *xine, const void *data)
 #else
 void *demux_xvdr_init_class (xine_t *xine, void *data)

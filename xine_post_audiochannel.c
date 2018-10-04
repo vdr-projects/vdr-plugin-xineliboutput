@@ -290,7 +290,7 @@ static void audioch_class_dispose(post_class_t *class_gen)
 }
 #endif
 
-#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_VIDEO_OUT_GL)
+#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_XINE_MODULE)
 static void *audioch_init_plugin(xine_t *xine, const void *data)
 #else
 static void *audioch_init_plugin(xine_t *xine, void *data)
