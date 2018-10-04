@@ -1309,7 +1309,12 @@ static void        warp_dispose(post_plugin_t *this_gen);
 
 /* parameter functions */
 static xine_post_api_descr_t *warp_get_param_descr(void);
+
+#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_XINE_MODULE)
+static int                    warp_set_parameters(xine_post_t *this_gen, const void *param_gen);
+#else
 static int                    warp_set_parameters(xine_post_t *this_gen, void *param_gen);
+#endif
 static int                    warp_get_parameters(xine_post_t *this_gen, void *param_gen);
 static char                  *warp_get_help(void);
 
@@ -1680,7 +1685,11 @@ static xine_post_api_descr_t *warp_get_param_descr(void)
   return &warp_param_descr;
 }
 
+#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_XINE_MODULE)
+static int warp_set_parameters(xine_post_t *this_gen, const void *param_gen)
+#else
 static int warp_set_parameters(xine_post_t *this_gen, void *param_gen)
+#endif
 {
   const warp_parameters_t *params = (const warp_parameters_t *)param_gen;
   warp_plugin_t *this = (warp_plugin_t *)this_gen;

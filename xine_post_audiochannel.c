@@ -176,7 +176,11 @@ static xine_post_api_descr_t *audioch_get_param_descr(void)
   return &audioch_param_descr;
 }
 
+#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_XINE_MODULE)
+static int audioch_set_parameters(xine_post_t *this_gen, const void *param_gen)
+#else
 static int audioch_set_parameters(xine_post_t *this_gen, void *param_gen)
+#endif
 {
   const audioch_parameters_t *param = (const audioch_parameters_t *)param_gen;
   audioch_post_plugin_t *this = (audioch_post_plugin_t *)this_gen;

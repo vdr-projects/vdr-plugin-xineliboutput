@@ -1660,7 +1660,11 @@ static xine_post_api_descr_t *autocrop_get_param_descr(void)
   return &autocrop_param_descr;
 }
 
+#if XINE_VERSION_CODE > 10209 || defined(PLUGIN_XINE_MODULE)
+static int autocrop_set_parameters(xine_post_t *this_gen, const void *param_gen)
+#else
 static int autocrop_set_parameters(xine_post_t *this_gen, void *param_gen)
+#endif
 {
   const autocrop_parameters_t *param = (const autocrop_parameters_t *)param_gen;
   autocrop_post_plugin_t *this = (autocrop_post_plugin_t *)this_gen;
