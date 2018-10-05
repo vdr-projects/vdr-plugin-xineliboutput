@@ -82,6 +82,7 @@
 #include "tools/pes.h"
 #include "tools/ts.h"
 #include "tools/rle.h"
+#include "tools/vdrdiscovery.h"
 
 /***************************** DEFINES *********************************/
 
@@ -281,7 +282,7 @@ typedef struct slave_stream_s slave_stream_t;
 typedef struct vdr_input_class_s {
   input_class_t   input_class;
   xine_t         *xine;
-  const char     *mrls[ 2 ];
+  char          **autoplay_mrls;
   int             fast_osd_scaling;
   int             smooth_scr_tuning;
   double          scr_tuning_step;
@@ -6032,8 +6033,9 @@ static void vdr_class_default_mrl_change_cb(void *data, xine_cfg_entry_t *cfg)
 {
   vdr_input_class_t *class = (vdr_input_class_t *) data;
 
-  class->mrls[0] = cfg->str_value;
-} 
+  free(class->autoplay_mrls[0]);
+  class->autoplay_mrls[0] = strdup(cfg->str_value);
+}
 
 /* callback on scr tuning step change */
 static void vdr_class_scr_tuning_step_cb(void *data, xine_cfg_entry_t *cfg) 
@@ -6161,32 +6163,64 @@ static const char *vdr_class_get_identifier (input_class_t *this_gen)
 #endif
 
 #if XINE_VERSION_CODE >= 10200
-static const char * const *vdr_plugin_get_autoplay_list(input_class_t *this_gen, int *num_files) 
-{
-  vdr_input_class_t *this = (vdr_input_class_t *)this_gen;
-  *num_files = 1;
-
-  return (const char * const *)this->mrls;
-}
+static const char * const *vdr_class_get_autoplay_list(input_class_t *this_gen, int *num_files)
 #else
-static char **vdr_plugin_get_autoplay_list(input_class_t *this_gen, int *num_files) 
+static char **vdr_class_get_autoplay_list(input_class_t *this_gen, int *num_files)
+#endif
 {
   vdr_input_class_t *this = (vdr_input_class_t *)this_gen;
-  *num_files = 1;
+  vdr_server **svrs;
+  size_t cnt;
 
-  return this->mrls;
-}
+  for (cnt = 1; this->autoplay_mrls[cnt]; cnt++) {
+    free(this->autoplay_mrls[cnt]);
+    this->autoplay_mrls[cnt] = NULL;
+  }
+
+  cnt = 0;
+  svrs = udp_discovery_find_servers(0);
+  if (svrs) {
+    for (cnt = 0; svrs[cnt]; cnt++) {
+      void *p = realloc(this->autoplay_mrls, sizeof(char *) * (cnt + 3));
+      if (!p)
+        break;
+      this->autoplay_mrls = p;
+      if (asprintf(&this->autoplay_mrls[cnt + 1], MRL_ID "://%s:%d", svrs[cnt]->host, svrs[cnt]->port) < 0) {
+        this->autoplay_mrls[cnt + 1] = NULL;
+        break;
+      }
+      this->autoplay_mrls[cnt + 2] = NULL;
+    }
+    udp_discovery_free_servers(&svrs);
+  }
+
+  *num_files = 1 + cnt;
+
+#if XINE_VERSION_CODE >= 10200
+  return (const char * const *)this->autoplay_mrls;
+#else
+  return this->autoplay_mrls;
 #endif
+}
 
 static void vdr_class_dispose (input_class_t *this_gen) 
 {
   vdr_input_class_t *this = (vdr_input_class_t *) this_gen;
   config_values_t *config = this->xine->config;
+  size_t i;
 
   config->unregister_callback(config, "media." MRL_ID ".default_mrl");
   config->unregister_callback(config, "media." MRL_ID ".fast_osd_scaling");
   config->unregister_callback(config, "media." MRL_ID ".scr_tuning_step");
   config->unregister_callback(config, "media." MRL_ID ".smooth_scr_tuning");
+
+  for (i = 0; this->autoplay_mrls[i]; i++) {
+    free(this->autoplay_mrls[i]);
+    this->autoplay_mrls[i] = NULL;
+  }
+  free(this->autoplay_mrls);
+  this->autoplay_mrls = NULL;
+
   free (this);
 }
 
@@ -6217,14 +6251,19 @@ void *input_xvdr_init_class (xine_t *xine, void *data)
   this = calloc(1, sizeof (vdr_input_class_t));
 
   this->xine   = xine;
-  
-  this->mrls[ 0 ] = config->register_string(config,                 
-					    "media." MRL_ID ".default_mrl",
-                                            MRL_ID "://127.0.0.1#nocache;demux:mpeg_block",
-                                            _("default VDR host"),
-                                            _("The default VDR host"),
-                                            10, vdr_class_default_mrl_change_cb, (void *)this);
-  this->mrls[ 1 ] = 0;
+
+  this->autoplay_mrls = calloc(2, sizeof(char *));
+  if (!this->autoplay_mrls) {
+    free(this);
+    return NULL;
+  }
+  this->autoplay_mrls[ 0 ] = strdup(
+    config->register_string(config,
+                            "media." MRL_ID ".default_mrl",
+                            MRL_ID "://127.0.0.1#nocache;demux:mpeg_block",
+                            _("default VDR host"),
+                            _("The default VDR host"),
+                            10, vdr_class_default_mrl_change_cb, (void *)this));
 
   this->fast_osd_scaling = config->register_bool(config,
 						 "media." MRL_ID ".fast_osd_scaling", 0,
@@ -6278,7 +6317,7 @@ void *input_xvdr_init_class (xine_t *xine, void *data)
   this->input_class.identifier         = MRL_ID;
   this->input_class.description        = N_("VDR (Video Disk Recorder) input plugin");
 #endif
-  this->input_class.get_autoplay_list  = vdr_plugin_get_autoplay_list;
+  this->input_class.get_autoplay_list  = vdr_class_get_autoplay_list;
   this->input_class.dispose            = vdr_class_dispose;
 
   LOGDBG("init class succeeded");
