@@ -219,7 +219,7 @@ OBJS = $(PLUGIN).o device.o frontend.o osd.o config.o menu.o setup_menu.o \
        frontend_local.o frontend_svr.o tools/avahi.o \
        tools/cxsocket.o tools/udp_pes_scheduler.o \
        tools/backgroundwriter.o tools/playlist.o tools/http.o \
-       tools/vdrdiscovery.o tools/time_pts.o tools.o \
+       tools/time_pts.o tools.o \
        tools/metainfo_menu.o logdefs.o tools/rle.o \
        tools/sys_cap.o tools/sap.o
 OBJS_MPG = black_720x576.o nosignal_720x576.o vdrlogo_720x576.o

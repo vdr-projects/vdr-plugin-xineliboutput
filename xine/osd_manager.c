@@ -27,7 +27,6 @@
 
 static const char log_module_input_osd[] = "[input_osd] ";
 #define LOG_MODULENAME log_module_input_osd
-#define SysLogLevel    iSysLogLevel
 
 #include "../logdefs.h"
 

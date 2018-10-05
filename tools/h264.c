@@ -13,7 +13,6 @@
 
 #ifndef LOG_MODULENAME
 #  define LOG_MODULENAME "[h264     ] "
-#  define SysLogLevel    iSysLogLevel
 #  include "../logdefs.h"
 #endif
 

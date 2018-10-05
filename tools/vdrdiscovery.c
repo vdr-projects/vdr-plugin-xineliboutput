@@ -33,8 +33,10 @@
 #include <ws2tcpip.h>  // socklen_t
 #endif
 
-#define LOG_MODULENAME "[discovery] "
-#include "../logdefs.h"
+#ifndef LOG_MODULENAME
+#  define LOG_MODULENAME "[discovery] "
+#  include "../logdefs.h"
+#endif
 
 #include "vdrdiscovery.h"
 

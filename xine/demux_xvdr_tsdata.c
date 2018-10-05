@@ -13,7 +13,6 @@
 #include <xine/buffer.h>
 
 #define LOG_MODULENAME "[demux_vdr] "
-#define SysLogLevel    iSysLogLevel
 #include "../logdefs.h"
 
 #include "../tools/ts.h"

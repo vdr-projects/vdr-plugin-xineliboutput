@@ -59,7 +59,6 @@
 
 static const char log_module_demux_xvdr[] = "[demux_vdr] ";
 #define LOG_MODULENAME log_module_demux_xvdr
-#define SysLogLevel    iSysLogLevel
 
 #include "../logdefs.h"
 

@@ -20,7 +20,6 @@
 
 #ifndef LOG_MODULENAME
 #  define LOG_MODULENAME "[mpeg-ts  ] "
-#  define SysLogLevel    iSysLogLevel
 #  include "../logdefs.h"
 #endif
 

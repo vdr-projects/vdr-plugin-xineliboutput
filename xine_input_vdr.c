@@ -147,11 +147,10 @@ typedef struct {
 
 static const char log_module_input_vdr[] = "[input_vdr] ";
 #define LOG_MODULENAME log_module_input_vdr
-#define SysLogLevel    iSysLogLevel
 
 #include "logdefs.h"
 
-int iSysLogLevel  = 1; /* 0:none, 1:errors, 2:info, 3:debug */
+int SysLogLevel   = 1; /* 0:none, 1:errors, 2:info, 3:debug */
 int bLogToSysLog  = 0;
 int bSymbolsFound = 0;
 
@@ -186,9 +185,9 @@ static void SetupLogLevel(void)
   const char *pLogToSyslog = getenv("VDR_FE_SYSLOG");
   const char *pSysLogLevel = getenv("VDR_FE_LOG_LEVEL");
   bLogToSysLog = !!pLogToSyslog;
-  iSysLogLevel = pSysLogLevel ? atoi(pSysLogLevel) : iSysLogLevel;
+  SysLogLevel = pSysLogLevel ? atoi(pSysLogLevel) : SysLogLevel;
   LOGDBG("SysLogLevel %s : value %d",
-         pSysLogLevel ? "found" : "not found", iSysLogLevel);
+         pSysLogLevel ? "found" : "not found", SysLogLevel);
   LOGDBG("LogToSysLog %s : value %s",
          pLogToSyslog ? "found" : "not found", bLogToSysLog ? "yes" : "no");
   bSymbolsFound = pSysLogLevel || pLogToSyslog;
@@ -3991,7 +3990,7 @@ static void vdr_event_cb (void *user_data, const xine_event_t *event)
 	LOGDBG("XINE_EVENT_UI_PLAYBACK_FINISHED");
 	this->control_running = 0;
 #if 1
-	if(iSysLogLevel >= SYSLOGLEVEL_DEBUG) {
+        if (SysLogLevel >= SYSLOGLEVEL_DEBUG) {
 	  /* dump whole xine log as we should not be here ... */
 	  xine_t *xine = this->class->xine;
 	  int i, j;
@@ -6204,13 +6203,13 @@ void *input_xvdr_init_class (xine_t *xine, void *data)
 
   if(!bSymbolsFound) {
     if(xine->verbosity > 0) {
-      iSysLogLevel = xine->verbosity + 1;
+      SysLogLevel = xine->verbosity + 1;
       LOGMSG("detected verbose logging xine->verbosity=%d, setting log level to %d:%s",
-	     xine->verbosity, iSysLogLevel, 
-	     (iSysLogLevel < 1) ? "NONE" :
-	     (iSysLogLevel < 2) ? "ERRORS" : 
-	     (iSysLogLevel < 3) ? "INFO" :
-	     (iSysLogLevel < 4) ? "DEBUG" :
+             xine->verbosity, SysLogLevel,
+             (SysLogLevel < 1) ? "NONE" :
+             (SysLogLevel < 2) ? "ERRORS" :
+             (SysLogLevel < 3) ? "INFO" :
+             (SysLogLevel < 4) ? "DEBUG" :
 	     "VERBOSE DEBUG");
     }
   }

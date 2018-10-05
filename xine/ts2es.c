@@ -18,7 +18,6 @@
 #include "ts2es.h"
 
 #define LOG_MODULENAME "[demux_vdr] "
-#define SysLogLevel    iSysLogLevel
 #include "../logdefs.h"
 
 

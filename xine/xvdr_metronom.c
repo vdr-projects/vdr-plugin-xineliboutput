@@ -16,7 +16,6 @@
 #include "../tools/time_ms.h"
 
 #define LOG_MODULENAME "[metronom ] "
-#define SysLogLevel    iSysLogLevel
 #include "../logdefs.h"
 
 #include "adjustable_scr.h"
