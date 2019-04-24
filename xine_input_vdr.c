@@ -1646,9 +1646,7 @@ static void set_still_mode(vdr_input_plugin_t *this, int still_mode)
   if (still_mode || this->still_mode)
     CHECK_FALSE(this->live_mode);
 
-  pthread_mutex_lock (&this->stream->first_frame_lock);
-  this->stream->first_frame_flag = 2;
-  pthread_mutex_unlock (&this->stream->first_frame_lock);
+  _x_trigger_relaxed_frame_drop_mode(this->stream);
 
   this->still_mode = !!still_mode;
   _x_stream_info_set(this->stream, XINE_STREAM_INFO_VIDEO_HAS_STILL, this->still_mode);
@@ -4933,9 +4931,7 @@ static buf_element_t *preprocess_buf(vdr_input_plugin_t *this, buf_element_t *bu
   /* First packet ? */
   if (this->stream_start) {
     this->stream_start = 0;
-    pthread_mutex_lock (&this->stream->first_frame_lock);
-    this->stream->first_frame_flag = 2;
-    pthread_mutex_unlock (&this->stream->first_frame_lock);
+    _x_trigger_relaxed_frame_drop_mode(this->stream);
 
     memset(&this->scr_buf, 0, sizeof(this->scr_buf));
 
