@@ -117,7 +117,6 @@ static void __pplugin_update_parameters(xine_post_t *post, char *args)
   };
 
   if(__pplugin_retrieve_parameters(&pobj)) {
-    int   i;
 
     if(pobj.properties_names && args && *args) {
       char *param;
@@ -213,7 +212,7 @@ static void __pplugin_update_parameters(xine_post_t *post, char *args)
     }
 
     if (pobj.properties_names) {
-      i = 0;
+      int i = 0;
 
       while(pobj.properties_names[i]) {
         free(pobj.properties_names[i]);
