@@ -2049,12 +2049,8 @@ static int vdr_plugin_exec_osd_command(vdr_input_plugin_if_t *this_if,
 /******************************* Control *********************************/
 
 #if XINE_VERSION_CODE < 10111
-# define DEMUX_MUTEX_LOCK
-# define DEMUX_MUTEX_UNLOCK
 # define DEMUX_RESUME_SIGNAL
 #else
-# define DEMUX_MUTEX_LOCK    pthread_mutex_lock(&stream->demux_mutex)
-# define DEMUX_MUTEX_UNLOCK  pthread_mutex_unlock(&stream->demux_mutex)
 # define DEMUX_RESUME_SIGNAL pthread_cond_signal(&this->stream->demux_resume)
 #endif
 
@@ -2098,36 +2094,6 @@ static void resume_demuxer(vdr_input_plugin_t *this)
 
   DEMUX_RESUME_SIGNAL;
   pthread_mutex_unlock( &this->stream->demux_lock );
-}
-
-static void vdr_x_demux_control_newpts( xine_stream_t *stream, int64_t pts, 
-					uint32_t flags ) 
-{
-  buf_element_t *buf;
-
-  DEMUX_MUTEX_LOCK;
-
-  buf = stream->video_fifo ? stream->video_fifo->buffer_pool_try_alloc (stream->video_fifo) : NULL;
-  if(buf) {
-    buf->type = BUF_CONTROL_NEWPTS;
-    buf->decoder_flags = flags;
-    buf->disc_off = pts;
-    stream->video_fifo->put (stream->video_fifo, buf); 
-  } else {
-    LOGMSG("vdr_x_demux_control_newpts: video fifo full !");
-  }
-
-  buf = stream->audio_fifo ? stream->audio_fifo->buffer_pool_try_alloc (stream->audio_fifo) : NULL;
-  if (buf) {
-    buf->type = BUF_CONTROL_NEWPTS;
-    buf->decoder_flags = flags;
-    buf->disc_off = pts;
-    stream->audio_fifo->put (stream->audio_fifo, buf);
-  } else {
-    LOGMSG("vdr_x_demux_control_newpts: audio fifo full !");
-  }
-
-  DEMUX_MUTEX_UNLOCK;
 }
 
 static void vdr_flush_engine(vdr_input_plugin_t *this, uint64_t discard_index)
@@ -4898,7 +4864,6 @@ static buf_element_t *preprocess_buf(vdr_input_plugin_t *this, buf_element_t *bu
 	     this->block_buffer->fifo_size,
 	     this->stream->video_fifo->fifo_size);
     } else {
-      vdr_x_demux_control_newpts(this->stream, 0, BUF_FLAG_SEEK);
       queue_blank_yv12(this);
     }
     pthread_mutex_unlock(&this->lock);
