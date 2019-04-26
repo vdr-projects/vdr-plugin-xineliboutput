@@ -2385,14 +2385,14 @@ static void select_spu_channel(xine_stream_t *stream, int channel)
   if (channel == SPU_CHANNEL_NONE) {
     /* re-enable overlay for VDR OSD ... */
     if (stream->video_out) {
-      pthread_mutex_lock (&stream->frontend_lock);
+      //pthread_mutex_lock (&stream->frontend_lock);
 
       if (_x_lock_port_rewiring(stream->xine, 100)) {
         stream->video_out->enable_ovl (stream->video_out, 1);
         _x_unlock_port_rewiring(stream->xine);
       }
 
-      pthread_mutex_unlock (&stream->frontend_lock);
+      //pthread_mutex_unlock (&stream->frontend_lock);
     }
   }
 }
@@ -4994,7 +4994,9 @@ static void handle_disconnect(vdr_input_plugin_t *this)
   reset_trick_speed(this);
   this->live_mode = 0;
   reset_scr_tuning(this);
+#if XINE_VERSION_CODE < 10209
   this->stream->emergency_brake = 1;
+#endif
 
   this->control_running = 0;
   errno = ENOTCONN;
