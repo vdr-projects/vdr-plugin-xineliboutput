@@ -4855,28 +4855,27 @@ static uint8_t update_frames(vdr_input_plugin_t *this, const uint8_t *data, int 
  */
 static buf_element_t *preprocess_buf(vdr_input_plugin_t *this, buf_element_t *buf)
 {
-  /* internal control bufs */
-  if(buf->type == CONTROL_BUF_BLANK) {
-
-    pthread_mutex_lock(&this->lock);
-    if(!this->stream_start) {
-      LOGMSG("BLANK in middle of stream! bufs queue %d , video_fifo %d", 
-	     this->block_buffer->fifo_size,
-	     this->stream->video_fifo->fifo_size);
-    } else {
-      queue_blank_yv12(this);
-    }
-    pthread_mutex_unlock(&this->lock);
-
-    buf->free_buffer(buf);
-    return NULL;
-  }
-
   /* demuxed video, control messages, ... go directly to demuxer */
   if (buf->type != BUF_NETWORK_BLOCK &&
       buf->type != BUF_LOCAL_BLOCK &&
-      buf->type != BUF_DEMUX_BLOCK)
+      buf->type != BUF_DEMUX_BLOCK) {
+
+    /* internal control bufs */
+    if(buf->type == CONTROL_BUF_BLANK) {
+      pthread_mutex_lock(&this->lock);
+      if(!this->stream_start) {
+        LOGMSG("BLANK in middle of stream! bufs queue %d , video_fifo %d",
+               this->block_buffer->fifo_size,
+               this->stream->video_fifo->fifo_size);
+      } else {
+        queue_blank_yv12(this);
+      }
+      pthread_mutex_unlock(&this->lock);
+      buf->free_buffer(buf);
+      return NULL;
+    }
     return buf;
+  }
 
   pthread_mutex_lock(&this->lock);
 
