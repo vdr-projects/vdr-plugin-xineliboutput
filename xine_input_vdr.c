@@ -1789,11 +1789,12 @@ static void queue_blank_yv12(vdr_input_plugin_t *this)
   _x_demux_control_newpts(this->stream, 0, BUF_FLAG_SEEK);
 
 
-  this->class->xine->port_ticket->acquire (this->class->xine->port_ticket, 1);
-  img = this->stream->video_out->get_frame (this->stream->video_out,
-                                            width, height, dratio,
-                                            XINE_IMGFMT_YV12, VO_BOTH_FIELDS);
-  this->class->xine->port_ticket->release (this->class->xine->port_ticket, 1);
+  if (_x_lock_port_rewiring(this->class->xine, 100)) {
+    img = this->stream->video_out->get_frame (this->stream->video_out,
+                                              width, height, dratio,
+                                              XINE_IMGFMT_YV12, VO_BOTH_FIELDS);
+    _x_unlock_port_rewiring(this->class->xine);
+  }
 
   if (img) {
     if (img->format == XINE_IMGFMT_YV12 && img->base[0] && img->base[1] && img->base[2]) {
@@ -2385,11 +2386,12 @@ static void select_spu_channel(xine_stream_t *stream, int channel)
     /* re-enable overlay for VDR OSD ... */
     if (stream->video_out) {
       pthread_mutex_lock (&stream->frontend_lock);
-      stream->xine->port_ticket->acquire (stream->xine->port_ticket, 0);
-    
-      stream->video_out->enable_ovl (stream->video_out, 1);
 
-      stream->xine->port_ticket->release (stream->xine->port_ticket, 0);
+      if (_x_lock_port_rewiring(stream->xine, 100)) {
+        stream->video_out->enable_ovl (stream->video_out, 1);
+        _x_unlock_port_rewiring(stream->xine);
+      }
+
       pthread_mutex_unlock (&stream->frontend_lock);
     }
   }
@@ -3024,12 +3026,13 @@ static int vdr_plugin_flush(vdr_input_plugin_t *this, int timeout_ms)
     return 1; 
   }
 
-  this->class->xine->port_ticket->acquire(this->class->xine->port_ticket, 1);
-  result = MAX(0, pool->size(pool)) + 
-           MAX(0, buffer->size(buffer)) +
-           this->stream->video_out->get_property(this->stream->video_out, 
-						 VO_PROP_BUFS_IN_FIFO);
-  this->class->xine->port_ticket->release(this->class->xine->port_ticket, 1);
+  if (_x_lock_port_rewiring(this->class->xine, 100)) {
+    result = MAX(0, pool->size(pool)) +
+        MAX(0, buffer->size(buffer)) +
+        this->stream->video_out->get_property(this->stream->video_out,
+                                              VO_PROP_BUFS_IN_FIFO);
+    _x_unlock_port_rewiring(this->class->xine);
+  }
 
   put_control_buf(buffer, pool, BUF_CONTROL_FLUSH_DECODER);
   put_control_buf(buffer, pool, BUF_CONTROL_NOP);
@@ -3052,12 +3055,14 @@ static int vdr_plugin_flush(vdr_input_plugin_t *this, int timeout_ms)
 					 &pool->buffer_pool_mutex, &abstime);
     pthread_mutex_unlock(&pool->buffer_pool_mutex);
 
-    this->class->xine->port_ticket->acquire(this->class->xine->port_ticket, 1);
-    result = MAX(0, pool->size(pool)) +
-             MAX(0, buffer->size(buffer)) +
-             this->stream->video_out->get_property(this->stream->video_out, 
-						   VO_PROP_BUFS_IN_FIFO);
-    this->class->xine->port_ticket->release(this->class->xine->port_ticket, 1);
+    result = 0;
+    if (_x_lock_port_rewiring(this->class->xine, 100)) {
+      result = MAX(0, pool->size(pool)) +
+          MAX(0, buffer->size(buffer)) +
+          this->stream->video_out->get_property(this->stream->video_out,
+                                                VO_PROP_BUFS_IN_FIFO);
+      _x_unlock_port_rewiring(this->class->xine);
+    }
   }
 
   TRACE("vdr_plugin_flush returns %d (%d+%d used, %d frames)\n", result,
@@ -5985,11 +5990,12 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
     return 0;
   }
 
-  this->class->xine->port_ticket->acquire(this->class->xine->port_ticket, 1);
-  if(!(this->stream->video_out->get_capabilities(this->stream->video_out) &
-       VO_CAP_UNSCALED_OVERLAY))
-    LOGMSG("WARNING: Video output driver reports it does not support unscaled overlays !");
-  this->class->xine->port_ticket->release(this->class->xine->port_ticket, 1);
+  if (_x_lock_port_rewiring(this->class->xine, 0)) {
+    if(!(this->stream->video_out->get_capabilities(this->stream->video_out) &
+         VO_CAP_UNSCALED_OVERLAY))
+      LOGMSG("WARNING: Video output driver reports it does not support unscaled overlays !");
+    _x_unlock_port_rewiring(this->class->xine);
+  }
 
   this->threads_initialized = 1;
   return 1;
