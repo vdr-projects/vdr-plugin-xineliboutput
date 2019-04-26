@@ -4950,18 +4950,19 @@ static buf_element_t *preprocess_buf(vdr_input_plugin_t *this, buf_element_t *bu
   if (this->live_mode || (this->fd_control >= 0 && !this->fixed_scr)) {
     int64_t pcr = -1;
 
-    if (DATA_IS_TS(buf->content) &&
-	ts_get_pcr_n(buf->content, buf->size / TS_SIZE, &pcr) &&
-	pcr >= 0) {
+    if (DATA_IS_TS(buf->content)) {
+      if (ts_get_pcr_n(buf->content, buf->size / TS_SIZE, &pcr) &&
+          pcr >= 0) {
 
-      this->scr->got_pcr(this->scr, pcr);
-    }
-
-    /* PES stream has no PCR, use audio pts for vdr-1.6.0 compability */
-    if (IS_AUDIO_PACKET(buf->content)) {
-      pcr = pes_get_pts(buf->content, buf->size);
-      if (pcr > 0) {
         this->scr->got_pcr(this->scr, pcr);
+      }
+    } else {
+      /* PES stream has no PCR, use audio pts for vdr-1.6.0 compability */
+      if (IS_AUDIO_PACKET(buf->content)) {
+        pcr = pes_get_pts(buf->content, buf->size);
+        if (pcr > 0) {
+          this->scr->got_pcr(this->scr, pcr);
+        }
       }
     }
   }
