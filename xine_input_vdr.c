@@ -4035,6 +4035,7 @@ static void vdr_event_cb (void *user_data, const xine_event_t *event)
 static int wait_stream_sync(vdr_input_plugin_t *this)
 {
   int counter = 100;
+  int synced = 0;
 
   mutex_lock_cancellable(&this->lock);
 
@@ -4056,9 +4057,11 @@ static int wait_stream_sync(vdr_input_plugin_t *this)
            this->discard_index, this->curpos, (int64_t)(this->discard_index - this->curpos));
   }
 
+  synced = this->discard_index == this->discard_index_ds;
+
   mutex_unlock_cancellable(&this->lock);
 
-  if (this->discard_index == this->discard_index_ds) {
+  if (synced) {
     LOGVERBOSE("wait_stream_sync: streams synced at %"PRIu64"/%"PRIu64,
                this->discard_index_ds, this->discard_index);
     return 0;
