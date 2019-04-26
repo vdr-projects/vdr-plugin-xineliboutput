@@ -3790,12 +3790,15 @@ static void slave_track_maps_changed(vdr_input_plugin_t *this)
   char tracks[1024], lang[128];
   int i, current, n = 0;
   size_t cnt;
+  uint32_t num_tracks;
 
   /* DVD title and menu domain detection */
   update_dvd_title_number(this);
 
   /* Audio tracks */
-  
+
+  num_tracks = xine_get_stream_info (this->slave.stream, XINE_STREAM_INFO_MAX_AUDIO_CHANNEL);
+
   strcpy(tracks, "INFO TRACKMAP AUDIO ");
   cnt = strlen(tracks);
   current = xine_get_param(this->slave.stream, XINE_PARAM_AUDIO_CHANNEL_LOGICAL);
@@ -3804,7 +3807,7 @@ static void slave_track_maps_changed(vdr_input_plugin_t *this)
       cnt += snprintf(tracks+cnt, sizeof(tracks)-cnt-32, 
 		      "%s%d:%s ", i==current?"*":"", i, trim_str(lang));
       n++;
-    } else if (i < this->slave.stream->audio_track_map_entries) {
+    } else if (i < num_tracks) {
       cnt += snprintf(tracks+cnt, sizeof(tracks)-cnt-32,
                       "%s%d:%d ", i==current?"*":"", i, i);
       n++;
