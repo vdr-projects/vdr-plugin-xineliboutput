@@ -3788,9 +3788,8 @@ static const char *trim_str(const char *s)
 static void slave_track_maps_changed(vdr_input_plugin_t *this)
 {
   char tracks[1024], lang[128];
-  int i, current, n = 0;
+  int i, current, n = 0, num_tracks;
   size_t cnt;
-  uint32_t num_tracks;
 
   /* DVD title and menu domain detection */
   update_dvd_title_number(this);
@@ -3821,6 +3820,8 @@ static void slave_track_maps_changed(vdr_input_plugin_t *this)
 
   /* DVD SPU tracks */
 
+  num_tracks = xine_get_stream_info (this->slave.stream, XINE_STREAM_INFO_MAX_SPU_CHANNEL);
+
   n = 0;  
   strcpy(tracks, "INFO TRACKMAP SPU ");
   cnt = strlen(tracks);
@@ -3838,6 +3839,10 @@ static void slave_track_maps_changed(vdr_input_plugin_t *this)
     if (xine_get_spu_lang(this->slave.stream, i, lang)) {
       cnt += snprintf(tracks+cnt, sizeof(tracks)-cnt-32,
 		      "%s%d:%s ", i==current?"*":"", i, trim_str(lang));
+      n++;
+    } else if (i < num_tracks) {
+      cnt += snprintf(tracks+cnt, sizeof(tracks)-cnt-32,
+                      "%s%d:%d ", i==current?"*":"", i, i);
       n++;
     }
   tracks[sizeof(tracks)-1] = 0;
