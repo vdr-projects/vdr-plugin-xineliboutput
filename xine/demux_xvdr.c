@@ -108,17 +108,6 @@ typedef struct demux_xvdr_s {
   uint8_t               bih_posted           : 1;
 } demux_xvdr_t ;
 
-typedef struct {
-
-  demux_class_t     demux_class;
-
-  /* class-wide, global variables here */
-
-  xine_t           *xine;
-  config_values_t  *config;
-} demux_xvdr_class_t;
-
-
 static const char * get_decoder_name(xine_t *xine, int buf_type)
 {
   uint32_t base = buf_type & 0xFF000000;
@@ -1224,10 +1213,6 @@ static int demux_xvdr_seek (demux_plugin_t *this_gen,
   return this->status;
 }
 
-/*
- * demux class
- */
-
 static int demux_xvdr_get_stream_length (demux_plugin_t *this_gen)
 {
   return 0;
@@ -1243,6 +1228,10 @@ static int demux_xvdr_get_optional_data(demux_plugin_t *this_gen,
 {
   return DEMUX_OPTIONAL_UNSUPPORTED;
 }
+
+/*
+ * demux class
+ */
 
 static demux_plugin_t *demux_xvdr_open_plugin (demux_class_t *class_gen,
                                                xine_stream_t *stream,
@@ -1301,12 +1290,12 @@ static const char *demux_xvdr_get_mimetypes (demux_class_t *this_gen)
 {
   return NULL;
 }
+#endif
 
+#if XINE_VERSION_CODE <= 10209
 static void demux_xvdr_class_dispose (demux_class_t *this_gen)
 {
-  demux_xvdr_class_t *this = (demux_xvdr_class_t *) this_gen;
-
-  free (this);
+  (void)this_gen;
 }
 #endif
 
@@ -1316,34 +1305,34 @@ void *demux_xvdr_init_class (xine_t *xine, const void *data)
 void *demux_xvdr_init_class (xine_t *xine, void *data)
 #endif
 {
-  demux_xvdr_class_t     *this;
+  static const demux_class_t demux_xvdr_class = {
 
-  this         = calloc(1, sizeof(demux_xvdr_class_t));
-  this->config = xine->config;
-  this->xine   = xine;
-
-  this->demux_class.open_plugin     = demux_xvdr_open_plugin;
+    .open_plugin     = demux_xvdr_open_plugin,
 #if DEMUXER_PLUGIN_IFACE_VERSION < 27
-  this->demux_class.get_description = demux_xvdr_get_description;
-  this->demux_class.get_identifier  = demux_xvdr_get_identifier;
-  this->demux_class.get_mimetypes   = demux_xvdr_get_mimetypes;
-  this->demux_class.get_extensions  = demux_xvdr_get_extensions;
-  this->demux_class.dispose         = demux_xvdr_class_dispose;
+    .get_description = demux_xvdr_get_description,
+    .get_identifier  = demux_xvdr_get_identifier,
+    .get_mimetypes   = demux_xvdr_get_mimetypes,
+    .get_extensions  = demux_xvdr_get_extensions,
 #else
-  this->demux_class.description     = N_("XVDR demux plugin");
-  this->demux_class.identifier      = MRL_ID;
-  this->demux_class.mimetypes       = NULL;
-  this->demux_class.extensions      =
-    MRL_ID":/ "
-    MRL_ID"+pipe:/ "
-    MRL_ID"+tcp:/ "
-    MRL_ID"+udp:/ "
-    MRL_ID"+rtp:/ "
-    MRL_ID"+slave:/";
-  this->demux_class.dispose         = default_demux_class_dispose;
+    .description     = N_("XVDR demux plugin"),
+    .identifier      = MRL_ID,
+    .mimetypes       = NULL,
+    .extensions      =
+       MRL_ID":/ "
+        MRL_ID"+pipe:/ "
+        MRL_ID"+tcp:/ "
+        MRL_ID"+udp:/ "
+        MRL_ID"+rtp:/ "
+        MRL_ID"+slave:/",
 #endif
+#if XINE_VERSION_CODE <= 10209
+    .dispose         = demux_xvdr_class_dispose,
+#else
+    .dispose = NULL
+#endif
+  };
 
-  return this;
+  return (void *)&demux_xvdr_class;
 }
 
 
