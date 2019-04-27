@@ -4052,7 +4052,8 @@ static int wait_stream_sync(vdr_input_plugin_t *this)
     pthread_cond_timedwait(&this->engine_flushed, &this->lock, &abstime);
   }
 
-  if (this->discard_index != this->curpos) {
+  if (this->discard_index < this->curpos) {
+    /* may be less if server-side fifo was cleared */
     LOGMSG("wait_stream_sync: discard_index %"PRIu64" != curpos %"PRIu64" ! (diff %"PRId64")",
            this->discard_index, this->curpos, (int64_t)(this->discard_index - this->curpos));
   }
