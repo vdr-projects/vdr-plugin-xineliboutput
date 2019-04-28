@@ -29,6 +29,7 @@ struct ts2es_s {
   buf_element_t *buf;
   unsigned       pes_len;  /* PES payload length left */
   uint8_t        first_pusi_seen;
+  uint8_t        frame_end_sent;
   uint8_t        video;
   uint8_t        pes_error;
 };
@@ -191,7 +192,7 @@ buf_element_t *ts2es_put(ts2es_t *this, uint8_t *data, fifo_buffer_t *src_fifo)
   /* handle new payload unit */
   if (pusi) {
 
-    if (this->first_pusi_seen && !this->buf) {
+    if (this->first_pusi_seen && !this->buf && !this->frame_end_sent) {
       this->buf = this->fifo->buffer_pool_alloc(this->fifo);
       this->buf->type = this->xine_buf_type;
     }
@@ -203,6 +204,7 @@ buf_element_t *ts2es_put(ts2es_t *this, uint8_t *data, fifo_buffer_t *src_fifo)
     }
 
     this->first_pusi_seen = 1;
+    this->frame_end_sent = 0;
   }
 
   /* split large packets */
@@ -257,6 +259,7 @@ buf_element_t *ts2es_put(ts2es_t *this, uint8_t *data, fifo_buffer_t *src_fifo)
         result = this->buf;
         this->buf = NULL;
         this->pes_error = 1; /* to drop rest of data */
+        this->frame_end_sent = 1;
       }
       this->pes_len = 0;
     } else {
