@@ -465,10 +465,12 @@ static void demux_xvdr_parse_ts (demux_xvdr_t *this, buf_element_t *buf)
     else if (ts_pid == ts_data->pmt.video_pid) {
       if (ts_data->video) {
         buf_element_t *vbuf     = ts2es_put(ts_data->video, buf->content, src_fifo);
-        if (vbuf) {
+        while (vbuf) {
+          buf_element_t *next = vbuf->next;
           check_newpts( this, vbuf, PTS_VIDEO );
 
           this->stream->video_fifo->put(this->stream->video_fifo, vbuf);
+          vbuf = next;
         }
       }
     }
@@ -480,11 +482,13 @@ static void demux_xvdr_parse_ts (demux_xvdr_t *this, buf_element_t *buf)
         if (ts_pid == ts_data->pmt.audio_tracks[i].pid) {
           if (ts_data->audio[i]) {
             buf_element_t *abuf = ts2es_put(ts_data->audio[i], buf->content, src_fifo);
-            if (abuf) {
+            while (abuf) {
+              buf_element_t *next = abuf->next;
               check_newpts( this, abuf, PTS_AUDIO );
               track_audio_stream_change (this, abuf);
 
               this->stream->audio_fifo->put(this->stream->audio_fifo, abuf);
+              abuf = next;
             }
           }
           /*done = 1;*/
@@ -497,8 +501,10 @@ static void demux_xvdr_parse_ts (demux_xvdr_t *this, buf_element_t *buf)
         if (ts_pid == ts_data->pmt.spu_tracks[i].pid) {
           if (ts_data->spu[i]) {
             buf_element_t *sbuf = ts2es_put(ts_data->spu[i], buf->content, NULL);
-            if (sbuf)
+            while (sbuf)
+              buf_element_t *next = sbuf->next;
               this->stream->video_fifo->put(this->stream->video_fifo, sbuf);
+              sbuf = next;
           }
           done = 1;
           break;

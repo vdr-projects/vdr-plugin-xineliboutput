@@ -195,6 +195,7 @@ buf_element_t *ts2es_put(ts2es_t *this, uint8_t *data, fifo_buffer_t *src_fifo)
     if (this->first_pusi_seen && !this->buf && !this->frame_end_sent) {
       this->buf = this->fifo->buffer_pool_alloc(this->fifo);
       this->buf->type = this->xine_buf_type;
+      this->buf->next = NULL;
     }
     if (this->buf) {
       this->buf->decoder_flags |= BUF_FLAG_FRAME_END;
@@ -235,6 +236,7 @@ buf_element_t *ts2es_put(ts2es_t *this, uint8_t *data, fifo_buffer_t *src_fifo)
     }
 
     this->buf->type = this->xine_buf_type;
+    this->buf->next = NULL;
   }
 
   /* strip ts header */
@@ -254,14 +256,16 @@ buf_element_t *ts2es_put(ts2es_t *this, uint8_t *data, fifo_buffer_t *src_fifo)
     if (this->pes_len <= bytes) {
       /* XXX FIXME: one call to ts2es_put may result in two output packets
        * if stream mixes known-length and unknown-length packets. */
-      if (!result) {
         this->buf->decoder_flags |= BUF_FLAG_FRAME_END;
-        result = this->buf;
-        this->buf = NULL;
         this->pes_error = 1; /* to drop rest of data */
         this->frame_end_sent = 1;
-      }
       this->pes_len = 0;
+      if (!result) {
+        result = this->buf;
+      } else {
+        result->next = this->buf;
+      }
+      this->buf = NULL;
     } else {
       this->pes_len -= bytes;
     }

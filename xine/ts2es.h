@@ -20,7 +20,7 @@
 typedef struct ts2es_s ts2es_t;
 
 ts2es_t        *ts2es_init    (fifo_buffer_t *dst_fifo, ts_stream_type stream_type, unsigned stream_index);
-buf_element_t  *ts2es_put     (ts2es_t *ts2es, uint8_t *ts_packet, fifo_buffer_t *src_fifo);
+buf_element_t  *ts2es_put     (ts2es_t *ts2es, uint8_t *ts_packet, fifo_buffer_t *src_fifo); /* may return list of buffers ! */
 void            ts2es_flush   (ts2es_t *ts2es);
 void            ts2es_dispose (ts2es_t *ts2es);
 
