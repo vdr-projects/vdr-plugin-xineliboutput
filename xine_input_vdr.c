@@ -2081,12 +2081,6 @@ static void vdr_flush_engine(vdr_input_plugin_t *this, uint64_t discard_index)
 
   pthread_mutex_lock(&this->lock);
 
-#if XINE_VERSION_CODE < 10104
-  /* disabled _x_demux_control_start as it causes alsa output driver to exit now and then ... */
-#else
-  _x_demux_control_start(this->stream);
-#endif
-
   reset_scr_tuning(this);
   this->stream_start = 1;
   this->I_frames = this->B_frames = this->P_frames = 0;
