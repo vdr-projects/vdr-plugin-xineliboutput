@@ -2049,54 +2049,6 @@ static int vdr_plugin_exec_osd_command(vdr_input_plugin_if_t *this_if,
 
 /******************************* Control *********************************/
 
-#if XINE_VERSION_CODE < 10111
-# define DEMUX_RESUME_SIGNAL
-#else
-# define DEMUX_RESUME_SIGNAL pthread_cond_signal(&this->stream->demux_resume)
-#endif
-
-#if XINE_VERSION_CODE < 10200
-# define RAISE_ACTION_PENDING this->stream->demux_action_pending = 1
-# define LOWER_ACTION_PENDING this->stream->demux_action_pending = 0
-#else
-# define RAISE_ACTION_PENDING _x_action_raise(this->stream)
-# define LOWER_ACTION_PENDING _x_action_lower(this->stream)
-#endif
-
-static void suspend_demuxer(vdr_input_plugin_t *this)
-{
-  if (this->is_paused)
-    LOGMSG("WARNING: called suspend_demuxer in paused mode !");
-
-  /* request demuxer to release demux_lock */
-  RAISE_ACTION_PENDING;
-
-  /* signal all possible sync points to speed up this */
-  pthread_cond_broadcast(&this->engine_flushed);
-  signal_buffer_not_empty(this);
-
-  /* let demuxer return from vdr_plugin_read_* */
-  if (pthread_mutex_unlock( &this->lock ))
-    LOGERR("pthread_mutex_unlock failed !");
-
-  /* lock demuxer */
-  pthread_mutex_lock( &this->stream->demux_lock );
-
-  LOWER_ACTION_PENDING;
-
-  pthread_mutex_lock( &this->lock );
-
-  /* must be paired with resume_demuxer !!! */
-}
-
-static void resume_demuxer(vdr_input_plugin_t *this)
-{
-  /* must be paired with suspend_demuxer !!! */
-
-  DEMUX_RESUME_SIGNAL;
-  pthread_mutex_unlock( &this->stream->demux_lock );
-}
-
 static void vdr_flush_engine(vdr_input_plugin_t *this, uint64_t discard_index)
 {
   CHECK_LOCKED(this->lock);
@@ -2111,48 +2063,36 @@ static void vdr_flush_engine(vdr_input_plugin_t *this, uint64_t discard_index)
       LOGMSG("vdr_flush_engine: guard > curpos, flush skipped");
       return;
     }
-    LOGMSG("vdr_flush_engine: %"PRIu64" < current position %"PRIu64", flush skipped", 
-	   discard_index, this->curpos);
+    LOGMSG("vdr_flush_engine: %"PRIu64" < current position %"PRIu64", flush skipped",
+           discard_index, this->curpos);
     return;
   }
 
+  if (this->is_paused)
+    LOGMSG("WARNING: called suspend_demuxer in paused mode !");
+
   /* reset speed */
+  reset_scr_tuning(this);
   if(_x_get_fine_speed(this->stream) <= 0) {
     LOGMSG("vdr_flush_engine: playback is paused <0>");
     _x_set_fine_speed(this->stream, XINE_FINE_SPEED_NORMAL);
   }
 
-  /* suspend demuxer */
-  suspend_demuxer(this);
+  pthread_mutex_unlock(&this->lock);
 
-  reset_scr_tuning(this);
-
-  /* reset speed again (adjust_realtime_speed might have set pause) */
-  if(_x_get_fine_speed(this->stream) <= 0) {
-    LOGMSG("vdr_flush_engine: playback is paused <1>");
-    _x_set_fine_speed(this->stream, XINE_FINE_SPEED_NORMAL);
-  }
-
-#if 0
-  _x_demux_flush_engine (this->stream);
-  /* warning: after clearing decoders fifos an absolute discontinuity
-   *          indication must be sent. relative discontinuities are likely
-   *          to cause "jumps" on metronom.
-   */
-#else
   _x_demux_seek(this->stream, 0, 0, 1);
-#endif
+
+  pthread_mutex_lock(&this->lock);
 
 #if XINE_VERSION_CODE < 10104
   /* disabled _x_demux_control_start as it causes alsa output driver to exit now and then ... */
 #else
   _x_demux_control_start(this->stream);
 #endif
+
+  reset_scr_tuning(this);
   this->stream_start = 1;
   this->I_frames = this->B_frames = this->P_frames = 0;
-  this->discard_index = discard_index;
-
-  resume_demuxer(this);
 }
 
 static int set_deinterlace_method(vdr_input_plugin_t *this, const char *method_name)
