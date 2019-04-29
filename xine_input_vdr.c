@@ -8,9 +8,6 @@
  *
  */
 
-
-#define XINE_ENGINE_INTERNAL
-
 #ifndef _GNU_SOURCE
 # define _GNU_SOURCE  /* asprintf */
 #endif
