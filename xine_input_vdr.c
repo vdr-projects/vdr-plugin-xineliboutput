@@ -4132,9 +4132,11 @@ static buf_element_t *vdr_plugin_read_block_tcp(vdr_input_plugin_t *this)
   int            warnings    = 0;
   int            result, n;
 
-  if (this->discard_index < this->discard_index_ds &&
-      wait_stream_sync(this))
+  if (this->discard_index < this->discard_index_ds) {
+    if (!wait_stream_sync(this))
+      errno = EAGAIN;
     return NULL;
+  }
 
   if (read_buffer && read_buffer->size >= (ssize_t)sizeof(stream_tcp_header_t))
     todo += ((stream_tcp_header_t *)read_buffer->content)->len;
@@ -4586,9 +4588,11 @@ static buf_element_t *vdr_plugin_read_block_udp(vdr_input_plugin_t *this)
 
   while (this->control_running && this->fd_data >= 0) {
 
-    if (this->discard_index < this->discard_index_ds &&
-        wait_stream_sync(this))
+    if (this->discard_index < this->discard_index_ds) {
+      if (!wait_stream_sync(this))
+        errno = EAGAIN;
       return NULL;
+    }
 
     if (!this->control_running || this->fd_data < 0) {
       errno = ENOTCONN;
