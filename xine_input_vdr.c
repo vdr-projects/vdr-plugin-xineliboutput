@@ -2140,8 +2140,7 @@ static void vdr_flush_engine(vdr_input_plugin_t *this, uint64_t discard_index)
    *          to cause "jumps" on metronom.
    */
 #else
-  this->stream->demux_plugin->seek (this->stream->demux_plugin,
-				    0, 0, this->stream->demux_thread_running);
+  _x_demux_seek(this->stream, 0, 0, 1);
 #endif
 
 #if XINE_VERSION_CODE < 10104
