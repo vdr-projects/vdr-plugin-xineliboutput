@@ -5804,6 +5804,9 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
 
   LOGDBG("vdr_plugin_open_net %s", this->mrl);
 
+  if(!vdr_plugin_open(this_gen))
+    return 0;
+
   if(strchr(this->mrl, '#')) 
     *strchr(this->mrl, '#') = 0;
   if((this->tcp = !strncasecmp(this->mrl, MRL_ID "+tcp://",  MRL_ID_LEN+7)) ||
@@ -5913,9 +5916,6 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
     LOGMSG("Unknown mrl (%s)", this->mrl);
     return 0;
   }
-
-  if(!vdr_plugin_open(this_gen))
-    return 0;
 
   queue_nosignal(this);
 
