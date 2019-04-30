@@ -5744,6 +5744,7 @@ static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host,
   return -1;
 }
 
+#ifndef _WIN32
 static int connect_pipe_data_stream(vdr_input_plugin_t *this)
 {
   char tmpbuf[256];
@@ -5799,6 +5800,7 @@ static int connect_pipe_data_stream(vdr_input_plugin_t *this)
 
   return -1;
 }
+#endif // _WIN32
 
 static int vdr_plugin_open_net (input_plugin_t *this_gen) 
 {
@@ -5845,7 +5847,7 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
     /* connect data stream */
 
     /* try pipe ? */
-
+#ifndef _WIN32
     if(!this->tcp && !this->udp && !this->rtp) {
       if((this->fd_data = connect_pipe_data_stream(this)) < 0) {
 	LOGMSG("Data stream connection failed (PIPE)");
@@ -5854,6 +5856,7 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
 	LOGMSG("Data stream connected (PIPE)");
       }
     }
+#endif // _WIN32
 
     /* try RTP ? */
 
