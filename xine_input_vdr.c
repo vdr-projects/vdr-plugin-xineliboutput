@@ -269,6 +269,8 @@ static void log_graph(int val, int symb)
 
 /******************************* DATA ***********************************/
 
+#include "tools/sock_compat.h"
+
 #define KILOBYTE(x)   (1024 * (x))
 
 typedef struct udp_data_s udp_data_t;
@@ -5183,11 +5185,11 @@ static void vdr_plugin_dispose (input_plugin_t *this_gen)
   if(!local) {
     LOGDBG("Closing data connection");
     if(fd >= 0)
-      if(close(fd))
+      if (closesocket(fd))
 	LOGERR("close(fd_data) failed");
     LOGDBG("Closing control connection");
     if(fc >= 0)
-      if(close(fc))
+      if (closesocket(fc))
 	LOGERR("close(fd_control) failed");
     this->fd_data = this->fd_control = -1;
     LOGMSG("Connections closed.");
@@ -5229,6 +5231,8 @@ static void vdr_plugin_dispose (input_plugin_t *this_gen)
 
   free (this);
   LOGDBG("dispose done.");
+
+  sock_cleanup();
 }
 
 #if XINE_VERSION_CODE > 10103
@@ -5336,7 +5340,7 @@ static void set_recv_buffer_size(int fd, unsigned max_buf)
 
 static int alloc_udp_data_socket(int firstport, int trycount, int *port)
 {
-  int fd, one = 1;
+  int fd;
   union {
     struct sockaddr    sa;
     struct sockaddr_in in;
@@ -5353,13 +5357,13 @@ static int alloc_udp_data_socket(int firstport, int trycount, int *port)
 
   set_recv_buffer_size(fd, KILOBYTE(512));
 
-  if(setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &one, sizeof(int)) < 0)
+  if(sock_set_reuseaddr(fd, 1) < 0)
     LOGERR("UDP data stream: setsockopt(SO_REUSEADDR) failed");
 
   while (bind(fd, &name.sa, sizeof(name)) < 0) {
     if(!--trycount) {
       LOGMSG("UDP Data stream: bind error, no free port found");
-      close(fd);
+      closesocket(fd);
       return -1;
     }
     LOGERR("UDP Data stream: bind error, port %d: %s",
@@ -5444,7 +5448,7 @@ static int connect_control_stream(vdr_input_plugin_t *this, const char *host,
 
  fail:
   if (fd_control >= 0)
-    close(fd_control);
+    closesocket(fd_control);
   this->fd_control = saved_fd;
   return -1;
 }
@@ -5453,7 +5457,7 @@ static int connect_rtp_data_stream(vdr_input_plugin_t *this)
 {
   char cmd[256];
   unsigned int ip0, ip1, ip2, ip3, port;
-  int fd=-1, one = 1, retries = 0;
+  int fd = -1, retries = 0;
   struct ip_mreq mreq;
   union {
     struct sockaddr    sa;
@@ -5503,15 +5507,15 @@ static int connect_rtp_data_stream(vdr_input_plugin_t *this)
   }
   set_recv_buffer_size(fd, KILOBYTE(512));
 
-  if(setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &one, sizeof(int)) < 0) {
+  if(sock_set_reuseaddr(fd, 1) < 0) {
     LOGERR("setsockopt(SO_REUSEADDR) failed");
-    close(fd);
+    closesocket(fd);
     return -1;
   }
 
   if (bind(fd, &multicastAddress.sa, sizeof(multicastAddress)) < 0) {
     LOGERR("bind() to multicast address failed");
-    close(fd);
+    closesocket(fd);
     return -1;
   }
 
@@ -5523,7 +5527,7 @@ static int connect_rtp_data_stream(vdr_input_plugin_t *this)
   /*mreq.imr_ifindex = 0;*/
   if(setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq))) {
     LOGERR("setsockopt(IP_ADD_MEMBERSHIP) failed. No multicast in kernel?");
-    close(fd);
+    closesocket(fd);
     return -1;
   }
 
@@ -5537,13 +5541,13 @@ retry_select:
       LOGDBG("Requesting RTP transport");
       if(_x_io_tcp_write(this->stream, this->fd_control, "RTP\r\n", 5) < 0) {
 	LOGERR("Control stream write error");
-	close(fd);
+	closesocket(fd);
 	return -1;
       }
       goto retry_select;
     }
     LOGMSG("Data stream connection timed out (RTP)");
-    close(fd);
+    closesocket(fd);
     return -1;
   }
 
@@ -5566,7 +5570,7 @@ retry_recvfrom:
       goto retry_recvfrom;
     if(++retries < 4)
       goto retry_select;
-    close(fd);
+    closesocket(fd);
     return -1;
   }
 
@@ -5619,7 +5623,7 @@ retry_request:
   sprintf(cmd, "UDP %d\r\n", port);
   if(_x_io_tcp_write(this->stream, this->fd_control, cmd, strlen(cmd)) < 0) {
     LOGERR("Control stream write error");
-    close(fd);
+    closesocket(fd);
     return -1;
   }
 
@@ -5627,7 +5631,7 @@ retry_request:
   if(readline_control(this, cmd, sizeof(cmd)-1, 4) < 6 ||
      strncmp(cmd, "UDP OK", 6)) {
     LOGMSG("Server does not support UDP ? (%s)", cmd);
-    close(fd);
+    closesocket(fd);
     return -1;
   }
 
@@ -5640,7 +5644,7 @@ retry_select:
     if(++retries < 4)
       goto retry_request;
     LOGMSG("Data stream connection timed out (UDP)");
-    close(fd);
+    closesocket(fd);
     return -1;
   }
 
@@ -5663,7 +5667,7 @@ retry_recvfrom:
       goto retry_recvfrom;
     if(++retries < 4)
       goto retry_select;
-    close(fd);
+    closesocket(fd);
     return -1;
   }
 
@@ -5697,7 +5701,7 @@ static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host,
   if(fd_data < 0 || 
      XIO_READY != _x_io_tcp_connect_finish(this->stream, fd_data, 3000)) {
     LOGERR("Can't connect to tcp://%s:%d", host, port);
-    close(fd_data);
+    closesocket(fd_data);
     return -1;
   }
 
@@ -5707,7 +5711,7 @@ static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host,
 
   if (getsockname(this->fd_control, &addr.sa, &len) < 0) {
     LOGERR("getsockname(fd_control) failed");
-    close(fd_data);
+    closesocket(fd_data);
     return -1;
   }
   ipc = ntohl(addr.in.sin_addr.s_addr);
@@ -5734,7 +5738,7 @@ static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host,
     return fd_data;
   }
 
-  close(fd_data);
+  closesocket(fd_data);
   return -1;
 }
 
@@ -5806,6 +5810,8 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
 
   if(!vdr_plugin_open(this_gen))
     return 0;
+
+  sock_init();
 
   if(strchr(this->mrl, '#')) 
     *strchr(this->mrl, '#') = 0;
@@ -5904,9 +5910,9 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
       } else {
 	/* failed */
         if (this->fd_data >= 0)
-          close(this->fd_data);
+          closesocket(this->fd_data);
         if (this->fd_control >= 0)
-          close(this->fd_control);
+          closesocket(this->fd_control);
 	this->fd_control = this->fd_data = -1;
 	return 0;
       }
