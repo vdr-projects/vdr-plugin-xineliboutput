@@ -256,7 +256,7 @@ void udp_discovery_free_servers(vdr_server ***p)
   }
 }
 
-vdr_server **_add_server(vdr_server **l, vdr_server *s)
+static vdr_server **_add_server(vdr_server **l, vdr_server *s)
 {
   size_t cnt;
   vdr_server **r;
