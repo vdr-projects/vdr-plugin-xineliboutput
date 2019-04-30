@@ -38,6 +38,8 @@
 #  include "../logdefs.h"
 #endif
 
+#include "sock_compat.h"
+
 #include "vdrdiscovery.h"
 
 /*
@@ -63,21 +65,20 @@
 static inline int discovery_init(int port)
 {
   int fd_discovery = -1;
-  int iBroadcast = 1, iReuse = 1;
   union {
     struct sockaddr    sa;
     struct sockaddr_in in;
   } addr;
 
-  if ((fd_discovery = socket(PF_INET, SOCK_DGRAM, 0/*IPPROTO_TCP*/)) < 0) {
+  if ((fd_discovery = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
     LOGERR("discovery_init: socket() failed");
     return -1;
   }
 
-  if (setsockopt(fd_discovery, SOL_SOCKET, SO_BROADCAST, &iBroadcast, sizeof(int)) < 0)
+  if (sock_set_broadcast(fd_discovery, 1) < 0)
     LOGERR("discovery_init: setsockopt(SO_BROADCAST) failed");
 
-  if (setsockopt(fd_discovery, SOL_SOCKET, SO_REUSEADDR, &iReuse, sizeof(int)) < 0)
+  if (sock_set_reuseaddr(fd_discovery, 1) < 0)
     LOGERR("discovery_init: setsockopt(SO_REUSEADDR) failed");
 
   addr.in.sin_family = AF_INET;
@@ -86,7 +87,7 @@ static inline int discovery_init(int port)
 
   if (bind(fd_discovery, &addr.sa, sizeof(addr)) < 0) {
     LOGERR("discovery_init: bind() failed");
-    close(fd_discovery);
+    closesocket(fd_discovery);
     return -1;
   }
 
@@ -377,10 +378,14 @@ vdr_server **udp_discovery_find_servers(int fast)
   int fd_discovery;
   vdr_server **ret = NULL;
 
+  sock_init();
+
   if((fd_discovery = discovery_init(DISCOVERY_PORT)) >= 0) {
     ret = _udp_discovery_find_servers(fd_discovery, fast);
-    close(fd_discovery);
+    closesocket(fd_discovery);
   }
+
+  sock_cleanup();
 
   return ret;
 }
