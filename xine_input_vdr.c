@@ -3115,17 +3115,18 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
 
   } else if(!strncasecmp(cmd, "EVENT ", 6)) {
     unsigned i;
-    char *pt = strchr(cmd, '\n');
+    char *tmp = strdup(cmd);
+    pt = strchr(tmp, '\n');
     if(pt) *pt=0;
-    pt = strstr(cmd+6, " CHAPTER");
+    pt = strstr(tmp+6, " CHAPTER");
     if(pt) {
       *pt = 0;
       this->class->xine->config->update_num(this->class->xine->config,
 					    "media.dvd.skip_behaviour", 1);
       this->class->xine->config->update_num(this->class->xine->config,
 					    "media.bluray.skip_behaviour", 0);
-    }
-    pt = strstr(cmd+6, " TITLE");
+    } else
+      pt = strstr(tmp+6, " TITLE");
     if(pt) {
       *pt = 0;
       this->class->xine->config->update_num(this->class->xine->config,
@@ -3134,7 +3135,7 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
 					    "media.bluray.skip_behaviour", 1);
     }
     for(i=0; i<sizeof(eventmap)/sizeof(eventmap[0]); i++)
-      if(!strcmp(cmd+6, eventmap[i].name)) {
+      if(!strcmp(tmp+6, eventmap[i].name)) {
         xine_event_t ev = {
           .type = eventmap[i].type,
           .stream = this->slave.stream ?: this->stream,
@@ -3146,6 +3147,7 @@ static int vdr_plugin_parse_control(vdr_input_plugin_if_t *this_if, const char *
 	xine_event_send(ev.stream, &ev);
 	break;
       }
+    free(tmp);
 
   } else if(!strncasecmp(cmd, "VERSION ", 7)) {
     if(strncmp(XINELIBOUTPUT_VERSION " ", cmd+8, 
