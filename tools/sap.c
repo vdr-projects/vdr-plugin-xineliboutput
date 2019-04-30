@@ -17,13 +17,10 @@
 #include <fcntl.h>
 
 #include <arpa/inet.h>
-#if defined(__APPLE__) || defined(__FreeBSD__)
-# include <machine/endian.h>
-#else
-# include <endian.h>
-#endif
 
 #include "../logdefs.h"
+
+#include "endian_compat.h"
 
 #ifndef PACKED
 #  define PACKED  __attribute__((packed))
@@ -41,7 +38,7 @@ typedef struct {
   union {
     uint8_t raw0;
     struct {
-#if __BYTE_ORDER == __BIG_ENDIAN
+#if XINELIBOUTPUT_BIG_ENDIAN
       uint8_t version    : 3;
       uint8_t addr_type  : 1;
       uint8_t reserved   : 1;
