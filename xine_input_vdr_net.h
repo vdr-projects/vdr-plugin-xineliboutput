@@ -11,7 +11,13 @@
 #ifndef __XINE_INPUT_VDR_NET_H_
 #define __XINE_INPUT_VDR_NET_H_
 
-#include <arpa/inet.h>
+#include <stdint.h>
+
+#ifndef _WIN32
+#  include <arpa/inet.h>
+#else
+#  include <winsock2.h>
+#endif
 
 #include "tools/endian_compat.h"
 
