@@ -1482,9 +1482,9 @@ static void calculate_factors(warp_plugin_t *this)
  */
 
 #if XINE_VERSION_CODE > 10209 || defined(PLUGIN_XINE_MODULE)
-void *warp_init_plugin(xine_t *xine, const void *data)
+static void *warp_init_plugin(xine_t *xine, const void *data)
 #else
-void *warp_init_plugin(xine_t *xine, void *data)
+static void *warp_init_plugin(xine_t *xine, void *data)
 #endif
 {
 #if !defined(__x86_64__)
