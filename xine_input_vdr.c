@@ -5308,12 +5308,6 @@ static int vdr_plugin_open(input_plugin_t *this_gen)
   return 1;
 }
 
-static int vdr_plugin_open_local (input_plugin_t *this_gen) 
-{
-  LOGDBG("vdr_plugin_open_local");
-  return vdr_plugin_open(this_gen);
-}
-
 static void set_recv_buffer_size(int fd, unsigned max_buf)
 {
   /* try to have larger receiving buffer */
@@ -6030,7 +6024,7 @@ static input_plugin_t *vdr_class_get_instance (input_class_t *class_gen,
     }
   }
 
-  this->input_plugin.open = local_mode ? vdr_plugin_open_local 
+  this->input_plugin.open = local_mode ? vdr_plugin_open
                                        : vdr_plugin_open_net;
   this->input_plugin.get_mrl           = vdr_plugin_get_mrl;
   this->input_plugin.dispose           = vdr_plugin_dispose;
