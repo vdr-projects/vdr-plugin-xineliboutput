@@ -29,7 +29,7 @@ struct osd_clut_s;
 
 
 unsigned rle_compress(struct osd_rle_elem_s **rle_data, const uint8_t *data, unsigned w, unsigned h);
-unsigned rle_recompress_net(uint8_t *raw, osd_rle_elem_t *data, unsigned elems);
+unsigned rle_recompress_net(uint8_t *raw, struct osd_rle_elem_s *data, unsigned elems);
 
 void rle_palette_to_argb(uint32_t *argb, const struct osd_clut_s *palette, unsigned entries);
 void rle_palette_to_rgba(uint32_t *rgba, const struct osd_clut_s *palette, unsigned entries);
