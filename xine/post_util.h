@@ -23,6 +23,8 @@ static void *init_plugin(xine_t *xine, const void *data);
 #if POST_PLUGIN_IFACE_VERSION < 10
 static char *get_identifier(post_class_t *class_gen);
 static char *get_description(post_class_t *class_gen);
+#endif
+#if XINE_VERSION_CODE <= 10209
 static void  class_dispose(post_class_t *class_gen);
 #endif
 
@@ -53,23 +55,22 @@ static void           draw_internal(vo_frame_t *frame, vo_frame_t *new_frame);
 
 static void *init_plugin(xine_t *xine, const void *data)
 {
-  post_class_t *class = calloc(1, sizeof(post_class_t));
-
-  if (!class)
-    return NULL;
-
-  class->open_plugin     = open_plugin;
+  static const post_class_t post_class = {
+    .open_plugin     = open_plugin,
 #if POST_PLUGIN_IFACE_VERSION < 10
-  class->get_identifier  = get_identifier;
-  class->get_description = get_description;
-  class->dispose         = class_dispose;
+    .get_identifier  = get_identifier,
+    .get_description = get_description,
 #else
-  class->identifier      = PLUGIN_ID;
-  class->description     = PLUGIN_DESCR;
-  class->dispose         = default_post_class_dispose;
+    .identifier      = PLUGIN_ID,
+    .description     = PLUGIN_DESCR,
 #endif
-
-  return class;
+#if XINE_VERSION_CODE <= 10209
+    .dispose         = class_dispose,
+#else
+    .dispose         = NULL,
+#endif
+  };
+  return (void *)&post_class;
 }
 
 #if POST_PLUGIN_IFACE_VERSION < 10
@@ -82,10 +83,11 @@ static char *get_description(post_class_t *class_gen)
 {
   return PLUGIN_DESCR;
 }
-
+#endif
+#if XINE_VERSION_CODE <= 10209
 static void class_dispose(post_class_t *class_gen)
 {
-  free(class_gen);
+  (void)class_gen;
 }
 #endif
 
