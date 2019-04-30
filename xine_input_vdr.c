@@ -5729,7 +5729,7 @@ static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host,
     LOGERR("Data stream write error (TCP)");
   } else if( XIO_READY != io_select_rd(fd_data)) {
     LOGERR("Data stream poll failed (TCP)");
-  } else if((n=read(fd_data, tmpbuf, sizeof(ackmsg))) <= 0) {
+  } else if((n=recv(fd_data, tmpbuf, sizeof(ackmsg), 0)) <= 0) {
     LOGERR("Data stream read failed (TCP)");
   } else if(n<(ssize_t)sizeof(ackmsg) || strncmp(tmpbuf, ackmsg, sizeof(ackmsg))) {
     tmpbuf[n] = 0;
