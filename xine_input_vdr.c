@@ -5389,9 +5389,7 @@ static int connect_control_stream(vdr_input_plugin_t *this, const char *host,
      XIO_READY != _x_io_tcp_connect_finish(this->stream, this->fd_control, 
 					   3000)) {
     LOGERR("Can't connect to tcp://%s:%d", host, port);
-    close(fd_control);
-    this->fd_control = saved_fd;
-    return -1;
+    goto fail;
   }
 
   set_recv_buffer_size(fd_control, KILOBYTE(128));
@@ -5399,28 +5397,22 @@ static int connect_control_stream(vdr_input_plugin_t *this, const char *host,
   /* request control connection */
   if(_x_io_tcp_write(this->stream, fd_control, "CONTROL\r\n", 9) < 0) {
     LOGERR("Control stream write error");
-    return -1;
+    goto fail;
   }
 
   /* Check server greeting */
   if(readline_control(this, tmpbuf, sizeof(tmpbuf)-1, 4) <= 0) {
     LOGMSG("Server not replying");
-    close(fd_control);
-    this->fd_control = saved_fd;
-    return -1;
+    goto fail;
   }
   LOGMSG("Server greeting: %s", tmpbuf);
   if(!strncmp(tmpbuf, "Access denied", 13)) {
     LOGMSG("Maybe host address is missing from server-side plugins/xineliboutput/allowed_hosts.conf ?");
-    close(fd_control);
-    this->fd_control = saved_fd;
-    return -1;
+    goto fail;
   }
   if(!strstr(tmpbuf, "VDR-") || !strstr(tmpbuf, "xineliboutput-") || !strstr(tmpbuf, "READY")) {
     LOGMSG("Unregonized greeting !");
-    close(fd_control);
-    this->fd_control = saved_fd;
-    return -1;
+    goto fail;
   }
   /* Check server xineliboutput version */
   if(!strstr(tmpbuf, "xineliboutput-" XINELIBOUTPUT_VERSION " ")) {
@@ -5453,8 +5445,13 @@ static int connect_control_stream(vdr_input_plugin_t *this, const char *host,
 
   this->fd_control = saved_fd;
   return fd_control;
-}
 
+ fail:
+  if (fd_control >= 0)
+    close(fd_control);
+  this->fd_control = saved_fd;
+  return -1;
+}
 
 static int connect_rtp_data_stream(vdr_input_plugin_t *this)
 {
