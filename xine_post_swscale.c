@@ -1298,7 +1298,7 @@ static int do_warp_yv12(uint8_t *dst, const uint8_t * const src,
  */
 
 #define PLUGIN_ID     "warp"
-#define PLUGIN_DESCR  "(non-)linear software scaling post plugin";
+#define PLUGIN_DESCR  "(non-)linear software scaling post plugin"
 #define PLUGIN_T      warp_plugin_t
 /*#define POST_THREADS*/
 /*#define POST_SLICES*/
