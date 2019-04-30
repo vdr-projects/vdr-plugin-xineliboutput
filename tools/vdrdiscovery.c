@@ -1,7 +1,7 @@
 /*
  * vdrdiscovery.c
  *
- * Simple broadcast protocol to search VDR with xineliboutput server 
+ * Simple broadcast protocol to search VDR with xineliboutput server
  * from (local) network.
  *
  * See the main source file 'xineliboutput.c' for copyright information and
@@ -11,7 +11,7 @@
  *
  */
 
-#ifndef _GNU_SOURCE 
+#ifndef _GNU_SOURCE
 #  define _GNU_SOURCE  /* asprintf */
 #endif
 
@@ -115,7 +115,7 @@ static inline int udp_discovery_send(int fd_discovery, int port, char *msg)
     LOGERR("UDP broadcast send failed (discovery)");
     return -1;
   }
-   
+
   //LOGDBG("UDP broadcast send succeed (discovery)");
   return 0;
 }
@@ -127,19 +127,19 @@ int udp_discovery_broadcast(int fd_discovery, int server_port, const char *serve
 
   if(server_address && *server_address) {
     result = asprintf(&msg,
-	     DISCOVERY_1_0_HDR     //"VDR xineliboutput DISCOVERY 1.0" "\r\n"
-	     DISCOVERY_1_0_SVR     //"Server port: %d" "\r\n"
-	     DISCOVERY_1_0_ADDR    //"Server Address: %d.%d.%d.%d \r\n"
-	     DISCOVERY_1_0_VERSION //"Server version: xineliboutput-" XINELIBOUTPUT_VERSION "\r\n"
-	     "\r\n",
-	     server_port, server_address);
+             DISCOVERY_1_0_HDR     //"VDR xineliboutput DISCOVERY 1.0" "\r\n"
+             DISCOVERY_1_0_SVR     //"Server port: %d" "\r\n"
+             DISCOVERY_1_0_ADDR    //"Server Address: %d.%d.%d.%d \r\n"
+             DISCOVERY_1_0_VERSION //"Server version: xineliboutput-" XINELIBOUTPUT_VERSION "\r\n"
+             "\r\n",
+             server_port, server_address);
   } else {
     result = asprintf(&msg,
-	     DISCOVERY_1_0_HDR     //"VDR xineliboutput DISCOVERY 1.0" "\r\n"
-	     DISCOVERY_1_0_SVR     //"Server port: %d" "\r\n"
-	     DISCOVERY_1_0_VERSION //"Server version: xineliboutput-" XINELIBOUTPUT_VERSION "\r\n"
-	     "\r\n",
-	     server_port);
+             DISCOVERY_1_0_HDR     //"VDR xineliboutput DISCOVERY 1.0" "\r\n"
+             DISCOVERY_1_0_SVR     //"Server port: %d" "\r\n"
+             DISCOVERY_1_0_VERSION //"Server version: xineliboutput-" XINELIBOUTPUT_VERSION "\r\n"
+             "\r\n",
+             server_port);
   }
 
   if (result >= 0) {
@@ -155,12 +155,12 @@ static inline int udp_discovery_search(int fd_discovery, int port)
   char *msg = NULL;
   int result;
 
-  result = asprintf(&msg, 
-	   DISCOVERY_1_0_HDR  /* "VDR xineliboutput DISCOVERY 1.0" "\r\n" */
-	   DISCOVERY_1_0_CLI  /* "Client: %s:%d" "\r\n" */
-	   "\r\n",
-	   "255.255.255.255",
-	   port);
+  result = asprintf(&msg,
+           DISCOVERY_1_0_HDR  /* "VDR xineliboutput DISCOVERY 1.0" "\r\n" */
+           DISCOVERY_1_0_CLI  /* "Client: %s:%d" "\r\n" */
+           "\r\n",
+           "255.255.255.255",
+           port);
 
   if (result >= 0) {
     result = udp_discovery_send(fd_discovery, port, msg);
@@ -171,7 +171,7 @@ static inline int udp_discovery_search(int fd_discovery, int port)
 }
 
 int udp_discovery_recv(int fd_discovery, char *buf, int timeout,
-		       struct sockaddr_in *source)
+                       struct sockaddr_in *source)
 {
   socklen_t sourcelen = sizeof(struct sockaddr_in);
   int err;
@@ -197,7 +197,7 @@ int udp_discovery_recv(int fd_discovery, char *buf, int timeout,
   memset(buf, 0, DISCOVERY_MSG_MAXSIZE);
 
   err = recvfrom(fd_discovery, buf, DISCOVERY_MSG_MAXSIZE-1, 0,
-		 (struct sockaddr *)source, &sourcelen);
+                 (struct sockaddr *)source, &sourcelen);
 
   if(err <= 0)
     LOGDBG("fd_discovery recvfrom() error");
@@ -213,7 +213,7 @@ int udp_discovery_is_valid_search(const char *buf)
     LOGMSG("Received valid discovery message %s", buf);
     return 1;
   }
-   
+
   LOGDBG("BROADCAST: %s", buf);
   return 0;
 }
@@ -290,47 +290,47 @@ static vdr_server **_udp_discovery_find_servers(int fd_discovery, int fast)
   while(err >= 0 && ++trycount < 4) {
 
     if((err = udp_discovery_search(fd_discovery, DISCOVERY_PORT) >= 0)) {
-    
+
       errno = 0;
       while( (err = udp_discovery_recv(fd_discovery, buf, 500, &from)) > 0) {
-	
-	uint32_t tmp = ntohl(from.sin_addr.s_addr);
 
-	buf[err] = 0;
-	LOGDBG("Reveived broadcast: %d bytes from %d.%d.%d.%d \n%s", 
-	       err,
-	       ((tmp>>24)&0xff), ((tmp>>16)&0xff), 
-	       ((tmp>>8)&0xff), ((tmp)&0xff),
-	       buf);
-	if(!strncmp(mystring, buf, strlen(mystring))) {
+        uint32_t tmp = ntohl(from.sin_addr.s_addr);
+
+        buf[err] = 0;
+        LOGDBG("Reveived broadcast: %d bytes from %d.%d.%d.%d \n%s",
+               err,
+               ((tmp>>24)&0xff), ((tmp>>16)&0xff),
+               ((tmp>>8)&0xff), ((tmp)&0xff),
+               buf);
+        if(!strncmp(mystring, buf, strlen(mystring))) {
           char *iploc;
-	  LOGDBG("Valid discovery message");
+          LOGDBG("Valid discovery message");
 
-	  // default: use broadcast source address
-	  sprintf(address, "%d.%d.%d.%d",
-		  ((tmp>>24)&0xff), ((tmp>>16)&0xff), 
-		  ((tmp>>8)&0xff), ((tmp)&0xff));
+          // default: use broadcast source address
+          sprintf(address, "%d.%d.%d.%d",
+                  ((tmp>>24)&0xff), ((tmp>>16)&0xff),
+                  ((tmp>>8)&0xff), ((tmp)&0xff));
 
-	  // Check if announce message includes alternative server address
-	  iploc = strstr(buf + strlen(mystring), "Server address: ");
-	  if(iploc) {
-	    uint32_t svraddr;
-	    iploc += strlen("Server address: ");
-	    svraddr = inet_addr(iploc);
-	    if(svraddr == INADDR_NONE || svraddr == INADDR_ANY) {
-	      LOGMSG("Server provided invalid address !");
-	    } else {
-	      svraddr = ntohl(svraddr);
-	      sprintf(address, "%d.%d.%d.%d",
-		      ((svraddr>>24)&0xff), ((svraddr>>16)&0xff), 
-		      ((svraddr>>8)&0xff), ((svraddr)&0xff));
-	      LOGMSG("Replacing broadcast source address %d.%d.%d.%d "
-		     "with server-given address %s",
-		     ((tmp>>24)&0xff), ((tmp>>16)&0xff), 
-		     ((tmp>>8)&0xff), ((tmp)&0xff),
-		     address);
-	    }
-	  }
+          // Check if announce message includes alternative server address
+          iploc = strstr(buf + strlen(mystring), "Server address: ");
+          if(iploc) {
+            uint32_t svraddr;
+            iploc += strlen("Server address: ");
+            svraddr = inet_addr(iploc);
+            if(svraddr == INADDR_NONE || svraddr == INADDR_ANY) {
+              LOGMSG("Server provided invalid address !");
+            } else {
+              svraddr = ntohl(svraddr);
+              sprintf(address, "%d.%d.%d.%d",
+                      ((svraddr>>24)&0xff), ((svraddr>>16)&0xff),
+                      ((svraddr>>8)&0xff), ((svraddr)&0xff));
+              LOGMSG("Replacing broadcast source address %d.%d.%d.%d "
+                     "with server-given address %s",
+                     ((tmp>>24)&0xff), ((tmp>>16)&0xff),
+                     ((tmp>>8)&0xff), ((tmp)&0xff),
+                     address);
+            }
+          }
 
           port = -1;
           if (1 == sscanf(buf + strlen(mystring), "%d", &port) &&
@@ -355,9 +355,9 @@ static vdr_server **_udp_discovery_find_servers(int fd_discovery, int fast)
           } else {
             LOGMSG("Server-given port is invalid !");
           }
-	} else {
-	  LOGDBG("NOT valid discovery message");
-	}
+        } else {
+          LOGDBG("NOT valid discovery message");
+        }
       }
 
       /* return if found */
