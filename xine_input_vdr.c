@@ -3887,19 +3887,19 @@ static void vdr_event_cb (void *user_data, const xine_event_t *event)
         if (SysLogLevel >= SYSLOGLEVEL_DEBUG) {
 	  /* dump whole xine log as we should not be here ... */
 	  xine_t *xine = this->class->xine;
-	  int i, j;
+          int ii, jj;
 	  int logs = xine_get_log_section_count(xine);
 	  const char * const * names = xine_get_log_names(xine);
-	  for(i=0; i<logs; i++) {
+          for (ii = 0; ii < logs; ii++) {
 #if XINE_VERSION_CODE < 10105
-	    const char * const * lines = xine_get_log(xine, i);
+            const char * const * lines = xine_get_log(xine, ii);
 #else
-	    char * const * lines = xine_get_log(xine, i);
+            char * const * lines = xine_get_log(xine, ii);
 #endif
 	    if(lines[0]) {
-	      printf("\nLOG: %s\n",names[i]);
-	      for(j=0; lines[j] && *lines[j]; j++)
-		printf("  %2d: %s", j, lines[j]);
+              printf("\nLOG: %s\n",names[ii]);
+              for (jj = 0; lines[jj] && *lines[jj]; jj++)
+                printf("  %2d: %s", jj, lines[jj]);
 	    }
 	  }
 	}
