@@ -12,18 +12,14 @@
 #define __XINE_INPUT_VDR_NET_H_
 
 #include <arpa/inet.h>
-#if defined(__APPLE__) || defined(__FreeBSD__)
-# include <machine/endian.h>
-#else
-# include <endian.h>
-#endif
+
+#include "tools/endian_compat.h"
 
 #ifndef PACKED
 #  define PACKED  __attribute__((packed))
 #endif
 
 #include "tools/rtp.h" /* generic RTP headers */
-
 
 /*
  * Default port(s)
@@ -37,16 +33,10 @@
  * Byte-order conversions
  */
 
-#if __BYTE_ORDER == __BIG_ENDIAN
-#elif __BYTE_ORDER == __LITTLE_ENDIAN
-#else
-#  error __BYTE_ORDER not defined !
-#endif
-
 #define priv_ntohll(val) ((int64_t)priv_ntohull((uint64_t)val))
 #define priv_htonll(val) ((int64_t)priv_htonull((uint64_t)val))
 
-#if __BYTE_ORDER == __BIG_ENDIAN
+#if XINELIBOUTPUT_BIG_ENDIAN
 #  define priv_ntohull(val) (val)
 #  define priv_htonull(val) (val)
 #else
