@@ -13,27 +13,11 @@
 
 #include <stdint.h>
 
-#if defined(__APPLE__) || defined (__FreeBSD__)
-# include <machine/endian.h>
-#elif defined(_WIN32)
-#  include <sys/param.h>
-#else
-# include <endian.h>
-#endif
-
+#include "endian_compat.h"
 
 #ifndef PACKED
 #  define PACKED __attribute__((packed))
 #endif
-
-#if defined(__BYTE_ORDER) && __BYTE_ORDER == __BIG_ENDIAN
-#elif defined(__BYTE_ORDER) && __BYTE_ORDER == __LITTLE_ENDIAN
-#elif defined(BYTE_ORDER) && BYTE_ORDER == BIG_ENDIAN
-#elif defined(BYTE_ORDER) && BYTE_ORDER == LITTLE_ENDIAN
-#else
-#  error __BYTE_ORDER not defined
-#endif
-
 
 #if defined __cplusplus
 extern "C" {
@@ -65,7 +49,7 @@ typedef struct stream_rtp_header {
     uint8_t raw[12];
 
     struct {
-#if (defined(__BYTE_ORDER) && __BYTE_ORDER == __BIG_ENDIAN) || (defined(BYTE_ORDER) && BYTE_ORDER == BIG_ENDIAN)
+#if XINELIBOUTPUT_BIG_ENDIAN
       unsigned int version:2;   /* protocol version */
       unsigned int padding:1;   /* padding flag */
       unsigned int ext:1;       /* header extension flag */
