@@ -46,6 +46,10 @@
 #include "xine/vo_lastpts.h"
 #include "xine/vo_frameoutput.h"
 
+#ifdef __WIN32__
+# define mkdir(a,b) mkdir(a)
+#endif
+
 #undef  MIN
 #define MIN(a,b) ( (a) < (b) ? (a) : (b))
 #undef  MAX
@@ -644,12 +648,14 @@ static int fe_xine_init(frontend_t *this_gen, const char *audio_driver,
   /* Set log level for input plugin.
    * Also inform input plugin we're not running in xine-ui etc.
    */
+#ifndef _WIN32
   static char log_level[16];
   sprintf(log_level, "%d", SysLogLevel);
   setenv("VDR_FE_LOG_LEVEL", log_level, 1);
   if (LogToSysLog) {
     setenv("VDR_FE_SYSLOG", "1", 1);
   }
+#endif
 
   /* create a new xine and load config file */
   this->xine = xine_new();
