@@ -11,6 +11,8 @@
 #ifndef __XINE_OSD_COMMAND_H_
 #define __XINE_OSD_COMMAND_H_
 
+#include <stdint.h>
+
 #ifndef PACKED
 #  define PACKED  __attribute__((packed))
 #endif

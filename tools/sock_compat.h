@@ -9,6 +9,9 @@
 
 #ifdef _WIN32
 
+# include <winsock2.h>
+# include <ws2tcpip.h>  // socklen_t
+
 #  ifndef MSG_TRUNC
 #    define MSG_TRUNC 0
 #  endif
@@ -57,9 +60,14 @@ static inline void sock_cleanup(void)
 #  define recv(a,b,c,d)         _recv(a,b,c,d)
 
 #else  /* _WIN32 */
+
+#  include <sys/types.h>
+#  include <sys/socket.h>
+
 #  define closesocket(s) close(s)
 #  define sock_init() do {} while(0)
 #  define sock_cleanup() do {} while(0)
+
 #endif /* _WIN32 */
 
 static inline int sock_set_bool_opt(int s, int opt, int val)

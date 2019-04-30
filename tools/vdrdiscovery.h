@@ -20,6 +20,8 @@
 extern "C" {
 #endif
 
+#include <stddef.h>    // size_t
+
 struct sockaddr_in;
 
 /*

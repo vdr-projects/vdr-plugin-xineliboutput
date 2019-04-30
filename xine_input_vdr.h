@@ -1,5 +1,5 @@
 /*
- * xine_input_vdr.h:  
+ * xine_input_vdr.h:
  *
  * See the main source file 'xineliboutput.c' for copyright information and
  * how to reach the author.
@@ -14,6 +14,9 @@
 #if defined __cplusplus
 extern "C" {
 #endif
+
+#include <stddef.h>    // size_t
+#include <stdint.h>
 
 #include <xine/input_plugin.h>
 
@@ -50,8 +53,8 @@ typedef struct vdr_input_plugin_if_s {
 } vdr_input_plugin_if_t;
 
 #define CONTROL_OK            0
-#define CONTROL_UNKNOWN      -1 
-#define CONTROL_PARAM_ERROR  -2 
+#define CONTROL_UNKNOWN      -1
+#define CONTROL_PARAM_ERROR  -2
 #define CONTROL_DISCONNECTED -3
 
 typedef struct grab_data_s {
