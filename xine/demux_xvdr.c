@@ -22,8 +22,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <string.h>
 
 #include <xine/xine_internal.h>
