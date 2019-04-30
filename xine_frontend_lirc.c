@@ -24,19 +24,20 @@
 
 #include "xine_frontend_lirc.h"
 
+#include <stdlib.h>
+
 #ifdef _WIN32
 input_lirc_t *lirc_start(struct frontend_s *fe, const char *lirc_dev, int repeat_emu, int gui_hotkeys)
 {
   return NULL;
 }
-void lirc_stop(input_lirc_t **)
+void lirc_stop(input_lirc_t **l)
 {
 }
 #else
 
 #include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <pthread.h>
