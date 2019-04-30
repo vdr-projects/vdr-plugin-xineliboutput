@@ -1679,7 +1679,7 @@ static int opengl_osd_command(frontend_t *this_gen, struct osd_command_s *cmd)
 /*
  * Signals a change to the opengl drawing thread
  */
-void opengl_trigger_drawing_thread(sxfe_t *this)
+static void opengl_trigger_drawing_thread(sxfe_t *this)
 {
   pthread_mutex_lock(&this->opengl_redraw_mutex);
   this->opengl_redraw_request_nr++;
@@ -1690,7 +1690,7 @@ void opengl_trigger_drawing_thread(sxfe_t *this)
 /*
  * Wait until drawing is finished
  */
-void opengl_wait_drawing_finished(sxfe_t *this)
+static void opengl_wait_drawing_finished(sxfe_t *this)
 {
   pthread_mutex_lock(&this->opengl_redraw_finished_mutex);
   if (this->opengl_redraw_request_nr != this->opengl_redraw_served_nr)
