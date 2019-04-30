@@ -1808,6 +1808,8 @@ static void queue_blank_yv12(vdr_input_plugin_t *this)
       this->stream->metronom->set_option(this->stream->metronom, METRONOM_PREBUFFER, METRONOM_PREBUFFER_VAL);
     }
     img->free(img);
+  } else {
+    LOGMSG("queue_blank_yv12: no frame !");
   }
 }
 
