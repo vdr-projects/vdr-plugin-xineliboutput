@@ -13,21 +13,10 @@
 
 #include <stdint.h>
 
-#if defined(__APPLE__) || defined(__FreeBSD__)
-# include <machine/endian.h>
-#else
-# include <endian.h>
-#endif
-
+#include "endian_compat.h"
 
 #ifndef PACKED
 #  define PACKED __attribute__((packed))
-#endif
-
-#if   __BYTE_ORDER == __BIG_ENDIAN
-#elif __BYTE_ORDER == __LITTLE_ENDIAN
-#else
-#  error __BYTE_ORDER not defined
 #endif
 
 #if defined __cplusplus
@@ -63,7 +52,7 @@ typedef struct {
   union {
     uint8_t raw[4];
     struct {
-#if __BYTE_ORDER == __BIG_ENDIAN
+#if XINELIBOUTPUT_BIG_ENDIAN
       unsigned int version:2;   /* protocol version */
       unsigned int padding:1;   /* padding flag */
       unsigned int count:5;     /* varies by packet type */
