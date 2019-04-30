@@ -89,3 +89,28 @@ static inline int sock_set_reuseaddr(int s, int val)
 {
   return sock_set_bool_opt(s, SO_REUSEADDR, val);
 }
+
+#include <unistd.h>
+#include <fcntl.h>
+
+static inline int io_set_nonblock(int fd)
+{
+#ifdef _WIN32
+  u_long one = 1;
+  return ioctlsocket(fd, FIONBIO, &one);
+#else
+  int flags, result;
+
+  flags = fcntl (fd, F_GETFL);
+  if (flags < 0) {
+    LOGERR("fcntl(F_GETFL) failed");
+    return flags;
+  }
+  result = fcntl (fd, F_SETFL, flags | O_NONBLOCK);
+  if (result < 0) {
+    LOGERR("Failed setting fd to non-blocking mode");
+  }
+  return result;
+#endif
+}
+

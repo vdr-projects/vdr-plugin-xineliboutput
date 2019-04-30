@@ -16,7 +16,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
 #include <string.h>
 
 #ifndef _WIN32
@@ -888,22 +887,6 @@ static void create_timeout_time(struct timespec *abstime, int timeout_ms)
 }
 
 /**************************** socket I/O *********************************/
-
-static int io_set_nonblock(int fd)
-{
-  int flags, result;
-
-  flags = fcntl (fd, F_GETFL);
-  if (flags < 0) {
-    LOGERR("fcntl(F_GETFL) failed");
-    return flags;
-  }
-  result = fcntl (fd, F_SETFL, flags | O_NONBLOCK);
-  if (result < 0) {
-    LOGERR("Failed setting fd to non-blocking mode");
-  }
-  return result;
-}
 
 /*
  * io_select_rd()
