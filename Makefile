@@ -108,7 +108,7 @@ else
     endif
 endif
 
-CFLAGS += -Wextra -Wno-unused-parameter
+CFLAGS += -Wextra -Wno-unused-parameter -Wmissing-prototypes -Wimplicit-function-declaration -Wshadow
 CXXFLAGS += -Wextra -Wno-unused-parameter
 
 ### Allow user defined options to overwrite defaults:
