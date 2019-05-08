@@ -499,11 +499,11 @@ static void mutex_cleanup(void *arg)
 
 /****************************** DEBUG **********************************/
 
-#define CHECK_LOCKED(lock)                                              \
+#define CHECK_LOCKED(lock,ret...)                                       \
   if (!pthread_mutex_trylock(&lock)) {                                  \
     LOGMSG("%s: assertion failed: lock %s unlocked !", __PRETTY_FUNCTION__, #lock); \
     pthread_mutex_unlock(&lock);                                        \
-    return;                                                             \
+    return ret;                                                         \
   }
 
 #define CHECK_FALSE(flag) \
@@ -942,6 +942,8 @@ static ssize_t write_control_data(vdr_input_plugin_t *this, const void *str, siz
 {
   size_t result = len;
 
+  CHECK_LOCKED(this->fd_control_lock, -1);
+
   while (len > 0) {
 
     if (!this->control_running) {
@@ -1175,6 +1177,8 @@ static void puts_vdr(vdr_input_plugin_t *this, const char *s)
   if (this->fd_control < 0) {
     if (this->funcs.xine_input_event) {
       this->funcs.xine_input_event(this->funcs.fe_handle, s, NULL);
+    } else {
+      LOGMSG("error routing message %s", s);
     }
   } else {
     write_control(this, s);
@@ -5380,7 +5384,7 @@ static int connect_control_stream(vdr_input_plugin_t *this, const char *host,
   set_recv_buffer_size(fd_control, KILOBYTE(128));
 
   /* request control connection */
-  if(_x_io_tcp_write(this->stream, fd_control, "CONTROL\r\n", 9) < 0) {
+  if (_x_io_tcp_write(this->stream, fd_control, "CONTROL\r\n", 9) != 9) {
     LOGERR("Control stream write error");
     goto fail;
   }
@@ -5461,7 +5465,7 @@ static int connect_rtp_data_stream(vdr_input_plugin_t *this)
   /* request RTP data transport from server */
 
   LOGDBG("Requesting RTP transport");
-  if(_x_io_tcp_write(this->stream, this->fd_control, "RTP\r\n", 5) < 0) {
+  if (_x_io_tcp_write(this->stream, this->fd_control, "RTP\r\n", 5) != 5) {
     LOGERR("Control stream write error");
     return -1;
   }
@@ -5524,7 +5528,7 @@ retry_select:
     LOGDBG("Requesting RTP transport: RTP poll timeout");
     if(++retries < 10) {
       LOGDBG("Requesting RTP transport");
-      if(_x_io_tcp_write(this->stream, this->fd_control, "RTP\r\n", 5) < 0) {
+      if (_x_io_tcp_write(this->stream, this->fd_control, "RTP\r\n", 5) != 5) {
 	LOGERR("Control stream write error");
 	closesocket(fd);
 	return -1;
@@ -5582,6 +5586,7 @@ static int connect_udp_data_stream(vdr_input_plugin_t *this)
   uint32_t  tmp_ip;
   stream_udp_header_t tmp_udp;
   int retries = 0, port = -1, fd = -1;
+  int cmd_len;
 
   /* get server IP address */
   if (getpeername(this->fd_control, &server_address.sa, &len)) {
@@ -5605,8 +5610,8 @@ retry_request:
   /* request UDP data transport from server */
 
   LOGDBG("Requesting UDP transport");
-  sprintf(cmd, "UDP %d\r\n", port);
-  if(_x_io_tcp_write(this->stream, this->fd_control, cmd, strlen(cmd)) < 0) {
+  cmd_len = sprintf(cmd, "UDP %d\r\n", port);
+  if (cmd_len < 4 || _x_io_tcp_write(this->stream, this->fd_control, cmd, cmd_len) != cmd_len) {
     LOGERR("Control stream write error");
     closesocket(fd);
     return -1;
@@ -5679,6 +5684,7 @@ static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host,
   char tmpbuf[256];
   int fd_data;
   ssize_t n;
+  int cmd_len;
 
   /* Connect to server */
   fd_data = _x_io_tcp_connect(this->stream, host, port);
@@ -5700,14 +5706,14 @@ static int connect_tcp_data_stream(vdr_input_plugin_t *this, const char *host,
     return -1;
   }
   ipc = ntohl(addr.in.sin_addr.s_addr);
-  sprintf(tmpbuf, 
-	  "DATA %d 0x%x:%u %d.%d.%d.%d\r\n", 
-	  this->client_id, 
-	  (unsigned int)ipc,
-          (unsigned int)ntohs(addr.in.sin_port),
-	  ((ipc>>24)&0xff), ((ipc>>16)&0xff), ((ipc>>8)&0xff), ((ipc)&0xff)
-	  );
-  if(_x_io_tcp_write(this->stream, fd_data, tmpbuf, strlen(tmpbuf)) < 0) {
+  cmd_len = sprintf(tmpbuf,
+                    "DATA %d 0x%x:%u %d.%d.%d.%d\r\n",
+                    this->client_id,
+                    (unsigned int)ipc,
+                    (unsigned int)ntohs(addr.in.sin_port),
+                    ((ipc>>24)&0xff), ((ipc>>16)&0xff), ((ipc>>8)&0xff), ((ipc)&0xff)
+                    );
+  if (cmd_len < 6 || _x_io_tcp_write(this->stream, fd_data, tmpbuf, cmd_len) != cmd_len) {
     LOGERR("Data stream write error (TCP)");
   } else if( XIO_READY != io_select_rd(fd_data)) {
     LOGERR("Data stream poll failed (TCP)");
