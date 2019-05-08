@@ -3847,6 +3847,10 @@ static void vdr_event_cb (void *user_data, const xine_event_t *event)
   }
 
   switch (event->type) {
+    case XINE_EVENT_XVDR_EVENT:
+      LOGDBG("XVDR_EVENT: %s", (const char *)event->data);
+      puts_vdr(this, (const char *)event->data);
+      break;
     case XINE_EVENT_UI_SET_TITLE:
       if (event->stream == this->slave.stream) {
 	xine_ui_data_t *data = (xine_ui_data_t *)event->data;
@@ -4728,26 +4732,6 @@ static int vdr_plugin_write(vdr_input_plugin_if_t *this_if, int stream, uint64_t
 
   return len;
 }
-
-/*
- * post_vdr_event()
- *
- * - Called by frontend
- * - forward (input) events to VDR
- *
- * It is safe to cancel thread while this function is being executed.
- */
-static int post_vdr_event(vdr_input_plugin_if_t *this_if, const char *msg)
-{
-  vdr_input_plugin_t *this = (vdr_input_plugin_t *) this_if;
-
-  if (msg && this->fd_control >= 0)
-    return write_control (this, msg);
-
-  LOGMSG("post_vdr_event: error ! \"%s\" not delivered.", msg ?: "<null>");
-  return -1;
-}
-
 
 /******************************* Plugin **********************************/
 
@@ -6035,16 +6019,14 @@ static input_plugin_t *vdr_class_get_instance (input_class_t *class_gen,
   this->input_plugin.get_length        = vdr_plugin_get_length;
   this->input_plugin.get_blocksize     = vdr_plugin_get_blocksize;
   this->input_plugin.get_optional_data = vdr_plugin_get_optional_data;
-  
+
   if(local_mode) {
     this->funcs.push_input_write  = vdr_plugin_write;
     this->funcs.push_input_control= vdr_plugin_parse_control;
     this->funcs.push_input_osd    = vdr_plugin_exec_osd_command;
     /*this->funcs.xine_input_event= NULL; -- frontend sets this */
-  } else {
-    this->funcs.post_vdr_event    = post_vdr_event;
   }
-  
+
   LOGDBG("vdr_class_get_instance done.");
   return &this->input_plugin;
 }

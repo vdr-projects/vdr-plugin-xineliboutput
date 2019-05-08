@@ -1465,8 +1465,6 @@ static int fe_send_input_event(frontend_t *this_gen, const char *map,
 
   /* remote mode: --> input plugin --> vdr */
   if (find_input_plugin(this)) {
-    if (this->input_plugin->f.post_vdr_event) {
-
       char *msg = NULL;
       if (map) {
         if (asprintf(&msg, "KEY %s %s %s %s\r\n", map, key,
@@ -1478,17 +1476,19 @@ static int fe_send_input_event(frontend_t *this_gen, const char *map,
       }
 
       if (msg) {
-        int r = this->input_plugin->f.post_vdr_event(this->input_plugin, msg);
+          const xine_event_t event = {
+            .type        = XINE_EVENT_XVDR_EVENT,
+            .stream      = this->stream,
+            .data        = msg,
+            .data_length = strlen(msg) + 1,
+          };
+          xine_event_send(this->stream, &event);
         free(msg);
-        if (r > 0)
           return FE_OK;
       }
-      LOGMSG("fe_send_input_event: message KEY %s lost", key);
-      return FE_ERROR;
-    }
   }
 
-  LOGMSG("fe_send_input_event: handler not set, event lost !");
+  LOGMSG("fe_send_input_event: message KEY %s lost (no input plugin)", key);
   return FE_ERROR;
 }
 
@@ -1533,18 +1533,23 @@ static int fe_send_event(frontend_t *this_gen, const char *data)
 
     /* remote mode: --> input plugin --> vdr */
     if (find_input_plugin(this)) {
-      if (this->input_plugin->f.post_vdr_event) {
         char *msg = NULL;
         if (asprintf(&msg, "%s\r\n", data) < 1)
           msg = NULL;
         if (msg) {
-          int r = this->input_plugin->f.post_vdr_event(this->input_plugin, msg);
+            const xine_event_t event = {
+              .type        = XINE_EVENT_XVDR_EVENT,
+              .stream      = this->stream,
+              .data        = msg,
+              .data_length = strlen(msg) + 1,
+            };
+            xine_event_send(this->stream, &event);
+          }
           free(msg);
-          return (r > 0) ? FE_OK : FE_ERROR;
-        }
-        return FE_ERROR;
-      }
+          return FE_OK;
     }
+    LOGMSG("EVENT %s Lost (no input plugin)", data);
+    return FE_ERROR;
   }
 
   return FE_OK;

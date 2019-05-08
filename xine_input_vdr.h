@@ -22,6 +22,8 @@ extern "C" {
 
 #include "xine/input_xvdr_mrl.h"
 
+#define XINE_EVENT_XVDR_EVENT        0x0f008001
+
 struct input_plugin_s;
 struct vdr_input_plugin_if_s;
 struct osd_command_s;
@@ -42,9 +44,6 @@ typedef struct vdr_input_plugin_funcs_s {
   /* input plugin --> frontend */
   void *(*fe_control)       (struct frontend_s *, const char *);
   struct frontend_s *fe_handle;
-
-  /* frontend --> input plugin (remote mode) */
-  int  (*post_vdr_event)    (struct vdr_input_plugin_if_s *, const char *);
 } vdr_input_plugin_funcs_t;
 
 typedef struct vdr_input_plugin_if_s {
