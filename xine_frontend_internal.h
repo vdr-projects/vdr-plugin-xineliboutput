@@ -67,6 +67,9 @@ typedef struct fe_s {
 #ifdef _WIN32
     win32_visual_t    vis_win;
 #endif
+#ifdef XINE_VISUAL_TYPE_WAYLAND
+    xine_wayland_visual_t vis_wl;
+#endif
   };
 
   /* frontend */
