@@ -8,6 +8,8 @@
  *
  */
 
+#include "xvdr_metronom.h"
+
 #include <stdlib.h>
 
 #include <xine/xine_internal.h>
@@ -20,15 +22,40 @@
 
 #include "adjustable_scr.h"
 
-#define XVDR_METRONOM_COMPILE
-#include "xvdr_metronom.h"
+typedef struct {
+  xvdr_metronom_t m;
+
+  /* master SCR for buffering control */
+  struct adjustable_scr_s *scr;
+
+  /* original metronom */
+  metronom_t    *orig_metronom;
+  xine_stream_t *stream;
+
+  int     trickspeed;    /* current trick speed */
+  int     still_mode;
+  int64_t last_vo_pts;   /* last displayed video frame PTS */
+  int     wired;         /* true if currently wired to stream */
+
+  /* initial buffering in live mode */
+  uint8_t  buffering;      /* buffering active */
+  uint8_t  live_buffering; /* live buffering enabled */
+  uint8_t  stream_start;
+  int64_t  vid_pts;        /* last seen video pts */
+  int64_t  aud_pts;        /* last seen audio pts */
+  int64_t  disc_pts;       /* reported discontinuity pts */
+  uint64_t buffering_start_time;
+  uint64_t first_frame_seen_time;
+
+  pthread_mutex_t mutex;
+} xvdr_metronom_impl_t;
 
 static int warnings = 0;
 
 static int64_t absdiff(int64_t a, int64_t b) { int64_t diff = a-b; if (diff<0) diff = -diff; return diff; }
 static int64_t min64(int64_t a, int64_t b) { return a < b ? a : b; }
 
-static void check_buffering_done(xvdr_metronom_t *this)
+static void check_buffering_done(xvdr_metronom_impl_t *this)
 {
   /* both audio and video timestamps seen ? */
   if (this->vid_pts && this->aud_pts) {
@@ -77,7 +104,7 @@ static void check_buffering_done(xvdr_metronom_t *this)
 
 static void got_video_frame(metronom_t *metronom, vo_frame_t *frame)
 {
-  xvdr_metronom_t *this = (xvdr_metronom_t *)metronom;
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
   int64_t          pts  = frame->pts;
 
 #if 1 /* xine-lib master-slave metronom causes some problems ... */
@@ -141,7 +168,7 @@ static void got_video_frame(metronom_t *metronom, vo_frame_t *frame)
 
 static int64_t got_audio_samples(metronom_t *metronom, int64_t pts, int nsamples)
 {
-  xvdr_metronom_t *this = (xvdr_metronom_t *)metronom;
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
 
   pthread_mutex_lock(&this->mutex);
 
@@ -184,11 +211,11 @@ static int64_t got_audio_samples(metronom_t *metronom, int64_t pts, int nsamples
 
 static int64_t got_spu_packet(metronom_t *metronom, int64_t pts)
 {
-  xvdr_metronom_t *this = (xvdr_metronom_t *)metronom;
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
   return this->orig_metronom->got_spu_packet(this->orig_metronom, pts);
 }
 
-static void start_buffering(xvdr_metronom_t *this, int64_t disc_off)
+static void start_buffering(xvdr_metronom_impl_t *this, int64_t disc_off)
 {
   if (this->live_buffering && this->stream_start && disc_off) {
     if (!this->buffering) {
@@ -214,7 +241,7 @@ static void start_buffering(xvdr_metronom_t *this, int64_t disc_off)
 
 static void handle_audio_discontinuity(metronom_t *metronom, int type, int64_t disc_off)
 {
-  xvdr_metronom_t *this = (xvdr_metronom_t *)metronom;
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
 
   start_buffering(this, disc_off);
 
@@ -223,7 +250,7 @@ static void handle_audio_discontinuity(metronom_t *metronom, int type, int64_t d
 
 static void handle_video_discontinuity(metronom_t *metronom, int type, int64_t disc_off)
 {
-  xvdr_metronom_t *this = (xvdr_metronom_t *)metronom;
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
 
   start_buffering(this, disc_off);
 
@@ -232,13 +259,13 @@ static void handle_video_discontinuity(metronom_t *metronom, int type, int64_t d
 
 static void set_audio_rate(metronom_t *metronom, int64_t pts_per_smpls)
 {
-  xvdr_metronom_t *this = (xvdr_metronom_t *)metronom;
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
   this->orig_metronom->set_audio_rate(this->orig_metronom, pts_per_smpls);
 }
 
 static void set_option(metronom_t *metronom, int option, int64_t value)
 {
-  xvdr_metronom_t *this = (xvdr_metronom_t *)metronom;
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
 
   if (option == XVDR_METRONOM_LAST_VO_PTS) {
     if (value > 0) {
@@ -279,7 +306,7 @@ static void set_option(metronom_t *metronom, int option, int64_t value)
 
 static int64_t get_option(metronom_t *metronom, int option)
 {
-  xvdr_metronom_t *this = (xvdr_metronom_t *)metronom;
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
 
   if (option == XVDR_METRONOM_LAST_VO_PTS) {
     int64_t pts;
@@ -303,18 +330,18 @@ static int64_t get_option(metronom_t *metronom, int option)
 
 static void set_master(metronom_t *metronom, metronom_t *master)
 {
-  xvdr_metronom_t *this = (xvdr_metronom_t *)metronom;
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
   this->orig_metronom->set_master(this->orig_metronom, master);
 }
 
 static void metronom_exit(metronom_t *metronom)
 {
-  xvdr_metronom_t *this = (xvdr_metronom_t *)metronom;
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
 
   LOGMSG("xvdr_metronom: metronom_exit() called !");
 
   /* un-hook */
-  this->unwire(this);
+  this->m.unwire(&this->m);
   this->stream = NULL;
 
   if (this->orig_metronom) {
@@ -329,8 +356,10 @@ static void metronom_exit(metronom_t *metronom)
  * xvdr_metronom_t
  */
 
-static void xvdr_metronom_wire(xvdr_metronom_t *this)
+static void xvdr_metronom_wire(xvdr_metronom_t *this_gen)
 {
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)this_gen;
+
   if (!this->stream) {
     LOGMSG("xvdr_metronom_wire(): stream == NULL !");
     return;
@@ -345,12 +374,14 @@ static void xvdr_metronom_wire(xvdr_metronom_t *this)
 
     /* attach to stream */
     this->orig_metronom = this->stream->metronom;
-    this->stream->metronom = &this->metronom;
+    this->stream->metronom = &this->m.metronom;
   }
 }
 
-static void xvdr_metronom_unwire(xvdr_metronom_t *this)
+static void xvdr_metronom_unwire(xvdr_metronom_t *this_gen)
 {
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)this_gen;
+
   if (this->stream && this->wired) {
     this->wired = 0;
 
@@ -359,9 +390,11 @@ static void xvdr_metronom_unwire(xvdr_metronom_t *this)
   }
 }
 
-static void xvdr_metronom_dispose(xvdr_metronom_t *this)
+static void xvdr_metronom_dispose(xvdr_metronom_t *this_gen)
 {
-  xvdr_metronom_unwire(this);
+  xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)this_gen;
+
+  xvdr_metronom_unwire(this_gen);
 
   pthread_mutex_destroy(&this->mutex);
 
@@ -379,30 +412,30 @@ xvdr_metronom_t *xvdr_metronom_init(xine_stream_t *stream)
     return (xvdr_metronom_t*)stream->metronom;
   }
 
-  xvdr_metronom_t *this = calloc(1, sizeof(xvdr_metronom_t));
+  xvdr_metronom_impl_t *this = calloc(1, sizeof(xvdr_metronom_impl_t));
 
   this->stream        = stream;
   this->orig_metronom = stream->metronom;
 
-  this->wire           = xvdr_metronom_wire;
-  this->unwire         = xvdr_metronom_unwire;
-  this->dispose        = xvdr_metronom_dispose;
+  this->m.wire         = xvdr_metronom_wire;
+  this->m.unwire       = xvdr_metronom_unwire;
+  this->m.dispose      = xvdr_metronom_dispose;
 
-  this->metronom.set_audio_rate    = set_audio_rate;
-  this->metronom.got_video_frame   = got_video_frame;
-  this->metronom.got_audio_samples = got_audio_samples;
-  this->metronom.got_spu_packet    = got_spu_packet;
-  this->metronom.handle_audio_discontinuity = handle_audio_discontinuity;
-  this->metronom.handle_video_discontinuity = handle_video_discontinuity;
-  this->metronom.set_option = set_option;
-  this->metronom.get_option = get_option;
-  this->metronom.set_master = set_master;
+  this->m.metronom.set_audio_rate    = set_audio_rate;
+  this->m.metronom.got_video_frame   = got_video_frame;
+  this->m.metronom.got_audio_samples = got_audio_samples;
+  this->m.metronom.got_spu_packet    = got_spu_packet;
+  this->m.metronom.handle_audio_discontinuity = handle_audio_discontinuity;
+  this->m.metronom.handle_video_discontinuity = handle_video_discontinuity;
+  this->m.metronom.set_option = set_option;
+  this->m.metronom.get_option = get_option;
+  this->m.metronom.set_master = set_master;
 
-  this->metronom.exit = metronom_exit;
+  this->m.metronom.exit = metronom_exit;
 
   pthread_mutex_init(&this->mutex, NULL);
 
-  xvdr_metronom_wire(this);
+  xvdr_metronom_wire(&this->m);
 
-  return this;
+  return &this->m;
 }

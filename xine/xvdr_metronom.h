@@ -40,35 +40,6 @@ struct xvdr_metronom_s {
 
   void (*wire)          (xvdr_metronom_t *);
   void (*unwire)        (xvdr_metronom_t *);
-
-  /* master SCR for buffering control */
-  struct adjustable_scr_s *scr;
-
-  /* private data */
-
-#ifdef XVDR_METRONOM_COMPILE
-
-  /* original metronom */
-  metronom_t    *orig_metronom;
-  xine_stream_t *stream;
-
-  int     trickspeed;    /* current trick speed */
-  int     still_mode;
-  int64_t last_vo_pts;   /* last displayed video frame PTS */
-  int     wired;         /* true if currently wired to stream */
-
-  /* initial buffering in live mode */
-  uint8_t  buffering;      /* buffering active */
-  uint8_t  live_buffering; /* live buffering enabled */
-  uint8_t  stream_start;
-  int64_t  vid_pts;        /* last seen video pts */
-  int64_t  aud_pts;        /* last seen audio pts */
-  int64_t  disc_pts;       /* reported discontinuity pts */
-  uint64_t buffering_start_time;
-  uint64_t first_frame_seen_time;
-
-  pthread_mutex_t mutex;
-#endif
 };
 
 xvdr_metronom_t *xvdr_metronom_init(xine_stream_t *);
