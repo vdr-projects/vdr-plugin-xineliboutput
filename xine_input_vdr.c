@@ -3970,6 +3970,7 @@ static int wait_stream_sync(vdr_input_plugin_t *this)
     LOGVERBOSE("wait_stream_sync: waiting for engine_flushed condition %"PRIu64"<%"PRIu64,
                this->discard_index, this->discard_index_ds);
 
+  counter = 100;
   while(this->control_running &&
         this->discard_index < this->discard_index_ds &&
         !_x_action_pending(this->stream) &&
