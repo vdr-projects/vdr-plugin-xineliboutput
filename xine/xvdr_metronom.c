@@ -116,6 +116,8 @@ static void got_video_frame(metronom_t *metronom, vo_frame_t *frame)
   warnings = 0;
 #endif
 
+  pthread_mutex_lock(&this->mutex);
+
   if (this->still_mode) {
     LOGVERBOSE("Still frame, type %d", frame->picture_coding_type);
     frame->pts       = 0;
@@ -127,7 +129,6 @@ static void got_video_frame(metronom_t *metronom, vo_frame_t *frame)
   }
 
   /* initial buffering */
-  pthread_mutex_lock(&this->mutex);
   if (this->buffering && !frame->bad_frame) {
 
     /* track video pts */
@@ -243,7 +244,9 @@ static void handle_audio_discontinuity(metronom_t *metronom, int type, int64_t d
 {
   xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
 
+  pthread_mutex_lock(&this->mutex);
   start_buffering(this, disc_off);
+  pthread_mutex_unlock(&this->mutex);
 
   this->orig_metronom->handle_audio_discontinuity(this->orig_metronom, type, disc_off);
 }
@@ -252,7 +255,9 @@ static void handle_video_discontinuity(metronom_t *metronom, int type, int64_t d
 {
   xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
 
+  pthread_mutex_lock(&this->mutex);
   start_buffering(this, disc_off);
+  pthread_mutex_unlock(&this->mutex);
 
   this->orig_metronom->handle_video_discontinuity(this->orig_metronom, type, disc_off);
 }
@@ -292,12 +297,16 @@ static void set_option(metronom_t *metronom, int option, int64_t value)
   }
 
   if (option == XVDR_METRONOM_TRICK_SPEED) {
+    pthread_mutex_lock(&this->mutex);
     this->trickspeed = value;
+    pthread_mutex_unlock(&this->mutex);
     return;
   }
 
   if (option == XVDR_METRONOM_STILL_MODE) {
+    pthread_mutex_lock(&this->mutex);
     this->still_mode = value;
+    pthread_mutex_unlock(&this->mutex);
     return;
   }
 
@@ -307,19 +316,25 @@ static void set_option(metronom_t *metronom, int option, int64_t value)
 static int64_t get_option(metronom_t *metronom, int option)
 {
   xvdr_metronom_impl_t *this = (xvdr_metronom_impl_t *)metronom;
+  int64_t result;
 
   if (option == XVDR_METRONOM_LAST_VO_PTS) {
-    int64_t pts;
     pthread_mutex_lock(&this->mutex);
-    pts = this->last_vo_pts;
+    result = this->last_vo_pts;
     pthread_mutex_unlock(&this->mutex);
-    return pts;
+    return result;
   }
   if (option == XVDR_METRONOM_TRICK_SPEED) {
-    return this->trickspeed;
+    pthread_mutex_lock(&this->mutex);
+    result = this->trickspeed;
+    pthread_mutex_unlock(&this->mutex);
+    return result;
   }
   if (option == XVDR_METRONOM_STILL_MODE) {
-    return this->still_mode;
+    pthread_mutex_lock(&this->mutex);
+    result = this->still_mode;
+    pthread_mutex_unlock(&this->mutex);
+    return result;
   }
   if (option == XVDR_METRONOM_ID) {
     return XVDR_METRONOM_ID;
