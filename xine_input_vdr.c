@@ -2720,7 +2720,7 @@ LOGMSG("  pip stream created");
 static int handle_osdcmd(vdr_input_plugin_t *this, int fd)
 {
   osd_command_t osdcmd = {0};
-  int err = CONTROL_OK;
+  int err;
 
   if (!this->control_running)
     return CONTROL_DISCONNECTED;
@@ -2767,18 +2767,20 @@ static int handle_osdcmd(vdr_input_plugin_t *this, int fd)
     if (read_socket(this, fd, (unsigned char *)osdcmd.palette, clut_bytes) != clut_bytes) {
       LOGMSG("error reading OSDCMD palette");
       err = CONTROL_DISCONNECTED;
+      goto fail;
     }
   } else {
     osdcmd.palette = NULL;
   }
 
   /* read (RLE) data */
-  if (err == CONTROL_OK && osdcmd.data && osdcmd.datalen>0) {
+  if (osdcmd.data && osdcmd.datalen>0) {
     osdcmd.data = (osd_rle_elem_t *)malloc(osdcmd.datalen);
     if(read_socket(this, fd, (unsigned char *)osdcmd.data, osdcmd.datalen)
        != (ssize_t)osdcmd.datalen) {
       LOGMSG("error reading OSDCMD bitmap");
       err = CONTROL_DISCONNECTED;
+      goto fail;
     } else {
       if (osdcmd.cmd == OSD_Set_HDMV) {
         uint8_t *raw = osdcmd.raw_data;
@@ -2804,9 +2806,9 @@ static int handle_osdcmd(vdr_input_plugin_t *this, int fd)
     osdcmd.data = NULL;
   }
 
-  if (err == CONTROL_OK)
-    err = vdr_plugin_exec_osd_command(&this->iface, &osdcmd);
+  err = vdr_plugin_exec_osd_command(&this->iface, &osdcmd);
 
+ fail:
   free(osdcmd.data);
   free(osdcmd.palette);
 
