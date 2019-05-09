@@ -110,6 +110,10 @@ typedef struct osd_command_s {
 
 } PACKED osd_command_t ALIGNED;
 
+#define ctt_assert(e) ((void)sizeof(char[1 - 2*!(e)]))
+static inline void ctt_assert_cmd_size(void) {
+  ctt_assert(sizeof(struct osd_command_s) < 0x100);
+}
 
 # define hton_osdcmd(cmdP) \
   do { \
