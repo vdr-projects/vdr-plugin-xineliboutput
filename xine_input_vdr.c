@@ -2720,45 +2720,36 @@ LOGMSG("  pip stream created");
 static int handle_osdcmd(vdr_input_plugin_t *this, int fd)
 {
   osd_command_t osdcmd = {0};
+  uint8_t buf[256];
   int err;
 
   if (!this->control_running)
     return CONTROL_DISCONNECTED;
 
-  /* read struct size first */
-  size_t   todo, expect = sizeof(osd_command_t);
-  uint8_t *pt = (uint8_t*)&osdcmd;
-  if (read_socket(this, fd, pt, sizeof(osdcmd.size)) != sizeof(osdcmd.size)) {
+  ctt_assert(sizeof(osd_command_t) <= sizeof(buf));
+  ctt_assert(sizeof(osdcmd.size) == 1);
+
+  if (read_socket(this, fd, buf, 1) != 1) {
     LOGMSG("error reading OSDCMD data length");
     return CONTROL_DISCONNECTED;
   }
-  if (osdcmd.size < 2) { /* avoid integer overflow when calculating todo */
-    LOGMSG("invalid OSDCMD data length");
+  if (buf[0] < 2) { /* avoid integer overflow later */
+    LOGMSG("invalid OSDCMD data length %u", osdcmd.size);
     return CONTROL_DISCONNECTED;
   }
-  pt     += sizeof(osdcmd.size);
-  expect -= sizeof(osdcmd.size);
-  todo    = osdcmd.size - sizeof(osdcmd.size);
-
-  /* read data */
-  ssize_t bytes = MIN(todo, expect);
-  if (read_socket(this, fd, pt, bytes) != bytes) {
+  if (read_socket(this, fd, buf + 1, buf[0] - 1) != buf[0] - 1) {
     LOGMSG("error reading OSDCMD data");
     return CONTROL_DISCONNECTED;
   }
 
-  if (expect < todo) {
-    /* server uses larger struct, discard rest of data */
-    ssize_t skip = todo - expect;
-    uint8_t dummy[skip];
-    LOGMSG("osd_command_t size %d, expected %zu", osdcmd.size, expect);
-    if (read_socket(this, fd, dummy, skip) != skip) {
-      LOGMSG("error reading OSDCMD data (unknown part)");
-      return CONTROL_DISCONNECTED;
-    }
+  err = rd_osdcmd(&osdcmd, buf);
+  if (err < 0) {
+    LOGMSG("invalid OSDCMD data length %u", osdcmd.size);
+    return CONTROL_DISCONNECTED;
   }
-
-  ntoh_osdcmd(osdcmd);
+  if (err) {
+    LOGMSG("osd_command_t size %d, skipping %d unknown bytes", osdcmd.size, err);
+  }
 
   /* read palette */
   if (osdcmd.palette && osdcmd.colors>0) {

@@ -13,6 +13,8 @@
 
 #include <stdint.h>
 
+#include <stdint.h>
+
 #ifndef PACKED
 #  define PACKED  __attribute__((packed))
 #endif
@@ -132,22 +134,64 @@ static inline void ctt_assert_cmd_size(void) {
     cmdP.dirty_area.y2 = htons(cmdP.dirty_area.y2);  \
   } while(0)
 
-# define ntoh_osdcmd(cmdP) \
-  do { \
-    cmdP.pts      = priv_ntohll(cmdP.pts);           \
-    cmdP.delay_ms = ntohl (cmdP.delay_ms);           \
-    cmdP.x        = ntohs (cmdP.x);                  \
-    cmdP.y        = ntohs (cmdP.y);                  \
-    cmdP.w        = ntohs (cmdP.w);                  \
-    cmdP.h        = ntohs (cmdP.h);                  \
-    cmdP.datalen  = ntohl (cmdP.datalen);            \
-    cmdP.num_rle  = ntohl (cmdP.num_rle);            \
-    cmdP.colors   = ntohl (cmdP.colors);             \
-    cmdP.dirty_area.x1 = ntohs(cmdP.dirty_area.x1);  \
-    cmdP.dirty_area.y1 = ntohs(cmdP.dirty_area.y1);  \
-    cmdP.dirty_area.x2 = ntohs(cmdP.dirty_area.x2);  \
-    cmdP.dirty_area.y2 = ntohs(cmdP.dirty_area.y2);  \
-  } while(0)
+/*
+ *
+ */
+
+static inline uint16_t rd_u16(const void *src)
+{
+  const uint8_t *p = (const uint8_t *)src;
+  return (uint16_t)((p[0] << 8) | p[1]);
+}
+
+static inline uint32_t rd_u32(const void *src)
+{
+  const uint8_t *p = (const uint8_t *)src;
+  return ((uint32_t)rd_u16(p) << 16) | rd_u16(p + 2);
+}
+
+static inline uint64_t rd_u64(const void *src)
+{
+  const uint8_t *p = (const uint8_t *)src;
+  return ((uint64_t)rd_u32(p) << 32) | rd_u32(p + 4);
+}
+
+/* return: -1 on error; >= 0 on success (number of skipped/unknown bytes) */
+static inline int rd_osdcmd(osd_command_t *cmd, const void *src)
+{
+  const uint8_t *p = (const uint8_t *)src;
+
+  if (p[0] < 60) {
+    return -1;
+  }
+
+  cmd->size     = p[0];
+  cmd->cmd      = p[1];
+  cmd->wnd      = p[2];
+  cmd->layer    = p[3];
+  cmd->pts      = rd_u64(p + 4);
+  cmd->delay_ms = rd_u32(p + 12);
+  cmd->x        = rd_u16(p + 16);
+  cmd->y        = rd_u16(p + 18);
+  cmd->w        = rd_u16(p + 20);
+  cmd->h        = rd_u16(p + 22);
+  cmd->datalen  = rd_u32(p + 24);
+  cmd->num_rle  = rd_u32(p + 28);
+  cmd->dummy01  = rd_u64(p + 32);
+  cmd->colors   = rd_u32(p + 40);
+  cmd->dummy02  = rd_u64(p + 44);
+  cmd->dirty_area.x1 = rd_u16(p + 52);
+  cmd->dirty_area.y1 = rd_u16(p + 54);
+  cmd->dirty_area.x2 = rd_u16(p + 56);
+  cmd->dirty_area.y2 = rd_u16(p + 58);
+  if (p[0] > 60)
+  cmd->flags    = p[60];
+  if (p[0] > 61)
+  cmd->scaling  = p[61];
+  if (p[0] > 62)
+    return p[0] - 62;
+  return 0;
+}
 
 #if defined __cplusplus
 }
