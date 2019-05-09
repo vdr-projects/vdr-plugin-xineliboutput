@@ -536,7 +536,8 @@ int main(int argc, char *argv[])
     }
     stderr = freopen(tty, "w", stderr);
     if (!stderr) {
-      EXIT("Error reopening stderr\n");
+      printf("Error reopening stderr\n");
+      exit(-1);
     }
   }
 #endif
