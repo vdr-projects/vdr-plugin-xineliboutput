@@ -152,7 +152,6 @@ static const struct keymap_item {
   [CEC_USER_CONTROL_CODE_DATA]                     = {1, "DATA"},
   //[CEC_USER_CONTROL_CODE_AN_RETURN]              = {0, ""},
   [CEC_USER_CONTROL_CODE_AN_CHANNELS_LIST]         = {0, "Channels"},
-  [0xff] = {0, ""},
 };
 
 #define KEY_NONE (unsigned)-1
