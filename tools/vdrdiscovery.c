@@ -175,9 +175,8 @@ static inline int udp_discovery_search(int fd_discovery, int port)
 }
 
 int udp_discovery_recv(int fd_discovery, char *buf, int timeout,
-                       struct sockaddr_in *source)
+                       struct sockaddr *source, socklen_t *sourcelen)
 {
-  socklen_t sourcelen = sizeof(struct sockaddr_in);
   int err;
 
   struct timeval select_timeout;
@@ -197,11 +196,11 @@ int udp_discovery_recv(int fd_discovery, char *buf, int timeout,
     return err;
   }
 
-  memset(source, 0, sourcelen);
+  memset(source, 0, *sourcelen);
   memset(buf, 0, DISCOVERY_MSG_MAXSIZE);
 
   err = recvfrom(fd_discovery, buf, DISCOVERY_MSG_MAXSIZE-1, 0,
-                 (struct sockaddr *)source, &sourcelen);
+                 source, sourcelen);
 
   if(err <= 0)
     LOGDBG("fd_discovery recvfrom() error");
@@ -283,7 +282,11 @@ static vdr_server **_add_server(vdr_server **l, vdr_server *s)
 static vdr_server **_udp_discovery_find_servers(int fd_discovery, int fast)
 {
   static const char mystring[] = DISCOVERY_1_0_HDR "Server port: ";
-  struct sockaddr_in from;
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } from;
+  socklen_t from_len = sizeof(from);
   char buf[DISCOVERY_MSG_MAXSIZE];
   int trycount = 0;
   int err = 0;
@@ -296,9 +299,9 @@ static vdr_server **_udp_discovery_find_servers(int fd_discovery, int fast)
     if((err = udp_discovery_search(fd_discovery, DISCOVERY_PORT) >= 0)) {
 
       errno = 0;
-      while( (err = udp_discovery_recv(fd_discovery, buf, 500, &from)) > 0) {
+      while( (err = udp_discovery_recv(fd_discovery, buf, 500, &from.sa, &from_len)) > 0) {
 
-        uint32_t tmp = ntohl(from.sin_addr.s_addr);
+        uint32_t tmp = ntohl(from.in.sin_addr.s_addr);
 
         buf[err] = 0;
         LOGDBG("Reveived broadcast: %d bytes from %d.%d.%d.%d \n%s",

@@ -22,7 +22,7 @@ extern "C" {
 
 #include <stddef.h>    // size_t
 
-struct sockaddr_in;
+struct sockaddr;
 
 /*
  * Client interface
@@ -91,7 +91,7 @@ int udp_discovery_broadcast(int fd_discovery, int server_port, const char *serve
  * Result is null-terminated string, not more than DISCOVERY_MSG_MAXSIZE bytes.
  */
 int udp_discovery_recv(int fd_discovery, char *buf, int timeout,
-		       struct sockaddr_in *source);
+		       struct sockaddr *source, socklen_t *source_len);
 
 /*
  * udp_discovery_is_valid_search()

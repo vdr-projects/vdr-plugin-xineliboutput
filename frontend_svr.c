@@ -1872,9 +1872,13 @@ void cXinelibServer::Handle_Discovery_Broadcast(void)
   }
 
   char buf[DISCOVERY_MSG_MAXSIZE] = {0};
-  struct sockaddr_in from;
+  union {
+    struct sockaddr    sa;
+    struct sockaddr_in in;
+  } from;
+  socklen_t len = sizeof(from);
 
-  if(udp_discovery_recv(fd_discovery, buf, 0, &from) > 0)
+  if (udp_discovery_recv(fd_discovery, buf, 0, &from.sa, &len) > 0)
     if(udp_discovery_is_valid_search(buf)) {
 
       // Reply only if we can accept one more client
