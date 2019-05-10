@@ -105,13 +105,17 @@ static inline int udp_discovery_send(int fd_discovery, int port, char *msg)
     struct sockaddr    sa;
     struct sockaddr_in in;
   } addr;
-  int len = strlen(msg);
+  size_t len;
+
+  len = strlen(msg);
+  if (len > DISCOVERY_MSG_MAXSIZE)
+    return -1;
 
   addr.in.sin_family = AF_INET;
   addr.in.sin_port   = htons(port);
   addr.in.sin_addr.s_addr = INADDR_BROADCAST;
 
-  if (len != sendto(fd_discovery, msg, len, 0, &addr.sa, sizeof(addr))) {
+  if ((ssize_t)len != sendto(fd_discovery, msg, len, 0, &addr.sa, sizeof(addr))) {
     LOGERR("UDP broadcast send failed (discovery)");
     return -1;
   }
