@@ -215,28 +215,29 @@ static void _cec4_keypress_cb(void *this_gen, const cec_keypress *keypress)
 {
   input_cec_t *cec = this_gen;
   frontend_t  *fe  = cec->fe;
+  unsigned int keycode = keypress->keycode;
 
-  LOGVERBOSE("keypress 0x%x duration %d", keypress->keycode, keypress->duration);
+  LOGVERBOSE("keypress 0x%x duration %d", keycode, keypress->duration);
 
-  if (keypress->keycode == cec->last_key && keypress->duration > 0)
+  if (keycode == cec->last_key && keypress->duration > 0)
     return;
 
   if (keypress->duration > 0)
     cec->last_key = KEY_NONE;
   else
-    cec->last_key = keypress->keycode;
+    cec->last_key = keycode;
 
-  if (keypress->keycode >= sizeof(keymap) / sizeof(keymap[0]) ||
-      !keymap[keypress->keycode].key[0]) {
-    LOGMSG("unknown keycode 0x%x", keypress->keycode);
+  if (keycode >= sizeof(keymap) / sizeof(keymap[0]) ||
+      !keymap[keycode].key[0]) {
+    LOGMSG("unknown keycode 0x%x", keycode);
     return;
   }
 
-  LOGDBG("sending key %s%s", keymap[keypress->keycode].map ? "CEC." : "", keymap[keypress->keycode].key);
+  LOGDBG("sending key %s%s", keymap[keycode].map ? "CEC." : "", keymap[keycode].key);
 
   alarm(3);
-  fe->send_input_event(fe, keymap[keypress->keycode].map ? "CEC" : NULL,
-                       keymap[keypress->keycode].key, 0, 1);
+  fe->send_input_event(fe, keymap[keycode].map ? "CEC" : NULL,
+                       keymap[keycode].key, 0, 1);
   alarm(0);
 
   return;
