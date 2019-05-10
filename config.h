@@ -97,8 +97,9 @@ class cOsdObject;
 // Local frontend
 #define FRONTEND_X11             0
 #define FRONTEND_FB              1
-#define FRONTEND_NONE            2
-#define FRONTEND_count           3
+#define FRONTEND_WAYLAND         2
+#define FRONTEND_NONE            3
+#define FRONTEND_count           4
 #define DEFAULT_FRONTEND         "sxfe"
 
 #define LISTEN_PORT       37890

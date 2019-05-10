@@ -150,8 +150,10 @@ PACKAGE = vdr-$(ARCHIVE)
 VDRPLUGIN            = libvdr-$(PLUGIN).so.$(APIVERSION)
 VDRPLUGIN_SXFE       = lib$(PLUGIN)-sxfe.so.$(VERSION)
 VDRPLUGIN_FBFE       = lib$(PLUGIN)-fbfe.so.$(VERSION)
+VDRPLUGIN_WLFE       = lib$(PLUGIN)-wlfe.so.$(VERSION)
 VDRSXFE              = vdr-sxfe
 VDRFBFE              = vdr-fbfe
+VDRWLFE              = vdr-wlfe
 XINEINPUTVDR         = xineplug_inp_xvdr.so
 XINEPOSTAUTOCROP     = xineplug_post_autocrop.so
 XINEPOSTSWSCALE      = xineplug_post_swscale.so
@@ -180,6 +182,12 @@ ifeq ($(XINELIBOUTPUT_FB), yes)
     TARGETS_FE += $(VDRFBFE)
     ifeq ($(XINELIBOUTPUT_VDRPLUGIN), yes)
         TARGETS_VDR += $(VDRPLUGIN_FBFE)
+    endif
+endif
+ifeq ($(XINELIBOUTPUT_WAYLAND), yes)
+    TARGETS_FE += $(VDRWLFE)
+    ifeq ($(XINELIBOUTPUT_VDRPLUGIN), yes)
+        TARGETS_VDR += $(VDRPLUGIN_WLFE)
     endif
 endif
 
@@ -238,6 +246,8 @@ OBJS_SXFE_SO = xine_sxfe_frontend.o $(OBJS_FE_SO)
 OBJS_SXFE    = xine_sxfe_frontend.o $(OBJS_FE)
 OBJS_FBFE_SO = xine_fbfe_frontend.o $(OBJS_FE_SO)
 OBJS_FBFE    = xine_fbfe_frontend.o $(OBJS_FE)
+OBJS_WLFE_SO = xine_wlfe_frontend.o $(OBJS_FE_SO)
+OBJS_WLFE    = xine_wlfe_frontend.o $(OBJS_FE)
 
 ifneq ($(HAVE_DBUS_GLIB_1), no)
 OBJS_SXFE    += tools/gnome_screensaver.o
@@ -270,7 +280,7 @@ MAKEDEP = $(CXX) -MM -MG
 DEPFILE = .dependencies
 $(DEPFILE): Makefile config.mak
 	@rm -f $@
-	@for i in $(OBJS:%.o=%.c) $(OBJS_SXFE:%.o=%.c) $(OBJS_FBFE:%.o=%.c) $(OBJS_XINE:%.o=%.c) ; do \
+	@for i in $(OBJS:%.o=%.c) $(OBJS_SXFE:%.o=%.c) $(OBJS_FBFE:%.o=%.c) $(OBJS_WLFE:%.o=%.c) $(OBJS_XINE:%.o=%.c) ; do \
 	  $(MAKEDEP) $(CXXFLAGS) $(DEFINES) $(INCLUDES) -MT "`dirname $$i`/`basename $$i .c`.o" $$i >>$@ ; \
 	done
 
@@ -302,7 +312,7 @@ vdrlogo_720x576.c: mpg2c vdrlogo_720x576.mpg
 
 xine_input_vdr.o: nosignal_720x576.c
 
-$(sort $(OBJS_SXFE) $(OBJS_FBFE) $(OBJS_XINE)): %.o: %.c
+$(sort $(OBJS_SXFE) $(OBJS_FBFE) $(OBJS_WLFE) $(OBJS_XINE)): %.o: %.c
 	@echo CC $@
 	$(Q)$(CC) $(CFLAGS) -c $(DEFINES) $(INCLUDES) $(CFLAGS_X11) $(CFLAGS_AVUTIL) $(OPTFLAGS) -o $@ $<
 
@@ -397,6 +407,20 @@ $(VDRSXFE): $(OBJS_SXFE)
 	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS_SXFE) $(LIBS_X11) $(LIBS_XINE) $(LIBS_JPEG) $(LIBS_CEC) $(LIBS_PTHREAD) -o $@
 
 #
+# vdr-wlfe
+#
+
+$(VDRPLUGIN_WLFE): $(OBJS_WLFE_SO)
+	@echo LD $@
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS_SO) $(LDFLAGS) $(OBJS_WLFE_SO) $(LIBS_WAYLAND) $(LIBS_XINE) $(LIBS_JPEG) -o $@
+ifeq ($(VDR_TREE), yes)
+	$(INSTALL) $@ $(LIBDIR)/
+endif
+$(VDRWLFE): $(OBJS_WLFE)
+	@echo LD $@
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS_WLFE) $(LIBS_WAYLAND) $(LIBS_XINE) $(LIBS_JPEG) $(LIBS_CEC) $(LIBS_PTHREAD) -o $@
+
+#
 # vdr-fbfe
 #
 
@@ -459,6 +483,12 @@ ifeq ($(XINELIBOUTPUT_X11), yes)
 	@-rm -rf $(DESTDIR)$(BINDIR)/vdr-sxfe
 	@$(INSTALL) -m 0755 vdr-sxfe $(DESTDIR)$(BINDIR)/vdr-sxfe
 endif
+ifeq ($(XINELIBOUTPUT_WAYLAND), yes)
+	@echo Installing $(DESTDIR)$(BINDIR)/vdr-wlfe
+	@mkdir -p $(DESTDIR)$(BINDIR)
+	@-rm -rf $(DESTDIR)$(BINDIR)/vdr-wlfe
+	@$(INSTALL) -m 0755 vdr-wlfe $(DESTDIR)$(BINDIR)/vdr-wlfe
+endif
 
 dist: $(I18Npo) clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
@@ -472,7 +502,7 @@ dist: $(I18Npo) clean
 clean:
 	@-rm -f $(DEPFILE) *.so* *.o *.tgz core* *~ *.flc *.bak \
 		tools/*.o tools/*~ tools/*.flc xine/*.o xine/*~ \
-		xine/*.flc $(VDR_FBFE) $(VDR_SXFE) mpg2c black_720x576.c \
-		nosignal_720x576.c vdrlogo_720x576.c vdr-sxfe vdr-fbfe \
+		xine/*.flc $(VDR_FBFE) $(VDR_WLFE) $(VDR_SXFE) mpg2c black_720x576.c \
+		nosignal_720x576.c vdrlogo_720x576.c vdr-sxfe vdr-fbfe vdr-wlfe \
 		features.h config.mak configure.log
 	@-rm -f $(PODIR)/*.mo $(PODIR)/*.pot

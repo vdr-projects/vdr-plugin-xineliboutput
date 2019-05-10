@@ -220,6 +220,7 @@ test_library(){
 
 SUBSYSTEMS="
   x11
+  wayland
   fb
   vdr
   libxine
@@ -250,7 +251,7 @@ FEATURES="
 
 # set defaults
 
-enable x11 vdr fb xine i18n libcec
+enable wayland x11 vdr fb xine i18n libcec
 
 # clear log file
 
@@ -266,6 +267,7 @@ show_help(){
   echo
   echo "  --help                 print this message"
   echo "  --enable-x11           build X11 frontend (vdr-sxfe) [yes]"
+  echo "  --enable-wayland       build Wayland frontend (vdr-wlfe) [yes]"
   echo "  --enable-fb            build framebuffer frontend (vdr-fbfe) [yes]"
   echo "  --enable-vdr           build VDR plugin [yes]"
   echo "  --enable-libxine       build xine plugins [yes]"
@@ -338,7 +340,7 @@ done
 #
 
 check_deps(){
-  disabled libxine && disable x11 fb libavutil libjpeg libcec
+  disabled libxine && disable wayland x11 fb libavutil libjpeg libcec
   disabled x11     && disable dbus-glib-1 xshm xrandr xrender xshape opengl xdpms xinerama vdpau
   disabled vdr     && disable libextractor libcap libbluray avahi-client
   disabled dlfcn   && disable opengl
@@ -378,6 +380,8 @@ if enabled libxine; then
   test_library   AVUTIL  libavutil    "libavutil/mem.h"        "-lavutil"    "av_mallocz(1)"
   test_library   JPEG    libjpeg      "jpeglib.h"              "-ljpeg"      "jpeg_create_compress(0)"
   test_library   X11     x11          "X11/X.h"                "-lX11"       "XInitThreads()"
+  test_library   WAYLAND wayland-client  "wayland-client.h"    "-lwayland-client" "wl_display_connect(0)"
+  test_library   WAYLAND wayland-cursor  "wayland-cursor.h"    "-lwayland-cursor" "wl_cursor_theme_load(0,0,0)"
   test_library   PTHREAD pthread      "pthread.h"              "-lpthread"   "pthread_create(0,0,0,0)"
 
   if enabled libcec; then
@@ -469,6 +473,7 @@ echo "XINELIBOUTPUT_VDRPLUGIN=$HAVE_VDR" >> $makefile
 echo "XINELIBOUTPUT_XINEPLUGIN=$HAVE_LIBXINE" >> $makefile
 echo "XINELIBOUTPUT_X11=$HAVE_X11" >> $makefile
 echo "XINELIBOUTPUT_FB=$HAVE_FB" >> $makefile
+echo "XINELIBOUTPUT_WAYLAND=$HAVE_WAYLAND_CLIENT" >> $makefile
 echo >> $makefile
 
 # features
@@ -489,6 +494,7 @@ echo "CXX = $CXX">>$makefile
 echo "CFLAGS_XINE += $CFLAGS_XINE">>$makefile
 echo "CFLAGS_VDR  += $CFLAGS_VDR">>$makefile
 echo "CFLAGS_X11  += $CFLAGS_X11">>$makefile
+echo "CFLAGS_WAYLAND += $CFLAGS_WAYLAND">>$makefile
 echo "CFLAGS_AVUTIL += $CFLAGS_AVUTIL">>$makefile
 echo "LIBS_XINE   += $LIBS_XINE">>$makefile
 echo "LIBS_JPEG   += $LIBS_JPEG">>$makefile
@@ -496,4 +502,5 @@ echo "LIBS_AVUTIL += $LIBS_AVUTIL">>$makefile
 echo "LIBS_PTHREAD += $LIBS_PTHREAD">>$makefile
 echo "LIBS_VDR    += $LIBS_VDR">>$makefile
 echo "LIBS_X11    += $LIBS_X11">>$makefile
+echo "LIBS_WAYLAND+= $LIBS_WAYLAND">>$makefile
 echo "LIBS_CEC    += $LIBS_CEC">>$makefile

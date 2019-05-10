@@ -157,13 +157,14 @@ const char * const config_t::s_videoDriverNamesFB [ FB_DRIVER_count+1 ] = {
 };
 
 const char * const config_t::s_frontends[ FRONTEND_count+1 ] = {
-  "sxfe", "fbfe", "none",
+  "sxfe", "fbfe", "wlfe", "none",
   NULL
 };
 
 const char * const config_t::s_frontendNames[ FRONTEND_count+1 ] = {
   "X11 (sxfe)",
   "Framebuffer (fbfe)",
+  "Wayland (wlfe)",
   trNOOP("Off"),
   NULL 
 };
@@ -171,6 +172,7 @@ const char * const config_t::s_frontendNames[ FRONTEND_count+1 ] = {
 const char * const config_t::s_frontend_files[ FRONTEND_count+1 ] = {
   "lib" PLUGIN_NAME_I18N "-sxfe.so." XINELIBOUTPUT_VERSION,
   "lib" PLUGIN_NAME_I18N "-fbfe.so." XINELIBOUTPUT_VERSION,
+  "lib" PLUGIN_NAME_I18N "-wlfe.so." XINELIBOUTPUT_VERSION,
   // example: libxineliboutput-sxfe.so.0.4.0
   "",
   NULL
