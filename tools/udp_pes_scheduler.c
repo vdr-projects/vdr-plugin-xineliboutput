@@ -99,14 +99,14 @@ cUdpScheduler::cUdpScheduler()
 
   // RTP
 
-  srandom(time(NULL) ^ getpid());
-
-  m_ssrc = random();
+  struct timespec ts = { 0, 0 };
+  clock_gettime(CLOCK_REALTIME, &ts);
+  m_ssrc = ts.tv_nsec ^ getpid();
   LOGDBG("RTP SSRC: 0x%08x", m_ssrc);
   m_LastRtcpTime = 0;
   m_Frames = 0;
   m_Octets = 0;
-  m_RtpScr.Set((int64_t)random());
+  m_RtpScr.Set(ts.tv_nsec);
 
   m_fd_sap = -1;
 
@@ -163,7 +163,9 @@ bool cUdpScheduler::AddRtp(void)
   }
 
   /* need new ssrc */
-  m_ssrc = random();
+  struct timespec ts = { 0, 0 };
+  clock_gettime(CLOCK_REALTIME, &ts);
+  m_ssrc ^= ts.tv_nsec;
   LOGDBG("RTP SSRC: 0x%08x", m_ssrc);
 
   //

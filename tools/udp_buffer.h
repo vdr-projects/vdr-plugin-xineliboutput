@@ -46,7 +46,10 @@ class cUdpBackLog
       memset(m_UdpBufLen, 0, sizeof(int) * UDP_BUFFER_SIZE);
       memset(m_PayloadSize, 0, sizeof(int) * UDP_BUFFER_SIZE); 
       m_SeqNo = 0;
-      m_RtpSeqNo = random();
+
+      struct timespec ts = { 0, 0 };
+      clock_gettime(CLOCK_REALTIME, &ts);
+      m_RtpSeqNo = ts.tv_nsec;
     }
 
     void Clear(int HowManyFrames)
