@@ -223,7 +223,7 @@ ssize_t cxSocket::write(const void *buffer, size_t size,
     ssize_t p = ::write(m_fd, ptr, size);
 
     if (p <= 0) {
-      if (errno == EINTR || errno == EAGAIN) {
+      if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK) {
 	LOGDBG("cxSocket::write: EINTR during write(), retrying");
 	continue;
       }
@@ -255,7 +255,7 @@ ssize_t cxSocket::read(void *buffer, size_t size, int timeout_ms)
     ssize_t p = ::read(m_fd, ptr, missing);
 
     if (p <= 0) {
-      if (errno == EINTR || errno == EAGAIN) {
+      if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK) {
 	LOGDBG("cxSocket::read: EINTR/EAGAIN during read(), retrying");
 	continue;
       }
