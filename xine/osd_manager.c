@@ -397,10 +397,11 @@ static int exec_osd_close(osd_manager_impl_t *this, osd_command_t *cmd)
   if (!ovl_manager)
     return CONTROL_PARAM_ERROR;
 
-  video_overlay_event_t ov_event = {0};
-  ov_event.event_type    = OVERLAY_EVENT_FREE_HANDLE;
-  ov_event.vpts          = osd_exec_vpts(this, cmd);
-  ov_event.object.handle = handle;
+  video_overlay_event_t ov_event = {
+    .event_type    = OVERLAY_EVENT_FREE_HANDLE,
+    .vpts          = osd_exec_vpts(this, cmd),
+    .object.handle = handle,
+  };
 
   while (ovl_manager->add_event(ovl_manager, (void *)&ov_event) < 0) {
     LOGMSG("OSD_Close(%d): overlay manager queue full !", cmd->wnd);
@@ -429,8 +430,6 @@ static int exec_osd_close(osd_manager_impl_t *this, osd_command_t *cmd)
 static int exec_osd_set_rle(osd_manager_impl_t *this, osd_command_t *cmd)
 {
   video_overlay_manager_t *ovl_manager = get_ovl_manager(this);
-  video_overlay_event_t    ov_event    = {0};
-  vo_overlay_t             ov_overlay  = {0};
   osd_data_t              *osd         = &this->osd[cmd->wnd];
   int use_unscaled       = 0;
   int rle_scaled         = 0;
@@ -450,13 +449,6 @@ static int exec_osd_set_rle(osd_manager_impl_t *this, osd_command_t *cmd)
     osd->extent_height     = osd->extent_height ?: 576;
     osd->last_changed_vpts = 0;
   }
-
-  /* fill SHOW event */
-  ov_event.event_type         = OVERLAY_EVENT_SHOW;
-  ov_event.vpts               = osd_exec_vpts(this, cmd);
-  ov_event.object.handle      = handle;
-  ov_event.object.overlay     = &ov_overlay;
-  ov_event.object.object_type = 1; /* menu */
 
   /* check for unscaled OSD capability and request */
   xine_video_port_t *video_out = this->stream->video_out;
@@ -490,6 +482,7 @@ static int exec_osd_set_rle(osd_manager_impl_t *this, osd_command_t *cmd)
   /* request OSD scaling from video_out layer */
   this->vo_scaling = !!(video_out->get_capabilities(video_out) & VO_XCAP_OSDSCALING);
   if (this->vo_scaling) {
+    // XXX is this signaled in hili clut ? could remove this ?
     video_out->set_property(video_out, VO_PROP_OSD_SCALING, cmd->scaling ? 1 : 0);
   }
 
@@ -530,11 +523,27 @@ static int exec_osd_set_rle(osd_manager_impl_t *this, osd_command_t *cmd)
   }
 
   /* fill ov_overlay */
+  vo_overlay_t ov_overlay = {
+    /* tag this overlay */
+    .hili_rgb_clut = VDR_OSD_MAGIC,
+#ifdef VO_CAP_VIDEO_WINDOW_OVERLAY
+    .video_window_x      = osd->video_window_x ?: -1,
+    .video_window_y      = osd->video_window_y ?: -1,
+    .video_window_width  = osd->video_window_w ?: -1,
+    .video_window_height = osd->video_window_h ?: -1,
+#endif
+  };
   osdcmd_to_overlay(&ov_overlay, cmd);
-  ov_overlay.unscaled = use_unscaled;
+  ov_overlay.unscaled = use_unscaled; /* override */
 
-  /* tag this overlay */
-  ov_overlay.hili_rgb_clut = VDR_OSD_MAGIC;
+  /* fill SHOW event */
+  video_overlay_event_t ov_event = {
+    .event_type         = OVERLAY_EVENT_SHOW,
+    .vpts               = osd_exec_vpts(this, cmd),
+    .object.handle      = handle,
+    .object.overlay     = &ov_overlay,
+    .object.object_type = 1, /* menu */
+  };
 
   /* fill extra data */
   const vdr_osd_extradata_t extra_data = {
@@ -550,12 +559,6 @@ static int exec_osd_set_rle(osd_manager_impl_t *this, osd_command_t *cmd)
     ov_overlay.extent_width   = osd->extent_width;
     ov_overlay.extent_height  = osd->extent_height;
   }
-#endif
-#ifdef VO_CAP_VIDEO_WINDOW_OVERLAY
-  ov_overlay.video_window_x      = osd->video_window_x ?: -1;
-  ov_overlay.video_window_y      = osd->video_window_y ?: -1;
-  ov_overlay.video_window_width  = osd->video_window_w ?: -1;
-  ov_overlay.video_window_height = osd->video_window_h ?: -1;
 #endif
 
   /* if no scaling was required, we may still need to re-center OSD */
@@ -610,8 +613,6 @@ static int exec_osd_set_argb(osd_manager_impl_t *this, osd_command_t *cmd)
 {
 #ifdef VO_CAP_ARGB_LAYER_OVERLAY
   video_overlay_manager_t *ovl_manager = get_ovl_manager(this);
-  video_overlay_event_t    ov_event    = {0};
-  vo_overlay_t             ov_overlay  = {0};
   osd_data_t              *osd         = &this->osd[cmd->wnd];
   int                      handle      = osd->handle;
 
@@ -639,24 +640,37 @@ static int exec_osd_set_argb(osd_manager_impl_t *this, osd_command_t *cmd)
     osd->last_changed_vpts = 0;
   }
 
+  /* fill ov_overlay */
+  vo_overlay_t ov_overlay = {
+    .x      = 0,
+    .y      = 0,
+    .width  = osd->extent_width,
+    .height = osd->extent_height,
+    /* tag this overlay */
+    .hili_rgb_clut = VDR_OSD_MAGIC,
+    /* xine-lib 1.2 extensions */
+    .extent_width        = osd->extent_width,
+    .extent_height       = osd->extent_height,
+    .video_window_x      = osd->video_window_x ?: -1,
+    .video_window_y      = osd->video_window_y ?: -1,
+    .video_window_width  = osd->video_window_w ?: -1,
+    .video_window_height = osd->video_window_h ?: -1,
+    /* this should trigger blending at output resolution (after scaling video frame) ... */
+    //ov_overlay.unscaled = 1;
+    .unscaled = cmd->flags & OSDFLAG_UNSCALED ? 1 : 0,
+  };
+
   /* fill SHOW event */
-  ov_event.event_type         = OVERLAY_EVENT_SHOW;
-  ov_event.vpts               = osd_exec_vpts(this, cmd);
-  ov_event.object.handle      = handle;
-  ov_event.object.overlay     = &ov_overlay;
-  ov_event.object.object_type = 1; /* menu */
+  const video_overlay_event_t ov_event = {
+    .event_type         = OVERLAY_EVENT_SHOW,
+    .vpts               = osd_exec_vpts(this, cmd),
+    .object.handle      = handle,
+    .object.overlay     = &ov_overlay,
+    .object.object_type = 1, /* menu */
+  };
 
   /* ARGB overlays are not cached for re-scaling */
   clear_osdcmd(&osd->cmd);
-
-  /* fill ov_overlay */
-  ov_overlay.x      = 0;
-  ov_overlay.y      = 0;
-  ov_overlay.width  = osd->extent_width;
-  ov_overlay.height = osd->extent_height;
-
-  /* tag this overlay */
-  ov_overlay.hili_rgb_clut = VDR_OSD_MAGIC;
 
   /* fill extra data */
   const vdr_osd_extradata_t extra_data = {
@@ -666,18 +680,6 @@ static int exec_osd_set_argb(osd_manager_impl_t *this, osd_command_t *cmd)
     .scaling       = cmd->scaling
   };
   memcpy(ov_overlay.hili_color, &extra_data, sizeof(extra_data));
-
-  /* xine-lib 1.2 extensions */
-  ov_overlay.extent_width        = osd->extent_width;
-  ov_overlay.extent_height       = osd->extent_height;
-  ov_overlay.video_window_x      = osd->video_window_x ?: -1;
-  ov_overlay.video_window_y      = osd->video_window_y ?: -1;
-  ov_overlay.video_window_width  = osd->video_window_w ?: -1;
-  ov_overlay.video_window_height = osd->video_window_h ?: -1;
-
-  /* this should trigger blending at output resolution (after scaling video frame) ... */
-  //ov_overlay.unscaled = 1;
-  ov_overlay.unscaled = cmd->flags & OSDFLAG_UNSCALED ? 1 : 0;
 
   /* allocate buffer */
   if (!osd->argb_buffer) {
