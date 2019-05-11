@@ -85,6 +85,7 @@ protected:
     void Handle_Control_RTP       (int cli, const char *arg);
     void Handle_Control_UDP       (int cli, const char *arg);
     void Handle_Control_DATA      (int cli, const char *arg);
+    void Handle_Control_OSD       (int cli, const char *arg);
     void Handle_Control_KEY       (int cli, const char *arg);
     void Handle_Control_UDP_RESEND(int cli, const char *arg);
     void Handle_Control_CONFIG    (int cli);
@@ -94,6 +95,7 @@ protected:
     void Handle_Control_RTSP      (int cli, const char *arg);
 
     void CloseDataConnection(int cli);
+    void CloseOsdConnection (int cli);
     void CloseConnection    (int cli);
 
     int Parse_Client_Id(int cli, const char *arg);
@@ -112,6 +114,7 @@ protected:
 
     cxSocket fd_control[MAXCLIENTS];
     int      fd_data   [MAXCLIENTS];
+    cxSocket fd_osd    [MAXCLIENTS];
 
     int  m_OsdTimeouts[MAXCLIENTS];
     char m_CtrlBuf    [MAXCLIENTS][CTRL_BUF_SIZE + 1];
@@ -123,6 +126,7 @@ protected:
     bool m_bConfigOk  [MAXCLIENTS];  // Client has been configured
     bool m_bArgbOSD   [MAXCLIENTS];  // Client supports ARGB OSD
     bool m_bRleArgbOSD[MAXCLIENTS];  // Client supports RLE ARGB OSD
+    bool m_bOsdConn   [MAXCLIENTS];  // Client uses separate connection for OSD
     int  m_iMulticastMask; // bit [cli] is 1 or 0. 1 == multicast in use.
     int  m_MasterCli;      // Master client (controls playback speed)
 

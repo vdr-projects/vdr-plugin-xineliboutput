@@ -135,6 +135,7 @@ cXinelibServer::cXinelibServer(cXinelibDevice *Dev, int listen_port) :
     m_bConfigOk[i] = false;
     m_bArgbOSD[i] = false;
     m_bRleArgbOSD[i] = false;
+    m_bOsdConn[i] = false;
     m_bUdp[i] = 0;
     m_ConnType[i] = ctDetecting;
   }
@@ -243,9 +244,21 @@ void cXinelibServer::CloseDataConnection(int cli)
     m_MasterCli = -1;
 }
 
+void cXinelibServer::CloseOsdConnection(int cli)
+{
+  fd_osd[cli].close();
+
+  // Do not mess with connection state.
+  // -> allow re-connecting OSD stream
+}
+
 void cXinelibServer::CloseConnection(int cli)
 {
   CloseDataConnection(cli);
+  CloseOsdConnection(cli);
+
+  m_bOsdConn[cli] = false;
+
   if(fd_control[cli].open()) {
     LOGMSG("Closing connection %d", cli);
     fd_control[cli].close();
@@ -357,19 +370,30 @@ void cXinelibServer::OsdCmd(void *cmd_gen)
     for(i = 0; i < MAXCLIENTS; i++) {
       if(fd_control[i].open() && m_bConfigOk[i]) {
         int r;
+        cxSocket& fd = m_bOsdConn[i] ? fd_osd[i] : fd_control[i];
+        if (!fd.open())
+          continue;
         if (m_bRleArgbOSD[i] && cmdnet_argbrle.data) {
-          r = write_osd_command(fd_control[i], &cmdnet_argbrle);
+          r = write_osd_command(fd, &cmdnet_argbrle);
         } else {
-          r = write_osd_command(fd_control[i], &cmdnet);
+          r = write_osd_command(fd, &cmdnet);
         }
-
         if(r < 0) {
-          LOGMSG("Send OSD command failed, closing connection");
-          CloseConnection(i);
+          LOGMSG("Send OSD command failed, closing %sconnection",
+                 m_bOsdConn[i] ? "OSD " : "");
+          if (m_bOsdConn[i]) {
+            CloseOsdConnection(i);
+          } else {
+            CloseConnection(i);
+          }
         } else if(r == 0) {
           if(m_OsdTimeouts[i]++ > MAX_OSD_TIMEOUTS) {
             LOGMSG("Too many OSD timeouts, dropping client");
-            CloseConnection(i);
+            if (m_bOsdConn[i]) {
+              CloseOsdConnection(i);
+            } else {
+              CloseConnection(i);
+            }
           }
         } else {
           m_OsdTimeouts[i] = 0;
@@ -1005,6 +1029,7 @@ void cXinelibServer::Handle_Control_PIPE(int cli, const char *arg)
   LOGDBG("Trying PIPE connection ...");
 
   CloseDataConnection(cli);
+  CloseOsdConnection(cli);
 
   //
   // TODO: client should create pipe; waiting here is not good thing ...
@@ -1113,9 +1138,45 @@ int cXinelibServer::Parse_Client_Id(int cli, const char *arg)
     return;
   }
 #endif
+
   return clientId;
 }
 
+
+void cXinelibServer::Handle_Control_OSD(int cli, const char *arg)
+{
+  int clientId = -1;
+
+  LOGDBG("OSD data connection (TCP) requested");
+
+  CloseOsdConnection(cli);
+  CloseDataConnection(cli);
+
+  clientId = Parse_Client_Id(cli, arg);
+  if (clientId < 0)
+    return;
+
+  /* close old OSD connection */
+  CloseOsdConnection(clientId);
+
+  /* change connection type */
+
+  fd_osd[clientId].set_handle( fd_control[cli].handle(true) );
+
+  cli = clientId;
+  fd_osd[cli].set_buffers(KILOBYTE(256), KILOBYTE(32));
+  fd_osd[cli].write_cmd("OSD\r\n");
+
+  m_bOsdConn[cli] = true;
+
+  /* not anymore control connection, so dec primary device reference counter */
+  m_Dev->ForcePrimaryDevice(false);
+
+  /* refresh OSD */
+  Unlock();  /* avoid deadlock if OSD update is already waiting in OsdCmd() */
+  cXinelibOsdProvider::RefreshOsd();
+  Lock();
+}
 
 void cXinelibServer::Handle_Control_DATA(int cli, const char *arg)
 {
@@ -1123,6 +1184,7 @@ void cXinelibServer::Handle_Control_DATA(int cli, const char *arg)
 
   LOGDBG("Data connection (TCP) requested");
 
+  CloseOsdConnection(cli);
   CloseDataConnection(cli);
 
   if(!xc.remote_usetcp) {
@@ -1347,6 +1409,7 @@ void cXinelibServer::Handle_Control_CONTROL(int cli, const char *arg)
 {
   fd_control[cli].printf("VDR-" VDRVERSION " "
                          "xineliboutput-" XINELIBOUTPUT_VERSION " "
+                         "OSDSTREAM "
                          "READY\r\nCLIENT-ID %d\r\n", cli);
   m_ConnType[cli] = ctControl;
 }
@@ -1718,6 +1781,9 @@ void cXinelibServer::Handle_Control(int cli, const char *cmd)
 
   } else if(!strncasecmp(cmd, "DATA ", 5)) {
     Handle_Control_DATA(cli, cmd+5);
+
+  } else if(!strncasecmp(cmd, "OSD ", 4)) {
+    Handle_Control_OSD(cli, cmd+4);
 
   } else if(!strncasecmp(cmd, "KEY ", 4)) {
     Handle_Control_KEY(cli, cmd+4);
