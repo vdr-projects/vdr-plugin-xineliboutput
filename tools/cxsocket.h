@@ -53,7 +53,7 @@ class cxSocket {
        { int r=m_fd; if(take_ownership) m_fd=-1; return r; }
   void set_handle(int h) { if(h != m_fd) {close(); m_fd = h;} }
   bool create(eSockType type) { close(); return (m_fd=::socket(PF_INET, (int)type, 0)) >= 0; }
-  bool open(void)   const { return m_fd>0; }
+  bool open(void)   const { return m_fd >= 0; }
   void close(void)        { CLOSESOCKET(m_fd); }
 
   ssize_t send(const void *buf, size_t size, int flags=0, 
