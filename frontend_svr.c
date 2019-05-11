@@ -1070,22 +1070,10 @@ void cXinelibServer::Handle_Control_PIPE(int cli, const char *arg)
   fd_data[cli] = fd;
 }
 
-
-void cXinelibServer::Handle_Control_DATA(int cli, const char *arg)
+int cXinelibServer::Parse_Client_Id(int cli, const char *arg)
 {
   int clientId = -1;
   unsigned int ipc, portc;
-
-  LOGDBG("Data connection (TCP) requested");
-
-  CloseDataConnection(cli);
-
-  if(!xc.remote_usetcp) {
-    LOGMSG("TCP transports disabled in configuration");
-    fd_control[cli].write_cmd("TCP: TCP transport disabled in config.\r\n");
-    CloseConnection(cli); /* actually closes the new data connection */
-    return;
-  }
 
   /* validate client ID */
   if(3 != sscanf(arg, "%d 0x%x:%d", &clientId, &ipc, &portc) ||
@@ -1096,17 +1084,18 @@ void cXinelibServer::Handle_Control_DATA(int cli, const char *arg)
     LOGDBG("Invalid data connection (TCP) request");
     /* close only new data connection, no control connection */
     CloseConnection(cli);
-    return;
+    return -1;
   }
 
 #if 0
   /* check client IP's */
-  struct sockaddr_in sinc, sind;
-  socklen_t len = sizeof(sinc);
+  struct sockaddr sinc, sind;
+  socklen_t lenc = sizeof(sinc);
+  socklen_t lend = sizeof(sind);
   sinc.sin_addr.s_addr = 0;
   sind.sin_addr.s_addr = ~0;
-  fd_control[cli].getpeername((struct sockaddr *)&sind, &len);
-  fd_control[clientId].getpeername((struct sockaddr *)&sinc, &len);
+  fd_control[cli].getpeername(&sind, &lend);
+  fd_control[clientId].getpeername(&sinc, &lenc);
   if(sinc.sin_addr.s_addr != sind.sin_addr.s_addr) {
     fd_control[cli].write_cmd("TCP: Error in request (IP does not match).\r\n");
     LOGMSG("Invalid data connection (TCP) request: IP does not match: ctrl %x, data %x",
@@ -1124,6 +1113,28 @@ void cXinelibServer::Handle_Control_DATA(int cli, const char *arg)
     return;
   }
 #endif
+  return clientId;
+}
+
+
+void cXinelibServer::Handle_Control_DATA(int cli, const char *arg)
+{
+  int clientId = -1;
+
+  LOGDBG("Data connection (TCP) requested");
+
+  CloseDataConnection(cli);
+
+  if(!xc.remote_usetcp) {
+    LOGMSG("TCP transports disabled in configuration");
+    fd_control[cli].write_cmd("TCP: TCP transport disabled in config.\r\n");
+    CloseConnection(cli); /* actually closes the new data connection */
+    return;
+  }
+
+  clientId = Parse_Client_Id(cli, arg);
+  if (clientId < 0)
+    return;
 
   /* close old data connection */
   CloseDataConnection(clientId);

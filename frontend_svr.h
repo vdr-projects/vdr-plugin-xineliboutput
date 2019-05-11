@@ -96,6 +96,8 @@ protected:
     void CloseDataConnection(int cli);
     void CloseConnection    (int cli);
 
+    int Parse_Client_Id(int cli, const char *arg);
+
 protected:
 
     // Data
