@@ -558,22 +558,27 @@ int main(int argc, char *argv[])
       !strcmp(mrl, MRL_ID "+udp:") ||
       !strcmp(mrl, MRL_ID "+rtp:") ||
       !strcmp(mrl, MRL_ID "+pipe:")) {
-    char address[1024] = "";
-    int port = -1;
+    vdr_server **svrs;
     PRINTF("VDR server not given, searching ...\n");
-    if (udp_discovery_find_server(&port, address, sizeof(address))) {
-      PRINTF("Found VDR server: host %s, port %d\n", address, port);
+    svrs = udp_discovery_find_servers(0);
+    if (svrs && svrs[0]) {
+      vdr_server *svr = *svrs;
+      PRINTF("Found VDR server(s):\n");
+      for (int s = 0; svrs[s]; s++)
+        PRINTF("\txvdr://%s:%d (%s)\n", svrs[s]->host, svrs[s]->port, svrs[s]->descr);
       if (mrl) {
         char *tmp = mrl;
         mrl = NULL;
-        if (asprintf(&mrl, "%s//%s:%d", tmp, address, port) < 0) {
+        if (asprintf(&mrl, "%s//%s:%d", tmp, svr->host, svr->port) < 0) {
           free(tmp);
           EXIT("asprintf failed");
         }
         free(tmp);
-      } else
-        if (asprintf(&mrl, MRL_ID "://%s:%d", address, port) < 0)
+      } else {
+        if (asprintf(&mrl, MRL_ID "://%s:%d", svr->host, svr->port) < 0)
           EXIT("asprintf failed");
+      }
+      udp_discovery_free_servers(&svrs);
     } else {
       if (waitvdr) {
         sleep(1);
