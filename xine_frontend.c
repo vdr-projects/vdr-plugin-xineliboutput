@@ -124,9 +124,29 @@ static void shutdown_system(char *cmd, int user_requested)
   }
 }
 
-static void make_dirs(const char *file)
+static int _ensure_dir(const char *path)
 {
   struct stat st;
+  int saved_errno;
+
+  if (mkdir(path, ACCESSPERMS) == 0) {
+    LOGDBG("Created directory %s", path);
+    return 0;
+  }
+
+  saved_errno = errno;
+  if (stat(path, &st) != 0 || !S_ISDIR(st.st_mode)) {
+    errno = saved_errno;
+    LOGERR("Can't create %s", path);
+    return -1;
+  }
+
+  /* directory exist */
+  return 0;
+}
+
+static void make_dirs(const char *file)
+{
   char *s = strdup(file);
   char *p = s;
 
@@ -134,13 +154,8 @@ static void make_dirs(const char *file)
     p++;
     while ((p = strchr(p, '/')) != NULL) {
       *p = 0;
-      if (stat(s, &st) != 0 || !S_ISDIR(st.st_mode)) {
-        if (mkdir(s, ACCESSPERMS) == -1) {
-          LOGERR("Can't create %s", s);
-          break;
-        }
-        LOGDBG("Created directory %s", s);
-      }
+      if (_ensure_dir(s) < 0)
+        break;
       *p++ = '/';
     }
   }
