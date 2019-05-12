@@ -151,6 +151,7 @@ static uint64_t read_key_seq(void)
  * Read key(sequence)s from stdin and pass those to frontend.
  */
 
+#ifndef _WIN32
 static void kbd_receiver_thread_cleanup(void *arg)
 {
   struct termios *saved_tm = arg;
@@ -165,15 +166,17 @@ static void kbd_receiver_thread_cleanup(void *arg)
   }
   LOGMSG("Keyboard thread terminated");
 }
+#endif
 
 static void *kbd_receiver_thread(void *kbd_gen)
 {
-  struct termios saved_tm;
   input_kbd_t *kbd = kbd_gen;
   frontend_t  *fe = kbd->fe;
   uint64_t code = 0;
   char str[64];
 
+#ifndef _WIN32
+  struct termios saved_tm;
   if (isatty(STDOUT_FILENO)) {
     int status;
     status = system("setterm -cursor off");
@@ -198,6 +201,7 @@ static void *kbd_receiver_thread(void *kbd_gen)
   }
 
   pthread_cleanup_push(kbd_receiver_thread_cleanup, &saved_tm);
+#endif
 
   do {
     alarm(0);
@@ -237,7 +241,9 @@ static void *kbd_receiver_thread(void *kbd_gen)
 
   LOGDBG("Keyboard thread terminating");
 
+#ifndef _WIN32
   pthread_cleanup_pop(1);
+#endif
 
   pthread_exit(NULL);
   return NULL; /* never reached */
@@ -250,6 +256,7 @@ static void *kbd_receiver_thread(void *kbd_gen)
  * Interpret and execute valid commands
  */
 
+#ifndef _WIN32
 static void slave_receiver_thread_cleanup(void *arg)
 {
   struct termios *saved_tm = arg;
@@ -258,17 +265,20 @@ static void slave_receiver_thread_cleanup(void *arg)
   tcsetattr(STDIN_FILENO, TCSANOW, saved_tm);
   LOGDBG("Slave mode receiver terminated");
 }
+#endif
 
 static void *slave_receiver_thread(void *kbd_gen)
 {
-  struct termios saved_tm;
   input_kbd_t *kbd = kbd_gen;
   frontend_t  *fe = kbd->fe;
   char str[128], *pt;
 
+#ifndef _WIN32
+  struct termios saved_tm;
   tcgetattr(STDIN_FILENO, &saved_tm);
 
   pthread_cleanup_push(slave_receiver_thread_cleanup, &saved_tm);
+#endif
 
   do {
     errno = 0;
@@ -310,7 +320,9 @@ static void *slave_receiver_thread(void *kbd_gen)
 
   LOGDBG("Slave mode receiver terminating");
 
+#ifndef _WIN32
   pthread_cleanup_pop(1);
+#endif
 
   pthread_exit(NULL);
   return NULL; /* never reached */
