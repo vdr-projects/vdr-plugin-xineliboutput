@@ -161,7 +161,7 @@ static void kbd_receiver_thread_cleanup(void *arg)
     int status;
     status = system("setterm -cursor on");
     if (status < 0)
-      LOGMSG("system(\"setterm -cursor on\") failed\n");
+      LOGDBG("system(\"setterm -cursor on\") failed\n");
   }
   LOGMSG("Keyboard thread terminated");
 }
@@ -178,10 +178,10 @@ static void *kbd_receiver_thread(void *kbd_gen)
     int status;
     status = system("setterm -cursor off");
     if (status < 0)
-      LOGMSG("system(\"setterm -cursor off\") failed\n");
+      LOGDBG("system(\"setterm -cursor off\") failed\n");
     status = system("setterm -blank off");
     if (status < 0)
-      LOGMSG("system(\"setterm -blank off\") failed\n");
+      LOGDBG("system(\"setterm -blank off\") failed\n");
   }
 
   if (isatty(STDIN_FILENO)) {
