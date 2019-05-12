@@ -499,12 +499,16 @@ static void mutex_cleanup(void *arg)
 
 /****************************** DEBUG **********************************/
 
+#ifdef __COVERITY_GCC_VERSION_AT_LEAST
+#define CHECK_LOCKED(lock,ret...)
+#else
 #define CHECK_LOCKED(lock,ret...)                                       \
   if (!pthread_mutex_trylock(&lock)) {                                  \
     LOGMSG("%s: assertion failed: lock %s unlocked !", __PRETTY_FUNCTION__, #lock); \
     pthread_mutex_unlock(&lock);                                        \
     return ret;                                                         \
   }
+#endif
 
 #define CHECK_FALSE(flag) \
   if (flag) {                                                           \
