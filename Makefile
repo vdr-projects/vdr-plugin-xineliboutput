@@ -215,6 +215,7 @@ ifdef STARTUP_IMAGE_FILE
   DEFINES += -DSTARTUP_IMAGE_FILE='"$(STARTUP_IMAGE_FILE)"'
 endif
 
+DEFINES += $(EXTRA_DEFINES)
 
 ###
 ### The object files (add further files here):
