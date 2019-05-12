@@ -298,6 +298,7 @@ input_lirc_t *lirc_start(struct frontend_s *fe, const char *lirc_dev, int repeat
 
     free(this->lirc_device_name);
     free(this);
+    this = NULL;
   }
 
   return this;
