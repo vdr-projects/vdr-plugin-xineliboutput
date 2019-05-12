@@ -28,7 +28,6 @@ class cFuture {
     cFuture() 
     {
       m_Ready = false;
-      memset(&m_Value, 0, sizeof(m_Value));
     }
 
     void Reset(void)
