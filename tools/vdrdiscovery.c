@@ -403,6 +403,7 @@ int udp_discovery_find_server(int *port, char *address, size_t address_size)
 
   svrs = udp_discovery_find_servers(1);
   if (!svrs || !svrs[0]) {
+    udp_discovery_free_servers(&svrs);
     return 0;
   }
 
