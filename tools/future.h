@@ -25,7 +25,7 @@ class cFuture {
 
   public:
 
-    cFuture() 
+    cFuture()
     {
       m_Ready = false;
     }
@@ -57,13 +57,13 @@ class cFuture {
       cMutexLock l(&mutex);
 
       if(Timeout==0 || m_Ready)
-	return m_Ready;
+        return m_Ready;
 
       if(Timeout >= 0)
-	return cond.TimedWait(mutex, Timeout) && m_Ready;
+        return cond.TimedWait(mutex, Timeout) && m_Ready;
 
       while(!m_Ready)
-	cond.Wait(mutex);
+        cond.Wait(mutex);
 
       return m_Ready;
     }
@@ -78,7 +78,7 @@ class cFuture {
     {
       cMutexLock l(&mutex);
       while(!m_Ready)
-	cond.Wait(mutex);
+        cond.Wait(mutex);
       return m_Value;
     }
 };
