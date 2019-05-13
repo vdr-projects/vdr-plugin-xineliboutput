@@ -890,6 +890,23 @@ static void create_timeout_time(struct timespec *abstime, int timeout_ms)
   abstime->tv_nsec = now.tv_usec * 1000;
 }
 
+static void _parse_mrl(const char *mrl, char *host, size_t host_size, int *port)
+{
+  const char *chost = strstr(mrl, "//") + 2;
+  const char *cport = strchr(chost, ':');
+  size_t host_len = cport - chost;
+  *port = DEFAULT_VDR_PORT;
+  if (cport) {
+    *port = atoi(cport);
+  }
+  if (host_len >= host_size) {
+    LOGMSG("host name truncated !");
+    host_len = host_size;
+  }
+  strn0cpy(host, chost, 254);
+}
+
+
 /**************************** socket I/O *********************************/
 
 /*
@@ -2415,13 +2432,11 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
     /* mrlbase is needed for filename and for bgimage in remote mode */
     char mrlbase[256] = "";
     if(this->fd_control >= 0) {
-      char *host = strdup(strstr(this->mrl, "//")+2);
-      char *port = strchr(host, ':');
-      int  iport = port ? atoi(port+1) : DEFAULT_VDR_PORT;
-      if(port) *port = 0;
+      char host[256];
+      int port;
+      _parse_mrl(this->mrl, host, sizeof(host), &port);
       snprintf(mrlbase, sizeof(mrlbase), "http://%s:%d/PLAYFILE",
-               *host ? host : "127.0.0.1", iport);
-      free(host);
+               *host ? host : "127.0.0.1", port);
     }
 
     if (this->slave.stream)
@@ -5794,16 +5809,11 @@ static int vdr_plugin_open_net (input_plugin_t *this_gen)
      (!strncasecmp(this->mrl, MRL_ID "+pipe://", MRL_ID_LEN+8)) ||
      (!strncasecmp(this->mrl, MRL_ID "://",      MRL_ID_LEN+3))) {
 
-    char *phost = strdup(strstr(this->mrl, "//") + 2);
     char host[256];
-    char *port = strchr(phost, ':');
     int iport;
     int one = 1;
-    if(port) *port++ = 0;
-    iport = port ? atoi(port) : DEFAULT_VDR_PORT;
-    strn0cpy(host, phost, 254);
-    /*host[sizeof(host)-1] = 0;*/
-    free(phost);
+    _parse_mrl(this->mrl, host, sizeof(host), &iport);
+
     /* TODO: use multiple input plugins - tcp/udp/file */
 
     /* connect control stream */
