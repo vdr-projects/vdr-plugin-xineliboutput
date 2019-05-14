@@ -315,7 +315,7 @@ xine_input_vdr.o: nosignal_720x576.c
 
 $(sort $(OBJS_SXFE) $(OBJS_FBFE) $(OBJS_WLFE) $(OBJS_XINE)): %.o: %.c
 	@echo CC $@
-	$(Q)$(CC) $(CFLAGS) -c $(DEFINES) $(INCLUDES) $(CFLAGS_X11) $(CFLAGS_AVUTIL) $(OPTFLAGS) -o $@ $<
+	$(Q)$(CC) $(CFLAGS) -c $(DEFINES) $(INCLUDES) $(CFLAGS_X11) $(CFLAGS_WAYLAND) $(CFLAGS_AVUTIL) $(OPTFLAGS) -o $@ $<
 
 ### Internationalization (I18N):
 PODIR     = po
