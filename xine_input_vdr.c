@@ -894,16 +894,20 @@ static void _parse_mrl(const char *mrl, char *host, size_t host_size, int *port)
 {
   const char *chost = strstr(mrl, "//") + 2;
   const char *cport = strchr(chost, ':');
-  size_t host_len = cport - chost;
+  size_t host_len;
   *port = DEFAULT_VDR_PORT;
   if (cport) {
-    *port = atoi(cport);
+    *port = atoi(cport + 1);
+    host_len = cport - chost;
+  } else {
+    host_len = strlen(chost);
   }
   if (host_len >= host_size) {
     LOGMSG("host name truncated !");
-    host_len = host_size;
+    host_len = host_size - 1;
   }
-  strn0cpy(host, chost, 254);
+  memcpy(host, chost, host_len);
+  host[host_len] = 0;
 }
 
 
