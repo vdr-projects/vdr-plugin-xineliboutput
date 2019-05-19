@@ -290,6 +290,9 @@ size_t rle_compress_argbrle(uint8_t **rle_data, const uint32_t *data,
     for (x = 1; x < w; x++) {
       if (data[x] == color) {
         len++;
+      } else if (! ((data[x] | color) >> 24)) {
+        /* transparent, ignore color channels */
+        len++;
       } else {
         rle = write_rle_argb(rle, color, len);
         (*num_rle)++;
