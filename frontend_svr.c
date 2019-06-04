@@ -211,8 +211,7 @@ void cXinelibServer::Clear(void)
     if(fd_control[i].open() && m_Writer[i])
       m_Writer[i]->Clear();
 
-  if(m_Scheduler)
-    m_Scheduler->Clear();
+  m_Scheduler->Clear();
 
   cXinelibThread::Clear();
 }
@@ -628,8 +627,7 @@ bool cXinelibServer::Flush(int TimeoutMs)
 
   int  result = true;
 
-  if(m_Scheduler)
-    result = m_Scheduler->Flush(TimeoutMs) && result;
+  result = m_Scheduler->Flush(TimeoutMs) && result;
 
   for(int i=0; i<MAXCLIENTS; i++)
     if(fd_control[i].open() && fd_data[i]>=0 && m_Writer[i])
@@ -886,8 +884,7 @@ bool cXinelibServer::Listen(int listen_port)
   if(listen_port <= 0 || listen_port > 0xffff) {
     CLOSESOCKET(fd_listen);
     CLOSESOCKET(fd_discovery);
-    if(m_Scheduler)
-      m_Scheduler->RemoveRtp();
+    m_Scheduler->RemoveRtp();
     cHttpStreamer::CloseAll();
     LOGMSG("Not listening for remote connections");
     return false;
@@ -957,7 +954,6 @@ bool cXinelibServer::Listen(int listen_port)
 
   // set up multicast sockets
 
-  if(m_Scheduler) {
     m_Scheduler->RemoveRtp();
 
     if(xc.remote_usertp) {
@@ -966,7 +962,6 @@ bool cXinelibServer::Listen(int listen_port)
       if(xc.remote_rtp_always_on || m_iMulticastMask)
         m_Scheduler->AddRtp();
     }
-  }
 
   // AVAHI announces
   m_hAvahi = x_avahi_start(listen_port, xc.remote_use_rtsp, xc.remote_use_http);
