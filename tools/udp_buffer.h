@@ -12,6 +12,7 @@
 #define __UDP_BUFFER_H
 
 #include <stdint.h>
+#include <time.h>
 
 #include "../xine_input_vdr_net.h" // frame headers
 #include "ts.h"
