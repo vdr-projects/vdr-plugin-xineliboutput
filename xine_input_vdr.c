@@ -2436,7 +2436,7 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
     this->loop_play = 0;
 
     /* mrlbase is needed for filename and for bgimage in remote mode */
-    char mrlbase[256] = "";
+    char mrlbase[256+32] = "";
     if(this->fd_control >= 0) {
       char host[256];
       int port;
@@ -2611,7 +2611,7 @@ static int handle_control_playfile(vdr_input_plugin_t *this, const char *cmd)
 	  this->funcs.fe_control(this->funcs.fe_handle, 
 				 has_video ? "NOVIDEO 1\r\n" : "NOVIDEO 0\r\n");
 	  if(!has_video && !mix_streams && *av && strcmp(av, "none")) {
-	    char str[128], *avopts;
+            char str[4096+256+128], *avopts;
 	    if(NULL != (avopts = strchr(av, ':')))
 	      *avopts++ = 0;
 	    else
