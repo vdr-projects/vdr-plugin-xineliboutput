@@ -1787,7 +1787,9 @@ static void queue_blank_yv12(vdr_input_plugin_t *this)
 
   if (width < 360 || height < 288 || width > 1920 || height > 1200) {
     LOGMSG("queue_blank_yv12: invalid dimensions %dx%d in stream_info !", width, height);
-    return;
+    width = 720;
+    height = 576;
+    ratio = 17777;
   }
 
   if      (ratio > 13300 && ratio < 13400) dratio = 4.0  / 3.0;
