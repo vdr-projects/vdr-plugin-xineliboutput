@@ -1785,7 +1785,7 @@ static void queue_blank_yv12(vdr_input_plugin_t *this)
   int         ratio  = _x_stream_info_get(this->stream, XINE_STREAM_INFO_VIDEO_RATIO);
   double      dratio;
 
-  if (width < 360 || height < 288 || width > 1920 || height > 1200) {
+  if (width < 360 || height < 288 || width > 2*1920 || height > 2*1200) {
     LOGMSG("queue_blank_yv12: invalid dimensions %dx%d in stream_info !", width, height);
     width = 720;
     height = 576;
